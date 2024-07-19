@@ -3,7 +3,10 @@
 	"package": "dev.exceptionteam.sakura.mixins",
 	"compatibilityLevel": "JAVA_21",
 	"client": [
-		"MinecraftClientMixin"
+		"MinecraftClientMixin",
+		"chat.ChatHudMixin",
+		"chat.ChatHudLineMixin",
+		"input.KeyboardMixin"
 	],
 	"injectors": {
 		"defaultRequire": 1

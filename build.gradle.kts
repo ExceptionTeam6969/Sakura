@@ -36,10 +36,11 @@ kotlin {
 tasks {
     compileJava {
         options.encoding = "UTF-8"
-        options.release.set(17)
+        options.release.set(21)
     }
 
     compileKotlin {
+        @Suppress("DEPRECATION")
         kotlinOptions {
             freeCompilerArgs = listOf(
                 "-opt-in=kotlin.RequiresOptIn",

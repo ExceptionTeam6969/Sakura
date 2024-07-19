@@ -27,19 +27,19 @@ object BackgroundScope : CoroutineScope by CoroutineScope(backgroundContext) {
 
 //Private Field
 private val defaultContext =
-    CoroutineName("<Melon> Default") + Dispatchers.Default + CoroutineExceptionHandler { _, throwable ->
-        MinecraftClient.getInstance().setCrashReportSupplier(CrashReport.create(throwable, "<Melon> Default Scope"))
+    CoroutineName("<Sakura> Default") + Dispatchers.Default + CoroutineExceptionHandler { _, throwable ->
+        MinecraftClient.getInstance().setCrashReportSupplier(CrashReport.create(throwable, "<Sakura> Default Scope"))
     }
 
 
 @OptIn(ExperimentalCoroutinesApi::class)
-private val concurrentContext = CoroutineName("<Melon> Concurrent") + Dispatchers.Default.limitedParallelism(
+private val concurrentContext = CoroutineName("<Sakura> Concurrent") + Dispatchers.Default.limitedParallelism(
     max(
         Runtime.getRuntime().availableProcessors() / 2,
         1
     )
 ) + CoroutineExceptionHandler { _, throwable ->
-    MinecraftClient.getInstance().setCrashReportSupplier(CrashReport.create(throwable, "<Melon> Concurrent Scope"))
+    MinecraftClient.getInstance().setCrashReportSupplier(CrashReport.create(throwable, "<Sakura> Concurrent Scope"))
 }
 
 suspend inline fun delay(timeMillis: Int) {
@@ -47,14 +47,14 @@ suspend inline fun delay(timeMillis: Int) {
 }
 
 private val backgroundPool =
-    ScheduledThreadPoolExecutor(Runtime.getRuntime().availableProcessors(), CountingThreadFactory("<Melon> Background") {
+    ScheduledThreadPoolExecutor(Runtime.getRuntime().availableProcessors(), CountingThreadFactory("<Sakura> Background") {
         isDaemon = true
         priority = 3
     })
 
 private val backgroundContext =
-    CoroutineName("<Melon> Background") + backgroundPool.asCoroutineDispatcher() + CoroutineExceptionHandler { _, throwable ->
-        MinecraftClient.getInstance().setCrashReportSupplier(CrashReport.create(throwable, "<Melon> Background Scope"))
+    CoroutineName("<Sakura> Background") + backgroundPool.asCoroutineDispatcher() + CoroutineExceptionHandler { _, throwable ->
+        MinecraftClient.getInstance().setCrashReportSupplier(CrashReport.create(throwable, "<Sakura> Background Scope"))
     }
 
 inline val Job?.isActiveOrFalse get() = this?.isActive ?: false

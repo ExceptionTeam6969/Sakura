@@ -1,5 +1,7 @@
 package dev.exceptionteam.sakura
 
+import dev.exceptionteam.sakura.managers.Managers
+
 object Sakura {
 
     const val NAME = "Sakura"
@@ -7,7 +9,7 @@ object Sakura {
 
     @JvmStatic
     fun init() {
-
+        Managers.init()
     }
 
 }
