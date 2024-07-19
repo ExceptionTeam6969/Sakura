@@ -6,7 +6,8 @@
 		"MinecraftClientMixin",
 		"chat.ChatHudMixin",
 		"chat.ChatHudLineMixin",
-		"input.KeyboardMixin"
+		"input.KeyboardMixin",
+		"gui.InGameHudMixin"
 	],
 	"injectors": {
 		"defaultRequire": 1
