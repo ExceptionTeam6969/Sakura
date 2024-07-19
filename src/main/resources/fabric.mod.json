@@ -1,0 +1,25 @@
+{
+	"schemaVersion": 1,
+	"id": "sakura",
+	"version": "${version}",
+	"name": "Sakura",
+	"description": "Minecraft hack client",
+	"authors": [
+		"slmpc",
+		"zenhao",
+		"desu",
+		"dragon-jpg"
+	],
+	"license": "CC0-1.0",
+	"environment": "client",
+	"mixins": [
+		"sakura.mixins.json"
+	],
+	"accessWidener": "sakura.accesswidener",
+	"depends": {
+		"fabricloader": ">=0.15.11",
+		"minecraft": "~1.21",
+		"java": ">=21",
+		"fabric-api": "*"
+	}
+}
