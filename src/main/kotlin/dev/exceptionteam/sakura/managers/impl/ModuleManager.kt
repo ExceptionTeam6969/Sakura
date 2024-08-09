@@ -4,12 +4,12 @@ import dev.exceptionteam.sakura.events.impl.KeyEvent
 import dev.exceptionteam.sakura.events.nonNullListener
 import dev.exceptionteam.sakura.features.modules.AbstractModule
 import dev.exceptionteam.sakura.features.modules.impl.client.ChatInfo
+import dev.exceptionteam.sakura.features.modules.impl.client.ClickGUI
 import dev.exceptionteam.sakura.managers.AbstractManager
-import java.util.concurrent.CopyOnWriteArrayList
 
 object ModuleManager: AbstractManager() {
 
-    val modules = CopyOnWriteArrayList<AbstractModule>()
+    lateinit var modules: Array<AbstractModule>
 
     override fun onInit() {
         nonNullListener<KeyEvent>(Int.MIN_VALUE, true) { event ->
@@ -22,11 +22,12 @@ object ModuleManager: AbstractManager() {
     }
 
     private fun loadModules() {
-        loadClient()
+        modules = arrayOf(
+            // Client
+            ClickGUI,
+            ChatInfo
+        )
     }
 
-    private fun loadClient() {
-        modules.add(ChatInfo)
-    }
 
 }

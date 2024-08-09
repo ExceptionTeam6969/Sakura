@@ -40,4 +40,9 @@ public class MinecraftClientMixin {
         TickEvent.Post.INSTANCE.post();
     }
 
+    @Inject(method = "run", at = @At(value = "INVOKE", target = "Lnet/minecraft/util/profiler/Recorder;endTick()V"))
+    public void gameLoopAfterRender(CallbackInfo ci) {
+        GameLoopEvent.AfterRender.INSTANCE.post();
+    }
+
 }

@@ -8,6 +8,7 @@ object Managers {
     fun init() {
         SafeClientEvent
 
+        GraphicsManager.onInit()
         ModuleManager.onInit()
     }
 

@@ -12,6 +12,6 @@ abstract class AbstractGUIScreen(
         const val HEIGHT = 20f
     }
 
-    override fun shouldCloseOnEsc(): Boolean = false
+    override fun shouldCloseOnEsc(): Boolean = true
 
 }

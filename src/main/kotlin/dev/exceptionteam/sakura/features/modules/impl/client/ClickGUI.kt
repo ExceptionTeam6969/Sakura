@@ -4,11 +4,13 @@ import dev.exceptionteam.sakura.features.gui.clickgui.ClickGUIScreen
 import dev.exceptionteam.sakura.features.modules.Category
 import dev.exceptionteam.sakura.features.modules.Module
 import dev.exceptionteam.sakura.utils.threads.runSafe
+import org.lwjgl.glfw.GLFW
 
 object ClickGUI: Module(
     name = "ClickGUI",
     description = "",
-    category = Category.CLIENT
+    category = Category.CLIENT,
+    defaultBind = GLFW.GLFW_KEY_RIGHT_SHIFT
 ) {
 
     init {

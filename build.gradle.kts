@@ -7,6 +7,8 @@ plugins {
 repositories {
     mavenLocal()
     mavenCentral()
+
+    maven("https://maven.luna5ama.dev/")
 }
 
 val library by configurations.creating {
@@ -23,6 +25,8 @@ dependencies {
 
     library(kotlin("stdlib"))
     library("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.8.0")
+    library("dev.luna5ama:kmogus-core:${property("kmogus_version")}")
+    library("dev.luna5ama:kmogus-struct-api:${property("kmogus_version")}")
 }
 
 loom {
