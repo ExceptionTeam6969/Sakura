@@ -1,4 +1,4 @@
-package dev.exceptionteam.sakura.utils.graphics.color
+package dev.exceptionteam.sakura.graphics.color
 
 data class ColorHSB(
     val h: Float,

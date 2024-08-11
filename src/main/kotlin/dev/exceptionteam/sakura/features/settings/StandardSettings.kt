@@ -1,7 +1,7 @@
 package dev.exceptionteam.sakura.features.settings
 
 import dev.exceptionteam.sakura.utils.control.KeyBind
-import dev.exceptionteam.sakura.utils.graphics.color.ColorRGB
+import dev.exceptionteam.sakura.graphics.color.ColorRGB
 import java.util.concurrent.CopyOnWriteArrayList
 
 class BooleanSetting @JvmOverloads constructor(

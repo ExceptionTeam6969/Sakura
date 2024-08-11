@@ -3,6 +3,7 @@ package dev.exceptionteam.sakura.features.gui.clickgui
 import dev.exceptionteam.sakura.features.modules.Category
 import dev.exceptionteam.sakura.features.modules.impl.client.ClickGUI
 import dev.exceptionteam.sakura.managers.impl.ModuleManager
+import net.minecraft.client.gui.DrawContext
 import java.util.concurrent.CopyOnWriteArrayList
 
 object ClickGUIScreen: AbstractGUIScreen("ClickGUI") {
@@ -28,6 +29,11 @@ object ClickGUIScreen: AbstractGUIScreen("ClickGUI") {
     override fun close() {
         ClickGUI.disable()
         super.close()
+    }
+
+    override fun render(context: DrawContext, mouseX: Int, mouseY: Int, delta: Float) {
+        panels.forEach { it.render(context, mouseX.toFloat(), mouseY.toFloat()) }
+        super.render(context, mouseX, mouseY, delta)
     }
 
 }

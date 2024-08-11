@@ -1,7 +1,7 @@
 package dev.exceptionteam.sakura.features.settings
 
 import com.google.gson.JsonElement
-import dev.exceptionteam.sakura.utils.graphics.color.ColorRGB
+import dev.exceptionteam.sakura.graphics.color.ColorRGB
 import java.util.concurrent.CopyOnWriteArrayList
 import kotlin.properties.ReadWriteProperty
 import kotlin.reflect.KProperty

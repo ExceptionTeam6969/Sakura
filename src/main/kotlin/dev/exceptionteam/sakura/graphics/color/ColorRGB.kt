@@ -1,4 +1,4 @@
-package dev.exceptionteam.sakura.utils.graphics.color
+package dev.exceptionteam.sakura.graphics.color
 
 import com.mojang.blaze3d.platform.GlStateManager
 import java.awt.Color

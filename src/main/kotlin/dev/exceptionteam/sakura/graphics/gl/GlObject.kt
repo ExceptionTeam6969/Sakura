@@ -1,4 +1,4 @@
-package dev.exceptionteam.sakura.utils.graphics.gl
+package dev.exceptionteam.sakura.graphics.gl
 
 import kotlin.contracts.ExperimentalContracts
 import kotlin.contracts.InvocationKind
