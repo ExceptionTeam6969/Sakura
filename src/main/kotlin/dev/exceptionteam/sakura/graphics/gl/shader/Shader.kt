@@ -1,72 +1,56 @@
 package dev.exceptionteam.sakura.graphics.gl.shader
 
-import com.mojang.blaze3d.systems.RenderSystem
 import dev.exceptionteam.sakura.Sakura
 import dev.exceptionteam.sakura.graphics.gl.GlObject
-import dev.exceptionteam.sakura.utils.resources.Resource
-import org.joml.Matrix4f
-import org.lwjgl.BufferUtils
 import org.lwjgl.opengl.GL45.*
-import java.nio.FloatBuffer
+import java.io.InputStream
+import java.io.StringWriter
+import java.nio.charset.Charset
+import kotlin.contracts.ExperimentalContracts
+import kotlin.contracts.InvocationKind
+import kotlin.contracts.contract
 
-class Shader(
-    vert: Resource,
-    frag: Resource,
-): GlObject {
-
-    private val vertex = glCreateShader(GL_VERTEX_SHADER)
-    private val fragment = glCreateShader(GL_FRAGMENT_SHADER)
-    override val id: Int
+open class Shader(vertShaderPath: String, fragShaderPath: String) : GlObject {
+    final override var id: Int
 
     init {
-        // 编译着色器
-        glShaderSource(vertex, vert.getString())
-        glCompileShader(vertex)
-        val vertErr = glGetShaderInfoLog(vertex)
-        if (vertErr.isNotEmpty()) Sakura.logger.error(vertErr)
+        val vertexShaderID = createShader(vertShaderPath, GL_VERTEX_SHADER)
+        val fragShaderID = createShader(fragShaderPath, GL_FRAGMENT_SHADER)
+        val id = glCreateProgram()
 
-        glShaderSource(fragment, frag.getString())
-        glCompileShader(fragment)
-        val fragErr = glGetShaderInfoLog(vertex)
-        if (fragErr.isNotEmpty()) Sakura.logger.error(fragErr)
+        glAttachShader(id, vertexShaderID)
+        glAttachShader(id, fragShaderID)
 
-        // 创建着色器程序
-        id = glCreateProgram()
-        glAttachShader(id, vertex)
-        glAttachShader(id, fragment)
         glLinkProgram(id)
-        val progErr = glGetProgramInfoLog(id)
-        if (progErr.isNotEmpty()) Sakura.logger.error(progErr)
+        val linked = glGetProgrami(id, GL_LINK_STATUS)
+        if (linked == 0) {
+            Sakura.logger.error(glGetShaderInfoLog(id, 1024))
+            glDeleteProgram(id)
+            throw IllegalStateException("Shader failed to link")
+        }
+        this.id = id
 
-        // 删除着色器 没用了已经
-        glDeleteShader(vertex)
-        glDeleteShader(fragment)
+        glDetachShader(id, vertexShaderID)
+        glDetachShader(id, fragShaderID)
+        glDeleteShader(vertexShaderID)
+        glDeleteShader(fragShaderID)
     }
 
-    private fun getUniformId(name: CharSequence): Int {
-        return glGetUniformLocation(id, name)
-    }
+    private fun createShader(path: String, shaderType: Int): Int {
+        val srcString = javaClass.getResourceAsStream(path)!!.use { it.readText() }
+        val id = glCreateShader(shaderType)
 
-    fun setUniform(name: CharSequence, value: Int) {
-        glUniform1i(getUniformId(name), value)
-    }
+        glShaderSource(id, srcString)
+        glCompileShader(id)
 
-    fun setUniform(name: CharSequence, value: Boolean) {
-        glUniform1i(getUniformId(name), if (value) GL_TRUE else GL_FALSE)
-    }
+        val compiled = glGetShaderi(id, GL_COMPILE_STATUS)
+        if (compiled == 0) {
+            Sakura.logger.error(glGetShaderInfoLog(id, 1024))
+            glDeleteShader(id)
+            throw IllegalStateException("Failed to compile shader: $path")
+        }
 
-    fun setUniform(name: CharSequence, value: Float) {
-        glUniform1f(getUniformId(name), value)
-    }
-
-    fun setUniform(name: CharSequence, x: Float, y: Float) {
-        glUniform2f(getUniformId(name), x, y)
-    }
-
-    fun setUniform(name: CharSequence, mat: Matrix4f) {
-        val buf = BufferUtils.createFloatBuffer(4 * 4)
-        mat.get(buf)
-        glUniformMatrix4fv(getUniformId(name), false, buf)
+        return id
     }
 
     override fun bind() {
@@ -77,13 +61,24 @@ class Shader(
         glUseProgram(0)
     }
 
-    override fun destroy() {
+    override fun delete() {
         glDeleteProgram(id)
     }
+}
 
-    fun setDefaults() {
-        setUniform("u_Proj", RenderSystem.getProjectionMatrix())
-        setUniform("u_ModelView", RenderSystem.getModelViewStack())
+@OptIn(ExperimentalContracts::class)
+inline fun <T : Shader> T.use(block: T.() -> Unit) {
+    contract {
+        callsInPlace(block, InvocationKind.EXACTLY_ONCE)
     }
 
+    bind()
+    block.invoke(this)
+    glUseProgram(0)
+}
+
+fun InputStream.readText(charset: Charset = Charsets.UTF_8, bufferSize: Int = DEFAULT_BUFFER_SIZE): String {
+    val stringWriter = StringWriter()
+    buffered(bufferSize / 2).reader(charset).copyTo(stringWriter, bufferSize / 2)
+    return stringWriter.toString()
 }

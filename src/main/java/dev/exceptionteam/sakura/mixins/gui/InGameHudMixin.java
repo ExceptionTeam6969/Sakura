@@ -1,6 +1,7 @@
 package dev.exceptionteam.sakura.mixins.gui;
 
 import dev.exceptionteam.sakura.events.impl.Render2DEvent;
+import dev.exceptionteam.sakura.graphics.gl.RenderSystem;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.gui.DrawContext;
 import net.minecraft.client.gui.hud.InGameHud;
@@ -23,8 +24,7 @@ public class InGameHudMixin {
     private void onRender(DrawContext context, RenderTickCounter tickCounter, CallbackInfo ci) {
         client.getProfiler().push("SakuraRender2D");
 
-        Render2DEvent event = new Render2DEvent(context, tickCounter.getTickDelta(false));
-        event.post();
+        RenderSystem.INSTANCE.onRender2d(context);
 
         client.getProfiler().pop();
     }

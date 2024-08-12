@@ -4,6 +4,5 @@ import dev.exceptionteam.sakura.events.Event
 import net.minecraft.client.gui.DrawContext
 
 class Render2DEvent(
-    val context: DrawContext,
-    val tickDelta: Float
+    val context: DrawContext
 ): Event()

@@ -45,4 +45,9 @@ public class MinecraftClientMixin {
         GameLoopEvent.AfterRender.INSTANCE.post();
     }
 
+    @Inject(method = "onResolutionChanged", at = @At("TAIL"))
+    private void onResolutionChanged(CallbackInfo info) {
+        new WindowResizeEvent().post();
+    }
+
 }

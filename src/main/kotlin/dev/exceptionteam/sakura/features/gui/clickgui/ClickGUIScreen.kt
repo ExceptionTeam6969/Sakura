@@ -1,5 +1,7 @@
 package dev.exceptionteam.sakura.features.gui.clickgui
 
+import dev.exceptionteam.sakura.events.impl.Render2DEvent
+import dev.exceptionteam.sakura.events.nonNullListener
 import dev.exceptionteam.sakura.features.modules.Category
 import dev.exceptionteam.sakura.features.modules.impl.client.ClickGUI
 import dev.exceptionteam.sakura.managers.impl.ModuleManager
@@ -10,8 +12,16 @@ object ClickGUIScreen: AbstractGUIScreen("ClickGUI") {
 
     private val panels = CopyOnWriteArrayList<Panel>()
 
+    private var mouseX: Float = 0f
+    private var mouseY: Float = 0f
+
     init {
         var xOffset = 10f
+
+        nonNullListener<Render2DEvent>(alwaysListening = true) { e ->
+            if (mc.currentScreen !is ClickGUIScreen) return@nonNullListener
+            panels.forEach { it.render(e.context, mouseX, mouseY) }
+        }
 
         Category.entries
             .filter { it != Category.HUD }
@@ -32,7 +42,8 @@ object ClickGUIScreen: AbstractGUIScreen("ClickGUI") {
     }
 
     override fun render(context: DrawContext, mouseX: Int, mouseY: Int, delta: Float) {
-        panels.forEach { it.render(context, mouseX.toFloat(), mouseY.toFloat()) }
+        this@ClickGUIScreen.mouseX = mouseX.toFloat()
+        this@ClickGUIScreen.mouseY = mouseX.toFloat()
         super.render(context, mouseX, mouseY, delta)
     }
 

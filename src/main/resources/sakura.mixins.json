@@ -7,7 +7,8 @@
 		"chat.ChatHudMixin",
 		"chat.ChatHudLineMixin",
 		"input.KeyboardMixin",
-		"gui.InGameHudMixin"
+		"gui.InGameHudMixin",
+		"graphics.GameRendererMixin"
 	],
 	"injectors": {
 		"defaultRequire": 1

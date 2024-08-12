@@ -1,26 +1,11 @@
 package dev.exceptionteam.sakura.graphics.gl
 
-import kotlin.contracts.ExperimentalContracts
-import kotlin.contracts.InvocationKind
-import kotlin.contracts.contract
-
 interface GlObject {
 
-    val id: Int
+    var id: Int
 
     fun bind()
     fun unbind()
-    fun destroy()
+    fun delete()
 
-}
-
-@OptIn(ExperimentalContracts::class)
-fun<T: GlObject> T.use(block: T.() -> Unit) {
-    contract {
-        callsInPlace(block, InvocationKind.EXACTLY_ONCE)
-    }
-
-    bind()
-    block.invoke(this)
-    unbind()
 }
