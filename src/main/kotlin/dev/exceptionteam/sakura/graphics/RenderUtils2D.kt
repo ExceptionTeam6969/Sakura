@@ -12,16 +12,12 @@ object RenderUtils2D {
     private var vertexSize = 0
 
     fun drawRectFilled(x: Float, y: Float, width: Float, height: Float, color: ColorRGB) {
-
+        putVertex(x + width, y, color)
         putVertex(x, y, color)
-        putVertex(x + width, y, color)
-        putVertex(x, y + height, color)
-        putVertex(x, y + height, color)
         putVertex(x + width, y + height, color)
-        putVertex(x + width, y, color)
+        putVertex(x, y + height, color)
 
-        draw(GL45.GL_TRIANGLES)
-
+        draw(GL45.GL_TRIANGLE_STRIP)
     }
 
     private fun putVertex(x: Float, y: Float, color: ColorRGB) {

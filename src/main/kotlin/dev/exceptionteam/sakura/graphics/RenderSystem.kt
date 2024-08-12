@@ -1,4 +1,4 @@
-package dev.exceptionteam.sakura.graphics.gl
+package dev.exceptionteam.sakura.graphics
 
 import com.mojang.blaze3d.systems.RenderSystem
 import dev.exceptionteam.sakura.events.impl.Render2DEvent
@@ -37,10 +37,13 @@ object RenderSystem {
     }
 
     private fun preRender2d() {
+        RenderSystem.enableBlend()
+        RenderSystem.setShaderColor(1f, 1f, 1f, 1f)
         preFrameBuffer()
     }
 
     private fun postRender2d() {
+        RenderSystem.disableBlend()
         postFrameBuffer()
     }
 

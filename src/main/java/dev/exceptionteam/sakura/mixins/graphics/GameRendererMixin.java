@@ -1,6 +1,6 @@
 package dev.exceptionteam.sakura.mixins.graphics;
 
-import dev.exceptionteam.sakura.graphics.gl.RenderSystem;
+import dev.exceptionteam.sakura.graphics.RenderSystem;
 import net.minecraft.client.render.GameRenderer;
 import net.minecraft.client.render.RenderTickCounter;
 import org.objectweb.asm.Opcodes;

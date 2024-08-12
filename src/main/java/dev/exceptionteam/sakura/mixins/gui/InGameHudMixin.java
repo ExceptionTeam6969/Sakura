@@ -1,7 +1,6 @@
 package dev.exceptionteam.sakura.mixins.gui;
 
-import dev.exceptionteam.sakura.events.impl.Render2DEvent;
-import dev.exceptionteam.sakura.graphics.gl.RenderSystem;
+import dev.exceptionteam.sakura.graphics.RenderSystem;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.gui.DrawContext;
 import net.minecraft.client.gui.hud.InGameHud;
