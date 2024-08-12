@@ -13,6 +13,8 @@ object ClickGUI: Module(
     defaultBind = GLFW.GLFW_KEY_RIGHT_SHIFT
 ) {
 
+    val background by setting("Background", true)
+
     init {
 
         onEnable {

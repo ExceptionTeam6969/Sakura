@@ -4,6 +4,8 @@ import dev.exceptionteam.sakura.events.impl.Render2DEvent
 import dev.exceptionteam.sakura.events.nonNullListener
 import dev.exceptionteam.sakura.features.modules.Category
 import dev.exceptionteam.sakura.features.modules.impl.client.ClickGUI
+import dev.exceptionteam.sakura.graphics.RenderUtils2D
+import dev.exceptionteam.sakura.graphics.color.ColorRGB
 import dev.exceptionteam.sakura.managers.impl.ModuleManager
 import net.minecraft.client.gui.DrawContext
 import java.util.concurrent.CopyOnWriteArrayList
@@ -20,6 +22,11 @@ object ClickGUIScreen: AbstractGUIScreen("ClickGUI") {
 
         nonNullListener<Render2DEvent>(alwaysListening = true) { e ->
             if (mc.currentScreen !is ClickGUIScreen) return@nonNullListener
+            if (ClickGUI.background) {
+                RenderUtils2D.drawRectFilled(0f, 0f, mc.window.scaledWidth.toFloat(),
+                    mc.window.scaledHeight.toFloat(), ColorRGB(0, 0, 0, 120)
+                )
+            }
             panels.forEach { it.render(e.context, mouseX, mouseY) }
         }
 
