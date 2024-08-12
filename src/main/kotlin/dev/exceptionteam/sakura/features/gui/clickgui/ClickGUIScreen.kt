@@ -44,7 +44,6 @@ object ClickGUIScreen: AbstractGUIScreen("ClickGUI") {
     override fun render(context: DrawContext, mouseX: Int, mouseY: Int, delta: Float) {
         this@ClickGUIScreen.mouseX = mouseX.toFloat()
         this@ClickGUIScreen.mouseY = mouseX.toFloat()
-        super.render(context, mouseX, mouseY, delta)
     }
 
 }

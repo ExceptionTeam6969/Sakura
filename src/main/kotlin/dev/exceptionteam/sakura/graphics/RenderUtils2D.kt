@@ -29,13 +29,14 @@ object RenderUtils2D {
         vertexSize++
     }
 
+    @Suppress("SameParameterValue")
     private fun draw(mode: Int) {
         if (vertexSize <= 0) return
         shader.bind()
         shader.default()
         GL45.glBindVertexArray(PMBuffer.VAO_2D)
         GL45.glDrawArrays(mode, PMBuffer.offset.toInt(), vertexSize)
-        PMBuffer.end()
+        PMBuffer.end(12)
         GL45.glBindVertexArray(0)
         vertexSize = 0
     }

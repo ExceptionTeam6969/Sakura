@@ -8,5 +8,6 @@ object ChatInfo: Module(
     name = "ChatInfo",
     description = "Send information when modules toggling",
     category = Category.CLIENT,
-    defaultBind = GLFW.GLFW_KEY_U
+    defaultBind = GLFW.GLFW_KEY_U,
+    defaultEnable = true
 )

@@ -17,7 +17,7 @@ class Panel(
 
     fun render(context: DrawContext, mouseX: Float, mouseY: Float) {
 
-        RenderUtils2D.drawRectFilled(0f, 0f, 1000f, 1000f, ColorRGB.WHITE)
+        RenderUtils2D.drawRectFilled(x, y, width, height, ColorRGB.WHITE)
 
     }
 

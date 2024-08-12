@@ -1,6 +1,5 @@
 package dev.exceptionteam.sakura.graphics.gl.buffer
 
-import com.mojang.blaze3d.platform.GlStateManager
 import dev.exceptionteam.sakura.graphics.gl.GlObject
 import net.minecraft.client.MinecraftClient
 import org.lwjgl.opengl.GL45

@@ -7,6 +7,7 @@ import dev.exceptionteam.sakura.events.impl.WindowResizeEvent
 import dev.exceptionteam.sakura.events.listener
 import dev.exceptionteam.sakura.features.modules.impl.client.RenderSystemMod
 import dev.exceptionteam.sakura.graphics.gl.buffer.FrameBuffer
+import dev.exceptionteam.sakura.graphics.gl.buffer.PMBuffer
 import dev.exceptionteam.sakura.graphics.gl.shader.PosColorShader2D
 import net.minecraft.client.MinecraftClient
 import net.minecraft.client.gui.DrawContext
@@ -37,6 +38,7 @@ object RenderSystem {
     }
 
     private fun preRender2d() {
+        PMBuffer.onSync()
         RenderSystem.enableBlend()
         RenderSystem.setShaderColor(1f, 1f, 1f, 1f)
         preFrameBuffer()
@@ -56,6 +58,7 @@ object RenderSystem {
     }
 
     private fun preRender3d() {
+        PMBuffer.onSync()
         preFrameBuffer()
         GL45.glDisable(GL45.GL_DEPTH_TEST)
     }
