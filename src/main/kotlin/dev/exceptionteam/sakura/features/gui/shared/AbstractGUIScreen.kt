@@ -1,6 +1,5 @@
-package dev.exceptionteam.sakura.features.gui.clickgui
+package dev.exceptionteam.sakura.features.gui.shared
 
-import net.minecraft.client.gui.DrawContext
 import net.minecraft.client.gui.screen.Screen
 import net.minecraft.text.Text
 
@@ -14,10 +13,6 @@ abstract class AbstractGUIScreen(
     }
 
     override fun shouldCloseOnEsc(): Boolean = true
-
-    override fun render(context: DrawContext, mouseX: Int, mouseY: Int, delta: Float) {
-        super.render(context, mouseX, mouseY, delta)
-    }
 
     override fun shouldPause(): Boolean = false
 

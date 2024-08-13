@@ -2,11 +2,14 @@ package dev.exceptionteam.sakura.features.gui.clickgui
 
 import dev.exceptionteam.sakura.events.impl.Render2DEvent
 import dev.exceptionteam.sakura.events.nonNullListener
+import dev.exceptionteam.sakura.features.gui.shared.AbstractGUIScreen
+import dev.exceptionteam.sakura.features.gui.shared.Panel
 import dev.exceptionteam.sakura.features.modules.Category
 import dev.exceptionteam.sakura.features.modules.impl.client.ClickGUI
 import dev.exceptionteam.sakura.graphics.RenderUtils2D
 import dev.exceptionteam.sakura.graphics.color.ColorRGB
 import dev.exceptionteam.sakura.managers.impl.ModuleManager
+import dev.exceptionteam.sakura.utils.control.MouseButtonType
 import net.minecraft.client.gui.DrawContext
 import java.util.concurrent.CopyOnWriteArrayList
 
@@ -27,7 +30,7 @@ object ClickGUIScreen: AbstractGUIScreen("ClickGUI") {
                     mc.window.scaledHeight.toFloat(), ColorRGB(0, 0, 0, 120)
                 )
             }
-            panels.forEach { it.render(e.context, mouseX, mouseY) }
+            panels.forEach { it.render(mouseX, mouseY) }
         }
 
         Category.entries
@@ -50,7 +53,27 @@ object ClickGUIScreen: AbstractGUIScreen("ClickGUI") {
 
     override fun render(context: DrawContext, mouseX: Int, mouseY: Int, delta: Float) {
         this@ClickGUIScreen.mouseX = mouseX.toFloat()
-        this@ClickGUIScreen.mouseY = mouseX.toFloat()
+        this@ClickGUIScreen.mouseY = mouseY.toFloat()
+    }
+
+    override fun mouseClicked(mouseX: Double, mouseY: Double, button: Int): Boolean {
+        val type = when (button) {
+            0 -> MouseButtonType.LEFT
+            1 -> MouseButtonType.RIGHT
+            else -> MouseButtonType.NONE
+        }
+        panels.forEach { it.mouseClicked(mouseX.toFloat(), mouseY.toFloat(), type) }
+        return super.mouseClicked(mouseX, mouseY, button)
+    }
+
+    override fun mouseReleased(mouseX: Double, mouseY: Double, button: Int): Boolean {
+        val type = when (button) {
+            0 -> MouseButtonType.LEFT
+            1 -> MouseButtonType.RIGHT
+            else -> MouseButtonType.NONE
+        }
+        panels.forEach { it.mouseReleased(type) }
+        return super.mouseReleased(mouseX, mouseY, button)
     }
 
 }

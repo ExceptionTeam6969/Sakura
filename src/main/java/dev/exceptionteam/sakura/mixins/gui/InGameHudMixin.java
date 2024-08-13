@@ -19,7 +19,7 @@ public class InGameHudMixin {
     @Final
     private MinecraftClient client;
 
-    @Inject(method = "render", at = @At("HEAD"))
+    @Inject(method = "render", at = @At("TAIL"))
     private void onRender(DrawContext context, RenderTickCounter tickCounter, CallbackInfo ci) {
         client.getProfiler().push("SakuraRender2D");
 
