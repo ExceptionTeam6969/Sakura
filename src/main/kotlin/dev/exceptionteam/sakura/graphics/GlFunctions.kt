@@ -1,4 +1,4 @@
-package dev.exceptionteam.sakura.graphics.gl
+package dev.exceptionteam.sakura.graphics
 
 import dev.luna5ama.kmogus.Arr
 import dev.luna5ama.kmogus.Ptr

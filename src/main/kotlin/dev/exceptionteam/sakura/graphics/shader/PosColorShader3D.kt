@@ -1,15 +1,13 @@
-package dev.exceptionteam.sakura.graphics.gl.shader
+package dev.exceptionteam.sakura.graphics.shader
 
-import com.mojang.blaze3d.systems.RenderSystem
-import dev.exceptionteam.sakura.features.modules.impl.client.RenderSystemMod
 import org.joml.Matrix4f
 import org.lwjgl.BufferUtils
 import org.lwjgl.opengl.GL20.glGetUniformLocation
 import org.lwjgl.opengl.GL45
 import java.nio.FloatBuffer
 
-class PosColorShader2D: Shader(
-    vertShaderPath = "/assets/sakura/shader/general/PosColor2D.vert",
+class PosColorShader3D: Shader(
+    vertShaderPath = "/assets/sakura/shader/general/PosColor3D.vert",
     fragShaderPath = "/assets/sakura/shader/general/PosColor.frag"
 ) {
 

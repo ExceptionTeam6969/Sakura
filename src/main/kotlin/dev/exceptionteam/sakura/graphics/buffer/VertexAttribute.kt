@@ -1,6 +1,6 @@
-package dev.exceptionteam.sakura.graphics.gl.buffer
+package dev.exceptionteam.sakura.graphics.buffer
 
-import dev.exceptionteam.sakura.graphics.gl.GlDataType
+import dev.exceptionteam.sakura.graphics.GlDataType
 import org.lwjgl.opengl.GL45.*
 
 class VertexAttribute private constructor(private val stride: Int, private val entries: List<Entry>) {

@@ -1,8 +1,8 @@
-package dev.exceptionteam.sakura.graphics.gl.buffer
+package dev.exceptionteam.sakura.graphics.buffer
 
-import dev.exceptionteam.sakura.graphics.gl.GlDataType
-import dev.exceptionteam.sakura.graphics.gl.GlObject
-import dev.exceptionteam.sakura.graphics.gl.glNamedBufferStorage
+import dev.exceptionteam.sakura.graphics.GlDataType
+import dev.exceptionteam.sakura.graphics.GlObject
+import dev.exceptionteam.sakura.graphics.glNamedBufferStorage
 import dev.luna5ama.kmogus.Arr
 import dev.luna5ama.kmogus.asMutable
 import org.lwjgl.opengl.GL45
@@ -49,6 +49,7 @@ object PMBuffer: GlObject {
     private var sync = 0L
 
     fun onSync() {
+        // 检查draw call是否完成 重置buffer
         if (sync == 0L) {
             if (arr.pos >= arr.len / 2) {
                 sync = GL45.glFenceSync(GL45.GL_SYNC_GPU_COMMANDS_COMPLETE, 0)
@@ -69,13 +70,19 @@ object PMBuffer: GlObject {
     }
 
     val VAO_2D = createVao(buildAttribute(12) {
-        float(0, 2, GlDataType.GL_FLOAT, false)
-        float(1, 4, GlDataType.GL_UNSIGNED_BYTE, true)
+        float(0, 2, GlDataType.GL_FLOAT, false)         // 8 bytes
+        float(1, 4, GlDataType.GL_UNSIGNED_BYTE, true)  // 4 bytes
     })
 
     val VAO_3D = createVao(buildAttribute(16) {
-        float(0, 3, GlDataType.GL_FLOAT, false)
-        float(1, 4, GlDataType.GL_UNSIGNED_BYTE, true)
+        float(0, 3, GlDataType.GL_FLOAT, false)         // 12 bytes
+        float(1, 4, GlDataType.GL_UNSIGNED_BYTE, true)  // 4 bytes
+    })
+
+    val VAO_TEXTURE = createVao(buildAttribute(20) {
+        float(0, 2, GlDataType.GL_FLOAT, false)         // 8 bytes
+        float(1, 2, GlDataType.GL_FLOAT, false)         // 8 bytes
+        float(2, 4, GlDataType.GL_UNSIGNED_BYTE, true)  // 4 bytes
     })
 
     private fun createVao(vertexAttribute: VertexAttribute): Int {

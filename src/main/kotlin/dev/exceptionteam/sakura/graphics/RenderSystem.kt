@@ -6,9 +6,10 @@ import dev.exceptionteam.sakura.events.impl.Render3DEvent
 import dev.exceptionteam.sakura.events.impl.WindowResizeEvent
 import dev.exceptionteam.sakura.events.listener
 import dev.exceptionteam.sakura.features.modules.impl.client.RenderSystemMod
-import dev.exceptionteam.sakura.graphics.gl.buffer.FrameBuffer
-import dev.exceptionteam.sakura.graphics.gl.buffer.PMBuffer
-import dev.exceptionteam.sakura.graphics.gl.shader.PosColorShader2D
+import dev.exceptionteam.sakura.graphics.buffer.FrameBuffer
+import dev.exceptionteam.sakura.graphics.buffer.PMBuffer
+import dev.exceptionteam.sakura.graphics.matrix.MatrixStack
+import dev.exceptionteam.sakura.graphics.shader.PosColorShader2D
 import net.minecraft.client.MinecraftClient
 import net.minecraft.client.gui.DrawContext
 import org.joml.Matrix4f
@@ -31,7 +32,7 @@ object RenderSystem {
 
         val modelView = Matrix4f(RenderSystem.getModelViewMatrix())
         val projection = Matrix4f(RenderSystem.getProjectionMatrix())
-        PosColorShader2D.setMatrix(projection.mul(modelView))
+        MatrixStack.peek().mvpMatrix.set(projection.mul(modelView))
         Render2DEvent(context).post()
 
         postRender2d()

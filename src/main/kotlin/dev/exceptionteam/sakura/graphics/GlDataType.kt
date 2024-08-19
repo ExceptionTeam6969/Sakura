@@ -1,4 +1,4 @@
-package dev.exceptionteam.sakura.graphics.gl
+package dev.exceptionteam.sakura.graphics
 
 import org.lwjgl.opengl.GL11
 

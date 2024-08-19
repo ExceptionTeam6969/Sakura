@@ -1,6 +1,6 @@
-package dev.exceptionteam.sakura.graphics.gl.buffer
+package dev.exceptionteam.sakura.graphics.buffer
 
-import dev.exceptionteam.sakura.graphics.gl.GlObject
+import dev.exceptionteam.sakura.graphics.GlObject
 import net.minecraft.client.MinecraftClient
 import org.lwjgl.opengl.GL45
 

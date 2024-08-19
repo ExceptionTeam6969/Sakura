@@ -1,7 +1,7 @@
-package dev.exceptionteam.sakura.graphics.gl.shader
+package dev.exceptionteam.sakura.graphics.shader
 
 import dev.exceptionteam.sakura.Sakura
-import dev.exceptionteam.sakura.graphics.gl.GlObject
+import dev.exceptionteam.sakura.graphics.GlObject
 import org.lwjgl.opengl.GL45.*
 import java.io.InputStream
 import java.io.StringWriter

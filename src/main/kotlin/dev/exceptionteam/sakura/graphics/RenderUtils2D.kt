@@ -1,8 +1,8 @@
 package dev.exceptionteam.sakura.graphics
 
 import dev.exceptionteam.sakura.graphics.color.ColorRGB
-import dev.exceptionteam.sakura.graphics.gl.buffer.PMBuffer
-import dev.exceptionteam.sakura.graphics.gl.shader.PosColorShader2D
+import dev.exceptionteam.sakura.graphics.buffer.PMBuffer
+import dev.exceptionteam.sakura.graphics.shader.PosColorShader2D
 import org.lwjgl.opengl.GL45
 
 object RenderUtils2D {
