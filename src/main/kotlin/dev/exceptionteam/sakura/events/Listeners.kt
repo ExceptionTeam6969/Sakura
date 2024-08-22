@@ -73,7 +73,7 @@ fun <E : Event> Any.concurrentListener(
     alwaysListening: Boolean,
     function: suspend (E) -> Unit
 ) {
-    with(EventListener(owner, eventClass, EventBus.busID, priority) { ConcurrentScope.launch { function.invoke(it as E) } }) {
+    with(EventListener(owner, eventClass, EventBus.busID, priority) { ConcurrentScope.launch { function.invoke(it) } }) {
         if (alwaysListening) EventBus.subscribe(this)
         else EventBus.register(owner, this)
     }

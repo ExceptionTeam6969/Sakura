@@ -33,7 +33,7 @@ class Glyphs(
 
     fun destroy() {
         textureMap.forEach { (_, it) ->
-            GL45.glDeleteTextures(it)
+            glDeleteTextures(it)
         }
     }
 

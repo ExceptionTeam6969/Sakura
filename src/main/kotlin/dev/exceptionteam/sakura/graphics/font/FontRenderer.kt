@@ -1,6 +1,5 @@
 package dev.exceptionteam.sakura.graphics.font
 
-import dev.exceptionteam.sakura.graphics.RenderUtils2D
 import dev.exceptionteam.sakura.graphics.RenderUtilsTexture
 import dev.exceptionteam.sakura.graphics.color.ColorRGB
 import dev.exceptionteam.sakura.graphics.matrix.MatrixStack
