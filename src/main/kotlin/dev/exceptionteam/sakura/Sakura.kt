@@ -15,9 +15,6 @@ object Sakura {
 
     @JvmStatic
     fun init() {
-        GLFW.glfwWindowHint(GLFW.GLFW_CONTEXT_VERSION_MAJOR, 4)
-        GLFW.glfwWindowHint(GLFW.GLFW_CONTEXT_VERSION_MINOR, 5)
-
         Managers.init()
     }
 

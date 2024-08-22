@@ -1,5 +1,7 @@
 package dev.exceptionteam.sakura.graphics.font
 
+import dev.exceptionteam.sakura.features.modules.impl.client.CustomFont
+import dev.exceptionteam.sakura.graphics.RenderUtils2D
 import dev.exceptionteam.sakura.graphics.RenderUtilsTexture
 import dev.exceptionteam.sakura.graphics.color.ColorRGB
 import dev.exceptionteam.sakura.graphics.matrix.MatrixStack
@@ -42,7 +44,7 @@ class FontRenderer(
 
             val prevWidth = drawChar(text[i], x, y, color)
 
-            MatrixStack.translate(prevWidth, 0f, 0f)
+            MatrixStack.translate(prevWidth + 1f, 0f, 0f)
         }
         MatrixStack.pop()
         GL45.glDisable(GL45.GL_LINE_SMOOTH)
@@ -51,8 +53,8 @@ class FontRenderer(
     private fun drawChar(ch: Char, x: Float, y: Float, color: ColorRGB): Float {
         val texture = font.getTexture(ch)
 
-        val width = getWidth(ch)
-        val height = font.getHeight(ch)
+        val width = getWidth(ch) * CustomFont.fontSize
+        val height = font.getHeight(ch) * CustomFont.fontSize
 
         RenderUtilsTexture.drawTextureRect(x, y, width, height, texture, color)
 //        RenderUtils2D.drawRectFilled(x, y, width, height, ColorRGB(0, 0, 0))
