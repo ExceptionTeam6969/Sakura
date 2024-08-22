@@ -10,7 +10,7 @@
 		"desu",
 		"dragon-jpg"
 	],
-	"license": "CC0-1.0",
+	"license": "GPL-3.0",
 	"environment": "client",
 	"mixins": [
 		"sakura.mixins.json"
