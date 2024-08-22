@@ -8,6 +8,7 @@ data class MatrixEntry(
 ) {
 
     constructor(): this(Matrix4f(), Matrix4f())
-    constructor(matrixEntry: MatrixEntry): this(matrixEntry.mvpMatrix, matrixEntry.positionMatrix)
+    constructor(matrixEntry: MatrixEntry):
+            this(matrixEntry.mvpMatrix, Matrix4f(matrixEntry.positionMatrix))
 
 }

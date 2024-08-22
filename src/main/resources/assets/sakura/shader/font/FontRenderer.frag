@@ -8,5 +8,5 @@ in vec4 Color;
 uniform sampler2D FontTexture;
 
 void main() {
-    FragColor = texture(fontTexture, TexCoord) * Color;
+    FragColor = texture2D(FontTexture, TexCoord) * Color;
 }

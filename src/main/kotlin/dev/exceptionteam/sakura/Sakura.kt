@@ -11,6 +11,7 @@ object Sakura {
     const val NAME = "Sakura"
     const val VERSION = "1.0"
     const val DIRECTORY = "sakura"
+    const val ASSETS_DIRECTORY = "/assets/sakura"
 
     @JvmStatic
     fun init() {

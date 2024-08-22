@@ -1,5 +1,7 @@
 package dev.exceptionteam.sakura.graphics.matrix
 
+import org.joml.Vector3f
+
 object MatrixStack {
 
     private var stack = ArrayDeque<MatrixEntry>()
@@ -8,14 +10,14 @@ object MatrixStack {
         stack.add(MatrixEntry())
     }
 
-    val isEmpty: Boolean get() = stack.isEmpty()
+    val isEmpty: Boolean get() = stack.size <= 1
 
     fun push() {
-        stack.add(stack.last())     // copy last matrix
+        stack.add(MatrixEntry(stack.last())) // copy last matrix
     }
 
     fun pop() {
-        stack.removeLast()          // remove last matrix
+        stack.removeLast() // remove last matrix
     }
 
     fun peek(): MatrixEntry = stack.last()
@@ -34,6 +36,10 @@ object MatrixStack {
 
     fun scale(x: Double, y: Double, z: Double) {
         scale(x.toFloat(), y.toFloat(), z.toFloat())
+    }
+
+    fun getPosition(x: Float, y: Float, z: Float): Vector3f {
+        return stack.last().positionMatrix.transformPosition(x, y, z, Vector3f())
     }
 
 }

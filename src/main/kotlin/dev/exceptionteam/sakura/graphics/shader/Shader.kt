@@ -2,15 +2,23 @@ package dev.exceptionteam.sakura.graphics.shader
 
 import dev.exceptionteam.sakura.Sakura
 import dev.exceptionteam.sakura.graphics.GlObject
+import dev.exceptionteam.sakura.graphics.buffer.PMBuffer
+import dev.exceptionteam.sakura.graphics.buffer.VertexAttribute
+import org.joml.Matrix4f
+import org.lwjgl.BufferUtils
+import org.lwjgl.opengl.GL45
 import org.lwjgl.opengl.GL45.*
 import java.io.InputStream
 import java.io.StringWriter
+import java.nio.FloatBuffer
 import java.nio.charset.Charset
 import kotlin.contracts.ExperimentalContracts
 import kotlin.contracts.InvocationKind
 import kotlin.contracts.contract
 
 open class Shader(vertShaderPath: String, fragShaderPath: String) : GlObject {
+    private val buffer: FloatBuffer = BufferUtils.createFloatBuffer(4 * 4)
+
     final override var id: Int
 
     init {
@@ -26,7 +34,7 @@ open class Shader(vertShaderPath: String, fragShaderPath: String) : GlObject {
         if (linked == 0) {
             Sakura.logger.error(glGetShaderInfoLog(id, 1024))
             glDeleteProgram(id)
-            throw IllegalStateException("Shader failed to link")
+            throw ShaderCompileException("Failed to link shader: $vertShaderPath, $fragShaderPath")
         }
         this.id = id
 
@@ -47,7 +55,7 @@ open class Shader(vertShaderPath: String, fragShaderPath: String) : GlObject {
         if (compiled == 0) {
             Sakura.logger.error(glGetShaderInfoLog(id, 1024))
             glDeleteShader(id)
-            throw IllegalStateException("Failed to compile shader: $path")
+            throw ShaderCompileException("Failed to compile shader: $path")
         }
 
         return id
@@ -64,6 +72,35 @@ open class Shader(vertShaderPath: String, fragShaderPath: String) : GlObject {
     override fun delete() {
         glDeleteProgram(id)
     }
+
+    open fun default() {}
+
+    /* Vertex Array Object */
+    protected fun createVao(vertexAttribute: VertexAttribute): Int {
+        val vaoID = glCreateVertexArrays()
+        glBindVertexArray(vaoID)
+        glBindBuffer(GL_ARRAY_BUFFER, PMBuffer.id)
+        vertexAttribute.apply()
+        glBindVertexArray(0)
+        glBindBuffer(GL_ARRAY_BUFFER, 0)
+        return vaoID
+    }
+
+    /* uniform functions */
+
+    // matrix4f
+    protected fun set(location: Int, mat: Matrix4f) {
+        mat.get(buffer)
+        glUniformMatrix4fv(location, false, buffer)
+    }
+
+    // sampler2D
+    protected fun set(location: Int, textureUnit: Int) {
+        glUniform1i(location, textureUnit)
+    }
+
+    class ShaderCompileException(message: String): Exception(message)
+
 }
 
 @OptIn(ExperimentalContracts::class)

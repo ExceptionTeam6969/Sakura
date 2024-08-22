@@ -69,30 +69,4 @@ object PMBuffer: GlObject {
         }
     }
 
-    val VAO_2D = createVao(buildAttribute(12) {
-        float(0, 2, GlDataType.GL_FLOAT, false)         // 8 bytes
-        float(1, 4, GlDataType.GL_UNSIGNED_BYTE, true)  // 4 bytes
-    })
-
-    val VAO_3D = createVao(buildAttribute(16) {
-        float(0, 3, GlDataType.GL_FLOAT, false)         // 12 bytes
-        float(1, 4, GlDataType.GL_UNSIGNED_BYTE, true)  // 4 bytes
-    })
-
-    val VAO_TEXTURE = createVao(buildAttribute(20) {
-        float(0, 2, GlDataType.GL_FLOAT, false)         // 8 bytes
-        float(1, 2, GlDataType.GL_FLOAT, false)         // 8 bytes
-        float(2, 4, GlDataType.GL_UNSIGNED_BYTE, true)  // 4 bytes
-    })
-
-    private fun createVao(vertexAttribute: VertexAttribute): Int {
-        val vaoID = GL45.glCreateVertexArrays()
-        GL45.glBindVertexArray(vaoID)
-        GL45.glBindBuffer(GL45.GL_ARRAY_BUFFER, id)
-        vertexAttribute.apply()
-        GL45.glBindVertexArray(0)
-        GL45.glBindBuffer(GL45.GL_ARRAY_BUFFER, 0)
-        return vaoID
-    }
-
 }

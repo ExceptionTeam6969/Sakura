@@ -4,6 +4,7 @@ import dev.exceptionteam.sakura.features.modules.AbstractModule
 import dev.exceptionteam.sakura.features.modules.Category
 import dev.exceptionteam.sakura.graphics.RenderUtils2D
 import dev.exceptionteam.sakura.graphics.color.ColorRGB
+import dev.exceptionteam.sakura.graphics.font.FontRenderers
 import dev.exceptionteam.sakura.utils.control.MouseButtonType
 import net.minecraft.client.gui.DrawContext
 
@@ -33,6 +34,8 @@ class Panel(
         }
 
         RenderUtils2D.drawRectFilled(x, y, width, height, ColorRGB.WHITE)
+
+        FontRenderers.default.drawString(category.displayString, x + 5f, y + 2f, ColorRGB.GREEN)
 
         if (!isOpening) return
 

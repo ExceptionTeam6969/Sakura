@@ -2,12 +2,11 @@ package dev.exceptionteam.sakura.graphics
 
 import dev.exceptionteam.sakura.graphics.color.ColorRGB
 import dev.exceptionteam.sakura.graphics.buffer.PMBuffer
+import dev.exceptionteam.sakura.graphics.matrix.MatrixStack
 import dev.exceptionteam.sakura.graphics.shader.PosColorShader2D
 import org.lwjgl.opengl.GL45
 
 object RenderUtils2D {
-
-    private val shader = PosColorShader2D()
 
     private var vertexSize = 0
 
@@ -21,9 +20,10 @@ object RenderUtils2D {
     }
 
     private fun putVertex(x: Float, y: Float, color: ColorRGB) {
+        val position = MatrixStack.getPosition(x, y, 0f)
         val ptr = PMBuffer.arr.ptr
-        ptr[0] = x
-        ptr[4] = y
+        ptr[0] = position.x
+        ptr[4] = position.y
         ptr[8] = color.rgba
         PMBuffer.arr += 12
         vertexSize++
@@ -32,9 +32,9 @@ object RenderUtils2D {
     @Suppress("SameParameterValue")
     private fun draw(mode: Int) {
         if (vertexSize <= 0) return
-        shader.bind()
-        shader.default()
-        GL45.glBindVertexArray(PMBuffer.VAO_2D)
+        PosColorShader2D.bind()
+        PosColorShader2D.default()
+        GL45.glBindVertexArray(PosColorShader2D.vao)
         GL45.glDrawArrays(mode, PMBuffer.offset.toInt(), vertexSize)
         PMBuffer.end(12)
         GL45.glBindVertexArray(0)

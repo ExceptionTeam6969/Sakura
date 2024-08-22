@@ -1,20 +1,25 @@
 package dev.exceptionteam.sakura.graphics.font
 
+import dev.exceptionteam.sakura.graphics.RenderUtils2D
+import dev.exceptionteam.sakura.graphics.RenderUtilsTexture
 import dev.exceptionteam.sakura.graphics.color.ColorRGB
+import dev.exceptionteam.sakura.graphics.matrix.MatrixStack
 import org.lwjgl.opengl.GL45
 
 class FontRenderer(
-    val font: Font,
-    val defaultFont: Font
+    val font: Glyphs,
+    private val defaultFont: Glyphs?
 ) {
 
     fun drawStringWithScale(text: String, x: Float, y: Float, color: ColorRGB, scale: Float = 1.0f) {
 
-        GL45.glPushMatrix()
-        GL45.glScalef(scale, scale, 1.0f)
-        GL45.glTranslatef((x / scale) - x, (y / scale) - y, 0.0f)
+        MatrixStack.push()
+
+        MatrixStack.scale(scale, scale, 1.0f)
+        MatrixStack.translate((x / scale) - x, (y / scale) - y, 0f)
         drawString(text, x, y, color)
-        GL45.glPopMatrix()
+
+        MatrixStack.pop()
 
     }
 
@@ -22,7 +27,9 @@ class FontRenderer(
         val length = text.length
         var shouldContinue = false
         var color = color0
-        var offset = 0f
+
+        GL45.glEnable(GL45.GL_LINE_SMOOTH)
+        MatrixStack.push()
         for (i in 0 until length) {
             if (shouldContinue) {
                 shouldContinue = false
@@ -34,24 +41,34 @@ class FontRenderer(
                 continue
             }
 
-            drawChar(text[i], x + offset, y, color)
+            val prevWidth = drawChar(text[i], x, y, color)
 
-            offset += getWidth(text[i])
+            MatrixStack.translate(prevWidth, 0f, 0f)
         }
+        MatrixStack.pop()
+        GL45.glDisable(GL45.GL_LINE_SMOOTH)
     }
 
-    private fun drawChar(ch: Char, x: Float, y: Float, color: ColorRGB) {
+    private fun drawChar(ch: Char, x: Float, y: Float, color: ColorRGB): Float {
         val texture = font.getTexture(ch)
-        GL45.glBindTexture(GL45.GL_TEXTURE_2D, texture)
 
-        
+        val width = getWidth(ch)
+        val height = font.getHeight(ch)
+
+        RenderUtilsTexture.drawTextureRect(x, y, width, height, texture, color)
+//        RenderUtils2D.drawRectFilled(x, y, width, height, ColorRGB(0, 0, 0))
+
+        return width
     }
 
     private fun getWidth(ch: Char): Float =
-        if (font.font.canDisplay(ch)) getFontWidth(font, ch)
-        else getFontWidth(defaultFont, ch)
+        if (font.canDisplay(ch)) getFontWidth(font, ch)
+        else {
+            defaultFont?.let { return getFontWidth(it, ch) }
+            0f
+        }
 
-    private fun getFontWidth(font: Font, ch: Char): Float = font.getWidth(ch).toFloat()
+    private fun getFontWidth(font: Glyphs, ch: Char): Float = font.getWidth(ch).toFloat()
 
     private fun getColor(ch: Char): ColorRGB =
         when (ch) {
