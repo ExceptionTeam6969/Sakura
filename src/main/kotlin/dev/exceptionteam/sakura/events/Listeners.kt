@@ -7,34 +7,34 @@ import kotlinx.coroutines.launch
 
 
 inline fun <reified E : Event> Any.nonNullListener(
-    noinline function: SafeClientEvent.(E) -> Unit
+    noinline function: NonNullContext.(E) -> Unit
 ) = listener(this, E::class.java, 0, false) { runSafe { function.invoke(this, it) } }
 
 inline fun <reified E : Event> Any.nonNullListener(
     priority: Int,
-    noinline function: SafeClientEvent.(E) -> Unit
+    noinline function: NonNullContext.(E) -> Unit
 ) = listener(this, E::class.java, priority, false) { runSafe { function.invoke(this, it) } }
 
 inline fun <reified E : Event> Any.nonNullListener(
     priority: Int,
     alwaysListening: Boolean,
-    noinline function: SafeClientEvent.(E) -> Unit
+    noinline function: NonNullContext.(E) -> Unit
 ) = listener(this, E::class.java, priority, alwaysListening) { runSafe { function.invoke(this, it) } }
 
 inline fun <reified E : Event> Any.nonNullListener(
     alwaysListening: Boolean,
-    noinline function: SafeClientEvent.(E) -> Unit
+    noinline function: NonNullContext.(E) -> Unit
 ) = listener(this, E::class.java, 0, alwaysListening) { runSafe { function.invoke(this, it) } }
 
 inline fun <reified E : Event>Any.nonNullConcurrentListener(
     alwaysListening: Boolean,
-    noinline function: suspend SafeClientEvent.(E) -> Unit
+    noinline function: suspend NonNullContext.(E) -> Unit
 ) = concurrentListener(this, E::class.java, 0, alwaysListening) { runSafeSuspend { function.invoke(this, it) } }
 
 inline fun <reified E : Event>Any.nonNullConcurrentListener(
     priority: Int,
     alwaysListening: Boolean,
-    noinline function: suspend SafeClientEvent.(E) -> Unit
+    noinline function: suspend NonNullContext.(E) -> Unit
 ) = concurrentListener(this, E::class.java, priority, alwaysListening) { runSafeSuspend { function.invoke(this, it) } }
 
 @JvmOverloads
