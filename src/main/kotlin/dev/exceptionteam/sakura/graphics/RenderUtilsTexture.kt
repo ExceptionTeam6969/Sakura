@@ -16,10 +16,10 @@ object RenderUtilsTexture {
         texture: Int,
         color: ColorRGB = ColorRGB.WHITE
     ) {
-        putVertex(x, y, 0f, 0f, color)
         putVertex(x + width, y, 1f, 0f, color)
-        putVertex(x, y + height, 0f, 1f, color)
+        putVertex(x, y, 0f, 0f, color)
         putVertex(x + width, y + height, 1f, 1f, color)
+        putVertex(x, y + height, 0f, 1f, color)
 
         draw(GL45.GL_TRIANGLE_STRIP, texture)
     }

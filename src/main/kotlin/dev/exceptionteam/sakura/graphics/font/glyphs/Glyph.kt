@@ -1,6 +1,5 @@
 package dev.exceptionteam.sakura.graphics.font.glyphs
 
-import dev.exceptionteam.sakura.events.SafeClientEvent
 import org.lwjgl.opengl.GL45.*
 import java.awt.Color
 import java.awt.Font
@@ -56,10 +55,11 @@ class Glyph(
             for (w in 0 until image.width) {
                 val pixel = pixels[h * image.width + w]
 
-                buffer.put(((pixel shr 16) and 0xFF).toByte())
-                buffer.put(((pixel shr 8) and 0xFF).toByte())
-                buffer.put((pixel and 0xFF).toByte())
-                buffer.put(((pixel shr 24) and 0xFF).toByte())
+                /* RGBA */
+                buffer.put(((pixel shr 16) and 0xFF).toByte())  // Red
+                buffer.put(((pixel shr 8) and 0xFF).toByte())   // Green
+                buffer.put((pixel and 0xFF).toByte())           // Blue
+                buffer.put(((pixel shr 24) and 0xFF).toByte())  // Alpha
             }
         }
 
