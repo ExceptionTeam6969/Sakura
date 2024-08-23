@@ -1,6 +1,5 @@
 package dev.exceptionteam.sakura.graphics.buffer
 
-import dev.exceptionteam.sakura.graphics.GlDataType
 import dev.exceptionteam.sakura.graphics.GlObject
 import dev.exceptionteam.sakura.graphics.glNamedBufferStorage
 import dev.luna5ama.kmogus.Arr
@@ -10,6 +9,8 @@ import java.nio.ByteBuffer
 
 // Persistent map buffer
 object PMBuffer: GlObject {
+
+    val stride = 24L
 
     private const val BUFFER_SIZE = 64 * 1024 * 1024L
 
@@ -42,7 +43,7 @@ object PMBuffer: GlObject {
         GL45.glDeleteBuffers(id)
     }
 
-    fun end(stride: Int) {
+    fun end() {
         offset = (arr.pos / stride)
     }
 

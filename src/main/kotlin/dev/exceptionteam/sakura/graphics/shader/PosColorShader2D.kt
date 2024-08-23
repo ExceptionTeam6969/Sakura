@@ -2,6 +2,7 @@ package dev.exceptionteam.sakura.graphics.shader
 
 import dev.exceptionteam.sakura.Sakura
 import dev.exceptionteam.sakura.graphics.GlDataType
+import dev.exceptionteam.sakura.graphics.buffer.PMBuffer
 import dev.exceptionteam.sakura.graphics.buffer.buildAttribute
 import dev.exceptionteam.sakura.graphics.matrix.MatrixStack
 import org.lwjgl.opengl.GL20.glGetUniformLocation
@@ -17,7 +18,7 @@ object PosColorShader2D: Shader(
         set(matrixLocation, MatrixStack.peek().mvpMatrix)
     }
 
-    val vao = createVao(buildAttribute(12) {
+    val vao = createVao(buildAttribute(PMBuffer.stride) {
         float(0, 2, GlDataType.GL_FLOAT, false)         // 8 bytes
         float(1, 4, GlDataType.GL_UNSIGNED_BYTE, true)  // 4 bytes
     })

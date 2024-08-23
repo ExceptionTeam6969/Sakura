@@ -10,6 +10,6 @@ object CustomFont: Module(
     defaultEnable = true
 ) {
 
-    val fontSize by setting("Font Size", 16, 1..30)
+    val fontSize by setting("Font Size", 14, 1..30)
 
 }

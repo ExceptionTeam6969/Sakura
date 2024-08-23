@@ -16,24 +16,23 @@ object RenderUtilsTexture {
         texture: Int,
         color: ColorRGB = ColorRGB.WHITE
     ) {
-        putVertex(x + width, y, 1f, 0f, color)
         putVertex(x, y, 0f, 0f, color)
-        putVertex(x + width, y + height, 1f, 1f, color)
+        putVertex(x + width, y, 1f, 0f, color)
         putVertex(x, y + height, 0f, 1f, color)
+        putVertex(x + width, y + height, 1f, 1f, color)
 
         draw(GL45.GL_TRIANGLE_STRIP, texture)
     }
 
     private fun putVertex(x: Float, y: Float, u: Float, v: Float, color: ColorRGB) {
         val position = MatrixStack.getPosition(x, y, 0f)
-        val arr = PMBuffer.arr
-        val ptr = arr.ptr
+        val ptr = PMBuffer.arr.ptr
         ptr[0] = position.x
         ptr[4] = position.y
         ptr[8] = u
         ptr[12] = v
         ptr[16] = color.rgba
-        arr += 20
+        PMBuffer.arr += PMBuffer.stride
         vertexSize++
     }
 
@@ -49,10 +48,10 @@ object RenderUtilsTexture {
         if (texture != 0) GL45.glBindTexture(GL45.GL_TEXTURE_2D, texture)
         GL45.glBindVertexArray(FontRendererShader.vao)
         GL45.glDrawArrays(mode, PMBuffer.offset.toInt(), vertexSize)
-        PMBuffer.end(20)
         GL45.glBindVertexArray(0)
         if (texture != 0) GL45.glBindTexture(GL45.GL_TEXTURE_2D, 0)
 
+        PMBuffer.end()
         vertexSize = 0
     }
 

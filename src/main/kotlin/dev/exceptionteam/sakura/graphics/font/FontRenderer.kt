@@ -1,15 +1,14 @@
 package dev.exceptionteam.sakura.graphics.font
 
 import dev.exceptionteam.sakura.features.modules.impl.client.CustomFont
-import dev.exceptionteam.sakura.graphics.RenderUtils2D
 import dev.exceptionteam.sakura.graphics.RenderUtilsTexture
 import dev.exceptionteam.sakura.graphics.color.ColorRGB
+import dev.exceptionteam.sakura.graphics.font.glyphs.FontGlyphs
 import dev.exceptionteam.sakura.graphics.matrix.MatrixStack
 import org.lwjgl.opengl.GL45
 
 class FontRenderer(
-    val font: Glyphs,
-    private val defaultFont: Glyphs?
+    val font: FontGlyphs
 ) {
 
     fun drawStringWithScale(text: String, x: Float, y: Float, color: ColorRGB, scale: Float = 1.0f) {
@@ -51,25 +50,15 @@ class FontRenderer(
     }
 
     private fun drawChar(ch: Char, x: Float, y: Float, color: ColorRGB): Float {
-        val texture = font.getTexture(ch)
+        val glyph = font.getGlyph(ch)
 
-        val width = getWidth(ch) * CustomFont.fontSize
-        val height = font.getHeight(ch) * CustomFont.fontSize
+        val width = glyph.dimensions.width.toFloat() * CustomFont.fontSize
+        val height = glyph.dimensions.height.toFloat() * CustomFont.fontSize
 
-        RenderUtilsTexture.drawTextureRect(x, y, width, height, texture, color)
-//        RenderUtils2D.drawRectFilled(x, y, width, height, ColorRGB(0, 0, 0))
+        RenderUtilsTexture.drawTextureRect(x, y, width, height, glyph.textureId, color)
 
         return width
     }
-
-    private fun getWidth(ch: Char): Float =
-        if (font.canDisplay(ch)) getFontWidth(font, ch)
-        else {
-            defaultFont?.let { return getFontWidth(it, ch) }
-            0f
-        }
-
-    private fun getFontWidth(font: Glyphs, ch: Char): Float = font.getWidth(ch).toFloat()
 
     private fun getColor(ch: Char): ColorRGB =
         when (ch) {

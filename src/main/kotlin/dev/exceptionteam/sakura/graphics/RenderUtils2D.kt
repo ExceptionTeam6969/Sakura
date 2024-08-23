@@ -25,7 +25,7 @@ object RenderUtils2D {
         ptr[0] = position.x
         ptr[4] = position.y
         ptr[8] = color.rgba
-        PMBuffer.arr += 12
+        PMBuffer.arr += PMBuffer.stride
         vertexSize++
     }
 
@@ -36,7 +36,7 @@ object RenderUtils2D {
         PosColorShader2D.default()
         GL45.glBindVertexArray(PosColorShader2D.vao)
         GL45.glDrawArrays(mode, PMBuffer.offset.toInt(), vertexSize)
-        PMBuffer.end(12)
+        PMBuffer.end()
         GL45.glBindVertexArray(0)
         vertexSize = 0
     }

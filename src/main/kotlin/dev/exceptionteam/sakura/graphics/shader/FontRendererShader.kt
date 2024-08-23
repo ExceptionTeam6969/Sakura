@@ -2,6 +2,7 @@ package dev.exceptionteam.sakura.graphics.shader
 
 import dev.exceptionteam.sakura.Sakura
 import dev.exceptionteam.sakura.graphics.GlDataType
+import dev.exceptionteam.sakura.graphics.buffer.PMBuffer
 import dev.exceptionteam.sakura.graphics.buffer.buildAttribute
 import dev.exceptionteam.sakura.graphics.matrix.MatrixStack
 import org.lwjgl.opengl.GL45
@@ -19,7 +20,7 @@ object FontRendererShader: Shader(
         set(textureLocation, 0)
     }
 
-    val vao = createVao(buildAttribute(20) {
+    val vao = createVao(buildAttribute(PMBuffer.stride) {
         float(0, 2, GlDataType.GL_FLOAT, false)         // 8 bytes
         float(1, 2, GlDataType.GL_FLOAT, false)         // 8 bytes
         float(2, 4, GlDataType.GL_UNSIGNED_BYTE, true)  // 4 bytes

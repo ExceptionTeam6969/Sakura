@@ -77,6 +77,6 @@ class VertexAttribute private constructor(private val stride: Int, private val e
 }
 
 
-inline fun buildAttribute(stride: Int, block: VertexAttribute.Builder.() -> Unit): VertexAttribute {
-    return VertexAttribute.Builder(stride).apply(block).build()
+inline fun buildAttribute(stride: Long, block: VertexAttribute.Builder.() -> Unit): VertexAttribute {
+    return VertexAttribute.Builder(stride.toInt()).apply(block).build()
 }
