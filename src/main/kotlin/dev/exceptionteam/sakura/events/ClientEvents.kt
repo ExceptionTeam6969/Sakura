@@ -7,7 +7,7 @@ import net.minecraft.client.network.ClientPlayerEntity
 import net.minecraft.client.network.ClientPlayerInteractionManager
 import net.minecraft.client.world.ClientWorld
 
-abstract class AbstractClientEvent {
+abstract class AbstractClientContext {
     val mc = Wrapper.mc
     abstract val world: ClientWorld?
     abstract val player: ClientPlayerEntity?
@@ -15,27 +15,27 @@ abstract class AbstractClientEvent {
     abstract val playerController: ClientPlayerInteractionManager?
 }
 
-open class ClientEvent: AbstractClientEvent() {
+open class ClientContext: AbstractClientContext() {
     final override val world: ClientWorld? = mc.world
     final override val player: ClientPlayerEntity? = mc.player
     final override val connection: ClientPlayNetworkHandler? = mc.networkHandler
     final override val playerController: ClientPlayerInteractionManager? = mc.interactionManager
 
-    inline operator fun <T> invoke(block: ClientEvent.() -> T) = run(block)
+    inline operator fun <T> invoke(block: ClientContext.() -> T) = run(block)
 }
 
-open class SafeClientEvent internal constructor(
+open class NonNullContext internal constructor(
     override val world: ClientWorld,
     override val player: ClientPlayerEntity,
     override val connection: ClientPlayNetworkHandler,
     override val playerController: ClientPlayerInteractionManager
-): AbstractClientEvent() {
+): AbstractClientContext() {
 
-    inline operator fun <T> invoke(block: SafeClientEvent.() -> T) = run(block)
+    inline operator fun <T> invoke(block: NonNullContext.() -> T) = run(block)
 
     companion object {
 
-        var instance: SafeClientEvent? = null; private set
+        var instance: NonNullContext? = null; private set
 
         init {
             listener<TickEvent.Pre>(alwaysListening = true) {
@@ -57,7 +57,7 @@ open class SafeClientEvent internal constructor(
             val connection = Wrapper.mc.networkHandler ?: return
             val playerController = Wrapper.mc.interactionManager ?: return
 
-            instance = SafeClientEvent(world, player, connection, playerController)
+            instance = NonNullContext(world, player, connection, playerController)
         }
 
         private fun reset() {

@@ -1,12 +1,12 @@
 package dev.exceptionteam.sakura.managers
 
-import dev.exceptionteam.sakura.events.SafeClientEvent
+import dev.exceptionteam.sakura.events.NonNullContext
 import dev.exceptionteam.sakura.managers.impl.*
 
 object Managers {
 
     fun init() {
-        SafeClientEvent
+        NonNullContext
 
         GraphicsManager.onInit()
         ModuleManager.onInit()
