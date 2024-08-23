@@ -52,7 +52,7 @@ tasks {
                 "-Xjvm-default=all",
                 "-Xbackend-threads=0",
                 "-Xno-source-debug-extension",
-                "-Xcontext-receivers=enable"
+                "-Xcontext-receivers"
             )
         }
     }
