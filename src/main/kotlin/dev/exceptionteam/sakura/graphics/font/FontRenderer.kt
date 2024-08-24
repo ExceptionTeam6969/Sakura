@@ -1,7 +1,5 @@
 package dev.exceptionteam.sakura.graphics.font
 
-import dev.exceptionteam.sakura.features.modules.impl.client.CustomFont
-import dev.exceptionteam.sakura.graphics.RenderUtils2D
 import dev.exceptionteam.sakura.graphics.RenderUtilsTexture
 import dev.exceptionteam.sakura.graphics.color.ColorRGB
 import dev.exceptionteam.sakura.graphics.font.glyphs.FontGlyphs
@@ -53,8 +51,8 @@ class FontRenderer(
     private fun drawChar(ch: Char, x: Float, y: Float, color: ColorRGB): Float {
         val glyph = font.getGlyph(ch)
 
-        val width = glyph.dimensions.width.toFloat() * CustomFont.fontSize
-        val height = glyph.dimensions.height.toFloat() * CustomFont.fontSize
+        val width = glyph.dimensions.width.toFloat()
+        val height = glyph.dimensions.height.toFloat()
 
         RenderUtilsTexture.drawTextureRect(x, y, width, height, glyph.textureId, color)
 //        RenderUtils2D.drawRectFilled(x, y, width, height, color)

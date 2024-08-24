@@ -6,7 +6,6 @@ import dev.exceptionteam.sakura.graphics.RenderUtils2D
 import dev.exceptionteam.sakura.graphics.color.ColorRGB
 import dev.exceptionteam.sakura.graphics.font.FontRenderers
 import dev.exceptionteam.sakura.utils.control.MouseButtonType
-import net.minecraft.client.gui.DrawContext
 
 class Panel(
     val category: Category,
