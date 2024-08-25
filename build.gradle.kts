@@ -11,7 +11,7 @@ repositories {
     maven("https://maven.luna5ama.dev/")
 }
 
-val library by configurations.creating {
+private val library by configurations.creating {
     configurations.implementation.get().extendsFrom(this)
 }
 
