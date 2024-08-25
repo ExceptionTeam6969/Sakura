@@ -7,20 +7,8 @@ import dev.exceptionteam.sakura.graphics.matrix.MatrixStack
 import org.lwjgl.opengl.GL45
 
 class FontRenderer(
-    val font: FontGlyphs
+    private val font: FontGlyphs
 ) {
-
-    fun drawStringWithScale(text: String, x: Float, y: Float, color: ColorRGB, scale: Float = 1.0f) {
-
-        MatrixStack.push()
-
-        MatrixStack.scale(scale, scale, 1.0f)
-        MatrixStack.translate((x / scale) - x, (y / scale) - y, 0f)
-        drawString(text, x, y, color)
-
-        MatrixStack.pop()
-
-    }
 
     fun drawString(text: String, x: Float, y: Float, color0: ColorRGB) {
         val length = text.length
