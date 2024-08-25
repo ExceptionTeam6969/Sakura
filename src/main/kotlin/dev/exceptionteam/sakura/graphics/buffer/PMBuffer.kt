@@ -10,7 +10,7 @@ import java.nio.ByteBuffer
 // Persistent map buffer
 object PMBuffer: GlObject {
 
-    val stride = 24L
+    const val STRIDE = 24L
 
     private const val BUFFER_SIZE = 64 * 1024 * 1024L
 
@@ -44,7 +44,7 @@ object PMBuffer: GlObject {
     }
 
     fun end() {
-        offset = (arr.pos / stride)
+        offset = (arr.pos / STRIDE)
     }
 
     private var sync = 0L

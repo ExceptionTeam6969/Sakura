@@ -1,5 +1,6 @@
 package dev.exceptionteam.sakura.graphics.font.glyphs
 
+import dev.exceptionteam.sakura.utils.math.ceilToInt
 import org.lwjgl.opengl.GL45.*
 import java.awt.Color
 import java.awt.Font
@@ -9,10 +10,10 @@ import java.awt.geom.AffineTransform
 import java.awt.geom.Rectangle2D
 import java.awt.image.BufferedImage
 import java.nio.ByteBuffer
-import kotlin.math.ceil
+import java.nio.ByteOrder
 
 class Glyph(
-    private val font: Font,
+    font: Font,
     char: Char
 ) {
 
@@ -20,23 +21,32 @@ class Glyph(
     var textureId: Int = 0
 
     init {
-        val bufferedImage = BufferedImage(ceil(dimensions.width).toInt(), ceil(dimensions.height).toInt(), BufferedImage.TYPE_INT_ARGB)
-        bufferedImage.createGraphics().also {
-            it.font = font
+        val width = dimensions.width.ceilToInt()
+        val height = dimensions.height.ceilToInt()
 
-            it.color = Color(255, 255, 255, 0)
-            it.fillRect(0, 0, bufferedImage.width, bufferedImage.height)
+        val bufferedImage = BufferedImage(width, height, BufferedImage.TYPE_INT_ARGB)
 
-            it.color = Color.white
-            it.setRenderingHint(RenderingHints.KEY_FRACTIONALMETRICS, RenderingHints.VALUE_FRACTIONALMETRICS_ON)
-            it.setRenderingHint(RenderingHints.KEY_TEXT_ANTIALIASING, RenderingHints.VALUE_TEXT_ANTIALIAS_ON)
-            it.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON)
-            it.setRenderingHint(RenderingHints.KEY_RENDERING, RenderingHints.VALUE_RENDER_QUALITY)
-            it.drawString(char.toString(), 0, it.fontMetrics.ascent)
-            it.dispose()
-        }
+        // Get the Graphics2D object from the BufferedImage
+        val g2d = bufferedImage.createGraphics()
 
-        loadFromImage(bufferedImage)
+        // Set rendering hints for better text quality
+        g2d.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON)
+        g2d.setRenderingHint(RenderingHints.KEY_TEXT_ANTIALIASING, RenderingHints.VALUE_TEXT_ANTIALIAS_ON)
+
+        // Set background color and fill the image
+        g2d.color = Color(0, 0, 0, 0)
+        g2d.fillRect(0, 0, width, height)
+
+        // Set text color and font
+        g2d.color = Color.WHITE
+        g2d.font = font
+
+        g2d.drawString(char.toString(), 0, 0)
+
+        // Dispose the graphics context
+        g2d.dispose()
+
+        textureId = loadTexture(bufferedImage)
     }
 
     fun destroy() {
@@ -45,37 +55,49 @@ class Glyph(
         }
     }
 
-    private fun loadFromImage(image: BufferedImage) {
-
+    private fun loadTexture(image: BufferedImage): Int {
+        // Extract pixel data from BufferedImage
         val pixels = IntArray(image.width * image.height)
-        image.getRGB(0, 0, image.width, image.height, pixels, 0, image.width)
-        val buffer = ByteBuffer.allocateDirect(image.width * image.height * 4)
+        pixels.fill(0xFF0000FF.toInt())
+//        image.getRGB(0, 0, image.width, image.height, pixels, 0, image.width)
 
-        for (h in 0 until image.height) {
-            for (w in 0 until image.width) {
-                val pixel = pixels[h * image.width + w]
+        // Create a ByteBuffer to hold the pixel data
+        val buffer = ByteBuffer.allocateDirect(4 * image.width * image.height)
+        buffer.order(ByteOrder.nativeOrder())
 
-                /* RGBA */
-                buffer.put(((pixel shr 16) and 0xFF).toByte())  // Red
-                buffer.put(((pixel shr 8) and 0xFF).toByte())   // Green
-                buffer.put((pixel and 0xFF).toByte())           // Blue
-                buffer.put(((pixel shr 24) and 0xFF).toByte())  // Alpha
+        // Pack pixel data into the ByteBuffer in RGBA format
+        for (y in 0 until image.height) {
+            for (x in 0 until image.width) {
+                val pixel = pixels[y * image.width + x]
+                buffer.put(((pixel shr 16) and 0xFF).toByte())  // Red component
+                buffer.put(((pixel shr 8) and 0xFF).toByte())   // Green component
+                buffer.put((pixel and 0xFF).toByte())           // Blue component
+                buffer.put(((pixel shr 24) and 0xFF).toByte())  // Alpha component
             }
         }
 
-        buffer.flip()
+        buffer.flip() // Prepare buffer for reading
 
-        textureId = glGenTextures()
-        glBindTexture(GL_TEXTURE_2D, textureId)
+        // Generate a new texture ID
+        val textureID = glGenTextures()
+
+        // Bind the texture
+        glBindTexture(GL_TEXTURE_2D, textureID)
+
+        // Set texture parameters
+        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT)
+        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT)
         glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR)
         glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR)
 
-        glTexImage2D(
-            GL_TEXTURE_2D, 0, GL_RGBA8, image.width, image.height,
-            0, GL_RGBA, GL_UNSIGNED_BYTE, buffer
-        )
+        // Upload the texture data
+        glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, image.width, image.height, 0,
+            GL_RGBA, GL_UNSIGNED_BYTE, buffer)
 
-        glBindTexture(GL_TEXTURE_2D, 0)
+        // Generate mipmaps (optional)
+        glGenerateMipmap(GL_TEXTURE_2D)
+
+        return textureID // Return the texture ID
     }
 
 }

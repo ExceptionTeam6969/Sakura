@@ -20,7 +20,7 @@ object FontRendererShader: Shader(
         set(textureLocation, 0)
     }
 
-    val vao = createVao(buildAttribute(PMBuffer.stride) {
+    val vao = createVao(buildAttribute(PMBuffer.STRIDE) {
         float(0, 2, GlDataType.GL_FLOAT, false)         // 8 bytes
         float(1, 2, GlDataType.GL_FLOAT, false)         // 8 bytes
         float(2, 4, GlDataType.GL_UNSIGNED_BYTE, true)  // 4 bytes

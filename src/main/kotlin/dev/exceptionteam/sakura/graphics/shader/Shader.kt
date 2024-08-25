@@ -53,7 +53,7 @@ open class Shader(vertShaderPath: String, fragShaderPath: String) : GlObject {
 
         val compiled = glGetShaderi(id, GL_COMPILE_STATUS)
         if (compiled == 0) {
-            Sakura.logger.error(glGetShaderInfoLog(id, 1024))
+            Sakura.logger.error("$path\n" + glGetShaderInfoLog(id, 1024))
             glDeleteShader(id)
             throw ShaderCompileException("Failed to compile shader: $path")
         }

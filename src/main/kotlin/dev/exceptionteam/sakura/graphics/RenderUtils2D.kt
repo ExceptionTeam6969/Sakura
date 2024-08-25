@@ -25,7 +25,7 @@ object RenderUtils2D {
         ptr[0] = position.x
         ptr[4] = position.y
         ptr[8] = color.rgba
-        PMBuffer.arr += PMBuffer.stride
+        PMBuffer.arr += PMBuffer.STRIDE
         vertexSize++
     }
 

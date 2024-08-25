@@ -32,7 +32,7 @@ object RenderUtilsTexture {
         ptr[8] = u
         ptr[12] = v
         ptr[16] = color.rgba
-        PMBuffer.arr += PMBuffer.stride
+        PMBuffer.arr += PMBuffer.STRIDE
         vertexSize++
     }
 
@@ -45,11 +45,15 @@ object RenderUtilsTexture {
         FontRendererShader.bind()
         FontRendererShader.default()
 
-        if (texture != 0) GL45.glBindTexture(GL45.GL_TEXTURE_2D, texture)
+        if (texture != 0) {
+            GL45.glActiveTexture(GL45.GL_TEXTURE0)
+            GL45.glBindTexture(GL45.GL_TEXTURE_2D, texture)
+        }
         GL45.glBindVertexArray(FontRendererShader.vao)
         GL45.glDrawArrays(mode, PMBuffer.offset.toInt(), vertexSize)
         GL45.glBindVertexArray(0)
-        if (texture != 0) GL45.glBindTexture(GL45.GL_TEXTURE_2D, 0)
+
+        GL45.glBindTexture(GL45.GL_TEXTURE_2D, 0)
 
         PMBuffer.end()
         vertexSize = 0

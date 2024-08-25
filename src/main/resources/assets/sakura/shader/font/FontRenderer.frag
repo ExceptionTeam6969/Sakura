@@ -1,6 +1,4 @@
-#version 330 core
-precision mediump float;
-
+#version 450 core
 out vec4 FragColor;
 
 in vec2 TexCoord;
@@ -10,6 +8,6 @@ uniform sampler2D FontTexture;
 
 void main() {
     float alpha = texture(FontTexture, TexCoord).a;
-    if (alpha == 0.0) discard;
-    FragColor = texture(FontTexture, TexCoord) * Color;
+    if (alpha < 0.05) discard;
+    FragColor = Color * texture(FontTexture, TexCoord);
 }

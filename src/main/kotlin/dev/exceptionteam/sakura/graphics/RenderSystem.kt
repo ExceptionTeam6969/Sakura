@@ -40,13 +40,12 @@ object RenderSystem {
 
     private fun preRender2d() {
         PMBuffer.onSync()
-        RenderSystem.enableBlend()
-        RenderSystem.setShaderColor(1f, 1f, 1f, 1f)
+        GL45.glEnable(GL45.GL_BLEND)
         preFrameBuffer()
     }
 
     private fun postRender2d() {
-        RenderSystem.disableBlend()
+        GL45.glDisable(GL45.GL_BLEND)
         postFrameBuffer()
     }
 

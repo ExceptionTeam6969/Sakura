@@ -12,13 +12,13 @@ object PosColorShader2D: Shader(
     fragShaderPath = "${Sakura.ASSETS_DIRECTORY}/shader/general/PosColor.frag"
 ) {
 
-    private val matrixLocation = glGetUniformLocation(id, "matrix")
+    private val matrixLocation = glGetUniformLocation(id, "MVPMatrix")
 
     override fun default() {
         set(matrixLocation, MatrixStack.peek().mvpMatrix)
     }
 
-    val vao = createVao(buildAttribute(PMBuffer.stride) {
+    val vao = createVao(buildAttribute(PMBuffer.STRIDE) {
         float(0, 2, GlDataType.GL_FLOAT, false)         // 8 bytes
         float(1, 4, GlDataType.GL_UNSIGNED_BYTE, true)  // 4 bytes
     })
