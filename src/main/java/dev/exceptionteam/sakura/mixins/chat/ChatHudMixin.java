@@ -1,7 +1,7 @@
 package dev.exceptionteam.sakura.mixins.chat;
 
-import dev.exceptionteam.sakura.imixin.IChatHud;
-import dev.exceptionteam.sakura.imixin.IChatHudLine;
+import dev.exceptionteam.sakura.asm.IChatHud;
+import dev.exceptionteam.sakura.asm.IChatHudLine;
 import net.minecraft.client.gui.hud.ChatHud;
 import net.minecraft.client.gui.hud.ChatHudLine;
 import net.minecraft.client.gui.hud.MessageIndicator;

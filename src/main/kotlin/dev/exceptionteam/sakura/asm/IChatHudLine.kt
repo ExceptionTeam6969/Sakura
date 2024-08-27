@@ -1,4 +1,4 @@
-package dev.exceptionteam.sakura.imixin
+package dev.exceptionteam.sakura.asm
 
 interface IChatHudLine {
     fun getId(): Int

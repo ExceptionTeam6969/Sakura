@@ -1,6 +1,6 @@
 package dev.exceptionteam.sakura.mixins.chat;
 
-import dev.exceptionteam.sakura.imixin.IChatHudLine;
+import dev.exceptionteam.sakura.asm.IChatHudLine;
 import net.minecraft.client.gui.hud.ChatHudLine;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Unique;

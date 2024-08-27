@@ -1,7 +1,7 @@
 package dev.exceptionteam.sakura.utils.ingame
 
 import dev.exceptionteam.sakura.Sakura
-import dev.exceptionteam.sakura.imixin.IChatHud
+import dev.exceptionteam.sakura.asm.IChatHud
 import net.minecraft.client.MinecraftClient
 import net.minecraft.text.Text
 

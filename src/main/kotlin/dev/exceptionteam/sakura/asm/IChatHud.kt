@@ -1,4 +1,4 @@
-package dev.exceptionteam.sakura.imixin
+package dev.exceptionteam.sakura.asm
 
 import net.minecraft.text.Text
 
