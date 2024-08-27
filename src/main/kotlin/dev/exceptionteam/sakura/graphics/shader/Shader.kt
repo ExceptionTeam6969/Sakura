@@ -2,11 +2,10 @@ package dev.exceptionteam.sakura.graphics.shader
 
 import dev.exceptionteam.sakura.Sakura
 import dev.exceptionteam.sakura.graphics.GlObject
-import dev.exceptionteam.sakura.graphics.buffer.PMBuffer
+import dev.exceptionteam.sakura.graphics.buffer.PersistentMappedVBO
 import dev.exceptionteam.sakura.graphics.buffer.VertexAttribute
 import org.joml.Matrix4f
 import org.lwjgl.BufferUtils
-import org.lwjgl.opengl.GL45
 import org.lwjgl.opengl.GL45.*
 import java.io.InputStream
 import java.io.StringWriter
@@ -74,17 +73,6 @@ open class Shader(vertShaderPath: String, fragShaderPath: String) : GlObject {
     }
 
     open fun default() {}
-
-    /* Vertex Array Object */
-    protected fun createVao(vertexAttribute: VertexAttribute): Int {
-        val vaoID = glCreateVertexArrays()
-        glBindVertexArray(vaoID)
-        glBindBuffer(GL_ARRAY_BUFFER, PMBuffer.id)
-        vertexAttribute.apply()
-        glBindVertexArray(0)
-        glBindBuffer(GL_ARRAY_BUFFER, 0)
-        return vaoID
-    }
 
     /* uniform functions */
 

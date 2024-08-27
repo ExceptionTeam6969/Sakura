@@ -1,6 +1,12 @@
 package dev.exceptionteam.sakura.graphics.font.glyphs
 
+import dev.exceptionteam.sakura.graphics.texture.ImageUtils
 import dev.exceptionteam.sakura.utils.math.ceilToInt
+import net.minecraft.client.MinecraftClient
+import net.minecraft.client.texture.NativeImage
+import net.minecraft.client.texture.NativeImageBackedTexture
+import net.minecraft.util.Identifier
+import org.lwjgl.BufferUtils
 import org.lwjgl.opengl.GL45.*
 import java.awt.Color
 import java.awt.Font
@@ -9,13 +15,15 @@ import java.awt.font.FontRenderContext
 import java.awt.geom.AffineTransform
 import java.awt.geom.Rectangle2D
 import java.awt.image.BufferedImage
-import java.nio.ByteBuffer
-import java.nio.ByteOrder
+import java.io.ByteArrayOutputStream
+import javax.imageio.ImageIO
 
 class Glyph(
     font: Font,
     char: Char
 ) {
+
+    private val texture = Identifier("sakura", "textures/font/${char.toString().lowercase()}.png")
 
     val dimensions: Rectangle2D = font.getStringBounds(char.toString(), FontRenderContext(AffineTransform(), true, true))
     var textureId: Int = 0
@@ -25,28 +33,22 @@ class Glyph(
         val height = dimensions.height.ceilToInt()
 
         val bufferedImage = BufferedImage(width, height, BufferedImage.TYPE_INT_ARGB)
-
-        // Get the Graphics2D object from the BufferedImage
         val g2d = bufferedImage.createGraphics()
 
-        // Set rendering hints for better text quality
-        g2d.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON)
-        g2d.setRenderingHint(RenderingHints.KEY_TEXT_ANTIALIASING, RenderingHints.VALUE_TEXT_ANTIALIAS_ON)
-
-        // Set background color and fill the image
-        g2d.color = Color(0, 0, 0, 0)
-        g2d.fillRect(0, 0, width, height)
-
-        // Set text color and font
-        g2d.color = Color.WHITE
         g2d.font = font
 
-        g2d.drawString(char.toString(), 0, 0)
+        g2d.color = Color(255, 255, 255, 0)
+        g2d.fillRect(0, 0, bufferedImage.width, bufferedImage.height)
 
-        // Dispose the graphics context
+        g2d.color = Color.white
+        g2d.setRenderingHint(RenderingHints.KEY_FRACTIONALMETRICS, RenderingHints.VALUE_FRACTIONALMETRICS_ON)
+        g2d.setRenderingHint(RenderingHints.KEY_TEXT_ANTIALIASING, RenderingHints.VALUE_TEXT_ANTIALIAS_ON)
+        g2d.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON)
+        g2d.setRenderingHint(RenderingHints.KEY_RENDERING, RenderingHints.VALUE_RENDER_QUALITY)
+        g2d.drawString(char.toString(), 0, g2d.fontMetrics.ascent)
         g2d.dispose()
 
-        textureId = loadTexture(bufferedImage)
+        loadTexture(bufferedImage)
     }
 
     fun destroy() {
@@ -55,34 +57,23 @@ class Glyph(
         }
     }
 
-    private fun loadTexture(image: BufferedImage): Int {
-        // Extract pixel data from BufferedImage
-        val pixels = IntArray(image.width * image.height)
-        pixels.fill(0xFF0000FF.toInt())
-//        image.getRGB(0, 0, image.width, image.height, pixels, 0, image.width)
+    private fun loadTexture(image: BufferedImage) {
+//        val mc = MinecraftClient.getInstance()
+//
+//        val bytes = ByteArrayOutputStream().use {
+//            ImageIO.write(image, "png", it)
+//            it.toByteArray()
+//        }
+//        val data = BufferUtils.createByteBuffer(bytes.size).put(bytes).also { it.flip() }
+//        val tex = NativeImageBackedTexture(NativeImage.read(data))
+//        mc.execute { mc.textureManager.registerTexture(texture, tex) }
+//
+//        textureId = mc.textureManager.getTexture(texture).glId
 
-        // Create a ByteBuffer to hold the pixel data
-        val buffer = ByteBuffer.allocateDirect(4 * image.width * image.height)
-        buffer.order(ByteOrder.nativeOrder())
-
-        // Pack pixel data into the ByteBuffer in RGBA format
-        for (y in 0 until image.height) {
-            for (x in 0 until image.width) {
-                val pixel = pixels[y * image.width + x]
-                buffer.put(((pixel shr 16) and 0xFF).toByte())  // Red component
-                buffer.put(((pixel shr 8) and 0xFF).toByte())   // Green component
-                buffer.put((pixel and 0xFF).toByte())           // Blue component
-                buffer.put(((pixel shr 24) and 0xFF).toByte())  // Alpha component
-            }
-        }
-
-        buffer.flip() // Prepare buffer for reading
-
-        // Generate a new texture ID
-        val textureID = glGenTextures()
+        textureId = glGenTextures()
 
         // Bind the texture
-        glBindTexture(GL_TEXTURE_2D, textureID)
+        glBindTexture(GL_TEXTURE_2D, textureId)
 
         // Set texture parameters
         glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT)
@@ -90,14 +81,7 @@ class Glyph(
         glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR)
         glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR)
 
-        // Upload the texture data
-        glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, image.width, image.height, 0,
-            GL_RGBA, GL_UNSIGNED_BYTE, buffer)
-
-        // Generate mipmaps (optional)
-        glGenerateMipmap(GL_TEXTURE_2D)
-
-        return textureID // Return the texture ID
+        ImageUtils.uploadImage(image, GL_RGBA, image.width, image.height)
     }
 
 }

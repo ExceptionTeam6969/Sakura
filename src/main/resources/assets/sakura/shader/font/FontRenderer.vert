@@ -10,7 +10,7 @@ out vec2 TexCoord;
 out vec4 Color;
 
 void main() {
+    gl_Position = MVPMatrix * vec4(aPos, 0.0, 1.0);
     TexCoord = aTexCoord;
     Color = aColor;
-    gl_Position = MVPMatrix * vec4(aPos, 0.0, 1.0);
 }

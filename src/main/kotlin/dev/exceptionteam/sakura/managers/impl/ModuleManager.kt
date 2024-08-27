@@ -5,6 +5,7 @@ import dev.exceptionteam.sakura.events.nonNullListener
 import dev.exceptionteam.sakura.features.modules.AbstractModule
 import dev.exceptionteam.sakura.features.modules.impl.client.ChatInfo
 import dev.exceptionteam.sakura.features.modules.impl.client.ClickGUI
+import dev.exceptionteam.sakura.features.modules.impl.client.CustomFont
 import dev.exceptionteam.sakura.features.modules.impl.client.RenderSystemMod
 import dev.exceptionteam.sakura.managers.AbstractManager
 
@@ -27,6 +28,7 @@ object ModuleManager: AbstractManager() {
             // Client
             ClickGUI,
             ChatInfo,
+            CustomFont,
             RenderSystemMod
         )
     }

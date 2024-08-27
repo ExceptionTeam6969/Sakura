@@ -8,11 +8,13 @@ import org.lwjgl.opengl.GL45
 import java.nio.ByteBuffer
 
 // Persistent map buffer
-object PMBuffer: GlObject {
+class PersistentMappedVBO(
+    private val stride: Int
+): GlObject {
 
-    const val STRIDE = 24L
-
-    private const val BUFFER_SIZE = 64 * 1024 * 1024L
+    companion object {
+        private const val BUFFER_SIZE = 8 * 1024 * 1024L    // 8MB
+    }
 
     override var id: Int = GL45.glCreateBuffers().apply {
         glNamedBufferStorage(this, BUFFER_SIZE, 0L,
@@ -25,7 +27,7 @@ object PMBuffer: GlObject {
         GL45.glMapNamedBufferRange(
             id,
             0,
-            64L * 1024L * 1024L,
+            BUFFER_SIZE,
             GL45.GL_MAP_WRITE_BIT or GL45.GL_MAP_PERSISTENT_BIT or
                     GL45.GL_MAP_COHERENT_BIT or GL45.GL_MAP_UNSYNCHRONIZED_BIT
         ) as ByteBuffer
@@ -44,7 +46,7 @@ object PMBuffer: GlObject {
     }
 
     fun end() {
-        offset = (arr.pos / STRIDE)
+        offset = (arr.pos / stride)
     }
 
     private var sync = 0L

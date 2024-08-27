@@ -3,7 +3,7 @@ package dev.exceptionteam.sakura.graphics.buffer
 import dev.exceptionteam.sakura.graphics.GlDataType
 import org.lwjgl.opengl.GL45.*
 
-class VertexAttribute private constructor(private val stride: Int, private val entries: List<Entry>) {
+class VertexAttribute private constructor(val stride: Int, private val entries: List<Entry>) {
     fun apply() {
         entries.forEach {
             it.apply(stride)

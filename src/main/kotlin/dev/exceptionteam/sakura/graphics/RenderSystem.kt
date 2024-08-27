@@ -7,15 +7,45 @@ import dev.exceptionteam.sakura.events.impl.WindowResizeEvent
 import dev.exceptionteam.sakura.events.listener
 import dev.exceptionteam.sakura.features.modules.impl.client.RenderSystemMod
 import dev.exceptionteam.sakura.graphics.buffer.FrameBuffer
-import dev.exceptionteam.sakura.graphics.buffer.PMBuffer
+import dev.exceptionteam.sakura.graphics.buffer.VertexBufferObjects
 import dev.exceptionteam.sakura.graphics.matrix.MatrixStack
-import dev.exceptionteam.sakura.graphics.shader.PosColorShader2D
 import net.minecraft.client.MinecraftClient
 import net.minecraft.client.gui.DrawContext
 import org.joml.Matrix4f
 import org.lwjgl.opengl.GL45
 
 object RenderSystem {
+
+    // OpenGL version
+    private val glVersion = GL45.glGetString(GL45.GL_VERSION) ?: ""
+    private val gpuManufacturer = GL45.glGetString(GL45.GL_VENDOR) ?: ""
+    private val gpuName = GL45.glGetString(GL45.GL_RENDERER)?.substringBefore("/") ?: ""
+
+    private val intelGraphics = glVersion.lowercase().contains("intel")
+            || gpuManufacturer.lowercase().contains("intel")
+            || gpuName.lowercase().contains("intel")
+
+    private val amdGraphics = glVersion.lowercase().contains("amd")
+            || gpuManufacturer.lowercase().contains("amd")
+            || gpuName.lowercase().contains("amd")
+
+    private val nvidiaGraphics = glVersion.lowercase().contains("nvidia")
+            || gpuManufacturer.lowercase().contains("nvidia")
+            || gpuName.lowercase().contains("nvidia")
+
+    val gpuType: GPUType get() {
+        if (intelGraphics) return GPUType.INTEL
+        if (amdGraphics) return GPUType.AMD
+        if (nvidiaGraphics) return GPUType.NVIDIA
+        return GPUType.OTHER
+    }
+
+    enum class GPUType {
+        INTEL,
+        AMD,
+        NVIDIA,
+        OTHER
+    }
 
     private val frameBuffer = FrameBuffer()
 
@@ -39,7 +69,7 @@ object RenderSystem {
     }
 
     private fun preRender2d() {
-        PMBuffer.onSync()
+        VertexBufferObjects.sync()
         GL45.glEnable(GL45.GL_BLEND)
         preFrameBuffer()
     }
@@ -58,7 +88,7 @@ object RenderSystem {
     }
 
     private fun preRender3d() {
-        PMBuffer.onSync()
+        VertexBufferObjects.sync()
         preFrameBuffer()
         GL45.glDisable(GL45.GL_DEPTH_TEST)
     }
