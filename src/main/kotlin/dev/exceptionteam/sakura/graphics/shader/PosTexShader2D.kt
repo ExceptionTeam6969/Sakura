@@ -10,11 +10,11 @@ object PosTexShader2D: Shader(
 ) {
 
     private val matrixLocation = GL45.glGetUniformLocation(id, "MVPMatrix")
-//    private val textureLocation = GL45.glGetUniformLocation(id, "FontTexture")
+    private val textureLocation = GL45.glGetUniformLocation(id, "FontTexture")
 
     override fun default() {
         set(matrixLocation, MatrixStack.peek().mvpMatrix)
-//        set(textureLocation, 0)
+        set(textureLocation, 0)
     }
 
 }

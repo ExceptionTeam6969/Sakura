@@ -1,6 +1,6 @@
 #version 450 core
 
-uniform sampler2D FontTexture;
+layout(binding = 0) uniform sampler2D FontTexture;
 
 in vec2 TexCoord;
 in vec4 Color;
@@ -13,4 +13,5 @@ void main() {
 //    if (alpha < 0.01) discard;
 //    FragColor = Color * texColor;
     FragColor = texColor;
+//    FragColor = vec4(0, 0, 0, 1);
 }

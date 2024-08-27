@@ -14,12 +14,14 @@ object RenderUtilsTexture {
         texture: Int,
         color: ColorRGB = ColorRGB.WHITE
     ) {
+        val endX = x + width
+        val endY = y + height
         TextureUtils.useTexture(texture) {
             GL45.GL_TRIANGLE_STRIP.draw(VertexBufferObjects.PosTex2D) {
-                vertex(x + width, y, 1f, 0f, color)
+                vertex(endX, y, 1f, 0f, color)
                 vertex(x, y, 0f, 0f, color)
-                vertex(x + width, y + height, 1f, 1f, color)
-                vertex(x, y + height, 0f, 1f, color)
+                vertex(endX, endY, 1f, 1f, color)
+                vertex(x, endY, 0f, 1f, color)
             }
         }
     }

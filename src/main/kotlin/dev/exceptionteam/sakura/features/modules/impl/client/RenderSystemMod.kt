@@ -9,6 +9,6 @@ object RenderSystemMod: Module(
     description = "Custom render system"
 ) {
 
-    val frameBuffer by setting("FrameBuffer", true)
+    val frameBuffer by setting("Frame Buffer", true)
 
 }

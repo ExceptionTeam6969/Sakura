@@ -2,10 +2,7 @@ package dev.exceptionteam.sakura.graphics.font.glyphs
 
 import dev.exceptionteam.sakura.graphics.texture.ImageUtils
 import dev.exceptionteam.sakura.utils.math.ceilToInt
-import net.minecraft.client.MinecraftClient
-import net.minecraft.client.texture.NativeImage
-import net.minecraft.client.texture.NativeImageBackedTexture
-import net.minecraft.util.Identifier
+import dev.luna5ama.kmogus.Arr
 import org.lwjgl.BufferUtils
 import org.lwjgl.opengl.GL45.*
 import java.awt.Color
@@ -15,16 +12,12 @@ import java.awt.font.FontRenderContext
 import java.awt.geom.AffineTransform
 import java.awt.geom.Rectangle2D
 import java.awt.image.BufferedImage
-import java.io.ByteArrayOutputStream
-import javax.imageio.ImageIO
+import java.nio.ByteBuffer
 
 class Glyph(
     font: Font,
     char: Char
 ) {
-
-    private val texture = Identifier("sakura", "textures/font/${char.toString().lowercase()}.png")
-
     val dimensions: Rectangle2D = font.getStringBounds(char.toString(), FontRenderContext(AffineTransform(), true, true))
     var textureId: Int = 0
 
@@ -58,30 +51,16 @@ class Glyph(
     }
 
     private fun loadTexture(image: BufferedImage) {
-//        val mc = MinecraftClient.getInstance()
-//
-//        val bytes = ByteArrayOutputStream().use {
-//            ImageIO.write(image, "png", it)
-//            it.toByteArray()
-//        }
-//        val data = BufferUtils.createByteBuffer(bytes.size).put(bytes).also { it.flip() }
-//        val tex = NativeImageBackedTexture(NativeImage.read(data))
-//        mc.execute { mc.textureManager.registerTexture(texture, tex) }
-//
-//        textureId = mc.textureManager.getTexture(texture).glId
-
         textureId = glGenTextures()
 
-        // Bind the texture
         glBindTexture(GL_TEXTURE_2D, textureId)
 
-        // Set texture parameters
-        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT)
-        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT)
+        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE)
+        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE)
         glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR)
         glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR)
 
-        ImageUtils.uploadImage(image, GL_RGBA, image.width, image.height)
+        ImageUtils.uploadImage(image, GL_RGBA8, image.width, image.height)
     }
 
 }

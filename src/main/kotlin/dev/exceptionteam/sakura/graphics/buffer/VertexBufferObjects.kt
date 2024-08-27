@@ -2,6 +2,7 @@ package dev.exceptionteam.sakura.graphics.buffer
 
 import dev.exceptionteam.sakura.graphics.GlDataType
 import dev.exceptionteam.sakura.graphics.color.ColorRGB
+import dev.exceptionteam.sakura.graphics.matrix.MatrixStack
 import dev.exceptionteam.sakura.graphics.shader.PosColorShader2D
 import dev.exceptionteam.sakura.graphics.shader.PosTexShader2D
 import dev.exceptionteam.sakura.graphics.shader.Shader
@@ -15,14 +16,14 @@ object VertexBufferObjects {
 
     private val values = listOf(PosColor2D, PosTex2D)
 
-    object PosColor2D: VertexMode(
+    data object PosColor2D: VertexMode(
         PosColorShader2D, buildAttribute(12) {
             float(0, 2, GlDataType.GL_FLOAT, false)         // 8 bytes
             float(1, 4, GlDataType.GL_UNSIGNED_BYTE, true)  // 4 bytes
         }
     )
 
-    object PosTex2D: VertexMode(
+    data object PosTex2D: VertexMode(
         PosTexShader2D, buildAttribute(20) {
             float(0, 2, GlDataType.GL_FLOAT, false)         // 8 bytes
             float(1, 2, GlDataType.GL_FLOAT, false)         // 8 bytes
@@ -39,18 +40,20 @@ object VertexBufferObjects {
         private var vertexSize = 0
 
         fun vertex(x: Float, y: Float, color: ColorRGB) {
+            val position = MatrixStack.getPosition(x, y, 0f)
             val pointer = arr.ptr
-            pointer[0] = x
-            pointer[4] = y
+            pointer[0] = position.x
+            pointer[4] = position.y
             pointer[8] = color.rgba
             arr += attribute.stride.toLong()
             vertexSize++
         }
 
         fun vertex(x: Float, y: Float, u: Float, v: Float, color: ColorRGB) {
+            val position = MatrixStack.getPosition(x, y, 0f)
             val pointer = arr.ptr
-            pointer[0] = x
-            pointer[4] = y
+            pointer[0] = position.x
+            pointer[4] = position.y
             pointer[8] = u
             pointer[12] = v
             pointer[16] = color.rgba
