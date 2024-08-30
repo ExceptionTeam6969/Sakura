@@ -45,10 +45,10 @@ class FontRenderer(
     private fun drawChar(ch: Char, x: Float, y: Float, color: ColorRGB, scale: Float): Float {
         val glyph = font.getGlyph(ch)
 
-        val width = glyph.dimensions.width.toFloat() * scale
-        val height = glyph.dimensions.height.toFloat() * scale
+        val width = glyph.width * scale
+        val height = glyph.height * scale
 
-        RenderUtilsTexture.drawTextureRect(x, y, width, height, glyph.textureId, color)
+        RenderUtilsTexture.drawTextureRect(x, y, width, height, glyph.texture, color)
 //        RenderUtils2D.drawRectFilled(x, y, width, height, color)
 
         return width

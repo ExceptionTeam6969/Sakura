@@ -1,11 +1,8 @@
-package dev.exceptionteam.sakura.graphics.shader
+package dev.exceptionteam.sakura.graphics.shader.impl
 
 import dev.exceptionteam.sakura.Sakura
-import dev.exceptionteam.sakura.graphics.GlDataType
-import dev.exceptionteam.sakura.graphics.buffer.PersistentMappedVBO
-import dev.exceptionteam.sakura.graphics.buffer.VertexBufferObjects
-import dev.exceptionteam.sakura.graphics.buffer.buildAttribute
 import dev.exceptionteam.sakura.graphics.matrix.MatrixStack
+import dev.exceptionteam.sakura.graphics.shader.Shader
 import org.lwjgl.opengl.GL20.glGetUniformLocation
 
 object PosColorShader2D: Shader(

@@ -3,8 +3,7 @@ package dev.exceptionteam.sakura.graphics.buffer
 import dev.exceptionteam.sakura.graphics.GlDataType
 import dev.exceptionteam.sakura.graphics.color.ColorRGB
 import dev.exceptionteam.sakura.graphics.matrix.MatrixStack
-import dev.exceptionteam.sakura.graphics.shader.PosColorShader2D
-import dev.exceptionteam.sakura.graphics.shader.PosTexShader2D
+import dev.exceptionteam.sakura.graphics.shader.impl.*
 import dev.exceptionteam.sakura.graphics.shader.Shader
 import org.lwjgl.opengl.GL45.*
 

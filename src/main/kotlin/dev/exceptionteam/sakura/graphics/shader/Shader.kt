@@ -2,8 +2,7 @@ package dev.exceptionteam.sakura.graphics.shader
 
 import dev.exceptionteam.sakura.Sakura
 import dev.exceptionteam.sakura.graphics.GlObject
-import dev.exceptionteam.sakura.graphics.buffer.PersistentMappedVBO
-import dev.exceptionteam.sakura.graphics.buffer.VertexAttribute
+import dev.exceptionteam.sakura.graphics.shader.impl.*
 import org.joml.Matrix4f
 import org.lwjgl.BufferUtils
 import org.lwjgl.opengl.GL45.*
@@ -89,6 +88,11 @@ open class Shader(vertShaderPath: String, fragShaderPath: String) : GlObject {
 
     class ShaderCompileException(message: String): Exception(message)
 
+}
+
+fun initShaders() {
+    PosColorShader2D
+    PosTexShader2D
 }
 
 @OptIn(ExperimentalContracts::class)

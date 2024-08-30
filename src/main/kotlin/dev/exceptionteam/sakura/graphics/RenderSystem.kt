@@ -70,8 +70,8 @@ object RenderSystem {
 
     private fun preRender2d() {
         VertexBufferObjects.sync()
-        GL45.glBlendFunc(GL45.GL_SRC_ALPHA, GL45.GL_ONE_MINUS_SRC_ALPHA)
         GL45.glEnable(GL45.GL_BLEND)
+        GL45.glBlendFunc(GL45.GL_SRC_ALPHA, GL45.GL_ONE_MINUS_SRC_ALPHA)
         preFrameBuffer()
     }
 
@@ -90,11 +90,14 @@ object RenderSystem {
 
     private fun preRender3d() {
         VertexBufferObjects.sync()
+        GL45.glEnable(GL45.GL_BLEND)
+        GL45.glBlendFunc(GL45.GL_SRC_ALPHA, GL45.GL_ONE_MINUS_SRC_ALPHA)
         preFrameBuffer()
         GL45.glDisable(GL45.GL_DEPTH_TEST)
     }
 
     private fun postRender3d() {
+        GL45.glDisable(GL45.GL_BLEND)
         postFrameBuffer()
         GL45.glEnable(GL45.GL_DEPTH_TEST)
     }
