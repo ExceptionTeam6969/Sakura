@@ -24,11 +24,8 @@ object ImageUtils {
 
     /**
      * Load opengl texture from BufferedImage
-     * @return OpenGL texture id
      */
-    fun uploadImage(image: BufferedImage): Int {
-        val textureId = glGenTextures()
-        glBindTexture(GL_TEXTURE_2D, textureId)
+    fun uploadImage(image: BufferedImage) {
         glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR)
         glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR)
 
@@ -56,10 +53,6 @@ object ImageUtils {
         )
 
         glGenerateMipmap(GL_TEXTURE_2D)
-
-        glBindTexture(GL_TEXTURE_2D, 0)
-
-        return textureId
     }
 
 }

@@ -3,7 +3,6 @@ package dev.exceptionteam.sakura.graphics.font.glyphs
 import dev.exceptionteam.sakura.graphics.texture.ImageUtils
 import dev.exceptionteam.sakura.graphics.texture.Texture
 import dev.exceptionteam.sakura.utils.math.ceilToInt
-import org.lwjgl.opengl.GL45.*
 import java.awt.Color
 import java.awt.Font
 import java.awt.RenderingHints
@@ -46,9 +45,6 @@ class Glyph(
 
         texture = Texture()
         texture.use {
-            glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR)
-            glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR)
-
             ImageUtils.uploadImage(image)
         }
     }
