@@ -12,7 +12,7 @@ object RenderUtilsTexture {
         x: Float, y: Float,
         width: Float, height: Float,
         texture: Texture,
-        color: ColorRGB = ColorRGB.WHITE
+        color: ColorRGB = ColorRGB.BLACK
     ) {
         GL45.glEnable(GL45.GL_BLEND)
         GL45.glBlendFunc(GL45.GL_SRC_ALPHA, GL45.GL_ONE_MINUS_SRC_ALPHA)
@@ -21,10 +21,10 @@ object RenderUtilsTexture {
         val endY = y + height
         texture.use {
             GL45.GL_TRIANGLE_STRIP.draw(VertexBufferObjects.PosTex2D) {
-                vertex(x, endY, 0f, 1f, color)
-                vertex(endX, endY, 1f, 1f, color)
-                vertex(x, y, 0f, 0f, color)
                 vertex(endX, y, 1f, 0f, color)
+                vertex(x, y, 0f, 0f, color)
+                vertex(endX, endY, 1f, 1f, color)
+                vertex(x, endY, 0f, 1f, color)
             }
         }
     }

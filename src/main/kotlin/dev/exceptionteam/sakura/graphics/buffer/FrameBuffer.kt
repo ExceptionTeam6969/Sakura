@@ -2,13 +2,12 @@ package dev.exceptionteam.sakura.graphics.buffer
 
 import dev.exceptionteam.sakura.graphics.GlObject
 import net.minecraft.client.MinecraftClient
-import org.lwjgl.opengl.GL45
-
+import org.lwjgl.opengl.GL45.*
 
 class FrameBuffer : GlObject {
 
-    override var id: Int = GL45.glGenFramebuffers()
-    private var textureId = GL45.glGenTextures()
+    override var id: Int = glGenFramebuffers()
+    private var textureId = glGenTextures()
 
     init {
         val mc = MinecraftClient.getInstance()
@@ -16,45 +15,45 @@ class FrameBuffer : GlObject {
     }
 
     private fun allocateFrameBuffer(width: Int, height: Int) {
-        id = GL45.glGenFramebuffers()
-        textureId = GL45.glGenTextures()
+        id = glGenFramebuffers()
+        textureId = glGenTextures()
 
-        GL45.glBindFramebuffer(GL45.GL_FRAMEBUFFER, id)
-        GL45.glBindTexture(GL45.GL_TEXTURE_2D, textureId)
+        glBindFramebuffer(GL_FRAMEBUFFER, id)
+        glBindTexture(GL_TEXTURE_2D, textureId)
 
-        GL45.glTexParameteri(GL45.GL_TEXTURE_2D, GL45.GL_TEXTURE_WRAP_S, GL45.GL_CLAMP_TO_EDGE)
-        GL45.glTexParameteri(GL45.GL_TEXTURE_2D, GL45.GL_TEXTURE_WRAP_T, GL45.GL_CLAMP_TO_EDGE)
-        GL45.glTexParameteri(GL45.GL_TEXTURE_2D, GL45.GL_TEXTURE_MIN_FILTER, GL45.GL_LINEAR)
-        GL45.glTexParameteri(GL45.GL_TEXTURE_2D, GL45.GL_TEXTURE_MAG_FILTER, GL45.GL_LINEAR)
+        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE)
+        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE)
+        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR)
+        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR)
 
-        GL45.glTexImage2D(GL45.GL_TEXTURE_2D, 0, GL45.GL_RGBA8, width, height,
-            0, GL45.GL_RGBA, GL45.GL_UNSIGNED_BYTE, 0)
+        glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA8, width, height,
+            0, GL_RGBA, GL_UNSIGNED_BYTE, 0)
 
-        GL45.glBindTexture(GL45.GL_TEXTURE_2D, 0)
+        glBindTexture(GL_TEXTURE_2D, 0)
 
-        GL45.glFramebufferTexture2D(GL45.GL_FRAMEBUFFER, GL45.GL_COLOR_ATTACHMENT0, GL45.GL_TEXTURE_2D, textureId, 0)
-        GL45.glBindFramebuffer(GL45.GL_FRAMEBUFFER, 0)
+        glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_TEXTURE_2D, textureId, 0)
+        glBindFramebuffer(GL_FRAMEBUFFER, 0)
     }
 
     fun resize() {
-        GL45.glDeleteFramebuffers(id)
-        GL45.glDeleteTextures(textureId)
+        glDeleteFramebuffers(id)
+        glDeleteTextures(textureId)
 
         val mc = MinecraftClient.getInstance()
         allocateFrameBuffer(mc.window.framebufferWidth, mc.window.framebufferHeight)
     }
 
     override fun bind() {
-        GL45.glBindFramebuffer(GL45.GL_FRAMEBUFFER, id)
+        glBindFramebuffer(GL_FRAMEBUFFER, id)
     }
 
     override fun unbind() {
-        GL45.glBindFramebuffer(GL45.GL_FRAMEBUFFER, 0)
+        glBindFramebuffer(GL_FRAMEBUFFER, 0)
     }
 
     override fun delete() {
-        GL45.glDeleteFramebuffers(id)
-        GL45.glDeleteBuffers(textureId)
+        glDeleteFramebuffers(id)
+        glDeleteBuffers(textureId)
     }
 
 }

@@ -8,7 +8,7 @@ in vec4 Color;
 out vec4 FragColor;
 
 void main() {
-    vec4 texColor = texture2D(FontTexture, TexCoord);
+    vec4 texColor = texture2D(FontTexture, TexCoord).rrrr;
     if (texColor.a < 0.01f) discard;
     FragColor = Color * texColor;
 }

@@ -3,7 +3,7 @@ package dev.exceptionteam.sakura.graphics.font.glyphs
 import java.awt.Font
 
 class FontGlyphs(
-    val font: Font
+    private val font: Font
 ) {
 
     private val glyphs = hashMapOf<Char, Glyph>()

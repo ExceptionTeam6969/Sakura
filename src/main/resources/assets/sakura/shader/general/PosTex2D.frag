@@ -9,6 +9,6 @@ out vec4 FragColor;
 
 void main() {
     vec4 texColor = texture2D(FontTexture, TexCoord);
-    if (texColor.a < 0.05f) discard;
+//    if (texColor.a < 0.05f) discard;
     FragColor = Color * texColor;
 }

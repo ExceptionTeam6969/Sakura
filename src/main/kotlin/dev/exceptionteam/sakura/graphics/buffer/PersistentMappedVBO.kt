@@ -52,19 +52,16 @@ class PersistentMappedVBO(
     private var sync = 0L
 
     fun onSync() {
-        // 检查draw call是否完成 重置buffer
+        // 检查DrawCall是否完成 重置Buffer
         if (sync == 0L) {
             if (arr.pos >= arr.len / 2) {
                 sync = GL45.glFenceSync(GL45.GL_SYNC_GPU_COMMANDS_COMPLETE, 0)
             }
-        } else if (IntArray(1).apply {
-                GL45.glGetSynciv(
-                    sync,
-                    GL45.GL_SYNC_STATUS,
-                    IntArray(1),
-                    this
-                )
-            }[0] == GL45.GL_SIGNALED) {
+        } else if (
+            IntArray(1).apply {
+                GL45.glGetSynciv(sync, GL45.GL_SYNC_STATUS, IntArray(1), this)
+            }[0] == GL45.GL_SIGNALED
+        ) {
             GL45.glDeleteSync(sync)
             sync = 0L
             arr.pos = 0L
