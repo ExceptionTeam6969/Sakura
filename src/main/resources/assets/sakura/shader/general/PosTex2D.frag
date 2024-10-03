@@ -1,6 +1,6 @@
 #version 450 core
 
-layout(binding = 0) uniform sampler2D FontTexture;
+uniform sampler2D Texture;
 
 in vec2 TexCoord;
 in vec4 Color;
@@ -8,7 +8,8 @@ in vec4 Color;
 out vec4 FragColor;
 
 void main() {
-    vec4 texColor = texture2D(FontTexture, TexCoord);
-//    if (texColor.a < 0.05f) discard;
+//    vec4 texColor = vec4(texture(Texture, TexCoord).rgb, 1.0f);
+    vec4 texColor = texture(Texture, TexCoord);
+    if (texColor.a < 0.01f) discard;
     FragColor = Color * texColor;
 }

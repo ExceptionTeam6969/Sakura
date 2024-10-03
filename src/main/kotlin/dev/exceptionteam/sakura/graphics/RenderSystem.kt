@@ -12,14 +12,14 @@ import dev.exceptionteam.sakura.graphics.matrix.MatrixStack
 import net.minecraft.client.MinecraftClient
 import net.minecraft.client.gui.DrawContext
 import org.joml.Matrix4f
-import org.lwjgl.opengl.GL45
+import org.lwjgl.opengl.GL45.*
 
 object RenderSystem {
 
     // OpenGL version
-    private val glVersion = GL45.glGetString(GL45.GL_VERSION) ?: ""
-    private val gpuManufacturer = GL45.glGetString(GL45.GL_VENDOR) ?: ""
-    private val gpuName = GL45.glGetString(GL45.GL_RENDERER)?.substringBefore("/") ?: ""
+    private val glVersion = glGetString(GL_VERSION) ?: ""
+    private val gpuManufacturer = glGetString(GL_VENDOR) ?: ""
+    private val gpuName = glGetString(GL_RENDERER)?.substringBefore("/") ?: ""
 
     private val intelGraphics = glVersion.lowercase().contains("intel")
             || gpuManufacturer.lowercase().contains("intel")
@@ -70,13 +70,13 @@ object RenderSystem {
 
     private fun preRender2d() {
         VertexBufferObjects.sync()
-        GL45.glEnable(GL45.GL_BLEND)
-        GL45.glBlendFunc(GL45.GL_SRC_ALPHA, GL45.GL_ONE_MINUS_SRC_ALPHA)
+        glEnable(GL_BLEND)
+        glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA)
         preFrameBuffer()
     }
 
     private fun postRender2d() {
-        GL45.glDisable(GL45.GL_BLEND)
+        glDisable(GL_BLEND)
         postFrameBuffer()
     }
 
@@ -90,16 +90,16 @@ object RenderSystem {
 
     private fun preRender3d() {
         VertexBufferObjects.sync()
-        GL45.glEnable(GL45.GL_BLEND)
-        GL45.glBlendFunc(GL45.GL_SRC_ALPHA, GL45.GL_ONE_MINUS_SRC_ALPHA)
+        glEnable(GL_BLEND)
+        glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA)
         preFrameBuffer()
-        GL45.glDisable(GL45.GL_DEPTH_TEST)
+        glDisable(GL_DEPTH_TEST)
     }
 
     private fun postRender3d() {
-        GL45.glDisable(GL45.GL_BLEND)
+        glDisable(GL_BLEND)
         postFrameBuffer()
-        GL45.glEnable(GL45.GL_DEPTH_TEST)
+        glEnable(GL_DEPTH_TEST)
     }
 
     private fun preFrameBuffer() {
@@ -109,10 +109,10 @@ object RenderSystem {
         val wWidth = mc.window.framebufferWidth
         val wHeight = mc.window.framebufferHeight
 
-        GL45.glBindFramebuffer(GL45.GL_DRAW_FRAMEBUFFER, frameBuffer.id)
-        GL45.glBindFramebuffer(GL45.GL_READ_FRAMEBUFFER, mc.framebuffer.fbo)
-        GL45.glBlitFramebuffer(0, 0, wWidth, wHeight, 0, 0, wWidth, wHeight,
-            GL45.GL_COLOR_BUFFER_BIT, GL45.GL_NEAREST)
+        glBindFramebuffer(GL_FRAMEBUFFER, frameBuffer.id)
+        glBlitNamedFramebuffer(mc.framebuffer.fbo, frameBuffer.id,
+            0, 0, wWidth, wHeight, 0, 0, wWidth, wHeight,
+            GL_COLOR_BUFFER_BIT, GL_NEAREST)
     }
 
     private fun postFrameBuffer() {
@@ -123,11 +123,10 @@ object RenderSystem {
         val wWidth = mc.window.framebufferWidth
         val wHeight = mc.window.framebufferHeight
 
-        GL45.glBindFramebuffer(GL45.GL_DRAW_FRAMEBUFFER, mc.framebuffer.fbo)
-        GL45.glBindFramebuffer(GL45.GL_READ_FRAMEBUFFER, frameBuffer.id)
-        GL45.glBlitFramebuffer(0, 0, wWidth, wHeight, 0, 0, wWidth, wHeight,
-            GL45.GL_COLOR_BUFFER_BIT, GL45.GL_NEAREST)
-        GL45.glBindFramebuffer(GL45.GL_FRAMEBUFFER, mc.framebuffer.fbo)
+        glBindFramebuffer(GL_FRAMEBUFFER, mc.framebuffer.fbo)
+        glBlitNamedFramebuffer(frameBuffer.id, mc.framebuffer.fbo,
+            0, 0, wWidth, wHeight, 0, 0, wWidth, wHeight,
+            GL_COLOR_BUFFER_BIT, GL_NEAREST)
     }
 
 }

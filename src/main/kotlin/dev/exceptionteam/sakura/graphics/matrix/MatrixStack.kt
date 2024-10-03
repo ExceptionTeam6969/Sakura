@@ -42,4 +42,10 @@ object MatrixStack {
         return stack.last().positionMatrix.transformPosition(x, y, z, Vector3f())
     }
 
+    fun use(block: MatrixStack.() -> Unit) {
+        push()
+        this.block()
+        pop()
+    }
+
 }

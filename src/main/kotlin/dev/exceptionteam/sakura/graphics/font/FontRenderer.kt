@@ -20,24 +20,23 @@ class FontRenderer(
 
         val scale = scale0 / 32f * CustomFont.fontSize
 
-        MatrixStack.push()
+        MatrixStack.use {
+            for (i in 0 until length) {
+                if (shouldContinue) {
+                    shouldContinue = false
+                    continue
+                }
+                if (text[i] == '§' && i < length - 1) {
+                    shouldContinue = true
+                    color = getColor(text[i + 1])
+                    continue
+                }
 
-        for (i in 0 until length) {
-            if (shouldContinue) {
-                shouldContinue = false
-                continue
+                val prevWidth = drawChar(text[i], x, y, color, scale)
+
+                translate(prevWidth + 1f, 0f, 0f)
             }
-            if (text[i] == '§' && i < length - 1) {
-                shouldContinue = true
-                color = getColor(text[i + 1])
-                continue
-            }
-
-            val prevWidth = drawChar(text[i], x, y, color, scale)
-
-            MatrixStack.translate(prevWidth + 1f, 0f, 0f)
         }
-        MatrixStack.pop()
 
         GL45.glDisable(GL45.GL_LINE_SMOOTH)
     }

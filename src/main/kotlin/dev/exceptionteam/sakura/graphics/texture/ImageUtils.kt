@@ -6,13 +6,9 @@ import java.awt.image.BufferedImage
 import java.nio.IntBuffer
 
 object ImageUtils {
+    private const val BUFFER_SIZE = 1 * 1024 * 1024     // 1MB
+    private var byteBuffer = BufferUtils.createByteBuffer(BUFFER_SIZE)
 
-    private const val DEFAULT_BUFFER_SIZE = 0x800000
-    private var byteBuffer = BufferUtils.createByteBuffer(DEFAULT_BUFFER_SIZE) // Max 8 MB
-
-    /**
-     * Dynamic memory allocation
-     */
     private fun putIntArray(intArray: IntArray): IntBuffer {
         byteBuffer.asIntBuffer().apply {
             clear()
@@ -22,37 +18,26 @@ object ImageUtils {
         }
     }
 
-    /**
-     * Load opengl texture from BufferedImage
-     */
-    fun uploadImage(image: BufferedImage) {
-        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR)
-        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR)
+    fun loadImageToTexture(image: BufferedImage): Texture {
+        val tex = Texture()
 
-        val pixels = IntArray(image.width * image.height)
-        image.getRGB(0, 0, image.width, image.height, pixels, 0, image.width)
+        val width = image.width
+        val height = image.height
 
-        // BGRA TO RGBA
-        for (index in 0 until (image.width * image.height)) {
-            pixels[index] = pixels[index] and -0x1000000 or
-                    (pixels[index] and 0x00FF0000 shr 16) or
-                    (pixels[index] and 0x0000FF00) or
-                    (pixels[index] and 0x000000FF shl 16)
-        }
+        val pixels = IntArray(width * height)
+//        image.getRGB(0, 0, width, height, pixels, 0, width)
+        pixels.fill(0x000000FF.toInt())
 
-        glTexImage2D(
-            GL_TEXTURE_2D,
-            0,
-            GL_RGBA,
-            image.width,
-            image.height,
-            0,
-            GL_BGRA,
-            GL_UNSIGNED_BYTE,
-            putIntArray(pixels)
-        )
+        glTextureStorage2D(tex.id, 1, GL_RGBA8, width, height)
+        glTextureSubImage2D(tex.id, 0, 0, 0, width, height,
+            GL_RGBA, GL_UNSIGNED_BYTE, putIntArray(pixels))
 
-        glGenerateMipmap(GL_TEXTURE_2D)
+        glTextureParameteri(tex.id, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE)
+        glTextureParameteri(tex.id, GL_TEXTURE_MIN_FILTER, GL_LINEAR)
+        glTextureParameteri(tex.id, GL_TEXTURE_MAG_FILTER, GL_LINEAR)
+        glTextureParameteri(tex.id, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE)
+
+        return tex
     }
 
 }

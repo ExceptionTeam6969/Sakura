@@ -48,7 +48,7 @@ object VertexBufferObjects {
             vertexSize++
         }
 
-        fun vertex(x: Float, y: Float, u: Float, v: Float, color: ColorRGB) {
+        fun texture(x: Float, y: Float, u: Float, v: Float, color: ColorRGB) {
             val position = MatrixStack.getPosition(x, y, 0f)
             val pointer = arr.ptr
             pointer[0] = position.x

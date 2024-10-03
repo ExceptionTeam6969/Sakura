@@ -3,16 +3,16 @@ package dev.exceptionteam.sakura.graphics.texture
 import dev.exceptionteam.sakura.graphics.GlObject
 import org.lwjgl.opengl.GL45.*
 
-class Texture: GlObject {
-    override var id: Int = glGenTextures()
+class Texture(val type: Int = GL_TEXTURE_2D): GlObject {
+
+    override var id: Int = glCreateTextures(type)
 
     override fun bind() {
-        glActiveTexture(GL_TEXTURE0)
-        glBindTexture(GL_TEXTURE_2D, id)
+        glBindTextureUnit(0, id)
     }
 
     override fun unbind() {
-        glBindTexture(GL_TEXTURE_2D, 0)
+        glBindTexture(type, 0)
     }
 
     override fun delete() {

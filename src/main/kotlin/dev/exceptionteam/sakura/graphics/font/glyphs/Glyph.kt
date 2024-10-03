@@ -3,6 +3,7 @@ package dev.exceptionteam.sakura.graphics.font.glyphs
 import dev.exceptionteam.sakura.graphics.texture.ImageUtils
 import dev.exceptionteam.sakura.graphics.texture.Texture
 import dev.exceptionteam.sakura.utils.math.ceilToInt
+import org.lwjgl.opengl.GL45
 import java.awt.Color
 import java.awt.Font
 import java.awt.RenderingHints
@@ -43,10 +44,7 @@ class Glyph(
         g2d.drawString(char.toString(), 0, g2d.fontMetrics.ascent)
         g2d.dispose()
 
-        texture = Texture()
-        texture.use {
-            ImageUtils.uploadImage(image)
-        }
+        texture = ImageUtils.loadImageToTexture(image)
     }
 
     fun destroy() {

@@ -6,8 +6,8 @@ import org.lwjgl.opengl.GL45.*
 
 class FrameBuffer : GlObject {
 
-    override var id: Int = glGenFramebuffers()
-    private var textureId = glGenTextures()
+    override var id: Int = glCreateFramebuffers()
+    private var colorAttachment = glCreateTextures(GL_TEXTURE_2D)
 
     init {
         val mc = MinecraftClient.getInstance()
@@ -15,29 +15,26 @@ class FrameBuffer : GlObject {
     }
 
     private fun allocateFrameBuffer(width: Int, height: Int) {
-        id = glGenFramebuffers()
-        textureId = glGenTextures()
+        id = glCreateFramebuffers()
+        colorAttachment = glCreateTextures(GL_TEXTURE_2D)
 
-        glBindFramebuffer(GL_FRAMEBUFFER, id)
-        glBindTexture(GL_TEXTURE_2D, textureId)
+        glTextureParameteri(colorAttachment, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE)
+        glTextureParameteri(colorAttachment, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE)
+        glTextureParameteri(colorAttachment, GL_TEXTURE_MIN_FILTER, GL_LINEAR)
+        glTextureParameteri(colorAttachment, GL_TEXTURE_MAG_FILTER, GL_LINEAR)
 
-        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE)
-        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE)
-        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR)
-        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR)
+        glTextureStorage2D(colorAttachment, 1, GL_RGBA8, width, height)
 
-        glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA8, width, height,
-            0, GL_RGBA, GL_UNSIGNED_BYTE, 0)
+        glNamedFramebufferTexture(id, GL_COLOR_ATTACHMENT0, colorAttachment, 0)
 
-        glBindTexture(GL_TEXTURE_2D, 0)
-
-        glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_TEXTURE_2D, textureId, 0)
-        glBindFramebuffer(GL_FRAMEBUFFER, 0)
+        if (glCheckNamedFramebufferStatus(id, GL_FRAMEBUFFER) != GL_FRAMEBUFFER_COMPLETE) {
+            throw IllegalStateException("Could not create frame buffer")
+        }
     }
 
     fun resize() {
         glDeleteFramebuffers(id)
-        glDeleteTextures(textureId)
+        glDeleteTextures(colorAttachment)
 
         val mc = MinecraftClient.getInstance()
         allocateFrameBuffer(mc.window.framebufferWidth, mc.window.framebufferHeight)
@@ -53,7 +50,7 @@ class FrameBuffer : GlObject {
 
     override fun delete() {
         glDeleteFramebuffers(id)
-        glDeleteBuffers(textureId)
+        glDeleteBuffers(colorAttachment)
     }
 
 }

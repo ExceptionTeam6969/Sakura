@@ -78,12 +78,12 @@ open class Shader(vertShaderPath: String, fragShaderPath: String) : GlObject {
     // matrix4f
     protected fun set(location: Int, mat: Matrix4f) {
         mat.get(buffer)
-        glUniformMatrix4fv(location, false, buffer)
+        glProgramUniformMatrix4fv(id, location, false, buffer)
     }
 
     // sampler2D
     protected fun set(location: Int, textureUnit: Int) {
-        glUniform1i(location, textureUnit)
+        glProgramUniform1i(id, location, textureUnit)
     }
 
     class ShaderCompileException(message: String): Exception(message)
