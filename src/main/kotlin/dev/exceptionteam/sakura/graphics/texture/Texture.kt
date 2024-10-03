@@ -8,7 +8,8 @@ class Texture(val type: Int = GL_TEXTURE_2D): GlObject {
     override var id: Int = glCreateTextures(type)
 
     override fun bind() {
-        glBindTextureUnit(0, id)
+        glBindTexture(type, id)
+//        glBindTextureUnit(0, id)
     }
 
     override fun unbind() {
