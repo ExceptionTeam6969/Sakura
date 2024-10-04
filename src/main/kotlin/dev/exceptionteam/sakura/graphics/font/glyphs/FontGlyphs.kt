@@ -9,10 +9,7 @@ class FontGlyphs(
     private val glyphs = hashMapOf<Char, Glyph>()
 
     fun getGlyph(char: Char): Glyph {
-        glyphs[char]?.let { return it }
-        val glyph = Glyph(font, char)
-        glyphs[char] = glyph
-        return glyph
+        return glyphs.getOrPut(char) { Glyph(font, char) }
     }
 
     fun destroy() {

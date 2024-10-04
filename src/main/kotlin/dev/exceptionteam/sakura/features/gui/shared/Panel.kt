@@ -34,7 +34,7 @@ class Panel(
 
         RenderUtils2D.drawRectFilled(x, y, width, height, ColorRGB.WHITE)
 
-        FontRenderers.default.drawString(category.displayString, x + 5f, y + 2f, ColorRGB.GREEN)
+        FontRenderers.default.drawString(category.displayString, x + 5f, y + 2f, ColorRGB.BLACK)
 
         if (!isOpening) return
 
