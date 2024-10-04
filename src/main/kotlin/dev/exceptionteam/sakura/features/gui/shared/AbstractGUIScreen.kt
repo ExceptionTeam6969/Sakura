@@ -8,8 +8,8 @@ abstract class AbstractGUIScreen(
 ): Screen(Text.literal("Sakura-$name")) {
 
     companion object {
-        const val WIDTH = 160f
-        const val HEIGHT = 20f
+        const val WIDTH = 140f
+        const val HEIGHT = 18f
     }
 
     override fun shouldCloseOnEsc(): Boolean = true

@@ -7,7 +7,8 @@ import org.lwjgl.opengl.GL45.*
 class FrameBuffer : GlObject {
 
     override var id: Int = glCreateFramebuffers()
-    private var colorAttachment = glCreateTextures(GL_TEXTURE_2D)
+    var colorAtt = glCreateRenderbuffers() ;private set
+    var depthStencilAtt = glCreateRenderbuffers() ;private set
 
     init {
         val mc = MinecraftClient.getInstance()
@@ -16,16 +17,16 @@ class FrameBuffer : GlObject {
 
     private fun allocateFrameBuffer(width: Int, height: Int) {
         id = glCreateFramebuffers()
-        colorAttachment = glCreateTextures(GL_TEXTURE_2D)
+        colorAtt = glCreateRenderbuffers()
+        depthStencilAtt = glCreateRenderbuffers()
 
-        glTextureParameteri(colorAttachment, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE)
-        glTextureParameteri(colorAttachment, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE)
-        glTextureParameteri(colorAttachment, GL_TEXTURE_MIN_FILTER, GL_LINEAR)
-        glTextureParameteri(colorAttachment, GL_TEXTURE_MAG_FILTER, GL_LINEAR)
+        /* Color Attachment */
+        glNamedRenderbufferStorage(colorAtt, GL_RGBA8, width, height)
+        glNamedFramebufferRenderbuffer(id, GL_COLOR_ATTACHMENT0, GL_RENDERBUFFER, colorAtt)
 
-        glTextureStorage2D(colorAttachment, 1, GL_RGBA8, width, height)
-
-        glNamedFramebufferTexture(id, GL_COLOR_ATTACHMENT0, colorAttachment, 0)
+        /* Depth Attachment & Stencil Attachment */
+        glNamedRenderbufferStorage(depthStencilAtt, GL_DEPTH24_STENCIL8, width, height)
+        glNamedFramebufferRenderbuffer(id, GL_DEPTH_STENCIL_ATTACHMENT, GL_RENDERBUFFER, depthStencilAtt)
 
         if (glCheckNamedFramebufferStatus(id, GL_FRAMEBUFFER) != GL_FRAMEBUFFER_COMPLETE) {
             throw IllegalStateException("Could not create frame buffer")
@@ -34,7 +35,8 @@ class FrameBuffer : GlObject {
 
     fun resize() {
         glDeleteFramebuffers(id)
-        glDeleteTextures(colorAttachment)
+        glDeleteRenderbuffers(colorAtt)
+        glDeleteRenderbuffers(depthStencilAtt)
 
         val mc = MinecraftClient.getInstance()
         allocateFrameBuffer(mc.window.framebufferWidth, mc.window.framebufferHeight)
@@ -50,7 +52,8 @@ class FrameBuffer : GlObject {
 
     override fun delete() {
         glDeleteFramebuffers(id)
-        glDeleteBuffers(colorAttachment)
+        glDeleteRenderbuffers(colorAtt)
+        glDeleteRenderbuffers(depthStencilAtt)
     }
 
 }
