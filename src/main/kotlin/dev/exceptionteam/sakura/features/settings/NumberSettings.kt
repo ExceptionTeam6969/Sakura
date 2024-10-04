@@ -1,7 +1,9 @@
 package dev.exceptionteam.sakura.features.settings
 
+import dev.exceptionteam.sakura.translation.TranslationString
+
 abstract class NumberSetting<N>(
-    name: CharSequence,
+    name: TranslationString,
     value: N,
     val minValue: N,
     val maxValue: N,
@@ -11,7 +13,7 @@ abstract class NumberSetting<N>(
 ) : AbstractSetting<N>(name, value, description, visibility) where N: Number
 
 class IntSetting(
-    name: CharSequence,
+    name: TranslationString,
     value: Int,
     minValue: Int,
     maxValue: Int,
@@ -21,7 +23,7 @@ class IntSetting(
 ) : NumberSetting<Int>(name, value, minValue, maxValue, step, description, visibility)
 
 class LongSetting(
-    name: CharSequence,
+    name: TranslationString,
     value: Long,
     minValue: Long,
     maxValue: Long,
@@ -31,7 +33,7 @@ class LongSetting(
 ) : NumberSetting<Long>(name, value, minValue, maxValue, step, description, visibility)
 
 class FloatSetting(
-    name: CharSequence,
+    name: TranslationString,
     value: Float,
     minValue: Float,
     maxValue: Float,
@@ -41,7 +43,7 @@ class FloatSetting(
 ) : NumberSetting<Float>(name, value, minValue, maxValue, step, description, visibility)
 
 class DoubleSetting(
-    name: CharSequence,
+    name: TranslationString,
     value: Double,
     minValue: Double,
     maxValue: Double,

@@ -8,6 +8,7 @@ object Managers {
     fun init() {
         NonNullContext
 
+        TranslationManager.onInit()
         GraphicsManager.onInit()
         ModuleManager.onInit()
     }

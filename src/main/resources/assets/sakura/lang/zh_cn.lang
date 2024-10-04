@@ -1,0 +1,23 @@
+# Category
+category.combat=战斗
+category.misc=其他
+category.movement=移动
+category.player=玩家
+category.render=渲染
+category.client=客户端
+category.hud=界面
+
+settings.toggle=开关
+settings.key-bind=按键绑定
+
+# Modules
+modules.click-gui=配置界面
+modules.click-gui.background=背景
+
+modules.chat-info=聊天栏信息
+
+modules.custom-font=自定义字体
+modules.custom-font.font-size=字体大小
+
+modules.render-system=渲染系统
+modules.render-system.frame-buffer=帧缓冲

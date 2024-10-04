@@ -7,13 +7,13 @@ import dev.exceptionteam.sakura.utils.threads.runSafe
 import org.lwjgl.glfw.GLFW
 
 object ClickGUI: Module(
-    name = "ClickGUI",
+    name = "click-gui",
     description = "",
     category = Category.CLIENT,
     defaultBind = GLFW.GLFW_KEY_RIGHT_SHIFT
 ) {
 
-    val background by setting("Background", true)
+    val background by setting("background", true)
 
     init {
 

@@ -2,6 +2,7 @@ package dev.exceptionteam.sakura.features.settings
 
 import dev.exceptionteam.sakura.utils.control.KeyBind
 import dev.exceptionteam.sakura.graphics.color.ColorRGB
+import dev.exceptionteam.sakura.translation.TranslationString
 import org.lwjgl.glfw.GLFW
 
 interface SettingsDesigner<T : Any> {
@@ -11,28 +12,28 @@ interface SettingsDesigner<T : Any> {
         value: Boolean = true,
         descriptions: CharSequence = "",
         visibility: () -> Boolean = { true }
-    ) = setting(BooleanSetting(name, value, descriptions, visibility))
+    ) = setting(BooleanSetting(TranslationString("", name.toString()), value, descriptions, visibility))
 
     fun T.setting(
         name: CharSequence,
         value: String,
         descriptions: CharSequence = "",
         visibility: () -> Boolean = { true }
-    ) = setting(TextSetting(name, value, descriptions, visibility))
+    ) = setting(TextSetting(TranslationString("", name.toString()), value, descriptions, visibility))
 
     fun T.setting(
         name: CharSequence,
         value: ColorRGB,
         descriptions: CharSequence = "",
         visibility: () -> Boolean = { true }
-    ) = setting(ColorSetting(name, value, descriptions, visibility))
+    ) = setting(ColorSetting(TranslationString("", name.toString()), value, descriptions, visibility))
 
     fun <E> T.setting(
         name: CharSequence,
         value: E,
         descriptions: CharSequence = "",
         visibility: () -> Boolean = { true }
-    ) where E : Enum<E> = setting(EnumSetting(name, value, descriptions, visibility))
+    ) where E : Enum<E> = setting(EnumSetting(TranslationString("", name.toString()), value, descriptions, visibility))
 
     fun T.setting(
         name: CharSequence,
@@ -40,7 +41,7 @@ interface SettingsDesigner<T : Any> {
         type: KeyBind.Type = KeyBind.Type.KEYBOARD,
         descriptions: CharSequence = "",
         visibility: () -> Boolean = { true }
-    ) = setting(KeyBindSetting(name, KeyBind(type, value), descriptions, visibility))
+    ) = setting(KeyBindSetting(TranslationString("", name.toString()), KeyBind(type, value), descriptions, visibility))
 
     fun T.setting(
         name: CharSequence,
@@ -49,7 +50,7 @@ interface SettingsDesigner<T : Any> {
         step: Int = 1,
         descriptions: CharSequence = "",
         visibility: () -> Boolean = { true }
-    ) = setting(IntSetting(name, value, range.first, range.last, step, descriptions, visibility))
+    ) = setting(IntSetting(TranslationString("", name.toString()), value, range.first, range.last, step, descriptions, visibility))
 
     fun T.setting(
         name: CharSequence,
@@ -58,7 +59,7 @@ interface SettingsDesigner<T : Any> {
         step: Long = 1L,
         descriptions: CharSequence = "",
         visibility: () -> Boolean = { true }
-    ) = setting(LongSetting(name, value, range.first, range.last, step, descriptions, visibility))
+    ) = setting(LongSetting(TranslationString("", name.toString()), value, range.first, range.last, step, descriptions, visibility))
 
     fun T.setting(
         name: CharSequence,
@@ -67,7 +68,7 @@ interface SettingsDesigner<T : Any> {
         step: Float = 0.1f,
         descriptions: CharSequence = "",
         visibility: () -> Boolean = { true }
-    ) = setting(FloatSetting(name, value, range.start, range.endInclusive, step, descriptions, visibility))
+    ) = setting(FloatSetting(TranslationString("", name.toString()), value, range.start, range.endInclusive, step, descriptions, visibility))
 
     fun T.setting(
         name: CharSequence,
@@ -76,7 +77,7 @@ interface SettingsDesigner<T : Any> {
         step: Double = 0.01,
         descriptions: CharSequence = "",
         visibility: () -> Boolean = { true }
-    ) = setting(DoubleSetting(name, value, range.start, range.endInclusive, step, descriptions, visibility))
+    ) = setting(DoubleSetting(TranslationString("", name.toString()), value, range.start, range.endInclusive, step, descriptions, visibility))
 
     fun <S : AbstractSetting<*>> T.setting(setting: S): S
 }

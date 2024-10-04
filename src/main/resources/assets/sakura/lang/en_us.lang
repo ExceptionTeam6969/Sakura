@@ -1,0 +1,21 @@
+category.combat=Combat
+category.misc=Misc
+category.movement=Movement
+category.player=Player
+category.render=Render
+category.client=Client
+category.hud=HUD
+
+settings.toggle=Toggle
+settings.key-bind=Key Bind
+
+modules.click-gui=Click GUI
+modules.click-gui.background=Background
+
+modules.chat-info=Chat Info
+
+modules.custom-font=Custom Font
+modules.custom-font.font-size=Font Size
+
+modules.render-system=Render System
+modules.render-system.frame-buffer=Frame Buffer

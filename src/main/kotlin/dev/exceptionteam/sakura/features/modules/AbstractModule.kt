@@ -3,6 +3,7 @@ package dev.exceptionteam.sakura.features.modules
 import dev.exceptionteam.sakura.events.EventBus
 import dev.exceptionteam.sakura.features.modules.impl.client.ChatInfo
 import dev.exceptionteam.sakura.features.settings.*
+import dev.exceptionteam.sakura.translation.TranslationString
 import dev.exceptionteam.sakura.utils.control.KeyBind
 import dev.exceptionteam.sakura.utils.ingame.ChatUtils
 import dev.exceptionteam.sakura.utils.threads.runSafe
@@ -22,11 +23,13 @@ abstract class AbstractModule(
 
     val settings = CopyOnWriteArrayList<AbstractSetting<*>>()
 
-    private val toggleSetting0 = BooleanSetting("Toggle", false) { false }
+    private val toggleSetting0 = BooleanSetting(
+        TranslationString("settings.toggle", "toggle"), false) { false }
     var isEnabled by toggleSetting0
     val isDisabled get() = !isEnabled
 
-    private val keyBind0 = KeyBindSetting("KeyBind", KeyBind(KeyBind.Type.KEYBOARD, defaultBind, 1))
+    private val keyBind0 = KeyBindSetting(
+        TranslationString("settings.toggle", "key-bind"), KeyBind(KeyBind.Type.KEYBOARD, defaultBind, 1))
     val keyBind by keyBind0
 
     init {
@@ -78,7 +81,10 @@ abstract class AbstractModule(
     }
 
     override fun <S : AbstractSetting<*>> AbstractModule.setting(setting: S): S {
-        return setting.apply { settings.add(setting) }
+        return setting.apply {
+            this.key.prefix = "modules.$name"
+            settings.add(this)
+        }
     }
 
 }

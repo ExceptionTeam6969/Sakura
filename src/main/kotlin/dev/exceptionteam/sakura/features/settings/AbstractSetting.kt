@@ -2,12 +2,13 @@ package dev.exceptionteam.sakura.features.settings
 
 import com.google.gson.JsonElement
 import dev.exceptionteam.sakura.graphics.color.ColorRGB
+import dev.exceptionteam.sakura.translation.TranslationString
 import java.util.concurrent.CopyOnWriteArrayList
 import kotlin.properties.ReadWriteProperty
 import kotlin.reflect.KProperty
 
 abstract class AbstractSetting<T>(
-    var name: CharSequence,
+    var key: TranslationString,
     var value: T,
     var description: CharSequence,
     var visibility: () -> Boolean
@@ -18,7 +19,7 @@ abstract class AbstractSetting<T>(
     private val changeValueConsumers = CopyOnWriteArrayList<() -> Unit>()
 
     val settingId: String
-        get() = "$name@${this::class.simpleName}"
+        get() = "$key@${this::class.simpleName}"
 
     override fun getValue(thisRef: Any, property: KProperty<*>): T {
         return value
@@ -37,8 +38,8 @@ abstract class AbstractSetting<T>(
     }
 
     //Builder
-    fun name(name: CharSequence): AbstractSetting<T> {
-        this.name = name
+    fun key(key: TranslationString): AbstractSetting<T> {
+        this.key = key
         return this
     }
 

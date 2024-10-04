@@ -1,15 +1,15 @@
 package dev.exceptionteam.sakura.features.modules
 
-import dev.exceptionteam.sakura.utils.interfaces.DisplayEnum
+import dev.exceptionteam.sakura.utils.interfaces.TranslationEnum
 
-enum class Category(override val displayName: CharSequence): DisplayEnum {
+enum class Category(override val key: CharSequence): TranslationEnum {
 
-    COMBAT("Combat"),
-    MISC("Misc"),
-    MOVEMENT("Movement"),
-    PLAYER("Player"),
-    RENDER("Render"),
-    CLIENT("Client"),
-    HUD("HUD")
+    COMBAT("category.combat"),
+    MISC("category.misc"),
+    MOVEMENT("category.movement"),
+    PLAYER("category.player"),
+    RENDER("category.render"),
+    CLIENT("category.client"),
+    HUD("category.hud")
 
 }
