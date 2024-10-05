@@ -35,12 +35,18 @@ abstract class Window(x: Float, y: Float, width: Float, height: Float) : Abstrac
     }
 
     override fun mouseClicked(type: MouseButtonType): Boolean {
-//        TODO Event Delivery
-        return false
+        val processed = components.firstOrNull {
+            it.mouseClicked(type)
+        } != null
+
+        return processed
     }
 
     override fun mouseReleased(type: MouseButtonType): Boolean {
-//        TODO Event Delivery
-        return false
+        val processed = components.firstOrNull {
+            it.mouseReleased(type)
+        } != null
+
+        return processed
     }
 }

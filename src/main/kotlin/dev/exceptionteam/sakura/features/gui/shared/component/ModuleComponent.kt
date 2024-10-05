@@ -17,7 +17,7 @@ class ModuleComponent(
 
         FontRenderers.default.drawString(
             module.name.translation,
-            x + 5f, y + 10f,
+            x + 5f, y + 4f,
             ColorRGB.BLACK
         )
     }
