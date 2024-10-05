@@ -11,7 +11,7 @@ import net.minecraft.util.Formatting
 import java.util.concurrent.CopyOnWriteArrayList
 
 abstract class AbstractModule(
-    val name: String,
+    val name: TranslationString,
     val category: Category,
     val description: String,
     defaultEnable: Boolean,
@@ -48,14 +48,14 @@ abstract class AbstractModule(
         enableCustomers.add {
             EventBus.subscribe(this)
             runSafe {
-                if (ChatInfo.isEnabled) ChatUtils.sendMessageWithID("$name ${Formatting.GREEN}Enabled", 1337)
+                if (ChatInfo.isEnabled) ChatUtils.sendMessageWithID("${name.translation} ${Formatting.GREEN}Enabled", 1337)
             }
         }
 
         disableCustomers.add {
             EventBus.unsubscribe(this)
             runSafe {
-                if (ChatInfo.isEnabled) ChatUtils.sendMessageWithID("$name ${Formatting.RED}Disabled", 1337)
+                if (ChatInfo.isEnabled) ChatUtils.sendMessageWithID("${name.translation} ${Formatting.RED}Disabled", 1337)
             }
         }
 
@@ -82,7 +82,7 @@ abstract class AbstractModule(
 
     override fun <S : AbstractSetting<*>> AbstractModule.setting(setting: S): S {
         return setting.apply {
-            this.key.prefix = "modules.$name"
+            this.key.prefix = name.fullKey
             settings.add(this)
         }
     }

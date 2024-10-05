@@ -11,7 +11,7 @@ class ModuleComponent(
 
     override fun render() {
         FontRenderers.default.drawString(
-            module.name,
+            module.name.translation,
             x + 5f, y + 10f,
             ColorRGB.BLACK
         )

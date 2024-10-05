@@ -1,5 +1,7 @@
 package dev.exceptionteam.sakura.features.modules
 
+import dev.exceptionteam.sakura.translation.TranslationString
+
 abstract class Module(
     name: String,
     category: Category,
@@ -7,7 +9,7 @@ abstract class Module(
     defaultEnable: Boolean = false,
     defaultBind: Int = -1
 ): AbstractModule(
-    name,
+    TranslationString("modules", name),
     category,
     description,
     defaultEnable,
