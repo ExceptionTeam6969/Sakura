@@ -27,6 +27,7 @@ abstract class Window(x: Float, y: Float, width: Float, height: Float) : Abstrac
 
     override fun render() {
         RenderUtils2D.drawRectFilled(x, y, width, height, ColorRGB.WHITE)
+        RenderUtils2D.drawRectOutline(x, y, width, height, ColorRGB.BLACK)
 
         components.forEach {
             it.render()

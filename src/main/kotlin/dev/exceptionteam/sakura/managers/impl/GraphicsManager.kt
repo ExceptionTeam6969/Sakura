@@ -2,7 +2,6 @@ package dev.exceptionteam.sakura.managers.impl
 
 import dev.exceptionteam.sakura.graphics.RenderSystem
 import dev.exceptionteam.sakura.graphics.RenderUtils2D
-import dev.exceptionteam.sakura.graphics.RenderUtilsTexture
 import dev.exceptionteam.sakura.graphics.buffer.VertexBufferObjects
 import dev.exceptionteam.sakura.graphics.font.FontRenderers
 import dev.exceptionteam.sakura.graphics.shader.initShaders
@@ -21,7 +20,6 @@ object GraphicsManager {
             FontRenderers
             // Utils
             RenderUtils2D
-            RenderUtilsTexture
         }
     }
 

@@ -16,4 +16,15 @@ object RenderUtils2D {
         }
     }
 
+    fun drawRectOutline(x: Float, y: Float, width: Float, height: Float, color: ColorRGB) {
+        GL45.glEnable(GL45.GL_LINE_SMOOTH)
+        GL45.GL_LINE_LOOP.draw(VertexBufferObjects.PosColor2D) {
+            vertex(x, y, color)
+            vertex(x + width, y, color)
+            vertex(x + width, y + height, color)
+            vertex(x, y + height, color)
+        }
+        GL45.glDisable(GL45.GL_LINE_SMOOTH)
+    }
+
 }
