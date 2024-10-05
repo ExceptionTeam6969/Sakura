@@ -11,6 +11,9 @@ This code is licensed under the GNU General Public License v3. You may use code 
 ## Bugs & Suggestions
 If you find any bugs or have suggestions for the client, please open an issue on this repository.
 
+## Discord
+Discord server link: [https://discord.gg/89Kf27C9QB](https://discord.gg/CFxnhyaFMM)
+
 ## Thanks
 - https://github.com/MeteorDevelopment/meteor-client
 - https://github.com/SpartanB312/AimTrainer
