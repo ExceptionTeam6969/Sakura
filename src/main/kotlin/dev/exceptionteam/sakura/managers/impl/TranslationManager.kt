@@ -1,10 +1,9 @@
 package dev.exceptionteam.sakura.managers.impl
 
-import dev.exceptionteam.sakura.managers.AbstractManager
 import dev.exceptionteam.sakura.translation.TranslationKey
 import dev.exceptionteam.sakura.translation.TranslationMap
 
-object TranslationManager: AbstractManager() {
+object TranslationManager {
 
     const val DEFAULT_LANGUAGE = "en_us"
 

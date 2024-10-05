@@ -7,13 +7,12 @@ import dev.exceptionteam.sakura.features.modules.impl.client.ChatInfo
 import dev.exceptionteam.sakura.features.modules.impl.client.ClickGUI
 import dev.exceptionteam.sakura.features.modules.impl.client.CustomFont
 import dev.exceptionteam.sakura.features.modules.impl.client.RenderSystemMod
-import dev.exceptionteam.sakura.managers.AbstractManager
 
-object ModuleManager: AbstractManager() {
+object ModuleManager {
 
     lateinit var modules: Array<AbstractModule>
 
-    override fun onInit() {
+    init {
         nonNullListener<KeyEvent>(Int.MIN_VALUE, true) { event ->
             modules.forEach {
                 if (it.keyBind == event.keyBind && event.action == 1) it.toggle()

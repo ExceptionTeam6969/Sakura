@@ -15,7 +15,7 @@ object Sakura {
 
     @JvmStatic
     fun init() {
-        Managers.init()
+        Managers
     }
 
 }

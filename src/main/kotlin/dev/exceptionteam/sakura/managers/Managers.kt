@@ -5,12 +5,13 @@ import dev.exceptionteam.sakura.managers.impl.*
 
 object Managers {
 
-    fun init() {
+    init {
         NonNullContext
 
-        TranslationManager.onInit()
-        GraphicsManager.onInit()
-        ModuleManager.onInit()
+        TranslationManager
+        GraphicsManager
+        ModuleManager
+        ConfigManager
     }
 
 }
