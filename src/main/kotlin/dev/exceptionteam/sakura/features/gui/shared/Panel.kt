@@ -35,7 +35,6 @@ class Panel(
     }
 
     fun render(mouseX: Float, mouseY: Float) {
-
         checkHovering(mouseX, mouseY)
 
         if (isDragging) {
@@ -55,7 +54,6 @@ class Panel(
 
         moduleComponents.forEach {
             it.mouseX = mouseX; it.mouseY = mouseY
-            it.checkHovering()
             it.render()
         }
     }
