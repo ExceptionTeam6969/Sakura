@@ -6,7 +6,11 @@ data class TranslationString(
     var prefix: String,
     val key: String
 ) {
-    val fullKey: String = "$prefix.$key"
+    var fullKey: String = "$prefix.$key" ;private set
 
     val translation: String get() = TranslationManager.getTranslation(fullKey)
+
+    fun updateKey() {
+        fullKey = "$prefix.$key"
+    }
 }

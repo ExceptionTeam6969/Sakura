@@ -4,7 +4,6 @@ import dev.exceptionteam.sakura.features.modules.Category
 import dev.exceptionteam.sakura.features.modules.Module
 
 class Test: Module(
-    name = "Test",
-    category = Category.MOVEMENT,
-    "Empty"
+    name = "test",
+    category = Category.MOVEMENT
 )

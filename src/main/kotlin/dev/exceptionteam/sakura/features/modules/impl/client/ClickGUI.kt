@@ -8,7 +8,6 @@ import org.lwjgl.glfw.GLFW
 
 object ClickGUI: Module(
     name = "click-gui",
-    description = "",
     category = Category.CLIENT,
     defaultBind = GLFW.GLFW_KEY_RIGHT_SHIFT
 ) {

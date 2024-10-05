@@ -8,9 +8,8 @@ abstract class NumberSetting<N>(
     val minValue: N,
     val maxValue: N,
     val step: N,
-    description: CharSequence,
     visibility: () -> Boolean
-) : AbstractSetting<N>(name, value, description, visibility) where N: Number
+) : AbstractSetting<N>(name, value, visibility) where N: Number
 
 class IntSetting(
     name: TranslationString,
@@ -18,9 +17,8 @@ class IntSetting(
     minValue: Int,
     maxValue: Int,
     step: Int,
-    description: CharSequence,
     visibility: () -> Boolean
-) : NumberSetting<Int>(name, value, minValue, maxValue, step, description, visibility)
+) : NumberSetting<Int>(name, value, minValue, maxValue, step, visibility)
 
 class LongSetting(
     name: TranslationString,
@@ -28,9 +26,8 @@ class LongSetting(
     minValue: Long,
     maxValue: Long,
     step: Long,
-    description: CharSequence,
     visibility: () -> Boolean
-) : NumberSetting<Long>(name, value, minValue, maxValue, step, description, visibility)
+) : NumberSetting<Long>(name, value, minValue, maxValue, step, visibility)
 
 class FloatSetting(
     name: TranslationString,
@@ -38,9 +35,8 @@ class FloatSetting(
     minValue: Float,
     maxValue: Float,
     step: Float,
-    description: CharSequence,
     visibility: () -> Boolean
-) : NumberSetting<Float>(name, value, minValue, maxValue, step, description, visibility)
+) : NumberSetting<Float>(name, value, minValue, maxValue, step, visibility)
 
 class DoubleSetting(
     name: TranslationString,
@@ -48,6 +44,5 @@ class DoubleSetting(
     minValue: Double,
     maxValue: Double,
     step: Double,
-    description: CharSequence,
     visibility: () -> Boolean
-) : NumberSetting<Double>(name, value, minValue, maxValue, step, description, visibility)
+) : NumberSetting<Double>(name, value, minValue, maxValue, step, visibility)

@@ -10,7 +10,6 @@ import kotlin.reflect.KProperty
 abstract class AbstractSetting<T>(
     var key: TranslationString,
     var value: T,
-    var description: CharSequence,
     var visibility: () -> Boolean
 ) : ReadWriteProperty<Any, T> {
 
@@ -46,11 +45,6 @@ abstract class AbstractSetting<T>(
     fun value(value: T): AbstractSetting<T> {
         this.value = value
         changeValueConsumers.forEach { it.invoke() }
-        return this
-    }
-
-    fun description(desc: CharSequence): AbstractSetting<T> {
-        this.description = desc
         return this
     }
 

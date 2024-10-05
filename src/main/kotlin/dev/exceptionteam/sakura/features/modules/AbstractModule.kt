@@ -13,7 +13,7 @@ import java.util.concurrent.CopyOnWriteArrayList
 abstract class AbstractModule(
     val name: TranslationString,
     val category: Category,
-    val description: String,
+    val description: TranslationString,
     defaultEnable: Boolean,
     defaultBind: Int
 ): SettingsDesigner<AbstractModule> {
@@ -24,12 +24,12 @@ abstract class AbstractModule(
     val settings = CopyOnWriteArrayList<AbstractSetting<*>>()
 
     private val toggleSetting0 = BooleanSetting(
-        TranslationString("settings.toggle", "toggle"), false) { false }
+        TranslationString("settings", "toggle"), false) { false }
     var isEnabled by toggleSetting0
     val isDisabled get() = !isEnabled
 
     private val keyBind0 = KeyBindSetting(
-        TranslationString("settings.toggle", "key-bind"), KeyBind(KeyBind.Type.KEYBOARD, defaultBind, 1))
+        TranslationString("settings", "key-bind"), KeyBind(KeyBind.Type.KEYBOARD, defaultBind, 1))
     val keyBind by keyBind0
 
     init {
@@ -83,6 +83,7 @@ abstract class AbstractModule(
     override fun <S : AbstractSetting<*>> AbstractModule.setting(setting: S): S {
         return setting.apply {
             this.key.prefix = name.fullKey
+            this.key.updateKey()
             settings.add(this)
         }
     }

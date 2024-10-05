@@ -9,13 +9,19 @@ category.hud=HUD
 settings.toggle=Toggle
 settings.key-bind=Key Bind
 
+modules.test=Test
+
 modules.click-gui=Click GUI
+modules.click-gui.description=
 modules.click-gui.background=Background
 
 modules.chat-info=Chat Info
+modules.chat-info.description=Send information when modules toggling
 
 modules.custom-font=Custom Font
+modules.custom-font.description=
 modules.custom-font.font-size=Font Size
 
 modules.render-system=Render System
+modules.render-system.description=Custom render system
 modules.render-system.frame-buffer=Frame Buffer

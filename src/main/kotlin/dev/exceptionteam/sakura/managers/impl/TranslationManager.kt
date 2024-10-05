@@ -13,9 +13,9 @@ object TranslationManager {
     val defaultMap get() = en
 
     fun getTranslation(key: String): String =
-        defaultMap[TranslationKey(key)] ?: "No translation"
+        defaultMap[TranslationKey(key)] ?: key
 
-    fun getTranslation(key: TranslationKey): String = defaultMap[key] ?: "No translation"
+    fun getTranslation(key: TranslationKey): String = defaultMap[key] ?: key.key
 
     fun getMapFromLanguage(language: String): TranslationMap =
         when (language) {

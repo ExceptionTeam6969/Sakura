@@ -6,7 +6,6 @@ import org.lwjgl.glfw.GLFW
 
 object ChatInfo: Module(
     name = "chat-info",
-    description = "Send information when modules toggling",
     category = Category.CLIENT,
     defaultBind = GLFW.GLFW_KEY_U,
     defaultEnable = true

@@ -20,7 +20,7 @@ class FontRenderer(
 
         glEnable(GL_LINE_SMOOTH)
 
-        val scale = scale0 / 32f * CustomFont.fontSize
+        val scale = scale0 / 40f * CustomFont.fontSize
 
         MatrixStack.use {
             for (i in 0 until length) {
