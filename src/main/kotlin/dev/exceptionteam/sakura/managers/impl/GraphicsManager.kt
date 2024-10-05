@@ -6,12 +6,11 @@ import dev.exceptionteam.sakura.graphics.RenderUtilsTexture
 import dev.exceptionteam.sakura.graphics.buffer.VertexBufferObjects
 import dev.exceptionteam.sakura.graphics.font.FontRenderers
 import dev.exceptionteam.sakura.graphics.shader.initShaders
-import dev.exceptionteam.sakura.managers.AbstractManager
 import dev.exceptionteam.sakura.utils.threads.GameThreadUtils
 
-object GraphicsManager: AbstractManager() {
+object GraphicsManager {
 
-    override fun onInit() {
+    init {
         GameThreadUtils.runOnRenderThread {
             // Shaders
             initShaders()

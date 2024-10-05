@@ -16,8 +16,8 @@ class ModuleComponent(
         RenderUtils2D.drawRectFilled(x, y, width, height, ColorRGB.WHITE)
 
         FontRenderers.default.drawString(
-            module.name,
-            x + 5f, y + 2f,
+            module.name.translation,
+            x + 5f, y + 10f,
             ColorRGB.BLACK
         )
     }

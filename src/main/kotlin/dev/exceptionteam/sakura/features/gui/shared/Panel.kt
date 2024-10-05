@@ -19,7 +19,7 @@ class Panel(
 
     private var isDragging = false
     private var isHovering = false
-    private var isOpening = false
+    private var isOpening = true
 
     private var dragOffsetX = 0f
     private var dragOffsetY = 0f
