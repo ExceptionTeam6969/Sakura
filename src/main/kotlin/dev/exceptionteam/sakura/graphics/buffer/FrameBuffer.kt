@@ -7,7 +7,7 @@ import org.lwjgl.opengl.GL45.*
 class FrameBuffer : GlObject {
 
     override var id: Int = glCreateFramebuffers()
-    var colorAtt = glCreateRenderbuffers() ;private set
+    var colorAtt = glCreateTextures(GL_TEXTURE_2D) ;private set
     var depthStencilAtt = glCreateRenderbuffers() ;private set
 
     init {
@@ -17,12 +17,16 @@ class FrameBuffer : GlObject {
 
     private fun allocateFrameBuffer(width: Int, height: Int) {
         id = glCreateFramebuffers()
-        colorAtt = glCreateRenderbuffers()
+        colorAtt = glCreateTextures(GL_TEXTURE_2D)
         depthStencilAtt = glCreateRenderbuffers()
 
         /* Color Attachment */
-        glNamedRenderbufferStorage(colorAtt, GL_RGBA8, width, height)
-        glNamedFramebufferRenderbuffer(id, GL_COLOR_ATTACHMENT0, GL_RENDERBUFFER, colorAtt)
+        glTextureStorage2D(colorAtt, 1, GL_RGBA8, width, height)
+        glTextureParameteri(colorAtt, GL_TEXTURE_MIN_FILTER, GL_LINEAR)
+        glTextureParameteri(colorAtt, GL_TEXTURE_MAG_FILTER, GL_LINEAR)
+        glTextureParameteri(colorAtt, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE)
+        glTextureParameteri(colorAtt, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE)
+        glNamedFramebufferTexture(id, GL_COLOR_ATTACHMENT0, colorAtt, 0)
 
         /* Depth Attachment & Stencil Attachment */
         glNamedRenderbufferStorage(depthStencilAtt, GL_DEPTH24_STENCIL8, width, height)
@@ -35,7 +39,7 @@ class FrameBuffer : GlObject {
 
     fun resize() {
         glDeleteFramebuffers(id)
-        glDeleteRenderbuffers(colorAtt)
+        glDeleteTextures(colorAtt)
         glDeleteRenderbuffers(depthStencilAtt)
 
         val mc = MinecraftClient.getInstance()
@@ -52,7 +56,7 @@ class FrameBuffer : GlObject {
 
     override fun delete() {
         glDeleteFramebuffers(id)
-        glDeleteRenderbuffers(colorAtt)
+        glDeleteTextures(colorAtt)
         glDeleteRenderbuffers(depthStencilAtt)
     }
 
