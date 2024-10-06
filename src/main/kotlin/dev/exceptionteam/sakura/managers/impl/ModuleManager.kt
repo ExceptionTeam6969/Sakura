@@ -30,7 +30,9 @@ object ModuleManager {
             ChatInfo,
             CustomFont,
             RenderSystemMod,
-            Test()
+
+            // Movement
+            Test,
         )
     }
 
