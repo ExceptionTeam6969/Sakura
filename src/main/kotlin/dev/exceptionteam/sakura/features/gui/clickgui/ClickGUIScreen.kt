@@ -98,6 +98,13 @@ object ClickGUIScreen : AbstractGUIScreen("ClickGUI") {
             1 -> MouseButtonType.RIGHT
             else -> MouseButtonType.NONE
         }
+
+        currentWindow?.let {
+            if (it.mouseReleased(type)) {
+                return true
+            }
+        }
+
         panels.forEach { it.mouseReleased(type) }
         return super.mouseReleased(mouseX, mouseY, button)
     }

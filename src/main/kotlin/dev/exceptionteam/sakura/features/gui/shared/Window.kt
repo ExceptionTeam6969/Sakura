@@ -1,6 +1,7 @@
 package dev.exceptionteam.sakura.features.gui.shared
 
 import dev.exceptionteam.sakura.features.gui.shared.component.AbstractComponent
+import dev.exceptionteam.sakura.features.gui.shared.component.SliderComponent
 import dev.exceptionteam.sakura.graphics.RenderUtils2D
 import dev.exceptionteam.sakura.graphics.color.ColorRGB
 import dev.exceptionteam.sakura.graphics.font.FontRenderers
@@ -52,6 +53,8 @@ abstract class Window(
     }
 
     override fun mouseReleased(type: MouseButtonType): Boolean {
-        return components.filter { it.isHovering && it.visible }.getOrNull(0)?.mouseReleased(type) == true
+        /* Don't need to check hovering, because in some components,
+           mouseReleased is called even if the mouse is not hovering */
+        return components.filter { it.visible }.getOrNull(0)?.mouseReleased(type) == true
     }
 }

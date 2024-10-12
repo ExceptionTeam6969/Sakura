@@ -48,6 +48,26 @@ class FontRenderer(
 
     fun canDisplay(ch: Char): Boolean = font.canDisplay(ch)
 
+    fun getStringWidth(text: String, scale: Float = 1f): Float {
+        var width = 0f
+        var shouldContinue = false
+
+        for (i in 0 until text.length) {
+            if (shouldContinue) {
+                shouldContinue = false
+                continue
+            }
+            if (text[i] == '§' && i < text.length - 1) {
+                shouldContinue = true
+                continue
+            }
+            if (canDisplay(text[i])) {
+                width += font.getGlyph(text[i]).width * scale
+            }
+        }
+        return width
+    }
+
     fun drawChar(ch: Char, x: Float, y: Float, color: ColorRGB, scale: Float): Float {
         val glyph = font.getGlyph(ch)
 
