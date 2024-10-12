@@ -3,9 +3,14 @@ package dev.exceptionteam.sakura.features.gui.shared
 import dev.exceptionteam.sakura.features.gui.shared.component.AbstractComponent
 import dev.exceptionteam.sakura.graphics.RenderUtils2D
 import dev.exceptionteam.sakura.graphics.color.ColorRGB
+import dev.exceptionteam.sakura.graphics.font.FontRenderers
+import dev.exceptionteam.sakura.translation.TranslationString
 import dev.exceptionteam.sakura.utils.control.MouseButtonType
 
-abstract class Window(x: Float, y: Float, width: Float, height: Float) : AbstractComponent(x, y, width, height) {
+abstract class Window(
+    var title: TranslationString,
+    x: Float, y: Float, width: Float, height: Float
+) : AbstractComponent(x, y, width, height) {
     private val components = mutableListOf<AbstractComponent>()
 
     fun addComponent(child: AbstractComponent) {
@@ -18,35 +23,35 @@ abstract class Window(x: Float, y: Float, width: Float, height: Float) : Abstrac
     override fun updatePosition(x: Float, y: Float) {
         super.updatePosition(x, y)
 
-        var offsetY = 0f
+        var offsetY = height
         components.forEach {
+            if (!it.visible) return@forEach
             it.updatePosition(x, y + offsetY)
-            offsetY += it.width
+            offsetY += it.height
         }
+        height = offsetY
     }
 
     override fun render() {
         RenderUtils2D.drawRectFilled(x, y, width, height, ColorRGB.WHITE)
         RenderUtils2D.drawRectOutline(x, y, width, height, ColorRGB.BLACK)
 
+        FontRenderers.drawString(title, x + 5f, y + 4f, ColorRGB.BLACK)
+
         components.forEach {
+            if (!it.visible) return@forEach
+            it.mouseX = mouseX
+            it.mouseY = mouseY
+            it.checkHovering()
             it.render()
         }
     }
 
     override fun mouseClicked(type: MouseButtonType): Boolean {
-        val processed = components.firstOrNull {
-            it.mouseClicked(type)
-        } != null
-
-        return processed
+        return components.filter { it.isHovering && it.visible }.getOrNull(0)?.mouseClicked(type) == true
     }
 
     override fun mouseReleased(type: MouseButtonType): Boolean {
-        val processed = components.firstOrNull {
-            it.mouseReleased(type)
-        } != null
-
-        return processed
+        return components.filter { it.isHovering && it.visible }.getOrNull(0)?.mouseReleased(type) == true
     }
 }

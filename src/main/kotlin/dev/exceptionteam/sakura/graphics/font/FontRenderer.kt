@@ -11,7 +11,10 @@ class FontRenderer(
     private val font: FontGlyphs
 ) {
 
-    fun drawString(text: String, x: Float, y: Float, color0: ColorRGB, scale0: Float = 1f) {
+    fun drawString(
+        text: String, x: Float, y: Float,
+        color0: ColorRGB, scale0: Float = 1f, backFont: FontRenderer? = null
+    ) {
         val length = text.length
         var shouldContinue = false
         var color = color0
@@ -32,7 +35,9 @@ class FontRenderer(
                     continue
                 }
 
-                val prevWidth = drawChar(text[i], x, y, color, scale)
+                val prevWidth =
+                    if (canDisplay(text[i])) drawChar(text[i], x, y, color, scale)
+                    else backFont?.drawChar(text[i], x, y, color, scale) ?: 0f
 
                 translate(prevWidth, 0f, 0f)
             }
@@ -41,7 +46,9 @@ class FontRenderer(
         glDisable(GL_LINE_SMOOTH)
     }
 
-    private fun drawChar(ch: Char, x: Float, y: Float, color: ColorRGB, scale: Float): Float {
+    fun canDisplay(ch: Char): Boolean = font.canDisplay(ch)
+
+    fun drawChar(ch: Char, x: Float, y: Float, color: ColorRGB, scale: Float): Float {
         val glyph = font.getGlyph(ch)
 
         val width = glyph.width * scale

@@ -15,7 +15,7 @@ class ModuleComponent(
     override fun render() {
         RenderUtils2D.drawRectFilled(x, y, width, height, ColorRGB.WHITE)
 
-        FontRenderers.default.drawString(
+        FontRenderers.drawString(
             module.name.translation,
             x + 5f, y + 4f,
             ColorRGB.BLACK

@@ -12,17 +12,14 @@ class ModuleSettingWindow(
     width: Float,
     height: Float,
     module: AbstractModule
-) : Window(x, y, width,
-    height
-) {
+) : Window(module.name, x, y, width, height) {
     init {
         module.settings.forEach {
             when (it) {
-                is BooleanSetting -> {
-                    addComponent(BooleanComponent(width, height, it))
-                }
-
-                else -> {}
+                is BooleanSetting -> BooleanComponent(width, height, it)
+                else -> null
+            }?.also {
+                addComponent(it)
             }
         }
         updatePosition(x, y)

@@ -14,7 +14,10 @@ abstract class AbstractComponent(
 
     var mouseX: Float = 0f
     var mouseY: Float = 0f
-    private var isHovering: Boolean = false
+    var isHovering: Boolean = false; private set
+
+    open val visible: Boolean
+        get() = true
 
     open fun render() {}
 

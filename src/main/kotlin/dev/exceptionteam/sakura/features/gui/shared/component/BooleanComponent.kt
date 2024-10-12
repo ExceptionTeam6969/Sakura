@@ -11,13 +11,16 @@ import dev.exceptionteam.sakura.utils.control.MouseButtonType
 class BooleanComponent(
     width: Float, height: Float, private val setting: BooleanSetting
 ) : AbstractComponent(0f, 0f, width, height) {
+    override val visible: Boolean
+        get() = setting.visibility.invoke()
+    
     private val widthAnimationFlag = AnimationFlag(Easing.LINEAR, 300f)
 
     override fun render() {
         val widthPercent = widthAnimationFlag.getAndUpdate(if (setting.value) 1f else 0f)
 
         RenderUtils2D.drawRectFilled(x, y, width * widthPercent, height, ColorRGB.GREEN)
-        FontRenderers.default.drawString(setting.key.translation, x + 5f, y + 4f, ColorRGB.BLACK)
+        FontRenderers.drawString(setting.key, x + 5f, y + 4f, ColorRGB.BLACK)
     }
 
     override fun mouseClicked(type: MouseButtonType): Boolean {

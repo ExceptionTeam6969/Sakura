@@ -16,8 +16,6 @@ class FontGlyphs(
         glyphs.values.forEach { it.destroy() }
     }
 
-    fun canDisplay(char: Char): Boolean {
-        return font.canDisplay(char)
-    }
+    fun canDisplay(char: Char): Boolean = font.canDisplay(char)
 
 }
