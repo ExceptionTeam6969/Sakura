@@ -1,12 +1,9 @@
 package dev.exceptionteam.sakura.graphics.font.glyphs
 
-import dev.exceptionteam.sakura.Sakura
+import dev.exceptionteam.sakura.graphics.texture.ImageUtils
+import dev.exceptionteam.sakura.graphics.texture.Texture
 import dev.exceptionteam.sakura.utils.math.ceilToInt
-import net.minecraft.client.MinecraftClient
-import net.minecraft.client.texture.NativeImage
-import net.minecraft.client.texture.NativeImageBackedTexture
-import net.minecraft.util.Identifier
-import org.lwjgl.BufferUtils
+import org.lwjgl.opengl.GL45
 import java.awt.Color
 import java.awt.Font
 import java.awt.RenderingHints
@@ -14,16 +11,11 @@ import java.awt.font.FontRenderContext
 import java.awt.geom.AffineTransform
 import java.awt.geom.Rectangle2D
 import java.awt.image.BufferedImage
-import java.io.ByteArrayOutputStream
-import java.util.Locale
-import javax.imageio.ImageIO
 
 class Glyph(
     font: Font,
     char: Char
 ) {
-
-    val imageTex = Identifier("sakura", "${Sakura.DIRECTORY}/glyphs/${font.name.lowercase(Locale.getDefault()).hashCode()}-${char.code}")
 
     private val dimensions: Rectangle2D =
         font.getStringBounds(
@@ -34,7 +26,7 @@ class Glyph(
     val width = dimensions.width.toFloat()
     val height = dimensions.height.toFloat()
 
-//    var texture: Texture
+    var texture: Texture
 
     init {
         val image = BufferedImage(width.ceilToInt(), height.ceilToInt(), BufferedImage.TYPE_INT_ARGB)
@@ -52,37 +44,11 @@ class Glyph(
         g2d.drawString(char.toString(), 0, g2d.fontMetrics.ascent)
         g2d.dispose()
 
-//        texture = ImageUtils.uploadImageToTexture(image, GL45.GL_RGBA8)
-        registerBufferedImageTexture(imageTex, image)
+        texture = ImageUtils.uploadImageToTexture(image, GL45.GL_RGBA8)
     }
 
     fun destroy() {
-//        texture.delete()
-    }
-
-    companion object {
-        private val mc = MinecraftClient.getInstance()
-        fun registerBufferedImageTexture(identifier: Identifier, image: BufferedImage) {
-            try {
-                val bytes = ByteArrayOutputStream().use {
-                    ImageIO.write(image, "png", it)
-                    it.toByteArray()
-                }
-                registerTexture(identifier, bytes)
-            } catch (e: Exception) {
-                e.printStackTrace()
-            }
-        }
-
-        fun registerTexture(identifier: Identifier, bytes: ByteArray) {
-            try {
-                val data = BufferUtils.createByteBuffer(bytes.size).put(bytes).also { it.flip() }
-                val tex = NativeImageBackedTexture(NativeImage.read(data))
-                mc.execute { mc.textureManager.registerTexture(identifier, tex) }
-            } catch (e: Exception) {
-                e.printStackTrace()
-            }
-        }
+        texture.delete()
     }
 
 }

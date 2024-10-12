@@ -1,12 +1,10 @@
 package dev.exceptionteam.sakura.graphics.font
 
 import dev.exceptionteam.sakura.features.modules.impl.client.CustomFont
-import dev.exceptionteam.sakura.graphics.buffer.VertexBufferObjects
-import dev.exceptionteam.sakura.graphics.buffer.VertexBufferObjects.draw
+import dev.exceptionteam.sakura.graphics.RenderUtils2D
 import dev.exceptionteam.sakura.graphics.color.ColorRGB
 import dev.exceptionteam.sakura.graphics.font.glyphs.FontGlyphs
 import dev.exceptionteam.sakura.graphics.matrix.MatrixStack
-import net.minecraft.client.MinecraftClient
 import org.lwjgl.opengl.GL45.*
 
 class FontRenderer(
@@ -49,24 +47,7 @@ class FontRenderer(
         val width = glyph.width * scale
         val height = glyph.height * scale
 
-//        RenderUtilsTexture.drawTextureRect(x, y, width, height, glyph.texture, color)
-//        RenderUtils2D.drawRectFilled(x, y, width, height, color)
-        val mc = MinecraftClient.getInstance()
-        val glId = mc.textureManager.getTexture(glyph.imageTex).glId
-
-        glBindTexture(GL_TEXTURE_2D, glId)
-
-        val endX = x + width
-        val endY = y + height
-
-        GL_TRIANGLE_STRIP.draw(VertexBufferObjects.PosTex2D) {
-            texture(endX, y, 1f, 0f, color)
-            texture(x, y, 0f, 0f, color)
-            texture(endX, endY, 1f, 1f, color)
-            texture(x, endY, 0f, 1f, color)
-        }
-
-        glBindTexture(GL_TEXTURE_2D, 0)
+        RenderUtils2D.drawTextureRect(x, y, width, height, glyph.texture, color)
 
         return width
     }
