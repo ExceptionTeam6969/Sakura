@@ -20,6 +20,7 @@ class SliderComponent(
     private var isSliding = false
 
     override fun render() {
+
         if (isSliding) {
             val startX = x
             val endX = x + width
@@ -36,7 +37,8 @@ class SliderComponent(
             }
         }
 
-        FontRenderers.drawString("${setting.key.translation}: ${setting.value}", x + 5f, y + 4f, ColorRGB.BLACK)
+        val value = String.format("%.2f", setting.value.toFloat())
+        FontRenderers.drawString("${setting.key.translation}: $value", x + 5f, y + 4f, ColorRGB.BLACK)
 
         val sliderLength =
             width *(setting.value.toFloat().coerceIn(setting.minValue.toFloat(), setting.maxValue.toFloat())

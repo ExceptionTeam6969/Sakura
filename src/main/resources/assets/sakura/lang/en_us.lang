@@ -10,6 +10,7 @@ settings.toggle=Toggle
 settings.key-bind=Key Bind
 
 modules.test=Test
+modules.test.slider=Slider
 
 modules.click-gui=Click GUI
 modules.click-gui.description=
