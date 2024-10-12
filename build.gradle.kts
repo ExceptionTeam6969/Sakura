@@ -1,6 +1,6 @@
 plugins {
     java
-    kotlin("jvm") version "2.0.0"
+    kotlin("jvm") version "2.0.21"
     id("fabric-loom") version "1.7-SNAPSHOT"
 }
 
@@ -81,22 +81,4 @@ tasks {
         exclude("META-INF/*.RSA", "META-INF/*.DSA", "META-INF/*.SF")
     }
 
-    fun registerAutoBuildTask(name: String, targetFolder: String) {
-        register<Copy>(name) {
-            group = "auto build"
-            dependsOn("build")
-
-            if (file("$targetFolder/Sakura*.jar").exists()) {
-                delete {
-                    fileTree("$targetFolder/").matching {
-                        include("Sakura*.jar")
-                    }
-                }
-            }
-
-            from("build/libs/")
-            include("Sakura*.jar")
-            into("$targetFolder/")
-        }
-    }
 }
