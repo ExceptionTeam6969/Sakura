@@ -22,6 +22,34 @@ object RenderUtils2D {
         }
     }
 
+    fun drawRectGradientH(x: Float, y: Float, width: Float, height: Float, startColor: ColorRGB, endColor: ColorRGB) {
+        val startX = x
+        val startY = y
+        val endX = x + width
+        val endY = y + height
+
+        GL45.GL_TRIANGLE_STRIP.draw(VertexBufferObjects.PosColor2D) {
+            vertex(endX, startY, endColor)
+            vertex(startX, startY, startColor)
+            vertex(endX, endY, endColor)
+            vertex(startX, endY, startColor)
+        }
+    }
+
+    fun drawRectGradientV(x: Float, y: Float, width: Float, height: Float, startColor: ColorRGB, endColor: ColorRGB) {
+        val startX = x
+        val startY = y
+        val endX = x + width
+        val endY = y + height
+
+        GL45.GL_TRIANGLE_STRIP.draw(VertexBufferObjects.PosColor2D) {
+            vertex(endX, startY, startColor)
+            vertex(startX, startY, startColor)
+            vertex(endX, endY, endColor)
+            vertex(startX, endY, endColor)
+        }
+    }
+
     fun drawRectOutline(x: Float, y: Float, width: Float, height: Float, color: ColorRGB) {
         val startX = x
         val startY = y
@@ -34,6 +62,16 @@ object RenderUtils2D {
             vertex(endX, startY, color)
             vertex(endX, endY, color)
             vertex(startX, endY, color)
+        }
+        GL45.glDisable(GL45.GL_LINE_SMOOTH)
+    }
+
+    fun drawLine(x1: Float, y1: Float, x2: Float, y2: Float, color: ColorRGB) {
+        GL45.glEnable(GL45.GL_LINE_SMOOTH)
+        GL45.glLineWidth(1f)
+        GL45.GL_LINES.draw(VertexBufferObjects.PosColor2D) {
+            vertex(x1, y1, color)
+            vertex(x2, y2, color)
         }
         GL45.glDisable(GL45.GL_LINE_SMOOTH)
     }
