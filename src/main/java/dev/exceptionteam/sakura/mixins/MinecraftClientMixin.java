@@ -45,6 +45,11 @@ public class MinecraftClientMixin {
         GameLoopEvent.AfterRender.INSTANCE.post();
     }
 
+    @Inject(method = "run", at = @At(value = "RETURN"))
+    public void shutdown(CallbackInfo ci) {
+        QuitGameEvent.INSTANCE.post();
+    }
+
     @Inject(method = "onResolutionChanged", at = @At("TAIL"))
     private void onResolutionChanged(CallbackInfo info) {
         new WindowResizeEvent().post();
