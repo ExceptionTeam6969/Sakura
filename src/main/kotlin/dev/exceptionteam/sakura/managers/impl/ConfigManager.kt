@@ -10,7 +10,9 @@ import dev.exceptionteam.sakura.graphics.color.ColorRGB
 import dev.exceptionteam.sakura.utils.control.KeyBind
 import dev.exceptionteam.sakura.utils.resources.checkFile
 import dev.exceptionteam.sakura.utils.threads.IOScope
+import kotlinx.coroutines.async
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.runBlocking
 import java.io.File
 import java.io.FileOutputStream
 import java.io.OutputStreamWriter
@@ -29,25 +31,21 @@ object ConfigManager {
         }
     }
 
-    fun loadAll() {
-        try {
-            loadModule()
-        } catch (_: Exception) {
-            Sakura.logger.error("Failed to load config")
-        }
-    }
+    fun loadAll() = runCatching {
+        runBlocking { loadModule() }
+    }.onFailure { Sakura.logger.error("Failed To Load Config!") }
 
-    fun saveAll() {
-        saveModule()
-    }
+    fun saveAll() = runCatching {
+        runBlocking { saveModule() }
+    }.onFailure { Sakura.logger.error("Failed To Save Config!") }
 
     /* Load */
     fun loadModule() {
-        IOScope.launch {
-            ModuleManager.modules.forEach { module ->
+        ModuleManager.modules.forEach { module ->
+            IOScope.launch {
                 val moduleFile = File("${Sakura.DIRECTORY}/modules/${module.name.key}.json")
                 moduleFile.checkFile()
-                val moduleJson = gsonPretty.fromJson(moduleFile.readText(), JsonObject::class.java)
+                val moduleJson = async { gsonPretty.fromJson(moduleFile.readText(), JsonObject::class.java) }.await()
 
                 module.settings.forEach { setting ->
                     when (setting.key.key) {
@@ -60,7 +58,8 @@ object ConfigManager {
                         }
 
                         "key-bind" -> {
-                            if (setting is KeyBindSetting) setting.value = KeyBind(KeyBind.Type.KEYBOARD, moduleJson.get("key-bind").asInt)
+                            if (setting is KeyBindSetting) setting.value =
+                                KeyBind(KeyBind.Type.KEYBOARD, moduleJson.get("key-bind").asInt)
                             return@forEach
                         }
 
@@ -73,7 +72,9 @@ object ConfigManager {
                         is FloatSetting -> setting.value = moduleJson.get(setting.key.key).asFloat
                         is DoubleSetting -> setting.value = moduleJson.get(setting.key.key).asDouble
                         is BooleanSetting -> setting.value = moduleJson.get(setting.key.key).asBoolean
-                        is KeyBindSetting -> setting.value = KeyBind(KeyBind.Type.KEYBOARD, moduleJson.get(setting.key.key).asInt)
+                        is KeyBindSetting -> setting.value =
+                            KeyBind(KeyBind.Type.KEYBOARD, moduleJson.get(setting.key.key).asInt)
+
                         is ColorSetting -> setting.value = ColorRGB(moduleJson.get(setting.key.key).asInt)
                         is EnumSetting<*> -> setting.setWithName(moduleJson.get(setting.key.key).asString)
                         else -> {}
@@ -85,10 +86,7 @@ object ConfigManager {
 
     /* Save */
     fun saveModule() {
-        val father = JsonObject()
-
         ModuleManager.modules.forEach { module ->
-
             val moduleFile = File("${Sakura.DIRECTORY}/modules/${module.name.key}.json")
             moduleFile.checkFile()
             val moduleJson = JsonObject()
@@ -99,10 +97,12 @@ object ConfigManager {
                         moduleJson.addProperty("toggle", setting.value as Boolean)
                         return@forEach
                     }
+
                     "key-bind" -> {
                         moduleJson.addProperty("key-bind", (setting.value as KeyBind).keyCode)
                         return@forEach
                     }
+
                     else -> {}
                 }
 
@@ -122,7 +122,6 @@ object ConfigManager {
             val saveJson = PrintWriter(OutputStreamWriter(FileOutputStream(moduleFile), StandardCharsets.UTF_8))
             saveJson.println(gsonPretty.toJson(moduleJson))
             saveJson.close()
-            father.add(module.name.key, moduleJson)
         }
     }
 
