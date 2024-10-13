@@ -36,6 +36,8 @@ abstract class Window(
     }
 
     override fun render() {
+        updatePosition(x, y)
+
         RenderUtils2D.drawRectFilled(x, y, width, height, ColorRGB.WHITE)
         RenderUtils2D.drawRectOutline(x, y, width, height, ColorRGB.BLACK)
 

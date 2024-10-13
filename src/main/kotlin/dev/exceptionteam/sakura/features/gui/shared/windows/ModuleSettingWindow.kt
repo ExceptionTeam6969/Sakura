@@ -2,10 +2,7 @@ package dev.exceptionteam.sakura.features.gui.shared.windows
 
 import dev.exceptionteam.sakura.events.EventBus
 import dev.exceptionteam.sakura.features.gui.shared.Window
-import dev.exceptionteam.sakura.features.gui.shared.component.BindComponent
-import dev.exceptionteam.sakura.features.gui.shared.component.BooleanComponent
-import dev.exceptionteam.sakura.features.gui.shared.component.EnumComponent
-import dev.exceptionteam.sakura.features.gui.shared.component.SliderComponent
+import dev.exceptionteam.sakura.features.gui.shared.component.*
 import dev.exceptionteam.sakura.features.modules.AbstractModule
 import dev.exceptionteam.sakura.features.settings.*
 
@@ -23,6 +20,7 @@ class ModuleSettingWindow(
                 is NumberSetting -> SliderComponent(width, compHeight, it)
                 is KeyBindSetting -> BindComponent(width, compHeight, it)
                 is EnumSetting<*> -> EnumComponent(width, compHeight, it)
+                is ColorSetting -> ColorComponent(width, compHeight, it)
                 else -> null
             }?.also {
                 addComponent(it)
