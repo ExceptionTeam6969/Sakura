@@ -24,7 +24,7 @@ dependencies {
     modImplementation("net.fabricmc.fabric-api:fabric-renderer-indigo:${property("fabric_version")}")
 
     library(kotlin("stdlib"))
-    library("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.8.0")
+    library("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.9.0")
     library("dev.luna5ama:kmogus-core:${property("kmogus_version")}")
     library("dev.luna5ama:kmogus-struct-api:${property("kmogus_version")}")
 }
