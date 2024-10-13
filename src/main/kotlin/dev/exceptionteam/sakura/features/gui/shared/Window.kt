@@ -57,6 +57,13 @@ abstract class Window(
     override fun mouseReleased(type: MouseButtonType): Boolean {
         /* Don't need to check hovering, because in some components,
            mouseReleased is called even if the mouse is not hovering */
-        return components.filter { it.visible }.getOrNull(0)?.mouseReleased(type) == true
+        var processed = false
+        components.filter { it.visible }.forEach {
+            if (it.mouseReleased(type)) {
+                processed = true
+            }
+        }
+
+        return processed
     }
 }

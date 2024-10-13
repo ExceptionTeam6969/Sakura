@@ -11,6 +11,9 @@ settings.key-bind=按键绑定
 
 modules.test=测试模块
 modules.test.slider=滑块
+modules.test.mode=模式
+modules.test.mode.normal=正常
+modules.test.mode.fuck=傻逼
 
 modules.click-gui=配置界面
 modules.click-gui.description=配置

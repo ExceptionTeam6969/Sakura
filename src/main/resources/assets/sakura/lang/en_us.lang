@@ -11,6 +11,9 @@ settings.key-bind=Key Bind
 
 modules.test=Test
 modules.test.slider=Slider
+modules.test.mode=Mode
+modules.test.mode.normal=Normal
+modules.test.mode.fuck=Fuck
 
 modules.click-gui=Click GUI
 modules.click-gui.description=
