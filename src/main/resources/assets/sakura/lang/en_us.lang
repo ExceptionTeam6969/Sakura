@@ -29,3 +29,9 @@ modules.custom-font.font-size=Font Size
 modules.render-system=Render System
 modules.render-system.description=Custom render system
 modules.render-system.frame-buffer=Frame Buffer
+
+modules.language=Language
+modules.language.description=
+modules.language.language=Language
+modules.language.language.en_us=English (US)
+modules.language.language.zh_cn=Chinese (Simplified)

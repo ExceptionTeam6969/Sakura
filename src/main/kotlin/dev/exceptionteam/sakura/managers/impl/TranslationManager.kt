@@ -1,5 +1,6 @@
 package dev.exceptionteam.sakura.managers.impl
 
+import dev.exceptionteam.sakura.features.modules.impl.client.Language
 import dev.exceptionteam.sakura.translation.TranslationKey
 import dev.exceptionteam.sakura.translation.TranslationMap
 
@@ -12,10 +13,21 @@ object TranslationManager {
 
     val defaultMap get() = en
 
-    fun getTranslation(key: String): String =
-        defaultMap[TranslationKey(key)] ?: key
+    fun getTranslation(key: String): String {
+        return when (Language.language) {
+            Language.Languages.EN_US -> en[TranslationKey(key)] ?: key
+            Language.Languages.ZH_CN -> cn[TranslationKey(key)] ?: key
+            else -> defaultMap[TranslationKey(key)] ?: key
+        }
+    }
 
-    fun getTranslation(key: TranslationKey): String = defaultMap[key] ?: key.key
+    fun getTranslation(key: TranslationKey): String {
+        return when (Language.language) {
+            Language.Languages.EN_US -> en[key] ?: key.key
+            Language.Languages.ZH_CN -> cn[key] ?: key.key
+            else -> defaultMap[key] ?: key.key
+        }
+    }
 
     fun getMapFromLanguage(language: String): TranslationMap =
         when (language) {

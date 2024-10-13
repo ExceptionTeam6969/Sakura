@@ -6,6 +6,7 @@ import dev.exceptionteam.sakura.features.modules.AbstractModule
 import dev.exceptionteam.sakura.features.modules.impl.client.ChatInfo
 import dev.exceptionteam.sakura.features.modules.impl.client.ClickGUI
 import dev.exceptionteam.sakura.features.modules.impl.client.CustomFont
+import dev.exceptionteam.sakura.features.modules.impl.client.Language
 import dev.exceptionteam.sakura.features.modules.impl.client.RenderSystemMod
 import dev.exceptionteam.sakura.features.modules.impl.movement.Test
 
@@ -30,6 +31,7 @@ object ModuleManager {
             ChatInfo,
             CustomFont,
             RenderSystemMod,
+            Language,
 
             // Movement
             Test,

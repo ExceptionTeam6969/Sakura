@@ -29,3 +29,9 @@ modules.custom-font.font-size=字体大小
 modules.render-system=渲染系统
 modules.render-system.description=渲染系统
 modules.render-system.frame-buffer=帧缓冲
+
+modules.language=语言
+modules.language.description=
+modules.language.language=语言
+modules.language.language.en_us=英语
+modules.language.language.zh_cn=简体中文
