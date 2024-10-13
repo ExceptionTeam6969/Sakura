@@ -46,7 +46,9 @@ class Panel(
             }
         }
 
-        RenderUtils2D.drawRectFilled(x, y, width, height, ColorRGB.WHITE)
+        RenderUtils2D.drawRectFilled(x, y, width,
+            if (isOpening) (moduleComponents.size + 1) * height else height,
+            ColorRGB.WHITE)
 
         FontRenderers.drawString(category.translation, x + 5f, y + 4f, ColorRGB.BLACK)
 
