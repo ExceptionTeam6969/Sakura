@@ -6,7 +6,6 @@ import dev.exceptionteam.sakura.graphics.color.ColorRGB
 import dev.exceptionteam.sakura.graphics.color.ColorUtils
 import dev.exceptionteam.sakura.graphics.font.FontRenderers
 import dev.exceptionteam.sakura.utils.control.MouseButtonType
-import dev.exceptionteam.sakura.utils.math.MathUtils
 import java.awt.Color
 
 class ColorComponent(
