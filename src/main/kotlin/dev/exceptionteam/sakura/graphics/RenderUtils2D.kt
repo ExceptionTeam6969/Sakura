@@ -66,6 +66,10 @@ object RenderUtils2D {
         GL45.glDisable(GL45.GL_LINE_SMOOTH)
     }
 
+    fun drawLineH(x: Float, y: Float, width: Float, color: ColorRGB) {
+        drawLine(x, y, x + width, y, color)
+    }
+
     fun drawLine(x1: Float, y1: Float, x2: Float, y2: Float, color: ColorRGB) {
         GL45.glEnable(GL45.GL_LINE_SMOOTH)
         GL45.glLineWidth(1f)
