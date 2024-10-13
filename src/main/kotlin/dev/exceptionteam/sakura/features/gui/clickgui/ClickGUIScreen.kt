@@ -22,6 +22,14 @@ object ClickGUIScreen : AbstractGUIScreen("ClickGUI") {
     private var mouseY: Float = 0f
 
     var currentWindow: Window? = null
+        set(value) {
+            if (value != null) {
+                value.onOpen()
+            } else {
+                field?.onClose()
+            }
+            field = value
+        }
 
     init {
         var xOffset = 10f
