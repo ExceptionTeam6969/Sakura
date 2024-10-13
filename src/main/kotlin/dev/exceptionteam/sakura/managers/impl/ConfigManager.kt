@@ -48,36 +48,40 @@ object ConfigManager {
                 val moduleJson = async { gsonPretty.fromJson(moduleFile.readText(), JsonObject::class.java) }.await()
 
                 module.settings.forEach { setting ->
-                    when (setting.key.key) {
-                        "toggle" -> {
-                            if (setting is BooleanSetting) {
-                                if (moduleJson.get("toggle").asBoolean) module.enable()
-                                else module.disable()
+                    try {
+                        when (setting.key.key) {
+                            "toggle" -> {
+                                if (setting is BooleanSetting) {
+                                    if (moduleJson.get("toggle").asBoolean) module.enable()
+                                    else module.disable()
+                                }
+                                return@forEach
                             }
-                            return@forEach
+
+                            "key-bind" -> {
+                                if (setting is KeyBindSetting) setting.value =
+                                    KeyBind(KeyBind.Type.KEYBOARD, moduleJson.get("key-bind").asInt)
+                                return@forEach
+                            }
+
+                            else -> {}
                         }
 
-                        "key-bind" -> {
-                            if (setting is KeyBindSetting) setting.value =
-                                KeyBind(KeyBind.Type.KEYBOARD, moduleJson.get("key-bind").asInt)
-                            return@forEach
+                        when (setting) {
+                            is IntSetting -> setting.value = moduleJson.get(setting.key.key).asInt
+                            is LongSetting -> setting.value = moduleJson.get(setting.key.key).asLong
+                            is FloatSetting -> setting.value = moduleJson.get(setting.key.key).asFloat
+                            is DoubleSetting -> setting.value = moduleJson.get(setting.key.key).asDouble
+                            is BooleanSetting -> setting.value = moduleJson.get(setting.key.key).asBoolean
+                            is KeyBindSetting -> setting.value =
+                                KeyBind(KeyBind.Type.KEYBOARD, moduleJson.get(setting.key.key).asInt)
+
+                            is ColorSetting -> setting.value = ColorRGB(moduleJson.get(setting.key.key).asInt)
+                            is EnumSetting<*> -> setting.setWithName(moduleJson.get(setting.key.key).asString)
+                            else -> {}
                         }
-
-                        else -> {}
-                    }
-
-                    when (setting) {
-                        is IntSetting -> setting.value = moduleJson.get(setting.key.key).asInt
-                        is LongSetting -> setting.value = moduleJson.get(setting.key.key).asLong
-                        is FloatSetting -> setting.value = moduleJson.get(setting.key.key).asFloat
-                        is DoubleSetting -> setting.value = moduleJson.get(setting.key.key).asDouble
-                        is BooleanSetting -> setting.value = moduleJson.get(setting.key.key).asBoolean
-                        is KeyBindSetting -> setting.value =
-                            KeyBind(KeyBind.Type.KEYBOARD, moduleJson.get(setting.key.key).asInt)
-
-                        is ColorSetting -> setting.value = ColorRGB(moduleJson.get(setting.key.key).asInt)
-                        is EnumSetting<*> -> setting.setWithName(moduleJson.get(setting.key.key).asString)
-                        else -> {}
+                    } catch (_: Exception) {
+                        Sakura.logger.warn("Failed to load setting ${setting.key.key} in module ${module.name.key}")
                     }
                 }
             }
