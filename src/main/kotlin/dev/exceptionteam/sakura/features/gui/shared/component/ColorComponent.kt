@@ -2,10 +2,13 @@ package dev.exceptionteam.sakura.features.gui.shared.component
 
 import dev.exceptionteam.sakura.features.settings.ColorSetting
 import dev.exceptionteam.sakura.graphics.RenderUtils2D
+import dev.exceptionteam.sakura.graphics.buffer.VertexBufferObjects
+import dev.exceptionteam.sakura.graphics.buffer.VertexBufferObjects.draw
 import dev.exceptionteam.sakura.graphics.color.ColorRGB
 import dev.exceptionteam.sakura.graphics.color.ColorUtils
 import dev.exceptionteam.sakura.graphics.font.FontRenderers
 import dev.exceptionteam.sakura.utils.control.MouseButtonType
+import org.lwjgl.opengl.GL45
 import java.awt.Color
 
 class ColorComponent(
@@ -57,6 +60,15 @@ class ColorComponent(
         renderPicker()
     }
 
+    private val hueArray = arrayOf(
+        ColorRGB(255, 0, 0), // 0.0
+        ColorRGB(255, 255, 0), // 0.1666
+        ColorRGB(0, 255, 0) ,// 0.3333
+        ColorRGB(0, 255, 255), // 0.5
+        ColorRGB(0, 0, 255), // 0.6666
+        ColorRGB(255, 0, 255) // 0.8333
+    )
+
     fun renderPicker() {
         // Saturation Brightness Part
         RenderUtils2D.drawRectGradientH(x + partSB.x, y + partSB.y, partSB.width, partSB.height, ColorUtils.hsbToRGB(hue, 0f, 1f), ColorUtils.hsbToRGB(hue, 1f, 1f))
@@ -72,27 +84,24 @@ class ColorComponent(
         )
 
         // Hue Part
-        var level = 1f
-        val hues = 1f / partHUE.height
-        val huex = x + partHUE.x
-        val huey = y + partHUE.y
-        while (level < partHUE.height) {
-            val y = huey + level
-            RenderUtils2D.drawLine(
-                huex, y,
-                huex + partHUE.width, y,
-                ColorUtils.hsbToRGB(hues * level, 1f, 1f)
-            )
-            level++
+        val partHueHeight = partHUE.height / 6.0f
+        GL45.GL_TRIANGLE_STRIP.draw(VertexBufferObjects.PosColor2D) {
+            for((i, color) in hueArray.withIndex()) {
+                val hueY = y + partHUE.y + partHueHeight * i
+                vertex(x + partHUE.x2, hueY, color)
+                vertex(x + partHUE.x, hueY, color)
+            }
+            vertex(x + partHUE.x2, y + partHUE.y2, hueArray[0])
+            vertex(x + partHUE.x, y + partHUE.y2, hueArray[0])
         }
 
-        RenderUtils2D.drawLineH(x + partHUE.x - 1f, y + partHUE.y - 1.5f + (partHUE.height * hue), partHUE.width + 2f, ColorRGB.WHITE)
+        RenderUtils2D.drawLineNoSmoothH(x + partHUE.x - 1f, y + partHUE.y - 1.5f + (partHUE.height * hue), partHUE.width + 2f, ColorRGB.WHITE)
 
         // Alpha Part
         RenderUtils2D.drawRectFilled(x + partAlpha.x, y + partAlpha.y, partAlpha.width, partAlpha.height, ColorRGB.WHITE)
         RenderUtils2D.drawRectGradientV(x + partAlpha.x, y + partAlpha.y, partAlpha.width, partAlpha.height, setting.value.alpha(255), ColorRGB.EMPTY)
 
-        RenderUtils2D.drawLineH(x + partAlpha.x - 1f, y + partAlpha.y - 1.5f + (partAlpha.height * (1f - alpha)), partAlpha.width + 2f, ColorRGB.WHITE)
+        RenderUtils2D.drawLineNoSmoothH(x + partAlpha.x - 1f, y + partAlpha.y - 1.5f + (partAlpha.height * (1f - alpha)), partAlpha.width + 2f, ColorRGB.WHITE)
     }
 
     fun updateColor() {
