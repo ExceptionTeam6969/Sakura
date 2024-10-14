@@ -99,7 +99,7 @@ class ColorComponent(
 
         // Alpha Part
         RenderUtils2D.drawRectFilled(x + partAlpha.x, y + partAlpha.y, partAlpha.width, partAlpha.height, ColorRGB.WHITE)
-        RenderUtils2D.drawRectGradientV(x + partAlpha.x, y + partAlpha.y, partAlpha.width, partAlpha.height, setting.value.alpha(255), ColorRGB.EMPTY)
+        RenderUtils2D.drawRectGradientV(x + partAlpha.x, y + partAlpha.y, partAlpha.width, partAlpha.height, setting.value.alpha(255), setting.value.alpha(0))
 
         RenderUtils2D.drawLineNoSmoothH(x + partAlpha.x - 1f, y + partAlpha.y - 1.5f + (partAlpha.height * (1f - alpha)), partAlpha.width + 2f, ColorRGB.WHITE)
     }
