@@ -109,15 +109,15 @@ class ColorComponent(
         when (focusedPart) {
             1 -> {
                 saturation = (mouseX - x - partSB.x).coerceIn(0f, partSB.width) / partSB.width
-                brightness = (partSB.height - (mouseY - y - partSB.y).coerceIn(0f, partAlpha.height)) / partSB.height
+                brightness = 1f - ((mouseY - y - partSB.y).coerceIn(0f, partAlpha.height) / partSB.height)
                 setting.value = ColorUtils.hsbToRGB(hue, saturation, brightness).alpha(setting.value.a)
             }
             2 -> {
-                hue = 1f - (partHUE.height - (mouseY - y - partHUE.y).coerceIn(0f, partHUE.height)) / partHUE.height
+                hue = (mouseY - y - partHUE.y).coerceIn(0f, partHUE.height) / partHUE.height
                 setting.value = ColorUtils.hsbToRGB(hue, saturation, brightness).alpha(setting.value.a)
             }
             3 -> {
-                alpha = (partAlpha.height - (mouseY - y - partAlpha.y).coerceIn(0f, partAlpha.height)) / partAlpha.height
+                alpha = 1f - (mouseY - y - partAlpha.y).coerceIn(0f, partAlpha.height) / partAlpha.height
                 setting.value = setting.value.alpha((255 * alpha).toInt())
             }
         }
