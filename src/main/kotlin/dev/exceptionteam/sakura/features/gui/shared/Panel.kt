@@ -41,8 +41,10 @@ class Panel(
             x = mouseX - dragOffsetX
             y = mouseY - dragOffsetY
 
+            var offset = height
             moduleComponents.forEach {
-                it.updatePosition(x, y)
+                it.updatePosition(x, y + offset)
+                offset += it.height
             }
         }
 
