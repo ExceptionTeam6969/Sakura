@@ -118,7 +118,7 @@ class ColorComponent(
             }
             3 -> {
                 alpha = 1f - (mouseY - y - partAlpha.y).coerceIn(0f, partAlpha.height) / partAlpha.height
-                setting.value = setting.value.alpha((255 * alpha).toInt())
+                setting.value = setting.value.alpha(alpha)
             }
         }
     }

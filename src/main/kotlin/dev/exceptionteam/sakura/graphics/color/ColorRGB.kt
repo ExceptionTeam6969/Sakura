@@ -81,6 +81,22 @@ data class ColorRGB(val rgba: Int) {
         return ColorRGB(rgba and -256 or a)
     }
 
+    fun red(r: Float): ColorRGB {
+        return ColorRGB(rgba and 0xFFFFFF or ((255 * r).toInt() shl 24))
+    }
+
+    fun green(g: Float): ColorRGB {
+        return ColorRGB(rgba and -16711681 or ((255 * g).toInt() shl 16))
+    }
+
+    fun blue(b: Float): ColorRGB {
+        return ColorRGB(rgba and -65281 or ((255 * b).toInt() shl 8))
+    }
+
+    fun alpha(a: Float): ColorRGB {
+        return ColorRGB(rgba and -256 or (255 * a).toInt())
+    }
+
     fun setGLColor() : ColorRGB {
         GlStateManager._clearColor(rFloat, gFloat, bFloat, aFloat)
         return this
