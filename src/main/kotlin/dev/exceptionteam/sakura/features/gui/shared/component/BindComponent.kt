@@ -2,8 +2,8 @@ package dev.exceptionteam.sakura.features.gui.shared.component
 
 import dev.exceptionteam.sakura.events.impl.KeyEvent
 import dev.exceptionteam.sakura.events.nonNullListener
+import dev.exceptionteam.sakura.features.modules.impl.client.ClickGUI
 import dev.exceptionteam.sakura.features.settings.KeyBindSetting
-import dev.exceptionteam.sakura.graphics.color.ColorRGB
 import dev.exceptionteam.sakura.graphics.font.FontRenderers
 import dev.exceptionteam.sakura.utils.control.KeyBind
 import dev.exceptionteam.sakura.utils.control.MouseButtonType
@@ -30,7 +30,7 @@ class BindComponent(
     override fun render() {
         FontRenderers.drawString(
             "${setting.key.translation}: " + if (listening) "..." else setting.value.keyName,
-            x + 5f, y + 4f, ColorRGB.BLACK)
+            x + 5f, y + 4f, ClickGUI.textColor)
     }
 
     override fun mouseClicked(type: MouseButtonType): Boolean {

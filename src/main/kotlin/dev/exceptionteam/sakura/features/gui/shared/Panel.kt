@@ -3,8 +3,8 @@ package dev.exceptionteam.sakura.features.gui.shared
 import dev.exceptionteam.sakura.features.gui.shared.component.ModuleComponent
 import dev.exceptionteam.sakura.features.modules.AbstractModule
 import dev.exceptionteam.sakura.features.modules.Category
+import dev.exceptionteam.sakura.features.modules.impl.client.ClickGUI
 import dev.exceptionteam.sakura.graphics.RenderUtils2D
-import dev.exceptionteam.sakura.graphics.color.ColorRGB
 import dev.exceptionteam.sakura.graphics.font.FontRenderers
 import dev.exceptionteam.sakura.utils.control.MouseButtonType
 
@@ -50,9 +50,9 @@ class Panel(
 
         RenderUtils2D.drawRectFilled(x, y, width,
             if (isOpening) (moduleComponents.size + 1) * height else height,
-            ColorRGB.WHITE)
+            ClickGUI.primaryColor)
 
-        FontRenderers.drawString(category.translation, x + 5f, y + 4f, ColorRGB.BLACK)
+        FontRenderers.drawString(category.translation, x + 5f, y + 4f, ClickGUI.textColor)
 
         if (!isOpening) return
 

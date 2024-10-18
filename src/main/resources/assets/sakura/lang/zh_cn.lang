@@ -18,7 +18,15 @@ modules.test.color=颜色
 
 modules.click-gui=配置界面
 modules.click-gui.description=配置
+modules.click-gui.page=页面
+modules.click-gui.page.general=常规
 modules.click-gui.background=背景
+modules.click-gui.page.color=颜色
+modules.click-gui.primary-color=主颜色
+modules.click-gui.secondary-color=次颜色
+modules.click-gui.text-color=文字颜色
+modules.click-gui.outline-color=轮廓颜色
+modules.click-gui.slider-color=滑块颜色
 
 modules.chat-info=聊天栏信息
 modules.chat-info.description=在功能开关时在聊天栏显示信息

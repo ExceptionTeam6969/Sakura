@@ -1,7 +1,7 @@
 package dev.exceptionteam.sakura.features.gui.shared.component
 
+import dev.exceptionteam.sakura.features.modules.impl.client.ClickGUI
 import dev.exceptionteam.sakura.features.settings.EnumSetting
-import dev.exceptionteam.sakura.graphics.color.ColorRGB
 import dev.exceptionteam.sakura.graphics.font.FontRenderers
 import dev.exceptionteam.sakura.managers.impl.TranslationManager
 import dev.exceptionteam.sakura.utils.control.MouseButtonType
@@ -22,7 +22,7 @@ class EnumComponent(
 
         FontRenderers.drawString(
             "${setting.key.translation}: " + value,
-            x + 5f, y + 4f, ColorRGB.BLACK)
+            x + 5f, y + 4f, ClickGUI.textColor)
     }
 
     override fun mouseClicked(type: MouseButtonType): Boolean {

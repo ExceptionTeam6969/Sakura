@@ -1,12 +1,12 @@
 package dev.exceptionteam.sakura.features.gui.shared.component
 
+import dev.exceptionteam.sakura.features.modules.impl.client.ClickGUI
 import dev.exceptionteam.sakura.features.settings.DoubleSetting
 import dev.exceptionteam.sakura.features.settings.FloatSetting
 import dev.exceptionteam.sakura.features.settings.IntSetting
 import dev.exceptionteam.sakura.features.settings.LongSetting
 import dev.exceptionteam.sakura.features.settings.NumberSetting
 import dev.exceptionteam.sakura.graphics.RenderUtils2D
-import dev.exceptionteam.sakura.graphics.color.ColorRGB
 import dev.exceptionteam.sakura.graphics.font.FontRenderers
 import dev.exceptionteam.sakura.utils.control.MouseButtonType
 
@@ -38,12 +38,12 @@ class SliderComponent(
         }
 
         val value = String.format("%.2f", setting.value.toFloat())
-        FontRenderers.drawString("${setting.key.translation}: $value", x + 5f, y + 4f, ColorRGB.BLACK)
+        FontRenderers.drawString("${setting.key.translation}: $value", x + 5f, y + 4f, ClickGUI.textColor)
 
         val sliderLength =
             width * (setting.value.toFloat() / setting.maxValue.toFloat())
 
-        RenderUtils2D.drawRectFilled(x, y + height - 2.5f, sliderLength, 2.5f , ColorRGB.BLACK)
+        RenderUtils2D.drawRectFilled(x, y + height - 2.5f, sliderLength, 2.5f , ClickGUI.sliderColor)
     }
 
     override fun mouseClicked(type: MouseButtonType): Boolean {

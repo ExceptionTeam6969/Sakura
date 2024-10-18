@@ -18,7 +18,15 @@ modules.test.color=Color
 
 modules.click-gui=Click GUI
 modules.click-gui.description=
+modules.click-gui.page=Page
+modules.click-gui.page.general=General
 modules.click-gui.background=Background
+modules.click-gui.page.color=Color
+modules.click-gui.primary-color=Primary Color
+modules.click-gui.secondary-color=Secondary Color
+modules.click-gui.text-color=Text Color
+modules.click-gui.outline-color=Outline Color
+modules.click-gui.slider-color=Slider Color
 
 modules.chat-info=Chat Info
 modules.chat-info.description=Send information when modules toggling

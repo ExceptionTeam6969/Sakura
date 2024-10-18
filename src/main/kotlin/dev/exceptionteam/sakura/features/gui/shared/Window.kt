@@ -1,8 +1,8 @@
 package dev.exceptionteam.sakura.features.gui.shared
 
 import dev.exceptionteam.sakura.features.gui.shared.component.AbstractComponent
+import dev.exceptionteam.sakura.features.modules.impl.client.ClickGUI
 import dev.exceptionteam.sakura.graphics.RenderUtils2D
-import dev.exceptionteam.sakura.graphics.color.ColorRGB
 import dev.exceptionteam.sakura.graphics.font.FontRenderers
 import dev.exceptionteam.sakura.translation.TranslationString
 import dev.exceptionteam.sakura.utils.control.MouseButtonType
@@ -38,10 +38,10 @@ abstract class Window(
     override fun render() {
         updatePosition(x, y)
 
-        RenderUtils2D.drawRectFilled(x, y, width, height, ColorRGB.WHITE)
-        RenderUtils2D.drawRectOutline(x, y, width, height, ColorRGB.BLACK)
+        RenderUtils2D.drawRectFilled(x, y, width, height, ClickGUI.primaryColor)
+        RenderUtils2D.drawRectOutline(x, y, width, height, ClickGUI.outlineColor)
 
-        FontRenderers.drawString(title, x + 5f, y + 4f, ColorRGB.BLACK)
+        FontRenderers.drawString(title, x + 5f, y + 4f, ClickGUI.textColor)
 
         components.forEach {
             if (!it.visible) return@forEach
