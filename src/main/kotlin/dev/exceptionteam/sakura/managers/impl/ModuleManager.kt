@@ -3,11 +3,8 @@ package dev.exceptionteam.sakura.managers.impl
 import dev.exceptionteam.sakura.events.impl.KeyEvent
 import dev.exceptionteam.sakura.events.nonNullListener
 import dev.exceptionteam.sakura.features.modules.AbstractModule
-import dev.exceptionteam.sakura.features.modules.impl.client.ChatInfo
-import dev.exceptionteam.sakura.features.modules.impl.client.ClickGUI
-import dev.exceptionteam.sakura.features.modules.impl.client.CustomFont
-import dev.exceptionteam.sakura.features.modules.impl.client.Language
-import dev.exceptionteam.sakura.features.modules.impl.client.RenderSystemMod
+import dev.exceptionteam.sakura.features.modules.impl.client.*
+import dev.exceptionteam.sakura.features.modules.impl.movement.*
 
 object ModuleManager {
 
@@ -33,6 +30,7 @@ object ModuleManager {
             Language,
 
             // Movement
+            Sprint,
         )
     }
 

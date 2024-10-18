@@ -45,3 +45,9 @@ modules.language.description=
 modules.language.language=Language
 modules.language.language.en_us=English (US)
 modules.language.language.zh_cn=Chinese (Simplified)
+
+modules.sprint=Sprint
+modules.sprint.description=Automatically makes the player sprint
+modules.sprint.mode=Mode
+modules.sprint.mode.legit=Legit
+modules.sprint.mode.rage=Rage

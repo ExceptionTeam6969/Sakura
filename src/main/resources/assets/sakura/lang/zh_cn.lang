@@ -45,3 +45,9 @@ modules.language.description=
 modules.language.language=语言
 modules.language.language.en_us=英语
 modules.language.language.zh_cn=简体中文
+
+modules.sprint=强制疾跑
+modules.sprint.description=自动让玩家跑步
+modules.sprint.mode=模式
+modules.sprint.mode.legit=合法
+modules.sprint.mode.rage=暴力
