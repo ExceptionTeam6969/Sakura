@@ -25,6 +25,7 @@ object ClickGUI: Module(
     val textColor by setting("text-color", ColorRGB(0, 0, 0)) { page == Page.COLOR }
     val outlineColor by setting("outline-color", ColorRGB(0, 0, 0)) { page == Page.COLOR }
     val sliderColor by setting("slider-color", ColorRGB(0, 0, 0)) { page == Page.COLOR }
+    val backgroundColor by setting("background-color", ColorRGB(255, 255, 255)) { page == Page.COLOR }
 
     init {
 

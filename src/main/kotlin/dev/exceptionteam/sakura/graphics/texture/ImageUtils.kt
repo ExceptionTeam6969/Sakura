@@ -56,10 +56,6 @@ object ImageUtils {
 
         glTextureStorage2D(tex.id, 1, format, width, height)
 
-        glPixelStorei(GL_UNPACK_ROW_LENGTH, 0)
-        glPixelStorei(GL_UNPACK_SKIP_ROWS, 0)
-        glPixelStorei(GL_UNPACK_SKIP_PIXELS, 0)
-
         // Upload image
         if (RenderSystem.gpuType != RenderSystem.GPUType.INTEL) {
             glTextureSubImage2D(

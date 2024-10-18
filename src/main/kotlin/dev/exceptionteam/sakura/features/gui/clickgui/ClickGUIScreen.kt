@@ -8,7 +8,6 @@ import dev.exceptionteam.sakura.features.gui.shared.Window
 import dev.exceptionteam.sakura.features.modules.Category
 import dev.exceptionteam.sakura.features.modules.impl.client.ClickGUI
 import dev.exceptionteam.sakura.graphics.RenderUtils2D
-import dev.exceptionteam.sakura.graphics.color.ColorRGB
 import dev.exceptionteam.sakura.managers.impl.ModuleManager
 import dev.exceptionteam.sakura.utils.control.MouseButtonType
 import net.minecraft.client.gui.DrawContext
@@ -37,9 +36,10 @@ object ClickGUIScreen : AbstractGUIScreen("ClickGUI") {
         nonNullListener<Render2DEvent>(alwaysListening = true) { e ->
             if (mc.currentScreen !is ClickGUIScreen) return@nonNullListener
             if (ClickGUI.background) {
-                RenderUtils2D.drawRectFilled(
+                RenderUtils2D.drawRectGradientV(
                     0f, 0f, mc.window.scaledWidth.toFloat(),
-                    mc.window.scaledHeight.toFloat(), ColorRGB(0, 0, 0, 120)
+                    mc.window.scaledHeight.toFloat(),
+                    ClickGUI.backgroundColor.alpha(0.1f), ClickGUI.backgroundColor.alpha(0.6f)
                 )
             }
             panels.forEach { it.render(mouseX, mouseY) }
