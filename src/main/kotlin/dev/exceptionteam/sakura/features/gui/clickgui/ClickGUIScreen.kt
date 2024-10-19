@@ -39,7 +39,7 @@ object ClickGUIScreen : AbstractGUIScreen("ClickGUI") {
                 RenderUtils2D.drawRectGradientV(
                     0f, 0f, mc.window.scaledWidth.toFloat(),
                     mc.window.scaledHeight.toFloat(),
-                    ClickGUI.backgroundColor.alpha(0.1f), ClickGUI.backgroundColor.alpha(0.6f)
+                    ClickGUI.backgroundColor.alpha(0.1f), ClickGUI.backgroundColor.alpha(0.8f)
                 )
             }
             panels.forEach { it.render(mouseX, mouseY) }
