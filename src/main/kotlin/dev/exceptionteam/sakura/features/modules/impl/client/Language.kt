@@ -7,7 +7,8 @@ import dev.exceptionteam.sakura.utils.interfaces.TranslationEnum
 object Language: Module(
     name = "language",
     category = Category.CLIENT,
-    defaultEnable = true
+    defaultEnable = true,
+    alwaysEnable = true,
 ) {
 
     val language by setting("language", Languages.EN_US)

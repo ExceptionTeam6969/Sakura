@@ -15,6 +15,7 @@ abstract class AbstractModule(
     val category: Category,
     val description: TranslationString,
     defaultEnable: Boolean,
+    val alwaysEnable: Boolean,
     defaultBind: Int
 ): SettingsDesigner<AbstractModule> {
 

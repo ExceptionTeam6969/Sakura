@@ -38,7 +38,8 @@ class ModuleComponent(
 
         when (type) {
             MouseButtonType.LEFT -> {
-                module.toggle()
+                if (!module.alwaysEnable) module.toggle()
+                else if (module.isDisabled) module.enable()
             }
 
             MouseButtonType.RIGHT -> {

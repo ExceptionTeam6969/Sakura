@@ -5,7 +5,9 @@ import dev.exceptionteam.sakura.features.modules.Module
 
 object RenderSystemMod: Module(
     name = "render-system",
-    category = Category.CLIENT
+    category = Category.CLIENT,
+    defaultEnable = true,
+    alwaysEnable = true,
 ) {
 
     val frameBuffer by setting("frame-buffer", true)

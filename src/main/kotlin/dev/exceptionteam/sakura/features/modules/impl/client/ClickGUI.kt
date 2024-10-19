@@ -11,7 +11,7 @@ import org.lwjgl.glfw.GLFW
 object ClickGUI: Module(
     name = "click-gui",
     category = Category.CLIENT,
-    defaultBind = GLFW.GLFW_KEY_RIGHT_SHIFT
+    defaultBind = GLFW.GLFW_KEY_RIGHT_SHIFT,
 ) {
 
     private val page by setting("page", Page.GENERAL)

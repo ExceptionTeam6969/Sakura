@@ -9,7 +9,7 @@ import dev.exceptionteam.sakura.utils.interfaces.TranslationEnum
 
 object Sprint: Module(
     name = "sprint",
-    category = Category.MOVEMENT
+    category = Category.MOVEMENT,
 ) {
 
     private val mode by setting("mode", Mode.LEGIT)
