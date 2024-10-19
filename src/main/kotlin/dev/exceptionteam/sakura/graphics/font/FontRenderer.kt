@@ -3,12 +3,13 @@ package dev.exceptionteam.sakura.graphics.font
 import dev.exceptionteam.sakura.features.modules.impl.client.CustomFont
 import dev.exceptionteam.sakura.graphics.RenderUtils2D
 import dev.exceptionteam.sakura.graphics.color.ColorRGB
-import dev.exceptionteam.sakura.graphics.font.glyphs.FontGlyphs
+import dev.exceptionteam.sakura.graphics.font.glyphs.FontChunks
+import dev.exceptionteam.sakura.graphics.font.glyphs.GlyphChunk
 import dev.exceptionteam.sakura.graphics.matrix.MatrixStack
 import org.lwjgl.opengl.GL45.*
 
 class FontRenderer(
-    private val font: FontGlyphs
+    private val font: FontChunks
 ) {
 
     fun drawString(
@@ -61,20 +62,31 @@ class FontRenderer(
                 shouldContinue = true
                 continue
             }
-            if (canDisplay(text[i])) {
-                width += font.getGlyph(text[i]).width * scale
+
+            val ch = text[i]
+
+            if (canDisplay(ch)) {
+                val chunk = font.getChunk(ch.code / GlyphChunk.CHUNK_SIZE)
+
+                chunk.charData[ch]?.let {
+                    width += it.width * scale
+                }
             }
         }
         return width
     }
 
     fun drawChar(ch: Char, x: Float, y: Float, color: ColorRGB, scale: Float): Float {
-        val glyph = font.getGlyph(ch)
+        val chunk = font.getChunk(ch.code / GlyphChunk.CHUNK_SIZE)
 
-        val width = glyph.width * scale
-        val height = glyph.height * scale
+        val charData = chunk.charData[ch] ?: return 0f
 
-        RenderUtils2D.drawTextureRect(x, y, width, height, glyph.texture, color)
+        val width = charData.width * scale
+        val height = charData.height * scale
+
+        RenderUtils2D.drawTextureRect(x, y, width, height,
+            charData.uStart, charData.vStart, charData.uEnd, charData.vEnd,
+            chunk.texture, color)
 
         return width
     }

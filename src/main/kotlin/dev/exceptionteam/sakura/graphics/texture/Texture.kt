@@ -28,7 +28,7 @@ class Texture(type: Int = GL_TEXTURE_2D): GlObject {
     fun use(func: ()->Unit) {
         bind()
         func()
-        unbind()
+//        unbind()
     }
 
 }

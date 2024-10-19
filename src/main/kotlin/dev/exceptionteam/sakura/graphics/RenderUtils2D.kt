@@ -111,4 +111,27 @@ object RenderUtils2D {
         }
     }
 
+    fun drawTextureRect(
+        x: Float, y: Float, width: Float, height: Float,
+        startU: Float, startV: Float, endU: Float, endV: Float,
+        texture: Texture, color: ColorRGB = ColorRGB.WHITE
+    ) {
+        val startX = x
+        val startY = y
+        val endX = x + width
+        val endY = y + height
+
+        GL45.glEnable(GL45.GL_BLEND)
+        GL45.glBlendFunc(GL45.GL_SRC_ALPHA, GL45.GL_ONE_MINUS_SRC_ALPHA)
+
+        texture.use {
+            GL45.GL_TRIANGLE_STRIP.draw(VertexBufferObjects.PosTex2D) {
+                texture(endX, startY, endU, startV, color)
+                texture(startX, startY, startU, startV,color)
+                texture(endX, endY, endU, endV,color)
+                texture(startX, endY, startU, endV, color)
+            }
+        }
+    }
+
 }

@@ -2,21 +2,21 @@ package dev.exceptionteam.sakura.graphics.font
 
 import dev.exceptionteam.sakura.Sakura
 import dev.exceptionteam.sakura.graphics.color.ColorRGB
-import dev.exceptionteam.sakura.graphics.font.glyphs.FontGlyphs
+import dev.exceptionteam.sakura.graphics.font.glyphs.FontChunks
 import dev.exceptionteam.sakura.translation.TranslationString
 import java.awt.Font
 
 object FontRenderers {
 
-    private const val FONT_SIZE = 16f
+    const val FONT_SIZE = 16f
 
-    private val cnFont = FontGlyphs(Font.createFont(
+    private val cnFont = FontChunks(Font.createFont(
         Font.TRUETYPE_FONT,
         this.javaClass.getResourceAsStream("${Sakura.ASSETS_DIRECTORY}/font/chinese.ttf")
     ).deriveFont(Font.PLAIN, FONT_SIZE * 2f))
 
     // Comfortaa
-    private val comFont = FontGlyphs(Font.createFont(
+    private val comFont = FontChunks(Font.createFont(
         Font.TRUETYPE_FONT,
         this.javaClass.getResourceAsStream("${Sakura.ASSETS_DIRECTORY}/font/comfortaa.ttf")
     ).deriveFont(Font.PLAIN, FONT_SIZE * 2f))
