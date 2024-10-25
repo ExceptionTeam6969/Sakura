@@ -1,11 +1,8 @@
 package dev.exceptionteam.sakura.managers.impl
 
 import dev.exceptionteam.sakura.events.impl.KeyEvent
-import dev.exceptionteam.sakura.events.impl.Render2DEvent
 import dev.exceptionteam.sakura.events.nonNullListener
 import dev.exceptionteam.sakura.features.modules.AbstractModule
-import dev.exceptionteam.sakura.features.modules.Category
-import dev.exceptionteam.sakura.features.modules.HUDModule
 import dev.exceptionteam.sakura.features.modules.impl.client.*
 import dev.exceptionteam.sakura.features.modules.impl.hud.WaterMark
 import dev.exceptionteam.sakura.features.modules.impl.movement.*
