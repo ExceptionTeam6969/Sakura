@@ -69,6 +69,7 @@ object RenderSystem {
     }
 
     private fun preRender2d() {
+        preAttrib()
         VertexBufferObjects.sync()
         glEnable(GL_BLEND)
         glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA)
@@ -78,6 +79,7 @@ object RenderSystem {
     private fun postRender2d() {
         glDisable(GL_BLEND)
         postFrameBuffer()
+        postAttrib()
     }
 
     fun onRender3d() {
@@ -89,6 +91,7 @@ object RenderSystem {
     }
 
     private fun preRender3d() {
+        preAttrib()
         VertexBufferObjects.sync()
         glEnable(GL_BLEND)
         glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA)
@@ -100,6 +103,7 @@ object RenderSystem {
         glDisable(GL_BLEND)
         postFrameBuffer()
         glEnable(GL_DEPTH_TEST)
+        postAttrib()
     }
 
     private fun preFrameBuffer() {
@@ -127,6 +131,29 @@ object RenderSystem {
         glBlitNamedFramebuffer(frameBuffer.id, mc.framebuffer.fbo,
             0, 0, wWidth, wHeight, 0, 0, wWidth, wHeight,
             GL_COLOR_BUFFER_BIT, GL_NEAREST)
+    }
+
+    // Attrib
+    private var vaoLast = -1
+    private var vboLast = -1
+    private var eboLast = -1
+    private var lastShader = -1
+    private var lastTexture = -1
+
+    private fun preAttrib() {
+        vaoLast = glGetInteger(GL_VERTEX_ARRAY_BINDING)
+        vboLast = glGetInteger(GL_ARRAY_BUFFER_BINDING)
+        eboLast = glGetInteger(GL_ELEMENT_ARRAY_BUFFER_BINDING)
+        lastShader = glGetInteger(GL_CURRENT_PROGRAM)
+        lastTexture = glGetInteger(GL_TEXTURE_BINDING_2D)
+    }
+
+    private fun postAttrib() {
+        glBindVertexArray(vaoLast)
+        glBindBuffer(GL_ARRAY_BUFFER, vboLast)
+        glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, eboLast)
+        glUseProgram(lastShader)
+        glBindTexture(GL_TEXTURE_2D, lastTexture)
     }
 
 }
