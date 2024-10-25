@@ -17,17 +17,20 @@ modules.test.mode.fuck=傻逼
 modules.test.color=颜色
 
 modules.click-gui=配置界面
-modules.click-gui.description=配置
-modules.click-gui.page=页面
-modules.click-gui.page.general=常规
-modules.click-gui.background=背景
-modules.click-gui.page.color=颜色
-modules.click-gui.primary-color=主颜色
-modules.click-gui.secondary-color=次颜色
-modules.click-gui.text-color=文字颜色
-modules.click-gui.outline-color=轮廓颜色
-modules.click-gui.slider-color=滑块颜色
-modules.click-gui.background-color=背景颜色
+
+modules.hud-editor=界面编辑器
+
+modules.ui-setting=界面设置
+modules.ui-setting.page=页面
+modules.ui-setting.page.general=常规
+modules.ui-setting.background=背景
+modules.ui-setting.page.color=颜色
+modules.ui-setting.primary-color=主颜色
+modules.ui-setting.secondary-color=次颜色
+modules.ui-setting.text-color=文字颜色
+modules.ui-setting.outline-color=轮廓颜色
+modules.ui-setting.slider-color=滑块颜色
+modules.ui-setting.background-color=背景颜色
 
 modules.chat-info=聊天栏信息
 modules.chat-info.description=在功能开关时在聊天栏显示信息
@@ -51,3 +54,7 @@ modules.sprint.description=自动让玩家跑步
 modules.sprint.mode=模式
 modules.sprint.mode.legit=合法
 modules.sprint.mode.rage=暴力
+
+modules.water-mark=水印
+modules.water-mark.version=显示版本
+modules.water-mark.text-color=文字颜色

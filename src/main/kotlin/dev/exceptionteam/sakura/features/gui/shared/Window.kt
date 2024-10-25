@@ -1,7 +1,7 @@
 package dev.exceptionteam.sakura.features.gui.shared
 
 import dev.exceptionteam.sakura.features.gui.shared.component.AbstractComponent
-import dev.exceptionteam.sakura.features.modules.impl.client.ClickGUI
+import dev.exceptionteam.sakura.features.modules.impl.client.UiSetting
 import dev.exceptionteam.sakura.graphics.RenderUtils2D
 import dev.exceptionteam.sakura.graphics.font.FontRenderers
 import dev.exceptionteam.sakura.translation.TranslationString
@@ -38,10 +38,10 @@ abstract class Window(
     override fun render() {
         updatePosition(x, y)
 
-        RenderUtils2D.drawRectFilled(x, y, width, height, ClickGUI.primaryColor)
-        RenderUtils2D.drawRectOutline(x, y, width, height, ClickGUI.outlineColor)
+        RenderUtils2D.drawRectFilled(x, y, width, height, UiSetting.primaryColor)
+        RenderUtils2D.drawRectOutline(x, y, width, height, UiSetting.outlineColor)
 
-        FontRenderers.drawString(title, x + 5f, y + 4f, ClickGUI.textColor)
+        FontRenderers.drawString(title, x + 5f, y + 4f, UiSetting.textColor)
 
         components.forEach {
             if (!it.visible) return@forEach

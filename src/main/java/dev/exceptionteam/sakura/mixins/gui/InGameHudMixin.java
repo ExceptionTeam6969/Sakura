@@ -16,7 +16,6 @@ public class InGameHudMixin {
 
     @Inject(method = "render", at = @At("TAIL"))
     private void onRender(DrawContext context, RenderTickCounter tickCounter, CallbackInfo ci) {
-
         Profiler profiler = Profilers.get();
         profiler.push("sakura-render2d");
 

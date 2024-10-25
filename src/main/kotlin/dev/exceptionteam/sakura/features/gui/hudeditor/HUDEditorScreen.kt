@@ -1,4 +1,4 @@
-package dev.exceptionteam.sakura.features.gui.clickgui
+package dev.exceptionteam.sakura.features.gui.hudeditor
 
 import dev.exceptionteam.sakura.events.impl.Render2DEvent
 import dev.exceptionteam.sakura.events.nonNullListener
@@ -6,7 +6,8 @@ import dev.exceptionteam.sakura.features.gui.shared.GuiScreen
 import dev.exceptionteam.sakura.features.gui.shared.Panel
 import dev.exceptionteam.sakura.features.gui.shared.Window
 import dev.exceptionteam.sakura.features.modules.Category
-import dev.exceptionteam.sakura.features.modules.impl.client.ClickGUI
+import dev.exceptionteam.sakura.features.modules.HUDModule
+import dev.exceptionteam.sakura.features.modules.impl.client.HUDEditor
 import dev.exceptionteam.sakura.features.modules.impl.client.UiSetting
 import dev.exceptionteam.sakura.graphics.RenderUtils2D
 import dev.exceptionteam.sakura.managers.impl.ModuleManager
@@ -14,9 +15,10 @@ import dev.exceptionteam.sakura.utils.control.MouseButtonType
 import net.minecraft.client.gui.DrawContext
 import java.util.concurrent.CopyOnWriteArrayList
 
-object ClickGUIScreen : GuiScreen("click-gui") {
+object HUDEditorScreen : GuiScreen("hud-editor") {
 
-    private val panels = CopyOnWriteArrayList<Panel>()
+    private val panel: Panel
+    private val hudRenderers = CopyOnWriteArrayList<HUDRenderer>()
 
     private var mouseX: Float = 0f
     private var mouseY: Float = 0f
@@ -32,10 +34,16 @@ object ClickGUIScreen : GuiScreen("click-gui") {
         }
 
     init {
-        var xOffset = 10f
+
+        val modules = ModuleManager.modules.filter { it.category == Category.HUD }
+        panel = Panel(Category.HUD, modules, 10f, 10f, WIDTH, HEIGHT)
+        modules.forEach {
+            if (it !is HUDModule) return@forEach
+            hudRenderers.add(HUDRenderer(it.x, it.y, it.width, it.height,it))
+        }
 
         nonNullListener<Render2DEvent>(alwaysListening = true) { e ->
-            if (mc.currentScreen !is ClickGUIScreen) return@nonNullListener
+            if (mc.currentScreen !is HUDEditorScreen) return@nonNullListener
             if (UiSetting.background) {
                 RenderUtils2D.drawRectGradientV(
                     0f, 0f, mc.window.scaledWidth.toFloat(),
@@ -43,26 +51,23 @@ object ClickGUIScreen : GuiScreen("click-gui") {
                     UiSetting.backgroundColor.alpha(0.1f), UiSetting.backgroundColor.alpha(0.8f)
                 )
             }
-            panels.forEach { it.render(mouseX, mouseY) }
+
+            hudRenderers.filter { it.module.isEnabled }.forEach {
+                it.mouseX = mouseX
+                it.mouseY = mouseY
+                it.checkHovering()
+                it.render()
+            }
+
+            panel.render(mouseX, mouseY)
 
             currentWindow?.render()
         }
 
-        Category.entries
-            .filter { it != Category.HUD }
-            .forEach { cate ->
-                val modules = ModuleManager.modules.filter {
-                    it.category == cate
-                }
-
-                panels.add(Panel(cate, modules, xOffset, 10f, WIDTH, HEIGHT))
-
-                xOffset += WIDTH + 10f
-            }
     }
 
     override fun close() {
-        ClickGUI.disable()
+        HUDEditor.disable()
         super.close()
     }
 
@@ -75,8 +80,8 @@ object ClickGUIScreen : GuiScreen("click-gui") {
             it.mouseX = xf
         }
 
-        this@ClickGUIScreen.mouseX = xf
-        this@ClickGUIScreen.mouseY = yf
+        this@HUDEditorScreen.mouseX = xf
+        this@HUDEditorScreen.mouseY = yf
     }
 
     override fun mouseClicked(mouseX: Double, mouseY: Double, button: Int): Boolean {
@@ -97,7 +102,8 @@ object ClickGUIScreen : GuiScreen("click-gui") {
             }
         }
 
-        panels.forEach { it.mouseClicked(mouseX.toFloat(), mouseY.toFloat(), type) }
+        hudRenderers.filter { it.module.isEnabled }.forEach { it.mouseClicked(type) }
+        panel.mouseClicked(mouseX.toFloat(), mouseY.toFloat(), type)
         return super.mouseClicked(mouseX, mouseY, button)
     }
 
@@ -114,7 +120,8 @@ object ClickGUIScreen : GuiScreen("click-gui") {
             }
         }
 
-        panels.forEach { it.mouseReleased(type) }
+        hudRenderers.filter { it.module.isEnabled }.forEach { it.mouseReleased(type) }
+        panel.mouseReleased(type)
         return super.mouseReleased(mouseX, mouseY, button)
     }
 

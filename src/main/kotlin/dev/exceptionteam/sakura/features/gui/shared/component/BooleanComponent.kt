@@ -1,6 +1,6 @@
 package dev.exceptionteam.sakura.features.gui.shared.component
 
-import dev.exceptionteam.sakura.features.modules.impl.client.ClickGUI
+import dev.exceptionteam.sakura.features.modules.impl.client.UiSetting
 import dev.exceptionteam.sakura.features.settings.BooleanSetting
 import dev.exceptionteam.sakura.graphics.easing.AnimationFlag
 import dev.exceptionteam.sakura.graphics.easing.Easing
@@ -21,8 +21,8 @@ class BooleanComponent(
 
         if (widthPercent > 0.01f) RenderUtils2D.drawRectFilled(
             x, y, width * widthPercent, height,
-            ClickGUI.secondaryColor.alpha(widthPercent.coerceIn(0f, ClickGUI.secondaryColor.aFloat)))
-        FontRenderers.drawString(setting.key, x + 5f, y + 4f, ClickGUI.textColor)
+            UiSetting.secondaryColor.alpha(widthPercent.coerceIn(0f, UiSetting.secondaryColor.aFloat)))
+        FontRenderers.drawString(setting.key, x + 5f, y + 4f, UiSetting.textColor)
     }
 
     override fun mouseClicked(type: MouseButtonType): Boolean {

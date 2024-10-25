@@ -1,6 +1,6 @@
 package dev.exceptionteam.sakura.features.gui.shared.component
 
-import dev.exceptionteam.sakura.features.modules.impl.client.ClickGUI
+import dev.exceptionteam.sakura.features.modules.impl.client.UiSetting
 import dev.exceptionteam.sakura.features.settings.ColorSetting
 import dev.exceptionteam.sakura.graphics.RenderUtils2D
 import dev.exceptionteam.sakura.graphics.buffer.VertexBufferObjects
@@ -52,7 +52,7 @@ class ColorComponent(
             alpha = setting.value.aFloat
             first = false
         }
-        FontRenderers.drawString(setting.key, x + 5f, y + 4f, ClickGUI.textColor)
+        FontRenderers.drawString(setting.key, x + 5f, y + 4f, UiSetting.textColor)
         RenderUtils2D.drawRectFilled(x + width - 25f, y + 3f, 20f, closedHeight - 6f, setting.value)
 
         if (!isOpen) return

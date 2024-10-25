@@ -79,8 +79,8 @@ object VertexBufferObjects {
         glBindVertexArray(vaoID)
         glBindBuffer(GL_ARRAY_BUFFER, vbo.id)
         vertexAttribute.apply()
-//        glBindVertexArray(0)
-//        glBindBuffer(GL_ARRAY_BUFFER, 0)
+        glBindVertexArray(0)
+        glBindBuffer(GL_ARRAY_BUFFER, 0)
         return vaoID
     }
 

@@ -1,9 +1,11 @@
 package dev.exceptionteam.sakura.features.gui.shared.component
 
 import dev.exceptionteam.sakura.features.gui.clickgui.ClickGUIScreen
+import dev.exceptionteam.sakura.features.gui.hudeditor.HUDEditorScreen
 import dev.exceptionteam.sakura.features.gui.shared.windows.ModuleSettingWindow
 import dev.exceptionteam.sakura.features.modules.AbstractModule
-import dev.exceptionteam.sakura.features.modules.impl.client.ClickGUI
+import dev.exceptionteam.sakura.features.modules.HUDModule
+import dev.exceptionteam.sakura.features.modules.impl.client.UiSetting
 import dev.exceptionteam.sakura.graphics.easing.AnimationFlag
 import dev.exceptionteam.sakura.graphics.easing.Easing
 import dev.exceptionteam.sakura.graphics.RenderUtils2D
@@ -22,12 +24,12 @@ class ModuleComponent(
 
         if (widthPercent > 0.01f) RenderUtils2D.drawRectFilled(
             x + 2f, y + 1f, width * widthPercent - 4f, height - 2f,
-            ClickGUI.secondaryColor.alpha(widthPercent.coerceIn(0f, ClickGUI.secondaryColor.aFloat)))
+            UiSetting.secondaryColor.alpha(widthPercent.coerceIn(0f, UiSetting.secondaryColor.aFloat)))
 
         FontRenderers.drawString(
             module.name.translation,
             x + 5f, y + 4f,
-            ClickGUI.textColor
+            UiSetting.textColor
         )
     }
 
@@ -44,7 +46,10 @@ class ModuleComponent(
 
             MouseButtonType.RIGHT -> {
                 val moduleSettingWindow = ModuleSettingWindow(mouseX, mouseY, width, height, module)
-                ClickGUIScreen.currentWindow = moduleSettingWindow
+
+
+                if (module is HUDModule) HUDEditorScreen.currentWindow = moduleSettingWindow
+                else ClickGUIScreen.currentWindow = moduleSettingWindow
             }
 
             else -> {

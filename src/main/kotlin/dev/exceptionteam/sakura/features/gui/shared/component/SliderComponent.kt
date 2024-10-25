@@ -1,6 +1,6 @@
 package dev.exceptionteam.sakura.features.gui.shared.component
 
-import dev.exceptionteam.sakura.features.modules.impl.client.ClickGUI
+import dev.exceptionteam.sakura.features.modules.impl.client.UiSetting
 import dev.exceptionteam.sakura.features.settings.DoubleSetting
 import dev.exceptionteam.sakura.features.settings.FloatSetting
 import dev.exceptionteam.sakura.features.settings.IntSetting
@@ -38,12 +38,12 @@ class SliderComponent(
         }
 
         val value = String.format("%.2f", setting.value.toFloat())
-        FontRenderers.drawString("${setting.key.translation}: $value", x + 5f, y + 4f, ClickGUI.textColor)
+        FontRenderers.drawString("${setting.key.translation}: $value", x + 5f, y + 4f, UiSetting.textColor)
 
         val sliderLength =
             width * (setting.value.toFloat() / setting.maxValue.toFloat())
 
-        RenderUtils2D.drawRectFilled(x, y + height - 2.5f, sliderLength, 2.5f , ClickGUI.sliderColor)
+        RenderUtils2D.drawRectFilled(x, y + height - 2.5f, sliderLength, 2.5f , UiSetting.sliderColor)
     }
 
     override fun mouseClicked(type: MouseButtonType): Boolean {
