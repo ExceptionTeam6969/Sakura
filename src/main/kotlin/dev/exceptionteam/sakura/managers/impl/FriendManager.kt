@@ -10,11 +10,9 @@ object FriendManager {
      * @return True if the friend was added, false if the friend already exists in the list.
      */
     fun addFriend(name: String): Boolean {
-        friends.find { it == name }?.let {
-            friends.add(name)
-            return true
-        }
-        return false
+        if (isFriend(name)) return false
+        friends.add(name)
+        return true
     }
 
     /**
@@ -23,11 +21,9 @@ object FriendManager {
      * @return True if the friend was removed, false if the friend was not found in the list.
      */
     fun removeFriend(name: String): Boolean {
-        friends.find { it == name }?.let {
-            friends.remove(it)
-            return true
-        }
-        return false
+        if (!isFriend(name)) return false
+        friends.remove(name)
+        return true
     }
 
     /**

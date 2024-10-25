@@ -9,7 +9,8 @@
 		"input.KeyboardMixin",
 		"gui.InGameHudMixin",
 		"graphics.GameRendererMixin",
-		"graphics.WindowMixin"
+		"graphics.WindowMixin",
+		"network.ClientConnectionMixin"
 	],
 	"injectors": {
 		"defaultRequire": 1

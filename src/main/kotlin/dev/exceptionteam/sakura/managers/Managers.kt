@@ -13,6 +13,7 @@ object Managers {
         ModuleManager
         ConfigManager
         FriendManager
+        CommandManager
     }
 
 }
