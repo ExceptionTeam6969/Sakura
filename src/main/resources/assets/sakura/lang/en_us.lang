@@ -9,13 +9,6 @@ category.hud=HUD
 settings.toggle=Toggle
 settings.key-bind=Key Bind
 
-modules.test=Test
-modules.test.slider=Slider
-modules.test.mode=Mode
-modules.test.mode.normal=Normal
-modules.test.mode.fuck=Fuck
-modules.test.color=Color
-
 modules.click-gui=Click GUI
 
 modules.hud-editor=HUD Editor
