@@ -1,4 +1,4 @@
-package dev.exceptionteam.sakura.graphics
+package dev.exceptionteam.sakura.graphics.easing
 
 import dev.exceptionteam.sakura.utils.math.*
 import kotlin.math.cos

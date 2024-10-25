@@ -1,4 +1,4 @@
-package dev.exceptionteam.sakura.graphics
+package dev.exceptionteam.sakura.graphics.easing
 
 class AnimationFlag(private val interpolation: InterpolateFunction) {
 
