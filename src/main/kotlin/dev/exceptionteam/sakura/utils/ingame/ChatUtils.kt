@@ -58,35 +58,10 @@ object ChatUtils {
     }
 
     fun sendMessage(message: String) {
-        tempMsg?.let { tempMsg ->
-            if (tempMsg == message) {
-                msgCount++
-                MinecraftClient.getInstance().inGameHud?.let { gameHUD ->
-                    val text = Text.literal(
-                        "${bracketBuilder(AQUA + Sakura.NAME)} ${
-                            message.replace(
-                                "§",
-                                SECTION
-                            )
-                        } [x$msgCount]"
-                    )
-                    gameHUD.chatHud?.addMessage(text)
-                }
-            } else {
-                msgCount = 0
-                MinecraftClient.getInstance().inGameHud?.let { gameHUD ->
-                    val text =
-                        Text.literal("${bracketBuilder(AQUA + Sakura.NAME)} ${message.replace("§", SECTION)}")
-                    gameHUD.chatHud?.addMessage(text)
-                }
-            }
-        } ?: {
-            MinecraftClient.getInstance().inGameHud?.let { gameHUD ->
-                val text = Text.literal("${bracketBuilder(AQUA + Sakura.NAME)} ${message.replace("§", SECTION)}")
-                gameHUD.chatHud?.addMessage(text)
-            }
+        MinecraftClient.getInstance().inGameHud?.let { gameHUD ->
+            val text = Text.literal("${bracketBuilder(AQUA + Sakura.NAME)} ${message.replace("§", SECTION)}")
+            gameHUD.chatHud?.addMessage(text)
         }
-        tempMsg = message
     }
 
     fun sendNoSpamMessage(message: String) {
