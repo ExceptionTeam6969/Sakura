@@ -24,7 +24,8 @@ class HUDRenderer(
         if (isDragging) {
             val x = (mouseX - dragOffsetX).coerceIn(0f, mc.window.scaledWidth - width)
             val y = (mouseY - dragOffsetY).coerceIn(0f, mc.window.scaledHeight - height)
-            module.setPosition(x, y)
+            module.x = x
+            module.y = y
             updatePosition(x, y)
         }
 

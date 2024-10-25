@@ -28,13 +28,8 @@ abstract class HUDModule(
         
     }
 
-    var x: Float = 0.0f; private set
-    var y: Float = 0.0f; private set
-
-    fun setPosition(x: Float, y: Float) {
-        this.x = x
-        this.y = y
-    }
+    var x: Float = 0.0f
+    var y: Float = 0.0f
 
     abstract fun render()
 

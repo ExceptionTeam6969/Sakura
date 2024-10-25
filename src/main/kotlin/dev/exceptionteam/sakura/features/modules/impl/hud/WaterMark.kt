@@ -7,8 +7,8 @@ import dev.exceptionteam.sakura.graphics.font.FontRenderers
 
 object WaterMark: HUDModule(
     name = "water-mark",
-    width = 20f,
-    height = 20f,
+    width = 50f,
+    height = 12f,
 ) {
 
     private val version by setting("version", true)

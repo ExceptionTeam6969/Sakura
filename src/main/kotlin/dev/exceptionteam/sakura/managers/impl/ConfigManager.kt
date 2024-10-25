@@ -5,6 +5,7 @@ import com.google.gson.JsonObject
 import dev.exceptionteam.sakura.Sakura
 import dev.exceptionteam.sakura.events.impl.QuitGameEvent
 import dev.exceptionteam.sakura.events.listener
+import dev.exceptionteam.sakura.features.modules.HUDModule
 import dev.exceptionteam.sakura.features.settings.*
 import dev.exceptionteam.sakura.graphics.color.ColorRGB
 import dev.exceptionteam.sakura.utils.control.KeyBind
@@ -46,6 +47,15 @@ object ConfigManager {
                 val moduleFile = File("${Sakura.DIRECTORY}/modules/${module.name.key}.json")
                 moduleFile.checkFile()
                 val moduleJson = async { gsonPretty.fromJson(moduleFile.readText(), JsonObject::class.java) }.await()
+
+                if (module is HUDModule) {
+                    try {
+                        module.x = moduleJson.get("x").asFloat
+                        module.y = moduleJson.get("y").asFloat
+                    } catch (_: Exception) {
+                        Sakura.logger.warn("Failed to load position of hud module ${module.name.key}")
+                    }
+                }
 
                 module.settings.forEach { setting ->
                     try {
@@ -94,6 +104,11 @@ object ConfigManager {
             val moduleFile = File("${Sakura.DIRECTORY}/modules/${module.name.key}.json")
             moduleFile.checkFile()
             val moduleJson = JsonObject()
+
+            if (module is HUDModule) {
+                moduleJson.addProperty("x", module.x)
+                moduleJson.addProperty("y", module.y)
+            }
 
             module.settings.forEach { setting ->
                 when (setting.key.key) {
