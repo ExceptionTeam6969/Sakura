@@ -12,6 +12,7 @@ object Managers {
         GraphicsManager
         ModuleManager
         ConfigManager
+        FriendManager
     }
 
 }

@@ -1,5 +1,6 @@
 package dev.exceptionteam.sakura.managers.impl
 
+import com.google.gson.Gson
 import com.google.gson.GsonBuilder
 import com.google.gson.JsonObject
 import dev.exceptionteam.sakura.Sakura
@@ -16,9 +17,11 @@ import kotlinx.coroutines.launch
 import kotlinx.coroutines.runBlocking
 import java.io.File
 import java.io.FileOutputStream
+import java.io.IOException
 import java.io.OutputStreamWriter
 import java.io.PrintWriter
 import java.nio.charset.StandardCharsets
+import java.nio.file.Files
 
 object ConfigManager {
 
@@ -33,11 +36,17 @@ object ConfigManager {
     }
 
     fun loadAll() = runCatching {
-        runBlocking { loadModule() }
+        runBlocking {
+            loadModule()
+            loadFriends()
+        }
     }.onFailure { Sakura.logger.error("Failed To Load Config!") }
 
     fun saveAll() = runCatching {
-        runBlocking { saveModule() }
+        runBlocking {
+            saveModule()
+            saveFriends()
+        }
     }.onFailure { Sakura.logger.error("Failed To Save Config!") }
 
     /* Load */
@@ -98,6 +107,26 @@ object ConfigManager {
         }
     }
 
+    fun loadFriends() {
+        IOScope.launch {
+            try {
+                val friendFile = File("${Sakura.DIRECTORY}/friends.json")
+                friendFile.checkFile()
+                val friendJson = Gson().fromJson(
+                    String(Files.readAllBytes(friendFile.toPath()), StandardCharsets.UTF_8),
+                    ArrayList::class.java
+                ) ?: return@launch
+                FriendManager.friends.clear()
+                friendJson.forEach {
+                    FriendManager.friends.add(it.toString())
+                }
+            } catch (e: IOException) {
+                Sakura.logger.error("Error while loading friends!")
+                e.printStackTrace()
+            }
+        }
+    }
+
     /* Save */
     fun saveModule() {
         ModuleManager.modules.forEach { module ->
@@ -142,6 +171,16 @@ object ConfigManager {
             saveJson.println(gsonPretty.toJson(moduleJson))
             saveJson.close()
         }
+    }
+
+    fun saveFriends() {
+        val friendFile = File("${Sakura.DIRECTORY}/friends.json")
+        friendFile.checkFile()
+        Files.write(
+            friendFile.toPath(), Gson().toJson(FriendManager.friends).toByteArray(
+                StandardCharsets.UTF_8
+            )
+        )
     }
 
 }
