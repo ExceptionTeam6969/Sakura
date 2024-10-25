@@ -19,7 +19,7 @@
 	"accessWidener": "sakura.accesswidener",
 	"depends": {
 		"fabricloader": ">=0.15.11",
-		"minecraft": "~1.21.1",
+		"minecraft": "~1.21.3",
 		"java": ">=21",
 		"fabric-api": "*"
 	}
