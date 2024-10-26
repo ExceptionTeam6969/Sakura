@@ -1,4 +1,1 @@
-accessWidener	v1	named
-
-accessible method net/minecraft/util/Identifier <init> (Ljava/lang/String;Ljava/lang/String;)V
-extendable class net/minecraft/util/Identifier
+accessWidener	v2	named

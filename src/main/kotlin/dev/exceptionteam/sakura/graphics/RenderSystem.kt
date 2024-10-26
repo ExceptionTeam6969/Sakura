@@ -60,7 +60,6 @@ object RenderSystem {
     fun onRender2d(context: DrawContext) {
         preRender2d()
 
-        updateMatrix()
         Render2DEvent(context).post()
 
         postRender2d()
@@ -83,7 +82,6 @@ object RenderSystem {
     fun onRender3d() {
         preRender3d()
 
-        updateMatrix()
         Render3DEvent().post()
 
         postRender3d()
@@ -133,7 +131,7 @@ object RenderSystem {
     }
 
     /* Matrix */
-    private fun updateMatrix() {
+    fun updateMatrix() {
         val stack = MatrixStack.peek()
 
         val modelView = Matrix4f(RenderSystem.getModelViewStack())
