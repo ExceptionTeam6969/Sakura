@@ -1,8 +1,11 @@
 package dev.exceptionteam.sakura.mixins.input;
 
 import dev.exceptionteam.sakura.events.impl.KeyEvent;
+import dev.exceptionteam.sakura.features.gui.clickgui.ClickGUIScreen;
+import dev.exceptionteam.sakura.features.gui.hudeditor.HUDEditorScreen;
 import net.minecraft.client.Keyboard;
 import net.minecraft.client.MinecraftClient;
+import org.lwjgl.glfw.GLFW;
 import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Mutable;
@@ -25,6 +28,10 @@ public class KeyboardMixin {
 
     @Inject(method = "onKey", at = @At(value = "HEAD"), cancellable = true)
     public void onKey(long window, int key, int scancode, int action, int modifiers, CallbackInfo info) {
+
+        if (client.currentScreen != null && !(client.currentScreen instanceof ClickGUIScreen
+                || client.currentScreen instanceof HUDEditorScreen)) return;
+        if (key == GLFW.GLFW_KEY_UNKNOWN) return;
 
         KeyEvent event = new KeyEvent(key, action);
         event.post();
