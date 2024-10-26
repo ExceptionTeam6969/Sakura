@@ -13,7 +13,11 @@ object VertexBufferObjects {
         values.forEach { it.vbo.onSync() }
     }
 
-    private val values = listOf(PosColor2D, PosTex2D)
+    private val values = listOf(
+        PosColor2D,
+        PosTex2D,
+        PosColor3D
+    )
 
     data object PosColor2D: VertexMode(
         PosColorShader2D, buildAttribute(12) {
@@ -27,6 +31,13 @@ object VertexBufferObjects {
             float(0, 2, GlDataType.GL_FLOAT, false)         // 8 bytes
             float(1, 2, GlDataType.GL_FLOAT, false)         // 8 bytes
             float(2, 4, GlDataType.GL_UNSIGNED_BYTE, true)  // 4 bytes
+        }
+    )
+
+    data object PosColor3D: VertexMode(
+        PosColorShader3D, buildAttribute(16) {
+            float(0, 3, GlDataType.GL_FLOAT, false)         // 12 bytes
+            float(1, 4, GlDataType.GL_UNSIGNED_BYTE, true)  // 4 bytes
         }
     )
 
@@ -44,6 +55,17 @@ object VertexBufferObjects {
             pointer[0] = position.x
             pointer[4] = position.y
             pointer[8] = color.rgba
+            arr += attribute.stride.toLong()
+            vertexSize++
+        }
+
+        fun vertex(x: Float, y: Float, z: Float, color: ColorRGB) {
+            val position = MatrixStack.getPosition(x, y, z)
+            val pointer = arr.ptr
+            pointer[0] = position.x
+            pointer[4] = position.y
+            pointer[8] = position.z
+            pointer[12] = color.rgba
             arr += attribute.stride.toLong()
             vertexSize++
         }

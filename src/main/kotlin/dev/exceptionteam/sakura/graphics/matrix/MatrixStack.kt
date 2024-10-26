@@ -1,5 +1,6 @@
 package dev.exceptionteam.sakura.graphics.matrix
 
+import org.joml.Quaternionf
 import org.joml.Vector3f
 
 object MatrixStack {
@@ -28,6 +29,10 @@ object MatrixStack {
 
     fun translate(x: Double, y: Double, z: Double) {
         translate(x.toFloat(), y.toFloat(), z.toFloat())
+    }
+
+    fun multiply(quaternion: Quaternionf) {
+        stack.last().positionMatrix.rotate(quaternion)
     }
 
     fun scale(x: Float, y: Float, z: Float) {

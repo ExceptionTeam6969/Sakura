@@ -14,11 +14,12 @@ class BindComponent(
 ): AbstractComponent(0f, 0f, width, height) {
 
     init {
-        nonNullListener<KeyEvent> {
+        nonNullListener<KeyEvent>(priority = Int.MAX_VALUE) {
             if (!listening) return@nonNullListener
             if (it.key == GLFW.GLFW_KEY_DELETE) setting.value = KeyBind()
             else setting.value = it.keyBind
             listening = false
+            it.cancel()
         }
     }
 

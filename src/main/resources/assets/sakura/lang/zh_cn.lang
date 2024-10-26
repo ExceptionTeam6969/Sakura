@@ -51,3 +51,9 @@ modules.sprint.mode.rage=暴力
 modules.water-mark=水印
 modules.water-mark.version=显示版本
 modules.water-mark.text-color=文字颜色
+
+modules.fake-player=假玩家
+modules.fake-player.health=血量
+
+modules.name-tags=名称标签
+modules.name-tags.range=显示范围

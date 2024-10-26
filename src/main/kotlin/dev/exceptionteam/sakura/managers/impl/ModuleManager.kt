@@ -5,7 +5,9 @@ import dev.exceptionteam.sakura.events.nonNullListener
 import dev.exceptionteam.sakura.features.modules.AbstractModule
 import dev.exceptionteam.sakura.features.modules.impl.client.*
 import dev.exceptionteam.sakura.features.modules.impl.hud.WaterMark
+import dev.exceptionteam.sakura.features.modules.impl.misc.FakePlayer
 import dev.exceptionteam.sakura.features.modules.impl.movement.*
+import dev.exceptionteam.sakura.features.modules.impl.render.*
 
 object ModuleManager {
 
@@ -13,6 +15,7 @@ object ModuleManager {
 
     init {
         nonNullListener<KeyEvent>(Int.MIN_VALUE, true) { event ->
+            if (event.isCancelled) return@nonNullListener
             modules.forEach {
                 if (it.keyBind == event.keyBind && event.action == 1) it.toggle()
             }
@@ -31,6 +34,12 @@ object ModuleManager {
             CustomFont,
             RenderSystemMod,
             Language,
+
+            // Misc
+            FakePlayer,
+
+            // Render
+            NameTags,
 
             // Movement
             Sprint,

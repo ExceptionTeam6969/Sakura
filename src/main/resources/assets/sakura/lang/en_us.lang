@@ -51,3 +51,9 @@ modules.sprint.mode.rage=Rage
 modules.water-mark=Water Mark
 modules.water-mark.version=Version
 modules.water-mark.text-color=Text Color
+
+modules.fake-player=Fake Player
+modules.fake-player.health=Health
+
+modules.name-tags=Name Tags
+modules.name-tags.range=Range

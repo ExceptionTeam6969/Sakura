@@ -60,9 +60,7 @@ object RenderSystem {
     fun onRender2d(context: DrawContext) {
         preRender2d()
 
-        val modelView = Matrix4f(RenderSystem.getModelViewMatrix())
-        val projection = Matrix4f(RenderSystem.getProjectionMatrix())
-        MatrixStack.peek().mvpMatrix.set(projection.mul(modelView))
+        updateMatrix()
         Render2DEvent(context).post()
 
         postRender2d()
@@ -85,6 +83,7 @@ object RenderSystem {
     fun onRender3d() {
         preRender3d()
 
+        updateMatrix()
         Render3DEvent().post()
 
         postRender3d()
@@ -133,7 +132,16 @@ object RenderSystem {
             GL_COLOR_BUFFER_BIT, GL_NEAREST)
     }
 
-    // Attrib
+    /* Matrix */
+    private fun updateMatrix() {
+        val stack = MatrixStack.peek()
+
+        val modelView = Matrix4f(RenderSystem.getModelViewMatrix())
+        val projection = Matrix4f(RenderSystem.getProjectionMatrix())
+        stack.mvpMatrix.set(projection.mul(modelView))
+    }
+
+    /* Attrib */
     private var vaoLast = -1
     private var vboLast = -1
     private var eboLast = -1
