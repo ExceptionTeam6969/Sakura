@@ -1,9 +1,10 @@
-<h1 align="center">Sakura Client</h1>
+<h1 style="text-align:center">Sakura Client</h1>
 
 ---
 
 ## Usage
 - Default ClickGui key bind - ```Right Shift```
+- Default command prefix - ```&```
 
 ## License
 This code is licensed under the GNU General Public License v3. You may use code published here in your own clients under the same license.
