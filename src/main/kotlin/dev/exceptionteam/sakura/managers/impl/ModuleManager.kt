@@ -40,6 +40,7 @@ object ModuleManager {
 
             // Render
             NameTags,
+            TestRender,
 
             // Movement
             Sprint,

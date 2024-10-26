@@ -42,7 +42,47 @@ object RenderUtils3D {
         val maxZ = (box.maxZ - mc.entityRenderDispatcher.camera.pos.getZ()).toFloat()
 
         GL_TRIANGLES.draw(VertexBufferObjects.PosColor3D) {
-            // TODO: Add vertexes to buffer
+            vertex(minX, minY, minZ, color)
+            vertex(maxX, minY, minZ, color)
+            vertex(maxX, maxY, minZ, color)
+            vertex(minX, minY, minZ, color)
+            vertex(maxX, maxY, minZ, color)
+            vertex(minX, maxY, minZ, color)
+
+            vertex(minX, minY, minZ, color)
+            vertex(maxX, minY, minZ, color)
+            vertex(maxX, minY, maxZ, color)
+            vertex(minX, minY, minZ, color)
+            vertex(maxX, minY, maxZ, color)
+            vertex(minX, minY, maxZ, color)
+
+            vertex(maxX, minY, minZ, color)
+            vertex(maxX, maxY, minZ, color)
+            vertex(maxX, maxY, maxZ, color)
+            vertex(maxX, minY, minZ, color)
+            vertex(maxX, maxY, maxZ, color)
+            vertex(maxX, minY, maxZ, color)
+
+            vertex(minX, minY, maxZ, color)
+            vertex(maxX, minY, maxZ, color)
+            vertex(maxX, maxY, maxZ, color)
+            vertex(minX, minY, maxZ, color)
+            vertex(maxX, maxY, maxZ, color)
+            vertex(minX, maxY, maxZ, color)
+
+            vertex(minX, minY, minZ, color)
+            vertex(minX, maxY, minZ, color)
+            vertex(minX, maxY, maxZ, color)
+            vertex(minX, minY, minZ, color)
+            vertex(minX, maxY, maxZ, color)
+            vertex(minX, minY, maxZ, color)
+
+            vertex(minX, maxY, minZ, color)
+            vertex(maxX, maxY, minZ, color)
+            vertex(maxX, maxY, maxZ, color)
+            vertex(minX, maxY, minZ, color)
+            vertex(maxX, maxY, maxZ, color)
+            vertex(minX, maxY, maxZ, color)
         }
     }
 

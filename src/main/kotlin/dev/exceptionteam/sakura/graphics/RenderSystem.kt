@@ -136,7 +136,7 @@ object RenderSystem {
     private fun updateMatrix() {
         val stack = MatrixStack.peek()
 
-        val modelView = Matrix4f(RenderSystem.getModelViewMatrix())
+        val modelView = Matrix4f(RenderSystem.getModelViewStack())
         val projection = Matrix4f(RenderSystem.getProjectionMatrix())
         stack.mvpMatrix.set(projection.mul(modelView))
     }
