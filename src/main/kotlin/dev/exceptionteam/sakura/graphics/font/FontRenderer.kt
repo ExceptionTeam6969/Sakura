@@ -1,12 +1,12 @@
 package dev.exceptionteam.sakura.graphics.font
 
 import dev.exceptionteam.sakura.features.modules.impl.client.CustomFont
+import dev.exceptionteam.sakura.graphics.GlHelper
 import dev.exceptionteam.sakura.graphics.RenderUtils2D
 import dev.exceptionteam.sakura.graphics.color.ColorRGB
 import dev.exceptionteam.sakura.graphics.font.glyphs.FontChunks
 import dev.exceptionteam.sakura.graphics.font.glyphs.GlyphChunk
 import dev.exceptionteam.sakura.graphics.matrix.MatrixStack
-import org.lwjgl.opengl.GL45.*
 
 class FontRenderer(
     private val font: FontChunks
@@ -20,11 +20,11 @@ class FontRenderer(
         var shouldContinue = false
         var color = color0
 
-        glEnable(GL_LINE_SMOOTH)
+        GlHelper.lineSmooth = true
 
         val scale = scale0 / 40f * CustomFont.fontSize
 
-        MatrixStack.use {
+        MatrixStack.scope {
             for (i in 0 until length) {
                 if (shouldContinue) {
                     shouldContinue = false
@@ -44,7 +44,7 @@ class FontRenderer(
             }
         }
 
-        glDisable(GL_LINE_SMOOTH)
+        GlHelper.lineSmooth = false
     }
 
     fun canDisplay(ch: Char): Boolean = font.canDisplay(ch)

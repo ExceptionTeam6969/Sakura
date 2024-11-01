@@ -33,13 +33,14 @@ object RenderUtils3D {
 
     fun drawFilledBox(box: Box, color: ColorRGB) {
         val mc = MinecraftClient.getInstance()
+        val camera = mc.gameRenderer.camera
 
-        val minX = (box.minX - mc.entityRenderDispatcher.camera.pos.getX()).toFloat()
-        val minY = (box.minY - mc.entityRenderDispatcher.camera.pos.getY()).toFloat()
-        val minZ = (box.minZ - mc.entityRenderDispatcher.camera.pos.getZ()).toFloat()
-        val maxX = (box.maxX - mc.entityRenderDispatcher.camera.pos.getX()).toFloat()
-        val maxY = (box.maxY - mc.entityRenderDispatcher.camera.pos.getY()).toFloat()
-        val maxZ = (box.maxZ - mc.entityRenderDispatcher.camera.pos.getZ()).toFloat()
+        val minX = (box.minX - camera.pos.getX()).toFloat()
+        val minY = (box.minY - camera.pos.getY()).toFloat()
+        val minZ = (box.minZ - camera.pos.getZ()).toFloat()
+        val maxX = (box.maxX - camera.pos.getX()).toFloat()
+        val maxY = (box.maxY - camera.pos.getY()).toFloat()
+        val maxZ = (box.maxZ - camera.pos.getZ()).toFloat()
 
         GL_TRIANGLES.draw(VertexBufferObjects.PosColor3D) {
             vertex(minX, minY, minZ, color)

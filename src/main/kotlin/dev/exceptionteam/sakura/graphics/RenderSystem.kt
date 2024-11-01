@@ -11,10 +11,14 @@ import dev.exceptionteam.sakura.graphics.buffer.VertexBufferObjects
 import dev.exceptionteam.sakura.graphics.matrix.MatrixStack
 import net.minecraft.client.MinecraftClient
 import net.minecraft.client.gui.DrawContext
+import net.minecraft.util.math.RotationAxis
 import org.joml.Matrix4f
 import org.lwjgl.opengl.GL45.*
 
 object RenderSystem {
+
+    private val mc
+        get() = MinecraftClient.getInstance()
 
     // OpenGL version
     private val glVersion = glGetString(GL_VERSION) ?: ""
@@ -60,7 +64,12 @@ object RenderSystem {
     fun onRender2d(context: DrawContext) {
         preRender2d()
 
-        Render2DEvent(context).post()
+        MatrixStack.scope {
+            val projection = Matrix4f(RenderSystem.getProjectionMatrix())
+            val modelView = Matrix4f(RenderSystem.getModelViewMatrix())
+            updateMvpMatrix(projection.mul(modelView))
+            Render2DEvent(context).post()
+        }
 
         postRender2d()
     }
@@ -68,13 +77,13 @@ object RenderSystem {
     private fun preRender2d() {
         preAttrib()
         VertexBufferObjects.sync()
-        glEnable(GL_BLEND)
+        GlHelper.blend = true
         glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA)
         preFrameBuffer()
     }
 
     private fun postRender2d() {
-        glDisable(GL_BLEND)
+        GlHelper.blend = false
         postFrameBuffer()
         postAttrib()
     }
@@ -82,7 +91,18 @@ object RenderSystem {
     fun onRender3d() {
         preRender3d()
 
-        Render3DEvent().post()
+        MatrixStack.scope {
+            val camera = mc.gameRenderer.camera
+
+            val projection = Matrix4f(RenderSystem.getProjectionMatrix())
+            val modelView = Matrix4f(RenderSystem.getModelViewMatrix())
+
+            multiply(RotationAxis.POSITIVE_X.rotationDegrees(camera.pitch))
+            multiply(RotationAxis.POSITIVE_Y.rotationDegrees(camera.yaw + 180.0f))
+
+            updateMvpMatrix(projection.mul(modelView))
+            Render3DEvent().post()
+        }
 
         postRender3d()
     }
@@ -90,22 +110,21 @@ object RenderSystem {
     private fun preRender3d() {
         preAttrib()
         VertexBufferObjects.sync()
-        glEnable(GL_BLEND)
+        GlHelper.blend = true
         glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA)
         preFrameBuffer()
-        glDisable(GL_DEPTH_TEST)
+        GlHelper.depth = true
     }
 
     private fun postRender3d() {
-        glDisable(GL_BLEND)
+        GlHelper.blend = false
         postFrameBuffer()
-        glEnable(GL_DEPTH_TEST)
+        GlHelper.depth = true
         postAttrib()
     }
 
     private fun preFrameBuffer() {
         if (!RenderSystemMod.frameBuffer) return
-        val mc = MinecraftClient.getInstance()
 
         val wWidth = mc.window.framebufferWidth
         val wHeight = mc.window.framebufferHeight
@@ -119,8 +138,6 @@ object RenderSystem {
     private fun postFrameBuffer() {
         if (!RenderSystemMod.frameBuffer) return
 
-        val mc = MinecraftClient.getInstance()
-
         val wWidth = mc.window.framebufferWidth
         val wHeight = mc.window.framebufferHeight
 
@@ -128,15 +145,6 @@ object RenderSystem {
         glBlitNamedFramebuffer(frameBuffer.id, mc.framebuffer.fbo,
             0, 0, wWidth, wHeight, 0, 0, wWidth, wHeight,
             GL_COLOR_BUFFER_BIT, GL_NEAREST)
-    }
-
-    /* Matrix */
-    fun updateMatrix() {
-        val stack = MatrixStack.peek()
-
-        val modelView = Matrix4f(RenderSystem.getModelViewStack())
-        val projection = Matrix4f(RenderSystem.getProjectionMatrix())
-        stack.mvpMatrix.set(projection.mul(modelView))
     }
 
     /* Attrib */

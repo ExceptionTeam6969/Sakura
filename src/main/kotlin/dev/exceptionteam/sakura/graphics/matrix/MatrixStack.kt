@@ -1,5 +1,6 @@
 package dev.exceptionteam.sakura.graphics.matrix
 
+import org.joml.Matrix4f
 import org.joml.Quaternionf
 import org.joml.Vector3f
 
@@ -47,10 +48,18 @@ object MatrixStack {
         return stack.last().positionMatrix.transformPosition(x, y, z, Vector3f())
     }
 
-    fun use(block: MatrixStack.() -> Unit) {
+    fun scope(block: MatrixStack.() -> Unit) {
         push()
         this.block()
         pop()
+    }
+
+    /**
+     * Update the Model-View-Projection matrix of the last matrix in the stack.
+     * @param matrix MVP matrix
+     */
+    fun updateMvpMatrix(matrix: Matrix4f) {
+        stack.last().mvpMatrix.set(matrix)
     }
 
 }

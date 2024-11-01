@@ -23,20 +23,12 @@ public class GameRendererMixin {
                               @Local(ordinal = 1) Matrix4f matrix4f2, @Local(ordinal = 1) float tickDelta,
                               @Local net.minecraft.client.util.math.MatrixStack matrixStack) {
 
-        Matrix4fStack stack = com.mojang.blaze3d.systems.RenderSystem.getModelViewStack();
-
-        stack.pushMatrix().mul(matrix4f2);
-
-        stack.mul(MatrixStack.INSTANCE.peek().getPositionMatrix().invert());
-
         Profilers.get().push("sakura_render3d");
 
-        RenderSystem.INSTANCE.updateMatrix();
         RenderSystem.INSTANCE.onRender3d();
 
         Profilers.get().pop();
 
-        stack.popMatrix();
     }
 
 }

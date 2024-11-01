@@ -56,14 +56,14 @@ object RenderUtils2D {
         val endX = x + width
         val endY = y + height
 
-        GL45.glEnable(GL45.GL_LINE_SMOOTH)
+        GlHelper.lineSmooth = true
         GL45.GL_LINE_LOOP.draw(VertexBufferObjects.PosColor2D) {
             vertex(startX, startY, color)
             vertex(endX, startY, color)
             vertex(endX, endY, color)
             vertex(startX, endY, color)
         }
-        GL45.glDisable(GL45.GL_LINE_SMOOTH)
+        GlHelper.lineSmooth = false
     }
 
     fun drawLineNoSmoothH(x: Float, y: Float, width: Float, color: ColorRGB) {
@@ -71,7 +71,7 @@ object RenderUtils2D {
     }
 
     fun drawLineNoSmooth(x1: Float, y1: Float, x2: Float, y2: Float, color: ColorRGB) {
-        GL45.glDisable(GL45.GL_LINE_SMOOTH)
+        GlHelper.lineSmooth = false
         GL45.glLineWidth(1f)
         GL45.GL_LINES.draw(VertexBufferObjects.PosColor2D) {
             vertex(x1, y1, color)
@@ -80,13 +80,13 @@ object RenderUtils2D {
     }
 
     fun drawLine(x1: Float, y1: Float, x2: Float, y2: Float, color: ColorRGB) {
-        GL45.glEnable(GL45.GL_LINE_SMOOTH)
+        GlHelper.lineSmooth = true
         GL45.glLineWidth(1f)
         GL45.GL_LINES.draw(VertexBufferObjects.PosColor2D) {
             vertex(x1, y1, color)
             vertex(x2, y2, color)
         }
-        GL45.glDisable(GL45.GL_LINE_SMOOTH)
+        GlHelper.lineSmooth = false
     }
 
     fun drawTextureRect(
@@ -97,9 +97,6 @@ object RenderUtils2D {
         val startY = y
         val endX = x + width
         val endY = y + height
-
-        GL45.glEnable(GL45.GL_BLEND)
-        GL45.glBlendFunc(GL45.GL_SRC_ALPHA, GL45.GL_ONE_MINUS_SRC_ALPHA)
 
         texture.use {
             GL45.GL_TRIANGLE_STRIP.draw(VertexBufferObjects.PosTex2D) {
@@ -120,9 +117,6 @@ object RenderUtils2D {
         val startY = y
         val endX = x + width
         val endY = y + height
-
-        GL45.glEnable(GL45.GL_BLEND)
-        GL45.glBlendFunc(GL45.GL_SRC_ALPHA, GL45.GL_ONE_MINUS_SRC_ALPHA)
 
         texture.use {
             GL45.GL_TRIANGLE_STRIP.draw(VertexBufferObjects.PosTex2D) {
