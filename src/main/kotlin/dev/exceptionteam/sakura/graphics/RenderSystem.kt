@@ -111,15 +111,19 @@ object RenderSystem {
         preAttrib()
         VertexBufferObjects.sync()
         GlHelper.blend = true
+        GlHelper.depth = false
+        GlHelper.cull = false
+        glDepthMask(false)
         glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA)
         preFrameBuffer()
-        GlHelper.depth = true
     }
 
     private fun postRender3d() {
         GlHelper.blend = false
-        postFrameBuffer()
         GlHelper.depth = true
+        GlHelper.cull = true
+        glDepthMask(true)
+        postFrameBuffer()
         postAttrib()
     }
 
