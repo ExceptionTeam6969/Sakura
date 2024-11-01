@@ -4,8 +4,8 @@ import dev.exceptionteam.sakura.events.impl.KeyEvent
 import dev.exceptionteam.sakura.events.nonNullListener
 import dev.exceptionteam.sakura.features.modules.AbstractModule
 import dev.exceptionteam.sakura.features.modules.impl.client.*
-import dev.exceptionteam.sakura.features.modules.impl.hud.WaterMark
-import dev.exceptionteam.sakura.features.modules.impl.misc.FakePlayer
+import dev.exceptionteam.sakura.features.modules.impl.hud.*
+import dev.exceptionteam.sakura.features.modules.impl.misc.*
 import dev.exceptionteam.sakura.features.modules.impl.movement.*
 import dev.exceptionteam.sakura.features.modules.impl.render.*
 
@@ -40,7 +40,6 @@ object ModuleManager {
 
             // Render
             NameTags,
-            TestRender,
 
             // Movement
             Sprint,
