@@ -44,17 +44,6 @@ tasks {
     }
 
     compileKotlin {
-        compilerOptions {
-            freeCompilerArgs.addAll(
-                "-opt-in=kotlin.RequiresOptIn",
-                "-opt-in=kotlin.contracts.ExperimentalContracts",
-                "-Xlambdas=indy",
-                "-Xjvm-default=all",
-                "-Xbackend-threads=0",
-                "-Xno-source-debug-extension",
-                "-Xcontext-receivers"
-            )
-        }
     }
 
     processResources {
