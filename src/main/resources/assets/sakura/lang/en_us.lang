@@ -66,3 +66,6 @@ modules.velocity.no-push=No Push
 modules.velocity.mode=Mode
 modules.velocity.mode.normal=Normal
 modules.velocity.mode.wall=Wall
+
+modules.game-animation=Game Animation
+modules.game-animation.hotbar=Hotbar

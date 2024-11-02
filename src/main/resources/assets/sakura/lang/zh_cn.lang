@@ -66,3 +66,6 @@ modules.velocity.no-push=不被推出
 modules.velocity.mode=模式
 modules.velocity.mode.normal=正常
 modules.velocity.mode.wall=墙内
+
+modules.game-animation=游戏内动画
+modules.game-animation.hotbar=物品栏
