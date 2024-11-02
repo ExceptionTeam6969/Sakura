@@ -10,7 +10,12 @@
 		"gui.InGameHudMixin",
 		"graphics.GameRendererMixin",
 		"graphics.WindowMixin",
-		"network.ClientConnectionMixin"
+		"graphics.LightmapTextureManagerMixin",
+		"graphics.EntityRendererMixin",
+		"graphics.WorldRendererMixin",
+		"network.ClientConnectionMixin",
+		"entity.EntityMixin",
+		"entity.ClientPlayerEntityMixin"
 	],
 	"injectors": {
 		"defaultRequire": 1

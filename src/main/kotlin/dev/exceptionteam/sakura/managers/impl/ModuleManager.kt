@@ -40,9 +40,11 @@ object ModuleManager {
 
             // Render
             NameTags,
+            FullBright,
 
             // Movement
             Sprint,
+            Velocity,
 
             // HUD
             WaterMark,

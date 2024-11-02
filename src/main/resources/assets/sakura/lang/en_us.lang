@@ -57,3 +57,12 @@ modules.fake-player.health=Health
 
 modules.name-tags=Name Tags
 modules.name-tags.range=Range
+
+modules.full-bright=Full Bright
+modules.full-bright.brightness=Brightness
+
+modules.velocity=Velocity
+modules.velocity.no-push=No Push
+modules.velocity.mode=Mode
+modules.velocity.mode.normal=Normal
+modules.velocity.mode.wall=Wall

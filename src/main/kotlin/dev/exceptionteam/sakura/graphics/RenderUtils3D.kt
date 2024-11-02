@@ -1,6 +1,9 @@
 package dev.exceptionteam.sakura.graphics
 
 import dev.exceptionteam.sakura.events.NonNullContext
+import dev.exceptionteam.sakura.events.impl.Render3DEvent
+import dev.exceptionteam.sakura.events.impl.WindowResizeEvent
+import dev.exceptionteam.sakura.events.listener
 import dev.exceptionteam.sakura.graphics.buffer.VertexBufferObjects
 import dev.exceptionteam.sakura.graphics.buffer.VertexBufferObjects.draw
 import dev.exceptionteam.sakura.graphics.color.ColorRGB
@@ -8,27 +11,61 @@ import dev.exceptionteam.sakura.graphics.matrix.MatrixStack
 import dev.exceptionteam.sakura.utils.math.vector.Vec3f
 import net.minecraft.client.MinecraftClient
 import net.minecraft.util.math.Box
+import org.joml.Matrix4f
+import org.joml.Vector3f
 import org.joml.Vector4f
 import org.lwjgl.opengl.GL45.*
 
 object RenderUtils3D {
 
+    var lastMvpMatrix: Matrix4f = Matrix4f(); private set
+    var lastPosMatrix: Matrix4f = Matrix4f(); private set
+
+    private val viewport = IntArray(4)
+
+    init {
+
+        glGetIntegerv(GL_VIEWPORT, viewport)
+
+        listener<Render3DEvent>(alwaysListening = true, priority = Int.MIN_VALUE) {
+            lastMvpMatrix = Matrix4f(MatrixStack.peek().mvpMatrix)
+            lastPosMatrix = Matrix4f(MatrixStack.peek().positionMatrix)
+        }
+
+        listener<WindowResizeEvent>(alwaysListening = true) {
+            glGetIntegerv(GL_VIEWPORT, viewport)
+        }
+
+    }
+
     /**
      * Convert a vector in world space to screen space.
      */
     fun NonNullContext.worldSpaceToScreenSpace(pos: Vec3f): Vec3f {
-        val camera = mc.gameRenderer.camera
+        val camera = mc.entityRenderDispatcher.camera
+        val displayHeight = mc.window.height
 
-        val x0 = (camera.pos.x - pos.x).toFloat()
-        val y0 = (camera.pos.y - pos.y).toFloat()
-        val z0 = (camera.pos.z - pos.z).toFloat()
+        val target = Vector3f()
 
-        val position0 = MatrixStack.getPosition(x0, y0, z0)
+        val deltaX = pos.x - camera.pos.x
+        val deltaY = pos.y - camera.pos.y
+        val deltaZ = pos.z - camera.pos.z
 
-        val position =
-            MatrixStack.peek().mvpMatrix.transform(Vector4f(position0.x, position0.y, position0.z, 1.0f))
+        val transformedCoordinates =
+            Vector4f(deltaX.toFloat(), deltaY.toFloat(), deltaZ.toFloat(), 1f).mul(lastPosMatrix)
 
-        return Vec3f(position.x, position.y, position.z)
+        lastMvpMatrix.project(
+            transformedCoordinates.x(),
+            transformedCoordinates.y(),
+            transformedCoordinates.z(),
+            viewport,
+            target
+        )
+
+        return Vec3f(
+            target.x / mc.window.scaleFactor.toFloat(),
+            (displayHeight - target.y) / mc.window.scaleFactor.toFloat(), target.z
+        )
     }
 
     fun drawFilledBox(box: Box, color: ColorRGB) {

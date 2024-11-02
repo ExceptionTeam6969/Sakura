@@ -57,3 +57,12 @@ modules.fake-player.health=血量
 
 modules.name-tags=名称标签
 modules.name-tags.range=显示范围
+
+modules.full-bright=客户端亮度
+modules.full-bright.brightness=亮度
+
+modules.velocity=无击退
+modules.velocity.no-push=不被推出
+modules.velocity.mode=模式
+modules.velocity.mode.normal=正常
+modules.velocity.mode.wall=墙内
