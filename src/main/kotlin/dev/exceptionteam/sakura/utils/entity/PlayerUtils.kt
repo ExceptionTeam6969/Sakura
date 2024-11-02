@@ -12,20 +12,15 @@ object PlayerUtils {
     fun NonNullContext.isMoving() =
         player.sidewaysSpeed != 0f || player.upwardSpeed != 0f || player.forwardSpeed != 0f
 
-    fun NonNullContext.isInBlock(): Boolean {
-        return (isIntersectingBlock(player.blockPos) || isIntersectingBlock(
-            player.pos.add(0.3, 0.0, 0.3).toBlockPos()
-        ) || isIntersectingBlock(player.pos.add(-0.3, 0.0, 0.3).toBlockPos()) || isIntersectingBlock(
-            player.pos.add(
-                -0.3,
-                0.0,
-                -0.3
-            ).toBlockPos()
-        ) || isIntersectingBlock(player.pos.add(0.3, 0.0, -0.3).toBlockPos()))
-    }
+    fun NonNullContext.isInBlock(): Boolean =
+        isIntersectingBlock(player.blockPos)
+            || isIntersectingBlock(player.pos.add(0.3, 0.0, 0.3).toBlockPos())
+            || isIntersectingBlock(player.pos.add(-0.3, 0.0, 0.3).toBlockPos())
+            || isIntersectingBlock(player.pos.add(-0.3, 0.0, -0.3).toBlockPos())
+            || isIntersectingBlock(player.pos.add(0.3, 0.0, -0.3).toBlockPos())
 
     fun NonNullContext.isIntersectingBlock(pos: BlockPos): Boolean =
-        (!pos.blockState.isSolid && pos.blockState.block != Blocks.AIR) && player.boundingBox.intersects(Box(pos))
+        pos.blockState.block != Blocks.AIR && player.boundingBox.intersects(Box(pos))
 
 
 }
