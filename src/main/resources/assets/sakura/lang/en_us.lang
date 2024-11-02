@@ -69,3 +69,6 @@ modules.velocity.mode.wall=Wall
 
 modules.game-animation=Game Animation
 modules.game-animation.hotbar=Hotbar
+
+modules.no-fall=No Fall
+modules.no-fall.fall-distance=Fall Distance

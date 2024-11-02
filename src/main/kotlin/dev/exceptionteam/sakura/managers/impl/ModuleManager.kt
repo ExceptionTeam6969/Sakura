@@ -7,6 +7,7 @@ import dev.exceptionteam.sakura.features.modules.impl.client.*
 import dev.exceptionteam.sakura.features.modules.impl.hud.*
 import dev.exceptionteam.sakura.features.modules.impl.misc.*
 import dev.exceptionteam.sakura.features.modules.impl.movement.*
+import dev.exceptionteam.sakura.features.modules.impl.player.*
 import dev.exceptionteam.sakura.features.modules.impl.render.*
 
 object ModuleManager {
@@ -46,6 +47,9 @@ object ModuleManager {
             // Movement
             Sprint,
             Velocity,
+
+            // Player
+            NoFall,
 
             // HUD
             WaterMark,

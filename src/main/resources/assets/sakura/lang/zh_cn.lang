@@ -1,3 +1,10 @@
+# 在模块名中
+#   No    无
+#   Anti  防止
+#   Auto  自动
+# 在选项中
+#
+
 category.combat=战斗
 category.misc=其他
 category.movement=移动
@@ -69,3 +76,6 @@ modules.velocity.mode.wall=墙内
 
 modules.game-animation=游戏内动画
 modules.game-animation.hotbar=物品栏
+
+modules.no-fall=无摔落伤害
+modules.no-fall.fall-distance=摔落高度
