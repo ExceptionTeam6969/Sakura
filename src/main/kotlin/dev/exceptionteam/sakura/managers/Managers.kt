@@ -14,6 +14,7 @@ object Managers {
         ConfigManager
         FriendManager
         CommandManager
+        RotationManager
     }
 
 }

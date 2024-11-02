@@ -89,3 +89,5 @@ modules.auto-crystal.break-delay=Break Delay
 modules.auto-crystal.break-range=Break Range
 modules.auto-crystal.page.render=Render
 modules.auto-crystal.color=Color
+
+modules.strafe-fix=Strafe Fix

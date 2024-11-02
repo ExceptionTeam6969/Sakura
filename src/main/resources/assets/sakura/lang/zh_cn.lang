@@ -81,3 +81,21 @@ modules.no-fall=无摔落伤害
 modules.no-fall.fall-distance=摔落高度
 
 modules.auto-crystal=自动水晶
+modules.auto-crystal.page=页面
+modules.auto-crystal.page.general=常规
+modules.auto-crystal.target-range=目标范围
+modules.auto-crystal.pause-while-eating=吃水晶时暂停
+modules.auto-crystal.page.calculation=计算
+modules.auto-crystal.predict=预测
+modules.auto-crystal.predict-ticks=预测Ticks
+modules.auto-crystal.page.place=放置
+modules.auto-crystal.place-delay=放置延迟
+modules.auto-crystal.place-range=放置范围
+modules.auto-crystal.page.break=敲击
+modules.auto-crystal.break-delay=敲击延迟
+modules.auto-crystal.break-range=敲击范围
+modules.auto-crystal.page.render=渲染
+modules.auto-crystal.color=颜色
+
+modules.strafe-fix=移动修复
+

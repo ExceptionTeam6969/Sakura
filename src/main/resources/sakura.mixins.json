@@ -7,6 +7,7 @@
 		"chat.ChatHudMixin",
 		"chat.ChatHudLineMixin",
 		"input.KeyboardMixin",
+		"input.KeyboardInputMixin",
 		"gui.InGameHudMixin",
 		"graphics.GameRendererMixin",
 		"graphics.WindowMixin",
@@ -16,7 +17,8 @@
 		"network.ClientConnectionMixin",
 		"network.ClientPlayNetworkHandlerMixin",
 		"entity.EntityMixin",
-		"entity.ClientPlayerEntityMixin"
+		"entity.ClientPlayerEntityMixin",
+		"entity.LivingEntityMixin"
 	],
 	"injectors": {
 		"defaultRequire": 1

@@ -1,5 +1,6 @@
 package dev.exceptionteam.sakura.features.modules.impl.client
 
+import dev.exceptionteam.sakura.features.gui.clickgui.ClickGUIScreen
 import dev.exceptionteam.sakura.features.gui.hudeditor.HUDEditorScreen
 import dev.exceptionteam.sakura.features.modules.Category
 import dev.exceptionteam.sakura.features.modules.Module
@@ -14,6 +15,7 @@ object HUDEditor: Module(
 
         onEnable {
             runSafe {
+                if (mc.currentScreen == ClickGUIScreen) ClickGUI.disable()
                 mc.setScreen(HUDEditorScreen)
             }
         }
