@@ -1,5 +1,6 @@
 package dev.exceptionteam.sakura.graphics.texture
 
+import dev.exceptionteam.sakura.graphics.GlHelper
 import dev.exceptionteam.sakura.graphics.GlObject
 import org.lwjgl.opengl.GL45.*
 
@@ -14,11 +15,11 @@ class Texture(type: Int = GL_TEXTURE_2D): GlObject {
     override var id: Int = glCreateTextures(type)
 
     override fun bind() {
-        glBindTextureUnit(0, id)
+        GlHelper.texture = id
     }
 
     override fun unbind() {
-        glBindTextureUnit(0, 0)
+        GlHelper.texture = 0
     }
 
     override fun delete() {
@@ -28,7 +29,6 @@ class Texture(type: Int = GL_TEXTURE_2D): GlObject {
     fun use(func: ()->Unit) {
         bind()
         func()
-//        unbind()
     }
 
 }

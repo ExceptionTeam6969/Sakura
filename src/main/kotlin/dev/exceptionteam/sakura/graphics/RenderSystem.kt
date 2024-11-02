@@ -62,7 +62,7 @@ object RenderSystem {
     }
 
     fun onRender2d(context: DrawContext) {
-        preRender2d()
+        preRender()
 
         MatrixStack.scope {
             val projection = Matrix4f(RenderSystem.getProjectionMatrix())
@@ -71,25 +71,14 @@ object RenderSystem {
             Render2DEvent(context).post()
         }
 
-        postRender2d()
-    }
-
-    private fun preRender2d() {
-        preAttrib()
-        VertexBufferObjects.sync()
-        GlHelper.blend = true
-        glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA)
-        preFrameBuffer()
-    }
-
-    private fun postRender2d() {
-        GlHelper.blend = false
-        postFrameBuffer()
-        postAttrib()
+        postRender()
     }
 
     fun onRender3d() {
-        preRender3d()
+        preRender()
+
+        GlHelper.depth = false
+        GlHelper.cull = false
 
         MatrixStack.scope {
             val camera = mc.gameRenderer.camera
@@ -104,25 +93,20 @@ object RenderSystem {
             Render3DEvent().post()
         }
 
-        postRender3d()
+        postRender()
     }
 
-    private fun preRender3d() {
+    private fun preRender() {
         preAttrib()
+        GlHelper.reset()
         VertexBufferObjects.sync()
         GlHelper.blend = true
-        GlHelper.depth = false
-        GlHelper.cull = false
-        glDepthMask(false)
         glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA)
         preFrameBuffer()
     }
 
-    private fun postRender3d() {
+    private fun postRender() {
         GlHelper.blend = false
-        GlHelper.depth = true
-        GlHelper.cull = true
-        glDepthMask(true)
         postFrameBuffer()
         postAttrib()
     }

@@ -52,7 +52,7 @@ class PersistentMappedVBO(
     private var sync = 0L
 
     fun onSync() {
-        // 检查DrawCall是否完成 重置Buffer
+        // Check if the draw call is complete and reset the Buffer
         if (sync == 0L) {
             if (arr.pos >= arr.len / 2) {
                 sync = GL45.glFenceSync(GL45.GL_SYNC_GPU_COMMANDS_COMPLETE, 0)

@@ -7,14 +7,29 @@ import kotlin.reflect.KProperty
 object GlHelper {
 
     // Disabled in core mode
-    var blend by GLState(false) { if (it) glEnable(GL_BLEND) else glDisable(GL_BLEND) }
-    var depth by GLState(false) { if (it) glEnable(GL_DEPTH_TEST) else glDisable(GL_DEPTH_TEST) }
-    var cull by GLState(false) { if (it) glEnable(GL_CULL_FACE) else glDisable(GL_CULL_FACE) }
-    var lineSmooth by GLState(false) { if (it) glEnable(GL_LINE_SMOOTH) else glDisable(GL_LINE_SMOOTH) }
+    var blend by GlState(false) { if (it) glEnable(GL_BLEND) else glDisable(GL_BLEND) }
+    var depth by GlState(false) { if (it) glEnable(GL_DEPTH_TEST) else glDisable(GL_DEPTH_TEST) }
+    var cull by GlState(false) { if (it) glEnable(GL_CULL_FACE) else glDisable(GL_CULL_FACE) }
+    var lineSmooth by GlState(false) { if (it) glEnable(GL_LINE_SMOOTH) else glDisable(GL_LINE_SMOOTH) }
+
+    private val texture0 = GlState(0) { glBindTextureUnit(0, it) }
+    var texture by texture0
+
+    private val vertexArray0 = GlState(0) { glBindVertexArray(it) }
+    var vertexArray by vertexArray0
+
+    private val program0 = GlState(0) { glUseProgram(it) }
+    var program by program0
+
+    fun reset() {
+        texture0.forceSetValue(0)
+        vertexArray0.forceSetValue(0)
+        program0.forceSetValue(0)
+    }
 
 }
 
-class GLState<T>(valueIn: T, private val action: (T) -> Unit) : ReadWriteProperty<Any?, T> {
+class GlState<T>(valueIn: T, private val action: (T) -> Unit) : ReadWriteProperty<Any?, T> {
 
     private var value = valueIn
 
@@ -25,6 +40,11 @@ class GLState<T>(valueIn: T, private val action: (T) -> Unit) : ReadWritePropert
             this.value = value
             action.invoke(value)
         }
+    }
+
+    fun forceSetValue(value: T) {
+        this.value = value
+        action.invoke(value)
     }
 
 }

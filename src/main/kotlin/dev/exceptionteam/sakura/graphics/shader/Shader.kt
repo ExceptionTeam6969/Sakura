@@ -1,6 +1,7 @@
 package dev.exceptionteam.sakura.graphics.shader
 
 import dev.exceptionteam.sakura.Sakura
+import dev.exceptionteam.sakura.graphics.GlHelper
 import dev.exceptionteam.sakura.graphics.GlObject
 import dev.exceptionteam.sakura.graphics.shader.impl.*
 import org.joml.Matrix4f
@@ -60,11 +61,11 @@ open class Shader(vertShaderPath: String, fragShaderPath: String) : GlObject {
     }
 
     override fun bind() {
-        glUseProgram(id)
+        GlHelper.program = id
     }
 
     override fun unbind() {
-        glUseProgram(0)
+        GlHelper.program = 0
     }
 
     override fun delete() {

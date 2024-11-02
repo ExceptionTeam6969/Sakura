@@ -1,6 +1,7 @@
 package dev.exceptionteam.sakura.graphics.buffer
 
 import dev.exceptionteam.sakura.graphics.GlDataType
+import dev.exceptionteam.sakura.graphics.GlHelper
 import dev.exceptionteam.sakura.graphics.color.ColorRGB
 import dev.exceptionteam.sakura.graphics.matrix.MatrixStack
 import dev.exceptionteam.sakura.graphics.shader.impl.*
@@ -86,10 +87,9 @@ object VertexBufferObjects {
             if (vertexSize == 0) return
             shader.bind()
             shader.default()
-            glBindVertexArray(vertexMode.vao)
+            GlHelper.vertexArray = vertexMode.vao
             glDrawArrays(mode, vertexMode.vbo.offset.toInt(), vertexSize)
             vbo.end()
-            glBindVertexArray(0)
             vertexSize = 0
         }
 
@@ -98,10 +98,10 @@ object VertexBufferObjects {
     /* Vertex Array Object */
     private fun createVao(vbo: PersistentMappedVBO, vertexAttribute: VertexAttribute): Int {
         val vaoID = glCreateVertexArrays()
-        glBindVertexArray(vaoID)
+        GlHelper.vertexArray = vaoID
         glBindBuffer(GL_ARRAY_BUFFER, vbo.id)
         vertexAttribute.apply()
-        glBindVertexArray(0)
+        GlHelper.vertexArray = 0
         glBindBuffer(GL_ARRAY_BUFFER, 0)
         return vaoID
     }
