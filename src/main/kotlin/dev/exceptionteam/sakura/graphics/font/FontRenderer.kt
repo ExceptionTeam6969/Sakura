@@ -12,10 +12,20 @@ class FontRenderer(
     private val font: FontChunks
 ) {
 
+    /**
+     * Draw a string with a custom font.
+     * @param text The text to draw.
+     * @param x The x position to start drawing.
+     * @param y The y position to start drawing.
+     * @param color0 The color of the text.
+     * @param scale0 The scale of the text.
+     * @param backFont The font to use for characters that cannot be displayed.
+     * @return The width of the text.
+     */
     fun drawString(
         text: String, x: Float, y: Float,
         color0: ColorRGB, scale0: Float = 1f, backFont: FontRenderer? = null
-    ) {
+    ): Float {
         val length = text.length
         var shouldContinue = false
         var color = color0
@@ -23,6 +33,8 @@ class FontRenderer(
         GlHelper.lineSmooth = true
 
         val scale = scale0 / 40f * CustomFont.fontSize
+
+        var width = 0f
 
         MatrixStack.scope {
             for (i in 0 until length) {
@@ -40,16 +52,70 @@ class FontRenderer(
                     if (canDisplay(text[i])) drawChar(text[i], x, y, color, scale)
                     else backFont?.drawChar(text[i], x, y, color, scale) ?: 0f
 
+                width += prevWidth
+
                 translate(prevWidth, 0f, 0f)
             }
         }
 
         GlHelper.lineSmooth = false
+
+        return width
     }
 
-    fun canDisplay(ch: Char): Boolean = font.canDisplay(ch)
+    /**
+     * Draw a string with a custom font, but reversed.
+     * @see drawString
+     */
+    fun drawStringRev(
+        text: String, x: Float, y: Float,
+        color0: ColorRGB, scale0: Float = 1f, backFont: FontRenderer? = null
+    ): Float {
+        val length = text.length
+        var shouldContinue = false
+        var color = color0
 
-    fun getStringWidth(text: String, scale: Float = 1f): Float {
+        GlHelper.lineSmooth = true
+
+        val scale = scale0 / 40f * CustomFont.fontSize
+
+        var width = 0f
+
+        MatrixStack.scope {
+            for (i in length - 1 downTo 0) {
+                if (shouldContinue) {
+                    shouldContinue = false
+                    continue
+                }
+                if (text[i] == '§' && i < length - 1) {
+                    shouldContinue = true
+                    color = getColor(text[i + 1])
+                    continue
+                }
+
+                val prevWidth =
+                    if (canDisplay(text[i])) drawChar(text[i], x, y, color, scale)
+                    else backFont?.drawChar(text[i], x, y, color, scale) ?: 0f
+
+                width += prevWidth
+
+                translate(-prevWidth, 0f, 0f)
+            }
+        }
+
+        GlHelper.lineSmooth = false
+
+        return width
+    }
+
+    /**
+     * Get the width of a string with a custom font.
+     * @param text The text to measure.
+     * @param scale The scale of the text.
+     * @param backFont The font to use for characters that cannot be displayed.
+     * @return The width of the text.
+     */
+    fun getStringWidth(text: String, scale: Float = 1f, backFont: FontRenderer? = null): Float {
         var width = 0f
         var shouldContinue = false
 
@@ -65,16 +131,17 @@ class FontRenderer(
 
             val ch = text[i]
 
-            if (canDisplay(ch)) {
-                val chunk = font.getChunk(ch.code / GlyphChunk.CHUNK_SIZE)
+            val chunk = if (canDisplay(ch)) font.getChunk(ch.code / GlyphChunk.CHUNK_SIZE)
+            else backFont?.font?.getChunk(ch.code / GlyphChunk.CHUNK_SIZE) ?: continue
 
-                chunk.charData[ch]?.let {
-                    width += it.width * scale
-                }
+            chunk.charData[ch]?.let {
+                width += it.width * scale
             }
         }
         return width
     }
+
+    fun canDisplay(ch: Char): Boolean = font.canDisplay(ch)
 
     fun drawChar(ch: Char, x: Float, y: Float, color: ColorRGB, scale: Float): Float {
         val chunk = font.getChunk(ch.code / GlyphChunk.CHUNK_SIZE)

@@ -24,11 +24,22 @@ object FontRenderers {
     val default = FontRenderer(comFont)
     val chinese = FontRenderer(cnFont)
 
-    fun drawString(text: String, x: Float, y: Float, color: ColorRGB, scale: Float = 1.0f) {
+    fun drawString(text: String, x: Float, y: Float, color: ColorRGB, scale: Float = 1.0f): Float =
         default.drawString(text, x, y, color, scale, chinese)
-    }
 
-    fun drawString(text: TranslationString, x: Float, y: Float, color: ColorRGB, scale: Float = 1.0f) =
+    fun drawString(text: TranslationString, x: Float, y: Float, color: ColorRGB, scale: Float = 1.0f): Float =
         drawString(text.translation, x, y, color, scale)
+
+    fun drawStringRev(text: String, x: Float, y: Float, color: ColorRGB, scale: Float = 1.0f): Float =
+        default.drawStringRev(text, x, y, color, scale, chinese)
+
+    fun drawStringRev(text: TranslationString, x: Float, y: Float, color: ColorRGB, scale: Float = 1.0f): Float =
+        drawStringRev(text.translation, x, y, color, scale)
+
+    fun getStringWidth(text: String, scale: Float = 1.0f): Float =
+        default.getStringWidth(text, scale, chinese)
+
+    fun getStringWidth(text: TranslationString, scale: Float = 1.0f): Float =
+        getStringWidth(text.translation, scale)
 
 }
