@@ -15,7 +15,11 @@ import kotlin.contracts.ExperimentalContracts
 import kotlin.contracts.InvocationKind
 import kotlin.contracts.contract
 
-open class Shader(vertShaderPath: String, fragShaderPath: String) : GlObject {
+open class Shader(
+    vertShaderPath: String,
+    fragShaderPath: String,
+    geomShaderPath: String? = null
+) : GlObject {
     private val buffer: FloatBuffer = BufferUtils.createFloatBuffer(4 * 4)
 
     final override var id: Int
@@ -23,24 +27,30 @@ open class Shader(vertShaderPath: String, fragShaderPath: String) : GlObject {
     init {
         val vertexShaderID = createShader(vertShaderPath, GL_VERTEX_SHADER)
         val fragShaderID = createShader(fragShaderPath, GL_FRAGMENT_SHADER)
+        val geomShaderID = geomShaderPath?.let { createShader(it, GL_GEOMETRY_SHADER) }
         val id = glCreateProgram()
 
         glAttachShader(id, vertexShaderID)
         glAttachShader(id, fragShaderID)
+        geomShaderID?.let { glAttachShader(id, it) }
 
         glLinkProgram(id)
         val linked = glGetProgrami(id, GL_LINK_STATUS)
         if (linked == 0) {
-            Sakura.logger.error(glGetShaderInfoLog(id, 1024))
+            Sakura.logger.error(glGetProgramInfoLog(id, 1024))
             glDeleteProgram(id)
-            throw ShaderCompileException("Failed to link shader: $vertShaderPath, $fragShaderPath")
+            throw ShaderCompileException(
+                "Failed to link shader: $vertShaderPath, $fragShaderPath" + geomShaderPath?.let { ", $geomShaderPath" }
+            )
         }
         this.id = id
 
         glDetachShader(id, vertexShaderID)
         glDetachShader(id, fragShaderID)
+        geomShaderID?.let { glDetachShader(id, it) }
         glDeleteShader(vertexShaderID)
         glDeleteShader(fragShaderID)
+        geomShaderID?.let { glDeleteShader(it) }
     }
 
     private fun createShader(path: String, shaderType: Int): Int {
@@ -87,13 +97,13 @@ open class Shader(vertShaderPath: String, fragShaderPath: String) : GlObject {
         glProgramUniform1i(id, location, textureUnit)
     }
 
+    // general
+    protected fun set(location: Int, value: Float) {
+        glProgramUniform1f(id, location, value)
+    }
+
     class ShaderCompileException(message: String): Exception(message)
 
-}
-
-fun initShaders() {
-    PosColorShader2D
-    PosTexShader2D
 }
 
 @OptIn(ExperimentalContracts::class)

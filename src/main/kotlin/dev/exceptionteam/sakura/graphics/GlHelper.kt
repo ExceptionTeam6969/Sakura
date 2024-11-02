@@ -7,10 +7,19 @@ import kotlin.reflect.KProperty
 object GlHelper {
 
     // Disabled in core mode
-    var blend by GlState(false) { if (it) glEnable(GL_BLEND) else glDisable(GL_BLEND) }
-    var depth by GlState(false) { if (it) glEnable(GL_DEPTH_TEST) else glDisable(GL_DEPTH_TEST) }
-    var cull by GlState(false) { if (it) glEnable(GL_CULL_FACE) else glDisable(GL_CULL_FACE) }
-    var lineSmooth by GlState(false) { if (it) glEnable(GL_LINE_SMOOTH) else glDisable(GL_LINE_SMOOTH) }
+    private val blend0 = GlState(false) { if (it) glEnable(GL_BLEND) else glDisable(GL_BLEND) }
+    var blend by blend0
+
+    private val depth0 = GlState(false) { if (it) glEnable(GL_DEPTH_TEST) else glDisable(GL_DEPTH_TEST) }
+    var depth by depth0
+
+    private val cull0 = GlState(false) { if (it) glEnable(GL_CULL_FACE) else glDisable(GL_CULL_FACE) }
+    var cull by cull0
+
+    private val lineSmooth0 = GlState(false) { if (it) glEnable(GL_LINE_SMOOTH) else glDisable(GL_LINE_SMOOTH) }
+    var lineSmooth by lineSmooth0
+
+    var lineWidth: Float = 1.0f
 
     private val texture0 = GlState(0) { glBindTextureUnit(0, it) }
     var texture by texture0
@@ -22,6 +31,11 @@ object GlHelper {
     var program by program0
 
     fun reset() {
+        blend0.forceSetValue(false)
+        depth0.forceSetValue(false)
+        cull0.forceSetValue(false)
+        lineSmooth0.forceSetValue(false)
+        lineWidth = 1.0f
         texture0.forceSetValue(0)
         vertexArray0.forceSetValue(0)
         program0.forceSetValue(0)

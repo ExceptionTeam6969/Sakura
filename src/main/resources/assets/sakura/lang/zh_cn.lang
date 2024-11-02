@@ -79,3 +79,5 @@ modules.game-animation.hotbar=物品栏
 
 modules.no-fall=无摔落伤害
 modules.no-fall.fall-distance=摔落高度
+
+modules.auto-crystal=自动水晶

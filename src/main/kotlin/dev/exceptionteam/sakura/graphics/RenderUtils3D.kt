@@ -68,6 +68,50 @@ object RenderUtils3D {
         )
     }
 
+    fun drawBoxOutline(box: Box, color: ColorRGB, lineWidth: Float = 1f) {
+        val mc = MinecraftClient.getInstance()
+        val camera = mc.gameRenderer.camera
+
+        val minX = (box.minX - camera.pos.getX()).toFloat()
+        val minY = (box.minY - camera.pos.getY()).toFloat()
+        val minZ = (box.minZ - camera.pos.getZ()).toFloat()
+        val maxX = (box.maxX - camera.pos.getX()).toFloat()
+        val maxY = (box.maxY - camera.pos.getY()).toFloat()
+        val maxZ = (box.maxZ - camera.pos.getZ()).toFloat()
+
+        // fixme: line width not working
+        GlHelper.lineWidth = lineWidth
+
+        GL_LINES.draw(VertexBufferObjects.PosColor3D) {
+            vertex(minX, maxY, minZ, color)
+            vertex(maxX, maxY, minZ, color)
+            vertex(maxX, maxY, minZ, color)
+            vertex(maxX, maxY, maxZ, color)
+            vertex(maxX, maxY, maxZ, color)
+            vertex(minX, maxY, maxZ, color)
+            vertex(minX, maxY, maxZ, color)
+            vertex(minX, maxY, minZ, color)
+
+            vertex(minX, minY, minZ, color)
+            vertex(maxX, minY, minZ, color)
+            vertex(maxX, minY, minZ, color)
+            vertex(maxX, minY, maxZ, color)
+            vertex(maxX, minY, maxZ, color)
+            vertex(minX, minY, maxZ, color)
+            vertex(minX, minY, maxZ, color)
+            vertex(minX, minY, minZ, color)
+
+            vertex(minX, minY, minZ, color)
+            vertex(minX, maxY, minZ, color)
+            vertex(maxX, minY, minZ, color)
+            vertex(maxX, maxY, minZ, color)
+            vertex(maxX, minY, maxZ, color)
+            vertex(maxX, maxY, maxZ, color)
+            vertex(minX, minY, maxZ, color)
+            vertex(minX, maxY, maxZ, color)
+        }
+    }
+
     fun drawFilledBox(box: Box, color: ColorRGB) {
         val mc = MinecraftClient.getInstance()
         val camera = mc.gameRenderer.camera

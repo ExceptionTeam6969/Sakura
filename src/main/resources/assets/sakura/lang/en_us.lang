@@ -72,3 +72,20 @@ modules.game-animation.hotbar=Hotbar
 
 modules.no-fall=No Fall
 modules.no-fall.fall-distance=Fall Distance
+
+modules.auto-crystal=Auto Crystal
+modules.auto-crystal.page=Page
+modules.auto-crystal.page.general=General
+modules.auto-crystal.target-range=Target Range
+modules.auto-crystal.pause-while-eating=Pause While Eating
+modules.auto-crystal.page.calculation=Calculation
+modules.auto-crystal.predict=Predict
+modules.auto-crystal.predict-ticks=Predict Ticks
+modules.auto-crystal.page.place=Place
+modules.auto-crystal.place-delay=Place Delay
+modules.auto-crystal.place-range=Place Range
+modules.auto-crystal.page.break=Break
+modules.auto-crystal.break-delay=Break Delay
+modules.auto-crystal.break-range=Break Range
+modules.auto-crystal.page.render=Render
+modules.auto-crystal.color=Color
