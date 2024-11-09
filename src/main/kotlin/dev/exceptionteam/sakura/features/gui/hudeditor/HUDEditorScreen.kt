@@ -42,7 +42,7 @@ object HUDEditorScreen : GuiScreen("hud-editor") {
             hudRenderers.add(HUDRenderer(it.x, it.y, it.width, it.height,it))
         }
 
-        nonNullListener<Render2DEvent>(alwaysListening = true) { e ->
+        nonNullListener<Render2DEvent>(alwaysListening = true, priority = Int.MAX_VALUE) { e ->
             if (mc.currentScreen !is HUDEditorScreen) return@nonNullListener
             if (UiSetting.background) {
                 RenderUtils2D.drawRectGradientV(

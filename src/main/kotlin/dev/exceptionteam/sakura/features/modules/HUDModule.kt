@@ -6,8 +6,8 @@ import dev.exceptionteam.sakura.translation.TranslationString
 
 abstract class HUDModule(
     name: String,
-    val width: Float,
-    val height: Float,
+    var width: Float = 0f,
+    var height: Float = 0f,
     defaultEnable: Boolean = false,
     alwaysEnable: Boolean = false,
     defaultBind: Int = -1

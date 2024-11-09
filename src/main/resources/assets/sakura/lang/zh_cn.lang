@@ -99,3 +99,8 @@ modules.auto-crystal.color=颜色
 
 modules.strafe-fix=移动修复
 
+modules.gui-image=界面图片
+modules.gui-image.image=图片
+modules.gui-image.image.qianshu=锦木千束
+modules.gui-image.image.zhenxun=绪山真寻
+modules.gui-image.scale=缩放

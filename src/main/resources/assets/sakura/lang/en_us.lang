@@ -91,3 +91,9 @@ modules.auto-crystal.page.render=Render
 modules.auto-crystal.color=Color
 
 modules.strafe-fix=Strafe Fix
+
+modules.gui-image=GUI Image
+modules.gui-image.image=Image
+modules.gui-image.image.qianshu=QianShu
+modules.gui-image.image.zhenxun=ZhenXun
+modules.gui-image.scale=Scale

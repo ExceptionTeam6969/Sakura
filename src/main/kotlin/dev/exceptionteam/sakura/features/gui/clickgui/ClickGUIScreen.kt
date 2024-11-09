@@ -34,7 +34,7 @@ object ClickGUIScreen : GuiScreen("click-gui") {
     init {
         var xOffset = 10f
 
-        nonNullListener<Render2DEvent>(alwaysListening = true, priority = Int.MIN_VALUE) { e ->
+        nonNullListener<Render2DEvent>(alwaysListening = true, priority = -100) { e ->
             if (mc.currentScreen !is ClickGUIScreen) return@nonNullListener
             if (UiSetting.background) {
                 RenderUtils2D.drawRectGradientV(

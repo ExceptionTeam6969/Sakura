@@ -58,6 +58,7 @@ object ModuleManager {
 
             // HUD
             WaterMark,
+            GuiImage,
         ).sortedBy { it.name.key }.toTypedArray()
     }
 

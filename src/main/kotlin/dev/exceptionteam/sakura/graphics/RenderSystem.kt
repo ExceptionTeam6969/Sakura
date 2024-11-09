@@ -107,6 +107,8 @@ object RenderSystem {
 
     private fun postRender() {
         GlHelper.blend = false
+        GlHelper.depth = true
+        GlHelper.cull = true
         postFrameBuffer()
         postAttrib()
     }

@@ -14,6 +14,9 @@ class Texture(type: Int = GL_TEXTURE_2D): GlObject {
 
     override var id: Int = glCreateTextures(type)
 
+    var width: Int = 0
+    var height: Int = 0
+
     override fun bind() {
         GlHelper.texture = id
     }
