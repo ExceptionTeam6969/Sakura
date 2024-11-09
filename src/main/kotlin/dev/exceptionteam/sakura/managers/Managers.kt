@@ -15,6 +15,7 @@ object Managers {
         FriendManager
         CommandManager
         RotationManager
+        HotbarManager
     }
 
 }

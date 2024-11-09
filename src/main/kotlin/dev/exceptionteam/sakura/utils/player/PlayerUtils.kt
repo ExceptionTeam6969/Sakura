@@ -1,4 +1,4 @@
-package dev.exceptionteam.sakura.utils.entity
+package dev.exceptionteam.sakura.utils.player
 
 import dev.exceptionteam.sakura.events.NonNullContext
 import dev.exceptionteam.sakura.utils.math.toBlockPos

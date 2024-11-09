@@ -4,7 +4,7 @@ import dev.exceptionteam.sakura.events.impl.TickEvent
 import dev.exceptionteam.sakura.events.nonNullListener
 import dev.exceptionteam.sakura.features.modules.Category
 import dev.exceptionteam.sakura.features.modules.Module
-import dev.exceptionteam.sakura.utils.entity.PlayerUtils.isMoving
+import dev.exceptionteam.sakura.utils.player.PlayerUtils.isMoving
 import dev.exceptionteam.sakura.utils.interfaces.TranslationEnum
 
 object Sprint: Module(

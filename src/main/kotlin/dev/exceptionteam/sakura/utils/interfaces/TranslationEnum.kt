@@ -13,3 +13,15 @@ interface TranslationEnum {
         TranslationManager.getTranslation(keyString)
 
 }
+
+interface DirectTranslationEnum {
+
+    val key: CharSequence
+
+    val keyString: String
+        get() = key.toString()
+
+    val translation: String get() =
+        TranslationManager.getTranslation(keyString)
+
+}

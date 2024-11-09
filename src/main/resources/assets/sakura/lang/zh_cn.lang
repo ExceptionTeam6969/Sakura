@@ -16,6 +16,9 @@ category.hud=界面
 settings.toggle=开关
 settings.key-bind=按键绑定
 
+hotbar.silent-mode.pick=选择
+hotbar.silent-mode.swap=交换
+
 modules.click-gui=配置界面
 
 modules.hud-editor=界面编辑器
@@ -104,3 +107,10 @@ modules.gui-image.image=图片
 modules.gui-image.image.qianshu=锦木千束
 modules.gui-image.image.zhenxun=绪山真寻
 modules.gui-image.scale=缩放
+
+modules.feet-trap=围脚
+modules.feet-trap.rotation=转头
+modules.feet-trap.multi-place=多次放置
+modules.feet-trap.delay=延迟
+modules.feet-trap.silent-mode=鬼手模式
+modules.feet-trap.swing=摇手

@@ -9,6 +9,9 @@ category.hud=HUD
 settings.toggle=Toggle
 settings.key-bind=Key Bind
 
+hotbar.silent-mode.pick=Pick
+hotbar.silent-mode.swap=Swap
+
 modules.click-gui=Click GUI
 
 modules.hud-editor=HUD Editor
@@ -97,3 +100,10 @@ modules.gui-image.image=Image
 modules.gui-image.image.qianshu=QianShu
 modules.gui-image.image.zhenxun=ZhenXun
 modules.gui-image.scale=Scale
+
+modules.feet-trap=Feet Trap
+modules.feet-trap.rotation=Rotation
+modules.feet-trap.multi-place=Multi Place
+modules.feet-trap.delay=Delay
+modules.feet-trap.silent-mode=Silent Mode
+modules.feet-trap.swing=Swing

@@ -5,7 +5,7 @@ import dev.exceptionteam.sakura.events.impl.TickEvent
 import dev.exceptionteam.sakura.events.nonNullListener
 import dev.exceptionteam.sakura.features.modules.Category
 import dev.exceptionteam.sakura.features.modules.Module
-import dev.exceptionteam.sakura.utils.entity.PlayerUtils.isInBlock
+import dev.exceptionteam.sakura.utils.player.PlayerUtils.isInBlock
 import dev.exceptionteam.sakura.utils.interfaces.TranslationEnum
 import net.minecraft.network.packet.s2c.play.EntityVelocityUpdateS2CPacket
 
