@@ -2,12 +2,10 @@ package dev.exceptionteam.sakura.mixins.graphics;
 
 import com.llamalad7.mixinextras.sugar.Local;
 import dev.exceptionteam.sakura.graphics.RenderSystem;
-import dev.exceptionteam.sakura.graphics.matrix.MatrixStack;
 import net.minecraft.client.render.GameRenderer;
 import net.minecraft.client.render.RenderTickCounter;
 import net.minecraft.util.profiler.Profilers;
 import org.joml.Matrix4f;
-import org.joml.Matrix4fStack;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
@@ -26,6 +24,17 @@ public class GameRendererMixin {
         Profilers.get().push("sakura_render3d");
 
         RenderSystem.INSTANCE.onRender3d();
+
+        Profilers.get().pop();
+
+    }
+
+    @Inject(method = "render", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/gui/DrawContext;draw()V", shift = At.Shift.AFTER))
+    public void onRender(RenderTickCounter tickCounter, boolean tick, CallbackInfo ci) {
+
+        Profilers.get().push("sakura_render2d");
+
+        RenderSystem.INSTANCE.onRender2d();
 
         Profilers.get().pop();
 

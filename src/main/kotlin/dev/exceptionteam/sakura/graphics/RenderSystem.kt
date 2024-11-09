@@ -61,14 +61,14 @@ object RenderSystem {
 
     }
 
-    fun onRender2d(context: DrawContext) {
+    fun onRender2d() {
         preRender()
 
         MatrixStack.scope {
             val projection = Matrix4f(RenderSystem.getProjectionMatrix())
             val modelView = Matrix4f(RenderSystem.getModelViewMatrix())
             updateMvpMatrix(projection.mul(modelView))
-            Render2DEvent(context).post()
+            Render2DEvent().post()
         }
 
         postRender()
