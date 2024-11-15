@@ -6,7 +6,7 @@ import dev.exceptionteam.sakura.events.nonNullListener
 import dev.exceptionteam.sakura.features.modules.Category
 import dev.exceptionteam.sakura.features.modules.Module
 import dev.exceptionteam.sakura.managers.impl.HotbarManager
-import dev.exceptionteam.sakura.managers.impl.HotbarManager.silentSwitch
+import dev.exceptionteam.sakura.managers.impl.HotbarManager.switch
 import dev.exceptionteam.sakura.managers.impl.RotationManager.addRotation
 import dev.exceptionteam.sakura.utils.player.InventoryUtils.findBlockInHotbar
 import dev.exceptionteam.sakura.utils.math.RotationUtils.getRotationTo
@@ -26,7 +26,7 @@ object FeetTrap: Module(
     private val rotation by setting("rotation", true)
     private val multiPlace by setting("multi-place", 2, 1..4) { !rotation}
     private val delay by setting("delay", 100, 0..1000)
-    private val silentMode by setting("silent-mode", HotbarManager.SilentMode.PICK)
+    private val switchMode by setting("switch-mode", HotbarManager.SwitchMode.PICK)
     private val swing by setting("swing", true)
 
     private val timer = TimerUtils()
@@ -68,7 +68,7 @@ object FeetTrap: Module(
         addRotation(rotateAngle, -200, rotation) {
             val slot = findBlockInHotbar(Blocks.OBSIDIAN) ?: return@addRotation
 
-            silentSwitch(silentMode, slot) {
+            switch(switchMode, slot) {
                 placeBlock(pos)
             }
 

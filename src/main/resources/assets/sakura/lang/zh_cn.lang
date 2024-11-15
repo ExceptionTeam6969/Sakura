@@ -16,8 +16,10 @@ category.hud=界面
 settings.toggle=开关
 settings.key-bind=按键绑定
 
-hotbar.silent-mode.pick=选择
-hotbar.silent-mode.swap=交换
+hotbar.switch-mode.off=关闭
+hotbar.switch-mode.switch=切换
+hotbar.switch-mode.pick=选择鬼手
+hotbar.switch-mode.swap=交换鬼手
 
 modules.click-gui=配置界面
 
@@ -112,5 +114,5 @@ modules.feet-trap=围脚
 modules.feet-trap.rotation=转头
 modules.feet-trap.multi-place=多次放置
 modules.feet-trap.delay=延迟
-modules.feet-trap.silent-mode=鬼手模式
+modules.feet-trap.switch-mode=切换模式
 modules.feet-trap.swing=摇手

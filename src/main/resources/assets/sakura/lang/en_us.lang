@@ -9,8 +9,10 @@ category.hud=HUD
 settings.toggle=Toggle
 settings.key-bind=Key Bind
 
-hotbar.silent-mode.pick=Pick
-hotbar.silent-mode.swap=Swap
+hotbar.switch-mode.off=Off
+hotbar.switch-mode.switch=Switch
+hotbar.switch-mode.pick=Pick Silent
+hotbar.switch-mode.swap=Swap Silent
 
 modules.click-gui=Click GUI
 
@@ -105,5 +107,5 @@ modules.feet-trap=Feet Trap
 modules.feet-trap.rotation=Rotation
 modules.feet-trap.multi-place=Multi Place
 modules.feet-trap.delay=Delay
-modules.feet-trap.silent-mode=Silent Mode
+modules.feet-trap.switch-mode=Switch Mode
 modules.feet-trap.swing=Swing
