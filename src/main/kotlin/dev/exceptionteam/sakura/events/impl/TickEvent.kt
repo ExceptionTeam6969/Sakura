@@ -6,6 +6,11 @@ sealed class TickEvent {
 
     object Pre: Event()
 
+    /*
+     * This event is called after the packet received
+     */
+    object Update: Event()
+
     object Post: Event()
 
 }

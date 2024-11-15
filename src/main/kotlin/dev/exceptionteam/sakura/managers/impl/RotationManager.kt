@@ -1,15 +1,16 @@
 package dev.exceptionteam.sakura.managers.impl
 
 import dev.exceptionteam.sakura.events.NonNullContext
+import dev.exceptionteam.sakura.events.impl.AfterPlayerMotionEvent
 import dev.exceptionteam.sakura.events.impl.PlayerMotionEvent
-import dev.exceptionteam.sakura.events.impl.TickEvent
 import dev.exceptionteam.sakura.events.nonNullListener
 import dev.exceptionteam.sakura.utils.math.vector.Vec2f
 
 object RotationManager {
 
     init {
-        nonNullListener<TickEvent.Pre>(alwaysListening = true) {
+        nonNullListener<AfterPlayerMotionEvent>(alwaysListening = true) {
+            rotationInfo?.func()
             rotationInfo = null
         }
 
@@ -27,19 +28,37 @@ object RotationManager {
      * Add a rotation to the rotation manager.
      */
     fun NonNullContext.addRotation(
-        yaw: Float, pitch: Float, priority: Int
-    ) = RotationManager.addRotation(yaw, pitch, priority)
+        yaw: Float, pitch: Float, priority: Int,
+        shouldRotate: Boolean = true, func: () -> Unit = { }
+    ) = RotationManager.addRotation(yaw, pitch, priority, shouldRotate,func)
 
     fun NonNullContext.addRotation(
-        rotation: Vec2f, priority: Int
-    ) = RotationManager.addRotation(rotation.x, rotation.y, priority)
+        rotation: Vec2f, priority: Int,
+        shouldRotate: Boolean = true, func: () -> Unit = { }
+    ) = RotationManager.addRotation(rotation.x, rotation.y, priority, shouldRotate,func)
 
-    fun addRotation(yaw: Float, pitch: Float, priority: Int) {
+    /**
+     * Add a rotation to the rotation manager.
+     * @param yaw The yaw rotation to add.
+     * @param pitch The pitch rotation to add.
+     * @param priority The priority of the rotation.
+     * @param shouldRotate If the rotation should be added or not.
+     * @param func The function to execute after the rotation is added.
+     */
+    fun addRotation(
+        yaw: Float, pitch: Float, priority: Int,
+        shouldRotate: Boolean = true, func: () -> Unit = { }
+    ) {
+        if (!shouldRotate) {
+            func()
+            return
+        }
+
         if (rotationInfo == null) {
-            rotationInfo = RotationInfo(yaw, pitch, priority)
+            rotationInfo = RotationInfo(yaw, pitch, priority, func)
         } else {
             if (priority > rotationInfo!!.priority) {
-                rotationInfo = RotationInfo(yaw, pitch, priority)
+                rotationInfo = RotationInfo(yaw, pitch, priority, func)
             }
         }
     }
@@ -47,7 +66,8 @@ object RotationManager {
     data class RotationInfo(
         val yaw: Float,
         val pitch: Float,
-        val priority: Int
+        val priority: Int,
+        val func: () -> Unit,
     )
 
 }

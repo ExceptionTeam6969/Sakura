@@ -35,6 +35,11 @@ public class MinecraftClientMixin {
         TickEvent.Pre.INSTANCE.post();
     }
 
+    @Inject(method = "tick", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/network/ClientPlayerInteractionManager;tick()V", shift = At.Shift.AFTER))
+    public void onTickAfterInteraction(CallbackInfo ci) {
+        TickEvent.Update.INSTANCE.post();
+    }
+
     @Inject(method = "tick", at = @At("TAIL"))
     public void onTickPost(CallbackInfo ci) {
         TickEvent.Post.INSTANCE.post();

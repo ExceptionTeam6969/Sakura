@@ -37,7 +37,7 @@ object FeetTrap: Module(
             timer.reset()
         }
 
-        nonNullListener<TickEvent.Post> {
+        nonNullListener<TickEvent.Update> {
             if (!timer.passedAndReset(delay)) return@nonNullListener
 
             var multiCount = 0
@@ -64,16 +64,16 @@ object FeetTrap: Module(
     }
 
     private fun NonNullContext.place(pos: BlockPos) {
-        val rotation = getRotationTo(pos)
-        addRotation(rotation, -200)
+        val rotateAngle = getRotationTo(pos)
+        addRotation(rotateAngle, -200, rotation) {
+            val slot = findBlockInHotbar(Blocks.OBSIDIAN) ?: return@addRotation
 
-        val slot = findBlockInHotbar(Blocks.OBSIDIAN) ?: return
+            silentSwitch(silentMode, slot) {
+                placeBlock(pos)
+            }
 
-        silentSwitch(silentMode, slot) {
-            placeBlock(pos)
+            if (swing) player.swingHand(Hand.MAIN_HAND)
         }
-
-        if (swing) player.swingHand(Hand.MAIN_HAND)
     }
 
 }
