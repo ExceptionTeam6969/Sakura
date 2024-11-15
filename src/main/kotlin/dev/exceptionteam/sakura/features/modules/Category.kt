@@ -1,8 +1,8 @@
 package dev.exceptionteam.sakura.features.modules
 
-import dev.exceptionteam.sakura.utils.interfaces.TranslationEnum
+import dev.exceptionteam.sakura.utils.interfaces.DirectTranslationEnum
 
-enum class Category(override val key: CharSequence): TranslationEnum {
+enum class Category(override val key: CharSequence): DirectTranslationEnum {
 
     COMBAT("category.combat"),
     MISC("category.misc"),
