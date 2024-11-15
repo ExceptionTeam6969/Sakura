@@ -29,7 +29,7 @@ public class GameRendererMixin {
 
     }
 
-    @Inject(method = "render", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/gui/DrawContext;draw()V", shift = At.Shift.AFTER))
+    @Inject(method = "render", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/MinecraftClient;getOverlay()Lnet/minecraft/client/gui/screen/Overlay;"))
     public void onRender(RenderTickCounter tickCounter, boolean tick, CallbackInfo ci) {
 
         Profilers.get().push("sakura_render2d");
