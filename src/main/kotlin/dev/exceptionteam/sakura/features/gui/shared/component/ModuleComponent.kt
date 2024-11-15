@@ -45,8 +45,7 @@ class ModuleComponent(
             }
 
             MouseButtonType.RIGHT -> {
-                val moduleSettingWindow = ModuleSettingWindow(mouseX, mouseY, width, height, module)
-
+                val moduleSettingWindow = ModuleSettingWindow(mouseX, mouseY, WINDOW_WIDTH, height, module)
 
                 if (module is HUDModule) HUDEditorScreen.currentWindow = moduleSettingWindow
                 else ClickGUIScreen.currentWindow = moduleSettingWindow
@@ -59,4 +58,9 @@ class ModuleComponent(
 
         return true
     }
+
+    companion object {
+        const val WINDOW_WIDTH = 175f
+    }
+
 }
