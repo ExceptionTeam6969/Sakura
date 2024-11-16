@@ -26,4 +26,10 @@ class FontChunks(
 
     fun canDisplay(char: Char): Boolean = font.canDisplay(char)
 
+    fun getHeight(): Float {
+        val chunk = getChunk(0)
+        val height = chunk.charData[Char(0)]?.height ?: 0f
+        return height.toFloat()
+    }
+
 }

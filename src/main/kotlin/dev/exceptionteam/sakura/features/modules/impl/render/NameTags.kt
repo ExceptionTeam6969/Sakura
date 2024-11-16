@@ -4,6 +4,7 @@ import dev.exceptionteam.sakura.events.impl.Render2DEvent
 import dev.exceptionteam.sakura.events.nonNullListener
 import dev.exceptionteam.sakura.features.modules.Category
 import dev.exceptionteam.sakura.features.modules.Module
+import dev.exceptionteam.sakura.graphics.RenderUtils2D
 import dev.exceptionteam.sakura.graphics.RenderUtils3D.worldSpaceToScreenSpace
 import dev.exceptionteam.sakura.graphics.color.ColorRGB
 import dev.exceptionteam.sakura.graphics.font.FontRenderers
@@ -28,7 +29,7 @@ object NameTags: Module(
                 if (ent == player && mc.options.perspective.isFirstPerson) continue
 
                 val x0 = (ent.prevX + (ent.x - ent.prevX) * e.tickDelta).toFloat()
-                val y0 = (ent.prevY + (ent.y - ent.prevY) * e.tickDelta).toFloat()
+                val y0 = (ent.prevY + (ent.y - ent.prevY) * e.tickDelta).toFloat() + 0.1f
                 val z0 = (ent.prevZ + (ent.z - ent.prevZ) * e.tickDelta).toFloat()
 
                 var vector = Vec3f(x0, y0 + 2f, z0)
@@ -46,7 +47,14 @@ object NameTags: Module(
                 val x = position0.x.toFloat()
                 val y = position0.y.toFloat()
 
-                FontRenderers.drawString(ent.displayName!!.string, x, y, ColorRGB.WHITE)
+                val str = "${ent.displayName?.string}"
+
+                val stringWidth = FontRenderers.getStringWidth(str)
+
+                RenderUtils2D.drawRectFilled(x - 1 - stringWidth / 2f, y - 1, stringWidth + 2, FontRenderers.getHeight(),
+                    ColorRGB.BLACK.alpha(0.9f))
+
+                FontRenderers.drawString(ent.displayName!!.string, x - stringWidth / 2f, y, ColorRGB.WHITE)
 
             }
 

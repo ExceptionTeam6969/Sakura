@@ -65,46 +65,13 @@ class FontRenderer(
 
     /**
      * Draw a string with a custom font, but reversed.
-     * @see drawString
      */
     fun drawStringRev(
         text: String, x: Float, y: Float,
         color0: ColorRGB, scale0: Float = 1f, backFont: FontRenderer? = null
     ): Float {
-        val length = text.length
-        var shouldContinue = false
-        var color = color0
-
-        GlHelper.lineSmooth = true
-
-        val scale = scale0 / 40f * CustomFont.fontSize
-
-        var width = 0f
-
-        MatrixStack.scope {
-            for (i in length - 1 downTo 0) {
-                if (shouldContinue) {
-                    shouldContinue = false
-                    continue
-                }
-                if (text[i] == '§' && i < length - 1) {
-                    shouldContinue = true
-                    color = getColor(text[i + 1])
-                    continue
-                }
-
-                val prevWidth =
-                    if (canDisplay(text[i])) drawChar(text[i], x, y, color, scale)
-                    else backFont?.drawChar(text[i], x, y, color, scale) ?: 0f
-
-                width += prevWidth
-
-                translate(-prevWidth, 0f, 0f)
-            }
-        }
-
-        GlHelper.lineSmooth = false
-
+        val width = getStringWidth(text, scale0, backFont)
+        drawString(text, x - width, y, color0, scale0, backFont)
         return width
     }
 
@@ -115,9 +82,11 @@ class FontRenderer(
      * @param backFont The font to use for characters that cannot be displayed.
      * @return The width of the text.
      */
-    fun getStringWidth(text: String, scale: Float = 1f, backFont: FontRenderer? = null): Float {
+    fun getStringWidth(text: String, scale0: Float = 1f, backFont: FontRenderer? = null): Float {
         var width = 0f
         var shouldContinue = false
+
+        val scale = scale0 / 40f * CustomFont.fontSize
 
         for (i in 0 until text.length) {
             if (shouldContinue) {
@@ -156,6 +125,10 @@ class FontRenderer(
             chunk.texture, color)
 
         return width
+    }
+
+    fun getHeight(scale: Float = 1f): Float {
+        return font.getHeight() * scale / 40f * CustomFont.fontSize
     }
 
     private fun getColor(ch: Char): ColorRGB =

@@ -42,4 +42,7 @@ object FontRenderers {
     fun getStringWidth(text: TranslationString, scale: Float = 1.0f): Float =
         getStringWidth(text.translation, scale)
 
+    fun getHeight(scale: Float = 1.0f): Float =
+        default.getHeight(scale)
+
 }

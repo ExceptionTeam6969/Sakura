@@ -10,6 +10,7 @@
 		"input.KeyboardInputMixin",
 		"gui.InGameHudMixin",
 		"graphics.GameRendererMixin",
+		"graphics.PlayerEntityRendererMixin",
 		"graphics.WindowMixin",
 		"graphics.LightmapTextureManagerMixin",
 		"graphics.EntityRendererMixin",
