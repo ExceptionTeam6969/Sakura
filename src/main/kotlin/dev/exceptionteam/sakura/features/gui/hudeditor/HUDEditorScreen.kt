@@ -9,6 +9,7 @@ import dev.exceptionteam.sakura.features.modules.Category
 import dev.exceptionteam.sakura.features.modules.HUDModule
 import dev.exceptionteam.sakura.features.modules.impl.client.HUDEditor
 import dev.exceptionteam.sakura.features.modules.impl.client.UiSetting
+import dev.exceptionteam.sakura.features.modules.impl.hud.GuiImage
 import dev.exceptionteam.sakura.graphics.RenderUtils2D
 import dev.exceptionteam.sakura.managers.impl.ModuleManager
 import dev.exceptionteam.sakura.utils.control.MouseButtonType
@@ -42,7 +43,7 @@ object HUDEditorScreen : GuiScreen("hud-editor") {
             hudRenderers.add(HUDRenderer(it.x, it.y, it.width, it.height,it))
         }
 
-        nonNullListener<Render2DEvent>(alwaysListening = true, priority = Int.MAX_VALUE) { e ->
+        nonNullListener<Render2DEvent>(alwaysListening = true, priority = -50) { e ->
             if (mc.currentScreen !is HUDEditorScreen) return@nonNullListener
             if (UiSetting.background) {
                 RenderUtils2D.drawRectGradientV(
@@ -51,6 +52,8 @@ object HUDEditorScreen : GuiScreen("hud-editor") {
                     UiSetting.backgroundColor.alpha(0.1f), UiSetting.backgroundColor.alpha(0.8f)
                 )
             }
+
+            GuiImage.renderImage()
 
             hudRenderers.filter { it.module.isEnabled }.forEach {
                 it.mouseX = mouseX

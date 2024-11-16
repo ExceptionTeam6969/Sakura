@@ -8,6 +8,7 @@ import dev.exceptionteam.sakura.features.gui.shared.Window
 import dev.exceptionteam.sakura.features.modules.Category
 import dev.exceptionteam.sakura.features.modules.impl.client.ClickGUI
 import dev.exceptionteam.sakura.features.modules.impl.client.UiSetting
+import dev.exceptionteam.sakura.features.modules.impl.hud.GuiImage
 import dev.exceptionteam.sakura.graphics.RenderUtils2D
 import dev.exceptionteam.sakura.managers.impl.ModuleManager
 import dev.exceptionteam.sakura.utils.control.MouseButtonType
@@ -43,6 +44,9 @@ object ClickGUIScreen : GuiScreen("click-gui") {
                     UiSetting.backgroundColor.alpha(0.1f), UiSetting.backgroundColor.alpha(0.8f)
                 )
             }
+
+            GuiImage.renderImage()
+
             panels.forEach { it.render(mouseX, mouseY) }
 
             currentWindow?.render()

@@ -25,6 +25,12 @@ object EventBus {
         registers[obj]?.forEach(EventBus::subscribe)
     }
 
+    /**
+     * Subscribe a listener to the event bus.
+     *
+     * Listeners with a higher priority will be executed first. If two listeners have the
+     * same priority,the order in which they were added will be used.
+     */
     @Suppress("UNCHECKED_CAST")
     @JvmStatic
     fun subscribe(listener: EventListener<*>) {

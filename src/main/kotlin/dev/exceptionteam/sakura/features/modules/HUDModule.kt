@@ -22,7 +22,7 @@ abstract class HUDModule(
 
     init {
 
-        nonNullListener<Render2DEvent>(priority = Int.MAX_VALUE) {
+        nonNullListener<Render2DEvent>(priority = -75) {
             render()
         }
         

@@ -1,7 +1,5 @@
 package dev.exceptionteam.sakura.features.modules.impl.hud
 
-import dev.exceptionteam.sakura.events.impl.Render2DEvent
-import dev.exceptionteam.sakura.events.listener
 import dev.exceptionteam.sakura.features.gui.clickgui.ClickGUIScreen
 import dev.exceptionteam.sakura.features.gui.hudeditor.HUDEditorScreen
 import dev.exceptionteam.sakura.features.modules.HUDModule
@@ -31,18 +29,19 @@ object GuiImage: HUDModule(
             qianshuTex = ImageFileUtils.loadTextureFromResource(Resource("gui/qianshu.png"))
             mahiroTex = ImageFileUtils.loadTextureFromResource(Resource("gui/mahiro.png"))
         }
-
-        listener<Render2DEvent>(priority = -200) {
-            if (mc.currentScreen != ClickGUIScreen && mc.currentScreen != HUDEditorScreen) return@listener
-
-            when (image) {
-                Image.QIANSHU -> qianshuTex?.draw()
-                Image.ZHENXUN -> mahiroTex?.draw()
-            }
-        }
     }
 
     override fun render() {
+    }
+
+    fun renderImage() {
+        if (isDisabled) return
+        if (mc.currentScreen != ClickGUIScreen && mc.currentScreen != HUDEditorScreen) return
+
+        when (image) {
+            Image.QIANSHU -> qianshuTex?.draw()
+            Image.ZHENXUN -> mahiroTex?.draw()
+        }
     }
 
     private fun Texture.draw() {
