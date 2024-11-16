@@ -19,7 +19,8 @@
 		"network.ClientPlayNetworkHandlerMixin",
 		"entity.EntityMixin",
 		"entity.ClientPlayerEntityMixin",
-		"entity.LivingEntityMixin"
+		"entity.LivingEntityMixin",
+		"item.ShieldItemMixin"
 	],
 	"injectors": {
 		"defaultRequire": 1

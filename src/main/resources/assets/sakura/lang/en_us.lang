@@ -109,3 +109,6 @@ modules.feet-trap.multi-place=Multi Place
 modules.feet-trap.delay=Delay
 modules.feet-trap.switch-mode=Switch Mode
 modules.feet-trap.swing=Swing
+
+modules.cancel-using=Cancel Using
+modules.cancel-using.shield=Shield

@@ -57,6 +57,7 @@ object ModuleManager {
 
             // Player
             NoFall,
+            CancelUsing,
 
             // HUD
             WaterMark,
