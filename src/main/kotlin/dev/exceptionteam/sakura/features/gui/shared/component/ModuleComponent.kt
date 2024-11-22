@@ -2,6 +2,7 @@ package dev.exceptionteam.sakura.features.gui.shared.component
 
 import dev.exceptionteam.sakura.features.gui.clickgui.ClickGUIScreen
 import dev.exceptionteam.sakura.features.gui.hudeditor.HUDEditorScreen
+import dev.exceptionteam.sakura.features.gui.shared.Window
 import dev.exceptionteam.sakura.features.gui.shared.windows.ModuleSettingWindow
 import dev.exceptionteam.sakura.features.modules.AbstractModule
 import dev.exceptionteam.sakura.features.modules.HUDModule
@@ -12,6 +13,7 @@ import dev.exceptionteam.sakura.graphics.easing.Easing
 import dev.exceptionteam.sakura.graphics.font.FontRenderers
 import dev.exceptionteam.sakura.utils.control.MouseButtonType
 import dev.exceptionteam.sakura.utils.ingame.ChatUtils
+import dev.exceptionteam.sakura.utils.math.vector.Vec2f
 
 class ModuleComponent(
     private val module: AbstractModule, x: Float, y: Float, width: Float, height: Float
@@ -47,22 +49,14 @@ class ModuleComponent(
             }
 
             MouseButtonType.RIGHT -> {
-                if (lastWindow == null || (moduleSettingWindow != null && lastWindow != moduleSettingWindow)) {
-                    lastWindow = moduleSettingWindow
-                    ChatUtils.sendMessage("Window Updated")
-                }
-                positionAnimationFlag.update(lastWindow?.let {
-                    if (it.module != module && (it.x != x || it.y != y)) {
-                        0f
-                    } else {
-                        1f
-                    }
-                } ?: 0f
-                )
-                moduleSettingWindow = ModuleSettingWindow(mouseX, mouseY, WINDOW_WIDTH, height, module)
+                previousWindow = currentWindow
 
-                if (module is HUDModule) HUDEditorScreen.currentWindow = moduleSettingWindow
-                else ClickGUIScreen.currentWindow = moduleSettingWindow
+                newPos = Vec2f(mouseX, mouseY)
+                positionAnimationFlag.forceUpdate(0f)
+
+                currentWindow = ModuleSettingWindow(mouseX, mouseY, WINDOW_WIDTH, height, module)
+                if (module is HUDModule) HUDEditorScreen.currentWindow = currentWindow
+                else ClickGUIScreen.currentWindow = currentWindow
             }
 
             else -> {
@@ -75,8 +69,9 @@ class ModuleComponent(
 
     companion object {
         val positionAnimationFlag = AnimationFlag(Easing.LINEAR, 450f)
-        var moduleSettingWindow: ModuleSettingWindow? = null
-        var lastWindow: ModuleSettingWindow? = null
+        var previousWindow: Window? = null
+        var currentWindow: Window? = null
+        var newPos = Vec2f.ZERO
         const val WINDOW_WIDTH = 175f
     }
 

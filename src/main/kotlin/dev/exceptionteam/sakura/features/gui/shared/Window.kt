@@ -1,7 +1,8 @@
 package dev.exceptionteam.sakura.features.gui.shared
 
 import dev.exceptionteam.sakura.features.gui.shared.component.AbstractComponent
-import dev.exceptionteam.sakura.features.gui.shared.component.ModuleComponent.Companion.lastWindow
+import dev.exceptionteam.sakura.features.gui.shared.component.ModuleComponent.Companion.previousWindow
+import dev.exceptionteam.sakura.features.gui.shared.component.ModuleComponent.Companion.newPos
 import dev.exceptionteam.sakura.features.gui.shared.component.ModuleComponent.Companion.positionAnimationFlag
 import dev.exceptionteam.sakura.features.modules.impl.client.UiSetting
 import dev.exceptionteam.sakura.graphics.RenderUtils2D
@@ -10,6 +11,7 @@ import dev.exceptionteam.sakura.graphics.font.FontRenderers
 import dev.exceptionteam.sakura.translation.TranslationString
 import dev.exceptionteam.sakura.utils.control.MouseButtonType
 import dev.exceptionteam.sakura.utils.ingame.ChatUtils
+import dev.exceptionteam.sakura.utils.math.MathUtils
 import kotlin.math.max
 import kotlin.math.min
 
@@ -50,14 +52,16 @@ abstract class Window(
     }
 
     override fun render() {
-        val progress = positionAnimationFlag.getAndUpdate(1f)//if (lastWindow?.x == x && lastWindow?.y == y) 1f else 0f).coerceIn(0f, 1f)
-        val finalX = lastWindow?.let { lerpPosition(x, it.x, progress) } ?: x
-        val finalY = lastWindow?.let { lerpPosition(y, it.y, progress) } ?: y
-        ChatUtils.sendNoSpamMessage(progress.toString())
+
+        val progress = positionAnimationFlag.getAndUpdate(1f)
+        val finalX = MathUtils.lerp(previousWindow?.x ?: newPos.x, newPos.x, progress)
+        val finalY = MathUtils.lerp(previousWindow?.y ?: newPos.y, newPos.y, progress)
+        val viewWidth = MathUtils.lerp(previousWindow?.width ?: width, width, progress)
+        val viewHeight = MathUtils.lerp(previousWindow?.height ?: height, height, progress)
         updatePosition(finalX, finalY)
 
-        RenderUtils2D.drawRectFilled(finalX, finalY, width * progress, height * progress, UiSetting.primaryColor)
-        RenderUtils2D.drawRectOutline(finalX, finalY, width * progress, height * progress, UiSetting.outlineColor)
+        RenderUtils2D.drawRectFilled(finalX, finalY, viewWidth, viewHeight, UiSetting.primaryColor)
+        RenderUtils2D.drawRectOutline(finalX, finalY, viewWidth, viewHeight, UiSetting.outlineColor)
 
         val newColor = ColorRGB(
             UiSetting.textColor.r,
@@ -77,7 +81,7 @@ abstract class Window(
     }
 
     override fun mouseClicked(type: MouseButtonType): Boolean {
-        return components.filter { it.isHovering && it.visible }.getOrNull(0)?.mouseClicked(type) == true
+        return components.firstOrNull { it.isHovering && it.visible }?.mouseClicked(type) == true
     }
 
     override fun mouseReleased(type: MouseButtonType): Boolean {/* Don't need to check hovering, because in some components,
