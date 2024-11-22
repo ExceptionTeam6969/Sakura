@@ -5,6 +5,8 @@ import dev.exceptionteam.sakura.features.modules.AbstractModule
 import dev.exceptionteam.sakura.features.modules.Category
 import dev.exceptionteam.sakura.features.modules.impl.client.UiSetting
 import dev.exceptionteam.sakura.graphics.RenderUtils2D
+import dev.exceptionteam.sakura.graphics.color.ColorRGB
+import dev.exceptionteam.sakura.graphics.color.RainbowColor
 import dev.exceptionteam.sakura.graphics.font.FontRenderers
 import dev.exceptionteam.sakura.utils.control.MouseButtonType
 
@@ -48,11 +50,23 @@ class Panel(
             }
         }
 
-        RenderUtils2D.drawRectFilled(x, y, width,
-            if (isOpening) (moduleComponents.size + 1) * height else height,
-            UiSetting.primaryColor)
+        RenderUtils2D.drawRectFilled(
+            x, y, width, if (isOpening) (moduleComponents.size + 1) * height else height, UiSetting.primaryColor
+        )
 
-        FontRenderers.drawString(category.translation, x + 5f, y + 4f, UiSetting.textColor)
+        val rainbowColor = RainbowColor.getRainbow(0, 0.55f, 1f)
+        RenderUtils2D.drawDynamicIsland(
+            x = x,
+            y = y,
+            width = width,
+            height = height,
+            radius = (height) / 2,
+            segments = 100,
+            color = ColorRGB(rainbowColor.red / 255f, rainbowColor.green / 255f, rainbowColor.blue / 255f, rainbowColor.alpha / 255f),
+            rectFilled = false
+        )
+
+        FontRenderers.drawString(category.translation, (x + width / 2.5f), y + 4f, UiSetting.textColor)
 
         if (!isOpening) return
 

@@ -11,7 +11,7 @@ class ModuleSettingWindow(
     y: Float,
     width: Float,
     compHeight: Float,
-    module: AbstractModule
+    val module: AbstractModule
 ) : Window(module.name, x, y, width, compHeight) {
     init {
         module.settings.forEach {

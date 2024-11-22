@@ -6,15 +6,15 @@ import dev.exceptionteam.sakura.features.gui.shared.windows.ModuleSettingWindow
 import dev.exceptionteam.sakura.features.modules.AbstractModule
 import dev.exceptionteam.sakura.features.modules.HUDModule
 import dev.exceptionteam.sakura.features.modules.impl.client.UiSetting
+import dev.exceptionteam.sakura.graphics.RenderUtils2D
 import dev.exceptionteam.sakura.graphics.easing.AnimationFlag
 import dev.exceptionteam.sakura.graphics.easing.Easing
-import dev.exceptionteam.sakura.graphics.RenderUtils2D
 import dev.exceptionteam.sakura.graphics.font.FontRenderers
 import dev.exceptionteam.sakura.utils.control.MouseButtonType
+import dev.exceptionteam.sakura.utils.ingame.ChatUtils
 
 class ModuleComponent(
-    private val module: AbstractModule,
-    x: Float, y: Float, width: Float, height: Float
+    private val module: AbstractModule, x: Float, y: Float, width: Float, height: Float
 ) : AbstractComponent(x, y, width, height) {
 
     private val widthAnimationFlag = AnimationFlag(Easing.LINEAR, 300f)
@@ -23,13 +23,15 @@ class ModuleComponent(
         val widthPercent = widthAnimationFlag.getAndUpdate(if (module.isEnabled) 1f else 0f)
 
         if (widthPercent > 0.01f) RenderUtils2D.drawRectFilled(
-            x + 2f, y + 1f, width * widthPercent - 4f, height - 2f,
-            UiSetting.secondaryColor.alpha(widthPercent.coerceIn(0f, UiSetting.secondaryColor.aFloat)))
+            x + 2f,
+            y + 1f,
+            width * widthPercent - 4f,
+            height - 2f,
+            UiSetting.secondaryColor.alpha(widthPercent.coerceIn(0f, UiSetting.secondaryColor.aFloat))
+        )
 
         FontRenderers.drawString(
-            module.name.translation,
-            x + 5f, y + 4f,
-            UiSetting.textColor
+            module.name.translation, x + 5f, y + 4f, UiSetting.textColor
         )
     }
 
@@ -45,7 +47,19 @@ class ModuleComponent(
             }
 
             MouseButtonType.RIGHT -> {
-                val moduleSettingWindow = ModuleSettingWindow(mouseX, mouseY, WINDOW_WIDTH, height, module)
+                if (lastWindow == null || (moduleSettingWindow != null && lastWindow != moduleSettingWindow)) {
+                    lastWindow = moduleSettingWindow
+                    ChatUtils.sendMessage("Window Updated")
+                }
+                positionAnimationFlag.update(lastWindow?.let {
+                    if (it.module != module && (it.x != x || it.y != y)) {
+                        0f
+                    } else {
+                        1f
+                    }
+                } ?: 0f
+                )
+                moduleSettingWindow = ModuleSettingWindow(mouseX, mouseY, WINDOW_WIDTH, height, module)
 
                 if (module is HUDModule) HUDEditorScreen.currentWindow = moduleSettingWindow
                 else ClickGUIScreen.currentWindow = moduleSettingWindow
@@ -60,6 +74,9 @@ class ModuleComponent(
     }
 
     companion object {
+        val positionAnimationFlag = AnimationFlag(Easing.LINEAR, 450f)
+        var moduleSettingWindow: ModuleSettingWindow? = null
+        var lastWindow: ModuleSettingWindow? = null
         const val WINDOW_WIDTH = 175f
     }
 
