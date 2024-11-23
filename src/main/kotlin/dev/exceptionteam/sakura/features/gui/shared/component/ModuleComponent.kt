@@ -12,7 +12,6 @@ import dev.exceptionteam.sakura.graphics.easing.AnimationFlag
 import dev.exceptionteam.sakura.graphics.easing.Easing
 import dev.exceptionteam.sakura.graphics.font.FontRenderers
 import dev.exceptionteam.sakura.utils.control.MouseButtonType
-import dev.exceptionteam.sakura.utils.ingame.ChatUtils
 import dev.exceptionteam.sakura.utils.math.vector.Vec2f
 
 class ModuleComponent(
@@ -68,7 +67,7 @@ class ModuleComponent(
     }
 
     companion object {
-        val positionAnimationFlag = AnimationFlag(Easing.LINEAR, 450f)
+        val positionAnimationFlag = AnimationFlag(Easing.LINEAR, 200f)
         var previousWindow: Window? = null
         var currentWindow: Window? = null
         var newPos = Vec2f.ZERO

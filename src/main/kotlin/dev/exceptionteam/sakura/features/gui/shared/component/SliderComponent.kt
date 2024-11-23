@@ -1,11 +1,7 @@
 package dev.exceptionteam.sakura.features.gui.shared.component
 
 import dev.exceptionteam.sakura.features.modules.impl.client.UiSetting
-import dev.exceptionteam.sakura.features.settings.DoubleSetting
-import dev.exceptionteam.sakura.features.settings.FloatSetting
-import dev.exceptionteam.sakura.features.settings.IntSetting
-import dev.exceptionteam.sakura.features.settings.LongSetting
-import dev.exceptionteam.sakura.features.settings.NumberSetting
+import dev.exceptionteam.sakura.features.settings.*
 import dev.exceptionteam.sakura.graphics.RenderUtils2D
 import dev.exceptionteam.sakura.graphics.font.FontRenderers
 import dev.exceptionteam.sakura.utils.control.MouseButtonType

@@ -19,6 +19,9 @@ object GlHelper {
     private val lineSmooth0 = GlState(false) { if (it) glEnable(GL_LINE_SMOOTH) else glDisable(GL_LINE_SMOOTH) }
     var lineSmooth by lineSmooth0
 
+    private val scissor0 = GlState(false) { if (it) glEnable(GL_SCISSOR_TEST) else glDisable(GL_SCISSOR_TEST) }
+    var scissor by scissor0
+
     var lineWidth: Float = 1.0f
 
     private val texture0 = GlState(0) { glBindTextureUnit(0, it) }
@@ -39,6 +42,7 @@ object GlHelper {
         texture0.forceSetValue(0)
         vertexArray0.forceSetValue(0)
         program0.forceSetValue(0)
+        scissor0.forceSetValue(false)
     }
 
 }
