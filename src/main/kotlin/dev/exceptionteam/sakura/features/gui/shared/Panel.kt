@@ -54,19 +54,22 @@ class Panel(
             x, y, width, if (isOpening) (moduleComponents.size + 1) * height else height, UiSetting.primaryColor
         )
 
-        val rainbowColor = RainbowColor.getRainbow(0, 0.55f, 1f)
-        RenderUtils2D.drawDynamicIsland(
-            x = x,
-            y = y,
-            width = width,
-            height = height,
-            radius = (height) / 2,
-            segments = 100,
-            color = ColorRGB(rainbowColor.red / 255f, rainbowColor.green / 255f, rainbowColor.blue / 255f, rainbowColor.alpha / 255f),
-            rectFilled = false
-        )
+        if (UiSetting.rounded) {
+            val rainbowColor = RainbowColor.getRainbow(0, 0.55f, 1f)
+            RenderUtils2D.drawDynamicIsland(
+                x = x,
+                y = y,
+                width = width,
+                height = height,
+                radius = (height) / 2,
+                segments = 100,
+                color = ColorRGB(rainbowColor.red, rainbowColor.green, rainbowColor.blue, rainbowColor.alpha),
+                rectFilled = false
+            )
+        }
 
-        FontRenderers.drawString(category.translation, (x + width / 2.5f), y + 4f, UiSetting.textColor)
+        val length = FontRenderers.getStringWidth(category.translation)
+        FontRenderers.drawString(category.translation, (x + width / 2 - length / 2f), y + 4f, UiSetting.textColor)
 
         if (!isOpening) return
 

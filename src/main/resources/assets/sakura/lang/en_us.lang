@@ -22,6 +22,7 @@ modules.ui-setting=UI Setting
 modules.ui-setting.page=Page
 modules.ui-setting.page.general=General
 modules.ui-setting.background=Background
+modules.ui-setting.rounded=Rounded
 modules.ui-setting.page.color=Color
 modules.ui-setting.primary-color=Primary Color
 modules.ui-setting.secondary-color=Secondary Color

@@ -29,6 +29,7 @@ modules.ui-setting=界面设置
 modules.ui-setting.page=页面
 modules.ui-setting.page.general=常规
 modules.ui-setting.background=背景
+modules.ui-setting.rounded=圆角
 modules.ui-setting.page.color=颜色
 modules.ui-setting.primary-color=主颜色
 modules.ui-setting.secondary-color=次颜色
