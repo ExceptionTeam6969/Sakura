@@ -1,9 +1,12 @@
 package dev.exceptionteam.sakura.features.gui.shared
 
+import dev.exceptionteam.sakura.features.gui.clickgui.ClickGUIScreen
+import dev.exceptionteam.sakura.features.gui.hudeditor.HUDEditorScreen
 import dev.exceptionteam.sakura.features.gui.shared.component.AbstractComponent
 import dev.exceptionteam.sakura.features.gui.shared.component.ModuleComponent.Companion.newPos
 import dev.exceptionteam.sakura.features.gui.shared.component.ModuleComponent.Companion.positionAnimationFlag
 import dev.exceptionteam.sakura.features.gui.shared.component.ModuleComponent.Companion.previousWindow
+import dev.exceptionteam.sakura.features.modules.impl.client.ClickGUI
 import dev.exceptionteam.sakura.features.modules.impl.client.UiSetting
 import dev.exceptionteam.sakura.graphics.RenderUtils2D
 import dev.exceptionteam.sakura.graphics.ScissorBox
@@ -18,6 +21,7 @@ abstract class Window(
 ) : AbstractComponent(x, y, width, 0f) {
     protected val components = mutableListOf<AbstractComponent>()
     private val scissorBox = ScissorBox()
+    var readyToClose = false
 
     fun addComponent(child: AbstractComponent) {
         this.components.add(child)/* Don't need to update height, because it will be updated when rendering */
@@ -26,7 +30,9 @@ abstract class Window(
 
     open fun onOpen() {}
 
-    open fun onClose() {}
+    open fun onClose() {
+        previousWindow = null
+    }
 
     override fun updatePosition(x: Float, y: Float) {
         super.updatePosition(x, y)
@@ -41,8 +47,14 @@ abstract class Window(
     }
 
     override fun render() {
-
-        val progress = positionAnimationFlag.getAndUpdate(1f)
+        val progress = positionAnimationFlag.getAndUpdate(if (readyToClose) 0f else 1f)
+        if (progress == 0f && readyToClose) {
+            when (this) {
+                ClickGUIScreen.currentWindow -> ClickGUIScreen.currentWindow = null
+                HUDEditorScreen.currentWindow -> HUDEditorScreen.currentWindow = null
+            }
+            readyToClose = false
+        }
         val finalX = MathUtils.lerp(previousWindow?.x ?: newPos.x, newPos.x, progress)
         val finalY = MathUtils.lerp(previousWindow?.y ?: newPos.y, newPos.y, progress)
         val viewWidth = MathUtils.lerp(previousWindow?.width ?: width, width, progress)

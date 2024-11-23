@@ -67,7 +67,7 @@ class ModuleComponent(
     }
 
     companion object {
-        val positionAnimationFlag = AnimationFlag(Easing.LINEAR, 200f)
+        val positionAnimationFlag = AnimationFlag(Easing.IN_OUT_CUBIC, 150f)
         var previousWindow: Window? = null
         var currentWindow: Window? = null
         var newPos = Vec2f.ZERO

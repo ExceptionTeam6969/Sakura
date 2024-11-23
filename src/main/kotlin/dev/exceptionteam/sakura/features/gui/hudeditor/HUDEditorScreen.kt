@@ -96,7 +96,8 @@ object HUDEditorScreen : GuiScreen("hud-editor") {
 
         currentWindow?.let {
             if (!it.checkHovering()) {
-                currentWindow = null
+                //currentWindow = null
+                it.readyToClose = true
                 return@let
             }
 

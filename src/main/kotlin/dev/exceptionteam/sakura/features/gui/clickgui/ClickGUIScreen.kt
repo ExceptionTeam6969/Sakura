@@ -92,7 +92,8 @@ object ClickGUIScreen : GuiScreen("click-gui") {
 
         currentWindow?.let {
             if (!it.checkHovering()) {
-                currentWindow = null
+                //currentWindow = null
+                it.readyToClose = true
                 return@let
             }
 
