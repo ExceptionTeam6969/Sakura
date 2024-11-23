@@ -50,10 +50,6 @@ class Panel(
             }
         }
 
-        RenderUtils2D.drawRectFilled(
-            x, y, width, if (isOpening) (moduleComponents.size + 1) * height else height, UiSetting.primaryColor
-        )
-
         if (UiSetting.rounded) {
             val rainbowColor = RainbowColor.getRainbow(0, 0.55f, 1f)
             RenderUtils2D.drawDynamicIsland(
@@ -64,14 +60,18 @@ class Panel(
                 radius = (height) / 2,
                 segments = 100,
                 color = ColorRGB(rainbowColor.red, rainbowColor.green, rainbowColor.blue, rainbowColor.alpha),
-                rectFilled = false
+                rectFilled = true
             )
+        } else {
+            RenderUtils2D.drawRectFilled(x, y, width, height, UiSetting.primaryColor)
         }
 
         val length = FontRenderers.getStringWidth(category.translation)
         FontRenderers.drawString(category.translation, (x + width / 2 - length / 2f), y + 4f, UiSetting.textColor)
 
         if (!isOpening) return
+
+        RenderUtils2D.drawRectFilled(x, y + height, width, moduleComponents.size * height, UiSetting.primaryColor)
 
         moduleComponents.forEach {
             it.mouseX = mouseX; it.mouseY = mouseY
