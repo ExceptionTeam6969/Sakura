@@ -1,12 +1,14 @@
 package dev.exceptionteam.sakura.graphics.buffer
 
 import dev.exceptionteam.sakura.graphics.GlDataType
-import dev.exceptionteam.sakura.graphics.GlHelper
 import dev.exceptionteam.sakura.graphics.color.ColorRGB
 import dev.exceptionteam.sakura.graphics.matrix.MatrixStack
 import dev.exceptionteam.sakura.graphics.shader.impl.*
 import dev.exceptionteam.sakura.graphics.shader.Shader
-import org.lwjgl.opengl.GL45.*
+import dev.exceptionteam.sakura.utils.math.MathUtils
+import dev.exceptionteam.sakura.utils.math.toRadians
+import dev.exceptionteam.sakura.utils.math.vector.Vec2f
+import kotlin.math.*
 
 object VertexBufferObjects {
 
@@ -25,30 +27,49 @@ object VertexBufferObjects {
             float(0, 2, GlDataType.GL_FLOAT, false)         // 8 bytes
             float(1, 4, GlDataType.GL_UNSIGNED_BYTE, true)  // 4 bytes
         }
-    )
-
-    data object PosTex2D: VertexMode(
-        PosTexShader2D, buildAttribute(20) {
-            float(0, 2, GlDataType.GL_FLOAT, false)         // 8 bytes
-            float(1, 2, GlDataType.GL_FLOAT, false)         // 8 bytes
-            float(2, 4, GlDataType.GL_UNSIGNED_BYTE, true)  // 4 bytes
+    ) {
+        fun quad(
+            x1: Float, y1: Float, color1: ColorRGB,
+            x2: Float, y2: Float, color2: ColorRGB
+        ) {
+            vertex(x1, y2, color1)
+            vertex(x2, y2, color1)
+            vertex(x2, y1, color2)
+            vertex(x1, y1, color2)
         }
-    )
 
-    data object PosColor3D: VertexMode(
-        PosColorShader3D, buildAttribute(16) {
-            float(0, 3, GlDataType.GL_FLOAT, false)         // 12 bytes
-            float(1, 4, GlDataType.GL_UNSIGNED_BYTE, true)  // 4 bytes
+        fun rect(
+            x: Float, y: Float,
+            width: Float, height: Float,
+            color: ColorRGB
+        ) {
+            quad(x, y, color, x + width, y + height, color)
         }
-    )
 
-    open class VertexMode(val shader: Shader, private val attribute: VertexAttribute) {
+        fun arc(
+            centerX: Float,
+            centerY: Float,
+            radius: Float,
+            angleRange: Pair<Float, Float>,
+            segments: Int,
+            color: ColorRGB
+        ) {
+            fun calcSegments(segmentsIn: Int, radius: Float, range: Float): Int {
+                if (segmentsIn != -0) return segmentsIn
+                return max((radius * 0.5 * PI * (range / 360.0)).roundToInt(), 16)
+            }
 
-        val vbo = PersistentMappedVBO(attribute.stride)
-        private val vao = createVao(vbo, attribute)
+            val center = Vec2f(centerX, centerY)
+            val range = max(angleRange.first, angleRange.second) - min(angleRange.first, angleRange.second)
+            val seg = calcSegments(segments, radius, range)
+            val segAngle = (range / seg.toFloat())
 
-        private val arr get() = vbo.arr
-        private var vertexSize = 0
+            for (i in 0..seg) {
+                val angle = (i * segAngle + angleRange.first).toRadians()
+                val unRounded = Vec2f(sin(angle), -cos(angle)).times(radius).plus(center)
+                vertex(MathUtils.round(unRounded.x, 8), MathUtils.round(unRounded.y, 8), color)
+            }
+        }
 
         fun vertex(x: Float, y: Float, color: ColorRGB) {
             val position = MatrixStack.getPosition(x, y, 0f)
@@ -59,18 +80,15 @@ object VertexBufferObjects {
             arr += attribute.stride.toLong()
             vertexSize++
         }
+    }
 
-        fun vertex(x: Float, y: Float, z: Float, color: ColorRGB) {
-            val position = MatrixStack.getPosition(x, y, z)
-            val pointer = arr.ptr
-            pointer[0] = position.x
-            pointer[4] = position.y
-            pointer[8] = position.z
-            pointer[12] = color.rgba
-            arr += attribute.stride.toLong()
-            vertexSize++
+    data object PosTex2D: VertexMode(
+        PosTexShader2D, buildAttribute(20) {
+            float(0, 2, GlDataType.GL_FLOAT, false)         // 8 bytes
+            float(1, 2, GlDataType.GL_FLOAT, false)         // 8 bytes
+            float(2, 4, GlDataType.GL_UNSIGNED_BYTE, true)  // 4 bytes
         }
-
+    ) {
         fun texture(x: Float, y: Float, u: Float, v: Float, color: ColorRGB) {
             val position = MatrixStack.getPosition(x, y, 0f)
             val pointer = arr.ptr
@@ -82,33 +100,30 @@ object VertexBufferObjects {
             arr += attribute.stride.toLong()
             vertexSize++
         }
+    }
 
-        fun draw(vertexMode: VertexMode, shader: Shader, mode: Int) {
-            if (vertexSize == 0) return
-            shader.bind()
-            shader.default()
-            GlHelper.vertexArray = vertexMode.vao
-            glDrawArrays(mode, vertexMode.vbo.offset.toInt(), vertexSize)
-            vbo.end()
-            vertexSize = 0
+    data object PosColor3D: VertexMode(
+        PosColorShader3D, buildAttribute(16) {
+            float(0, 3, GlDataType.GL_FLOAT, false)         // 12 bytes
+            float(1, 4, GlDataType.GL_UNSIGNED_BYTE, true)  // 4 bytes
         }
-
+    ) {
+        fun vertex(x: Float, y: Float, z: Float, color: ColorRGB) {
+            val position = MatrixStack.getPosition(x, y, z)
+            val pointer = arr.ptr
+            pointer[0] = position.x
+            pointer[4] = position.y
+            pointer[8] = position.z
+            pointer[12] = color.rgba
+            arr += attribute.stride.toLong()
+            vertexSize++
+        }
     }
+}
 
-    /* Vertex Array Object */
-    private fun createVao(vbo: PersistentMappedVBO, vertexAttribute: VertexAttribute): Int {
-        val vaoID = glCreateVertexArrays()
-        GlHelper.vertexArray = vaoID
-        glBindBuffer(GL_ARRAY_BUFFER, vbo.id)
-        vertexAttribute.apply()
-        GlHelper.vertexArray = 0
-        glBindBuffer(GL_ARRAY_BUFFER, 0)
-        return vaoID
-    }
 
-    fun Int.draw(vertexMode: VertexMode, shader: Shader = vertexMode.shader, block: VertexMode.() -> Unit) {
-        vertexMode.block()
-        vertexMode.draw(vertexMode, shader, this)
-    }
 
+inline fun <reified T: VertexMode> T.draw(mode: Int, shader: Shader = this.shader, block: T.() -> Unit) {
+    this.block()
+    this.draw(shader, mode)
 }

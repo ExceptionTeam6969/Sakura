@@ -60,7 +60,7 @@ class Panel(
                 radius = (height) / 2,
                 segments = 100,
                 color = ColorRGB(rainbowColor.red, rainbowColor.green, rainbowColor.blue, rainbowColor.alpha),
-                rectFilled = true
+                filled = true
             )
         } else {
             RenderUtils2D.drawRectFilled(x, y, width, height, UiSetting.primaryColor)

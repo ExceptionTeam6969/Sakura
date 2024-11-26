@@ -4,7 +4,7 @@ import dev.exceptionteam.sakura.features.modules.impl.client.UiSetting
 import dev.exceptionteam.sakura.features.settings.ColorSetting
 import dev.exceptionteam.sakura.graphics.RenderUtils2D
 import dev.exceptionteam.sakura.graphics.buffer.VertexBufferObjects
-import dev.exceptionteam.sakura.graphics.buffer.VertexBufferObjects.draw
+import dev.exceptionteam.sakura.graphics.buffer.draw
 import dev.exceptionteam.sakura.graphics.color.ColorRGB
 import dev.exceptionteam.sakura.graphics.color.ColorUtils
 import dev.exceptionteam.sakura.graphics.font.FontRenderers
@@ -86,7 +86,7 @@ class ColorComponent(
 
         // Hue Part
         val partHueHeight = partHUE.height / 6.0f
-        GL45.GL_TRIANGLE_STRIP.draw(VertexBufferObjects.PosColor2D) {
+        VertexBufferObjects.PosColor2D.draw(GL45.GL_TRIANGLE_STRIP) {
             for((i, color) in hueArray.withIndex()) {
                 val hueY = y + partHUE.y + partHueHeight * i
                 vertex(x + partHUE.x2, hueY, color)
