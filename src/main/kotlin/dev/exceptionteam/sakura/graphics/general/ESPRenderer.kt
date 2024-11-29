@@ -3,8 +3,8 @@ package dev.exceptionteam.sakura.graphics.general
 import dev.exceptionteam.sakura.graphics.GlHelper
 import dev.exceptionteam.sakura.graphics.RenderUtils3D
 import dev.exceptionteam.sakura.graphics.color.ColorRGB
-import net.minecraft.util.math.BlockPos
-import net.minecraft.util.math.Box
+import net.minecraft.core.BlockPos
+import net.minecraft.world.phys.AABB
 
 class ESPRenderer {
     private var toRender0: MutableList<Info> = ArrayList()
@@ -24,14 +24,14 @@ class ESPRenderer {
     }
 
     fun add(pos: BlockPos, color: ColorRGB, sides: Int) {
-        add(Box(pos), color, sides)
+        add(AABB(pos), color, sides)
     }
 
-    fun add(box: Box, color: ColorRGB) {
+    fun add(box: AABB, color: ColorRGB) {
         add(box, color, DirectionMask.ALL)
     }
 
-    fun add(box: Box, color: ColorRGB, sides: Int) {
+    fun add(box: AABB, color: ColorRGB, sides: Int) {
         add(Info(box, color, sides))
     }
 
@@ -73,11 +73,11 @@ class ESPRenderer {
         GlHelper.depth = true
     }
 
-    data class Info(val box: Box, val color: ColorRGB, val sides: Int) {
-        constructor(box: Box) : this(box, ColorRGB(255, 255, 255), DirectionMask.ALL)
-        constructor(box: Box, color: ColorRGB) : this(box, color, DirectionMask.ALL)
-        constructor(pos: BlockPos) : this(Box(pos), ColorRGB(255, 255, 255), DirectionMask.ALL)
-        constructor(pos: BlockPos, color: ColorRGB) : this(Box(pos), color, DirectionMask.ALL)
-        constructor(pos: BlockPos, color: ColorRGB, sides: Int) : this(Box(pos), color, sides)
+    data class Info(val box: AABB, val color: ColorRGB, val sides: Int) {
+        constructor(box: AABB) : this(box, ColorRGB(255, 255, 255), DirectionMask.ALL)
+        constructor(box: AABB, color: ColorRGB) : this(box, color, DirectionMask.ALL)
+        constructor(pos: BlockPos) : this(AABB(pos), ColorRGB(255, 255, 255), DirectionMask.ALL)
+        constructor(pos: BlockPos, color: ColorRGB) : this(AABB(pos), color, DirectionMask.ALL)
+        constructor(pos: BlockPos, color: ColorRGB, sides: Int) : this(AABB(pos), color, sides)
     }
 }

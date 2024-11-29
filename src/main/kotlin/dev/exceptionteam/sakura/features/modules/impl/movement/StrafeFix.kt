@@ -7,7 +7,7 @@ import dev.exceptionteam.sakura.events.nonNullListener
 import dev.exceptionteam.sakura.features.modules.Category
 import dev.exceptionteam.sakura.features.modules.Module
 import dev.exceptionteam.sakura.managers.impl.RotationManager.rotationInfo
-import net.minecraft.util.math.MathHelper
+import net.minecraft.util.Mth
 import kotlin.math.abs
 
 object StrafeFix: Module(
@@ -23,7 +23,7 @@ object StrafeFix: Module(
                 val forward: Float = event.forward
                 val strafe: Float = event.strafe
 
-                val angle = MathHelper.wrapDegrees(Math.toDegrees(direction(player.yaw, forward, strafe)))
+                val angle = Mth.wrapDegrees(Math.toDegrees(direction(player.yRot, forward, strafe)))
 
                 if (forward == 0f && strafe == 0f) {
                     return@nonNullListener
@@ -37,7 +37,7 @@ object StrafeFix: Module(
                     for (predictedStrafe in -1..1) {
                         if (predictedStrafe == 0 && predictedForward == 0) continue
 
-                        val predictedAngle = MathHelper.wrapDegrees(Math.toDegrees(
+                        val predictedAngle = Mth.wrapDegrees(Math.toDegrees(
                             direction(yaw, predictedForward.toFloat(), predictedStrafe.toFloat())))
                         val difference = abs(angle - predictedAngle)
 

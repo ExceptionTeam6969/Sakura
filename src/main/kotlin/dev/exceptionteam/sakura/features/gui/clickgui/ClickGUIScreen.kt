@@ -12,7 +12,7 @@ import dev.exceptionteam.sakura.features.modules.impl.hud.GuiImage
 import dev.exceptionteam.sakura.graphics.RenderUtils2D
 import dev.exceptionteam.sakura.managers.impl.ModuleManager
 import dev.exceptionteam.sakura.utils.control.MouseButtonType
-import net.minecraft.client.gui.DrawContext
+import net.minecraft.client.gui.GuiGraphics
 import java.util.concurrent.CopyOnWriteArrayList
 
 object ClickGUIScreen : GuiScreen("click-gui") {
@@ -36,11 +36,11 @@ object ClickGUIScreen : GuiScreen("click-gui") {
         var xOffset = 10f
 
         nonNullListener<Render2DEvent>(alwaysListening = true, priority = -100) { e ->
-            if (mc.currentScreen !is ClickGUIScreen) return@nonNullListener
+            if (mc.screen !is ClickGUIScreen) return@nonNullListener
             if (UiSetting.background) {
                 RenderUtils2D.drawRectGradientV(
-                    0f, 0f, mc.window.scaledWidth.toFloat(),
-                    mc.window.scaledHeight.toFloat(),
+                    0f, 0f, mc.window.guiScaledWidth.toFloat(),
+                    mc.window.guiScaledHeight.toFloat(),
                     UiSetting.backgroundColor.alpha(0.1f), UiSetting.backgroundColor.alpha(0.8f)
                 )
             }
@@ -65,12 +65,12 @@ object ClickGUIScreen : GuiScreen("click-gui") {
             }
     }
 
-    override fun close() {
+    override fun onClose() {
         ClickGUI.disable()
-        super.close()
+        super.onClose()
     }
 
-    override fun render(context: DrawContext, mouseX: Int, mouseY: Int, delta: Float) {
+    override fun render(guiGraphics: GuiGraphics, mouseX: Int, mouseY: Int, delta: Float) {
         val xf = mouseX.toFloat()
         val yf = mouseY.toFloat()
 

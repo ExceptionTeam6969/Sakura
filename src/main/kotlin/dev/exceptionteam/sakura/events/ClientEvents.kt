@@ -2,33 +2,33 @@ package dev.exceptionteam.sakura.events
 
 import dev.exceptionteam.sakura.events.impl.*
 import dev.exceptionteam.sakura.utils.Wrapper
-import net.minecraft.client.network.ClientPlayNetworkHandler
-import net.minecraft.client.network.ClientPlayerEntity
-import net.minecraft.client.network.ClientPlayerInteractionManager
-import net.minecraft.client.world.ClientWorld
+import net.minecraft.client.multiplayer.ClientLevel
+import net.minecraft.client.multiplayer.ClientPacketListener
+import net.minecraft.client.multiplayer.MultiPlayerGameMode
+import net.minecraft.client.player.LocalPlayer
 
 abstract class AbstractClientContext {
     val mc = Wrapper.mc
-    abstract val world: ClientWorld?
-    abstract val player: ClientPlayerEntity?
-    abstract val connection: ClientPlayNetworkHandler?
-    abstract val playerController: ClientPlayerInteractionManager?
+    abstract val world: ClientLevel?
+    abstract val player: LocalPlayer?
+    abstract val connection: ClientPacketListener?
+    abstract val playerController: MultiPlayerGameMode?
 }
 
 open class ClientContext: AbstractClientContext() {
-    final override val world: ClientWorld? = mc.world
-    final override val player: ClientPlayerEntity? = mc.player
-    final override val connection: ClientPlayNetworkHandler? = mc.networkHandler
-    final override val playerController: ClientPlayerInteractionManager? = mc.interactionManager
+    final override val world: ClientLevel? = mc.level
+    final override val player: LocalPlayer? = mc.player
+    final override val connection: ClientPacketListener? = mc.connection
+    final override val playerController: MultiPlayerGameMode? = mc.gameMode
 
     inline operator fun <T> invoke(block: ClientContext.() -> T) = run(block)
 }
 
 open class NonNullContext internal constructor(
-    override val world: ClientWorld,
-    override val player: ClientPlayerEntity,
-    override val connection: ClientPlayNetworkHandler,
-    override val playerController: ClientPlayerInteractionManager
+    override val world: ClientLevel,
+    override val player: LocalPlayer,
+    override val connection: ClientPacketListener,
+    override val playerController: MultiPlayerGameMode
 ): AbstractClientContext() {
 
     inline operator fun <T> invoke(block: NonNullContext.() -> T) = run(block)
@@ -46,7 +46,7 @@ open class NonNullContext internal constructor(
                 reset()
             }
 
-            listener<JoinWorldEvent>(alwaysListening = true) {
+            listener<JoinLevelEvent>(alwaysListening = true) {
                 reset()
             }
         }
@@ -54,8 +54,8 @@ open class NonNullContext internal constructor(
         private fun update() {
             val world = Wrapper.world ?: return
             val player = Wrapper.player ?: return
-            val connection = Wrapper.mc.networkHandler ?: return
-            val playerController = Wrapper.mc.interactionManager ?: return
+            val connection = Wrapper.mc.connection ?: return
+            val playerController = Wrapper.mc.gameMode ?: return
 
             instance = NonNullContext(world, player, connection, playerController)
         }

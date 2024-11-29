@@ -9,6 +9,7 @@ repositories {
     mavenCentral()
 
     maven("https://maven.luna5ama.dev/")
+    maven("https://maven.parchmentmc.org")
 }
 
 private val library by configurations.creating {
@@ -17,7 +18,10 @@ private val library by configurations.creating {
 
 dependencies {
     minecraft("com.mojang:minecraft:${property("minecraft_version")}")
-    mappings("net.fabricmc:yarn:${property("yarn_mappings")}:v2")
+    mappings(loom.layered {
+        officialMojangMappings()
+        parchment("org.parchmentmc.data:parchment-${property("parchment_version")}@zip")
+    })
 
     modImplementation("net.fabricmc:fabric-loader:${property("loader_version")}")
     modImplementation("net.fabricmc.fabric-api:fabric-api:${property("fabric_version")}")

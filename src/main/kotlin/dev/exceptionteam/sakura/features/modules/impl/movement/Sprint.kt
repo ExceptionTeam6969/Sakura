@@ -19,7 +19,7 @@ object Sprint: Module(
         nonNullListener<TickEvent.Post> {
             when (mode) {
                 Mode.LEGIT -> {
-                    mc.options.sprintKey.isPressed = true
+                    mc.options.keySprint.isDown = true
                 }
                 Mode.RAGE -> {
                     if (isMoving()) player.isSprinting = true

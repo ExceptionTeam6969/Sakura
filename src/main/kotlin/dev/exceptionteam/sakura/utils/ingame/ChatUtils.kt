@@ -2,8 +2,8 @@ package dev.exceptionteam.sakura.utils.ingame
 
 import dev.exceptionteam.sakura.Sakura
 import dev.exceptionteam.sakura.asm.IChatHud
-import net.minecraft.client.MinecraftClient
-import net.minecraft.text.Text
+import net.minecraft.client.Minecraft
+import net.minecraft.network.chat.Component
 
 @Suppress("UNUSED")
 object ChatUtils {
@@ -58,19 +58,19 @@ object ChatUtils {
     }
 
     fun sendMessage(message: String) {
-        MinecraftClient.getInstance().inGameHud?.let { gameHUD ->
-            val text = Text.literal("${bracketBuilder(AQUA + Sakura.NAME)} ${message.replace("§", SECTION)}")
-            gameHUD.chatHud?.addMessage(text)
+        Minecraft.getInstance().gui?.let { gameHUD ->
+            val text = Component.literal("${bracketBuilder(AQUA + Sakura.NAME)} ${message.replace("§", SECTION)}")
+            gameHUD.chat?.addMessage(text)
         }
     }
 
     fun sendNoSpamMessage(message: String) {
-        val text = Text.literal("${bracketBuilder(AQUA + Sakura.NAME)} ${message.replace("§", SECTION)}")
-        (MinecraftClient.getInstance().inGameHud.chatHud as IChatHud).sakuraAddMessage(text, text.hashCode())
+        val text = Component.literal("${bracketBuilder(AQUA + Sakura.NAME)} ${message.replace("§", SECTION)}")
+        (Minecraft.getInstance().gui.chat as IChatHud).sakuraAddMessage(text, text.hashCode())
     }
 
     fun sendMessageWithID(message: String, id: Int) {
-        val text = Text.literal("${bracketBuilder(AQUA + Sakura.NAME)} ${message.replace("§", SECTION)}")
-        (MinecraftClient.getInstance().inGameHud.chatHud as IChatHud).sakuraAddMessage(text, id)
+        val text = Component.literal("${bracketBuilder(AQUA + Sakura.NAME)} ${message.replace("§", SECTION)}")
+        (Minecraft.getInstance().gui.chat as IChatHud).sakuraAddMessage(text, id)
     }
 }

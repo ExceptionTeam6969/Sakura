@@ -24,7 +24,7 @@ object ClickGUI: Module(
 
         onDisable {
             runSafe {
-                if (mc.currentScreen is ClickGUIScreen) mc.setScreen(null)
+                if (mc.screen is ClickGUIScreen) mc.setScreen(null)
             }
         }
 

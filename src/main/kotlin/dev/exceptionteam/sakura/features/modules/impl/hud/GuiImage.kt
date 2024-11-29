@@ -9,7 +9,7 @@ import dev.exceptionteam.sakura.graphics.texture.Texture
 import dev.exceptionteam.sakura.utils.interfaces.TranslationEnum
 import dev.exceptionteam.sakura.utils.resources.Resource
 import dev.exceptionteam.sakura.utils.threads.GameThreadUtils
-import net.minecraft.client.MinecraftClient
+import net.minecraft.client.Minecraft
 
 object GuiImage: HUDModule(
     name = "gui-image",
@@ -22,7 +22,7 @@ object GuiImage: HUDModule(
     var qianshuTex: Texture? = null
     var mahiroTex: Texture? = null
 
-    private val mc get() = MinecraftClient.getInstance()
+    private val mc get() = Minecraft.getInstance()
 
     init {
         GameThreadUtils.runOnRenderThread {
@@ -36,7 +36,7 @@ object GuiImage: HUDModule(
 
     fun renderImage() {
         if (isDisabled) return
-        if (mc.currentScreen != ClickGUIScreen && mc.currentScreen != HUDEditorScreen) return
+        if (mc.screen != ClickGUIScreen && mc.screen != HUDEditorScreen) return
 
         when (image) {
             Image.QIANSHU -> qianshuTex?.draw()

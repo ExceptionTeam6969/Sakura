@@ -3,12 +3,12 @@ package dev.exceptionteam.sakura.utils.math.vector
 import dev.exceptionteam.sakura.utils.math.distance
 import dev.exceptionteam.sakura.utils.math.distanceSq
 import dev.exceptionteam.sakura.utils.math.toRadians
-import net.minecraft.util.math.Vec3d
+import net.minecraft.world.phys.Vec3
 
 data class Vec2d(val x: Double = 0.0, val y: Double = 0.0) {
     constructor(x: Float, y: Float) : this(x.toDouble(), y.toDouble())
 
-    constructor(vec3d: Vec3d) : this(vec3d.x, vec3d.y)
+    constructor(vec3d: Vec3) : this(vec3d.x, vec3d.y)
 
     constructor(vec2d: Vec2d) : this(vec2d.x, vec2d.y)
 

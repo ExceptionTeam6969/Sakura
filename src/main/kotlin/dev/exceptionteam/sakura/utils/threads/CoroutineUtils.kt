@@ -1,8 +1,8 @@
 package dev.exceptionteam.sakura.utils.threads
 
 import kotlinx.coroutines.*
-import net.minecraft.client.MinecraftClient
-import net.minecraft.util.crash.CrashReport
+import net.minecraft.CrashReport
+import net.minecraft.client.Minecraft
 import java.util.concurrent.Executors
 import java.util.concurrent.ScheduledThreadPoolExecutor
 import kotlin.math.max
@@ -28,7 +28,7 @@ object BackgroundScope : CoroutineScope by CoroutineScope(backgroundContext) {
 //Private Field
 private val defaultContext =
     CoroutineName("<Sakura> Default") + Dispatchers.Default + CoroutineExceptionHandler { _, throwable ->
-        MinecraftClient.getInstance().setCrashReportSupplier(CrashReport.create(throwable, "<Sakura> Default Scope"))
+        Minecraft.getInstance().delayCrashRaw(CrashReport.forThrowable(throwable, "<Sakura> Default Scope"))
     }
 
 
@@ -39,7 +39,7 @@ private val concurrentContext = CoroutineName("<Sakura> Concurrent") + Dispatche
         1
     )
 ) + CoroutineExceptionHandler { _, throwable ->
-    MinecraftClient.getInstance().setCrashReportSupplier(CrashReport.create(throwable, "<Sakura> Concurrent Scope"))
+    Minecraft.getInstance().delayCrashRaw(CrashReport.forThrowable(throwable, "<Sakura> Concurrent Scope"))
 }
 
 suspend inline fun delay(timeMillis: Int) {
@@ -54,7 +54,7 @@ private val backgroundPool =
 
 private val backgroundContext =
     CoroutineName("<Sakura> Background") + backgroundPool.asCoroutineDispatcher() + CoroutineExceptionHandler { _, throwable ->
-        MinecraftClient.getInstance().setCrashReportSupplier(CrashReport.create(throwable, "<Sakura> Background Scope"))
+        Minecraft.getInstance().delayCrashRaw(CrashReport.forThrowable(throwable, "<Sakura> Background Scope"))
     }
 
-inline val Job?.isActiveOrFalse get() = this?.isActive ?: false
+inline val Job?.isActiveOrFalse get() = this?.isActive == true

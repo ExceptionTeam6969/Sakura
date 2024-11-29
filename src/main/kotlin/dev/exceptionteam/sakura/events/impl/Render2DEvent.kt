@@ -1,8 +1,8 @@
 package dev.exceptionteam.sakura.events.impl
 
 import dev.exceptionteam.sakura.events.Event
-import net.minecraft.client.MinecraftClient
+import net.minecraft.client.Minecraft
 
 class Render2DEvent(
-    val tickDelta: Float = MinecraftClient.getInstance().renderTickCounter.getTickDelta(true)
+    val tickDelta: Float = Minecraft.getInstance().deltaTracker.getGameTimeDeltaPartialTick(true)
 ): Event()

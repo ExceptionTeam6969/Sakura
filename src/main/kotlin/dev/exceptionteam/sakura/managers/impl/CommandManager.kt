@@ -5,7 +5,7 @@ import dev.exceptionteam.sakura.events.nonNullListener
 import dev.exceptionteam.sakura.features.command.Command
 import dev.exceptionteam.sakura.features.command.impl.*
 import dev.exceptionteam.sakura.utils.ingame.ChatUtils
-import net.minecraft.network.packet.c2s.play.ChatMessageC2SPacket
+import net.minecraft.network.protocol.game.ServerboundChatPacket
 
 object CommandManager {
     private val commands = mutableListOf<Command>()
@@ -14,10 +14,10 @@ object CommandManager {
 
     init {
         nonNullListener<PacketEvents.Send>(priority = Int.MAX_VALUE, alwaysListening = true) { e ->
-            if (e.packet is ChatMessageC2SPacket) {
-                if (!e.packet.chatMessage.startsWith(commandPrefix)) return@nonNullListener
+            if (e.packet is ServerboundChatPacket) {
+                if (!e.packet.message.startsWith(commandPrefix)) return@nonNullListener
                 e.cancel()
-                val input = e.packet.chatMessage.removePrefix(commandPrefix)
+                val input = e.packet.message.removePrefix(commandPrefix)
 
                 invoke(input)?.let {
                     ChatUtils.sendMessage(it)

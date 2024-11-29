@@ -13,10 +13,10 @@ import dev.exceptionteam.sakura.utils.math.RotationUtils.getRotationTo
 import dev.exceptionteam.sakura.utils.player.InteractionUtils.placeBlock
 import dev.exceptionteam.sakura.utils.timing.TimerUtils
 import dev.exceptionteam.sakura.utils.world.WorldUtils.blockState
-import net.minecraft.block.Blocks
-import net.minecraft.util.Hand
-import net.minecraft.util.math.BlockPos
-import net.minecraft.util.math.Direction
+import net.minecraft.core.BlockPos
+import net.minecraft.core.Direction
+import net.minecraft.world.InteractionHand
+import net.minecraft.world.level.block.Blocks
 
 object FeetTrap: Module(
     name = "feet-trap",
@@ -45,7 +45,7 @@ object FeetTrap: Module(
             Direction.entries
                 .filter { it != Direction.DOWN && it != Direction.UP }
                 .forEach { dir ->
-                    val pos = player.blockPos.offset(dir)   // Position to place block
+                    val pos = player.blockPosition().relative(dir)   // Position to place block
                     val blockState = pos.blockState
                     val block = blockState.block
 
@@ -72,7 +72,7 @@ object FeetTrap: Module(
                 placeBlock(pos)
             }
 
-            if (swing) player.swingHand(Hand.MAIN_HAND)
+            if (swing) player.swing(InteractionHand.MAIN_HAND)
         }
     }
 

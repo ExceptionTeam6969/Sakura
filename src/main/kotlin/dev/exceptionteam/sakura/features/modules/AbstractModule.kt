@@ -7,7 +7,7 @@ import dev.exceptionteam.sakura.translation.TranslationString
 import dev.exceptionteam.sakura.utils.control.KeyBind
 import dev.exceptionteam.sakura.utils.ingame.ChatUtils
 import dev.exceptionteam.sakura.utils.threads.runSafe
-import net.minecraft.util.Formatting
+import net.minecraft.ChatFormatting
 import java.util.concurrent.CopyOnWriteArrayList
 
 abstract class AbstractModule(
@@ -49,14 +49,14 @@ abstract class AbstractModule(
         enableCustomers.add {
             EventBus.subscribe(this)
             runSafe {
-                if (ChatInfo.isEnabled) ChatUtils.sendMessageWithID("${name.translation} ${Formatting.GREEN}Enabled", 1337)
+                if (ChatInfo.isEnabled) ChatUtils.sendMessageWithID("${name.translation} ${ChatFormatting.GREEN}Enabled", 1337)
             }
         }
 
         disableCustomers.add {
             EventBus.unsubscribe(this)
             runSafe {
-                if (ChatInfo.isEnabled) ChatUtils.sendMessageWithID("${name.translation} ${Formatting.RED}Disabled", 1337)
+                if (ChatInfo.isEnabled) ChatUtils.sendMessageWithID("${name.translation} ${ChatFormatting.RED}Disabled", 1337)
             }
         }
 

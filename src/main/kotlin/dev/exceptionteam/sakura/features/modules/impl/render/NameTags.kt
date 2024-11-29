@@ -24,13 +24,13 @@ object NameTags: Module(
 
         nonNullListener<Render2DEvent> { e ->
 
-            for (ent in world.players.filter { it.distanceSqTo(player) <= range.sq }) {
+            for (ent in world.players().filter { it.distanceSqTo(player) <= range.sq }) {
 
-                if (ent == player && mc.options.perspective.isFirstPerson) continue
+                if (ent == player && mc.options.cameraType.isFirstPerson) continue
 
-                val x0 = (ent.prevX + (ent.x - ent.prevX) * e.tickDelta).toFloat()
-                val y0 = (ent.prevY + (ent.y - ent.prevY) * e.tickDelta).toFloat() + 0.1f
-                val z0 = (ent.prevZ + (ent.z - ent.prevZ) * e.tickDelta).toFloat()
+                val x0 = (ent.xOld + (ent.x - ent.xOld) * e.tickDelta).toFloat()
+                val y0 = (ent.yOld + (ent.y - ent.yOld) * e.tickDelta).toFloat() + 0.1f
+                val z0 = (ent.zOld + (ent.z - ent.zOld) * e.tickDelta).toFloat()
 
                 var vector = Vec3f(x0, y0 + 2f, z0)
                 var position0: Vector4f? = null

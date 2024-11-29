@@ -2,8 +2,8 @@ package dev.exceptionteam.sakura.utils.math
 
 import dev.exceptionteam.sakura.events.NonNullContext
 import dev.exceptionteam.sakura.utils.math.vector.Vec2f
-import net.minecraft.util.math.BlockPos
-import net.minecraft.util.math.Vec3d
+import net.minecraft.core.BlockPos
+import net.minecraft.world.phys.Vec3
 import kotlin.math.atan2
 import kotlin.math.hypot
 
@@ -34,20 +34,20 @@ object RotationUtils {
      * @param posTo Calculate rotation to this position vector
      * @return A vector containing the rotation in degrees (yaw, pitch)
      */
-    fun getRotationTo(posFrom: Vec3d, posTo: Vec3d): Vec2f {
+    fun getRotationTo(posFrom: Vec3, posTo: Vec3): Vec2f {
         return getRotationFromVec(posTo.subtract(posFrom))
     }
 
     /**
      * Get rotation from the player's position to another position vector
      */
-    fun NonNullContext.getRotationTo(posTo: Vec3d): Vec2f =
-        getRotationTo(player.pos, posTo)
+    fun NonNullContext.getRotationTo(posTo: Vec3): Vec2f =
+        getRotationTo(player.position(), posTo)
 
     fun NonNullContext.getRotationTo(posTo: BlockPos): Vec2f =
-        getRotationTo(player.pos, posTo.toCenterPos())
+        getRotationTo(player.position(), posTo.bottomCenter)
 
-    fun getRotationFromVec(vec: Vec3d): Vec2f {
+    fun getRotationFromVec(vec: Vec3): Vec2f {
         val xz = hypot(vec.x, vec.z)
         val yaw = normalizeAngle(atan2(vec.z, vec.x).toDegree() - 90.0)
         val pitch = normalizeAngle(-atan2(vec.y, xz).toDegree())

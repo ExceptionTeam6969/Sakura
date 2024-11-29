@@ -1,6 +1,6 @@
 package dev.exceptionteam.sakura.graphics.general
 
-import net.minecraft.util.math.Direction
+import net.minecraft.core.Direction
 
 object DirectionMask {
     const val DOWN = 1 shl 0

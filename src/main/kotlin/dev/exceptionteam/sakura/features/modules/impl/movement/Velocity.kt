@@ -7,7 +7,7 @@ import dev.exceptionteam.sakura.features.modules.Category
 import dev.exceptionteam.sakura.features.modules.Module
 import dev.exceptionteam.sakura.utils.player.PlayerUtils.isInBlock
 import dev.exceptionteam.sakura.utils.interfaces.TranslationEnum
-import net.minecraft.network.packet.s2c.play.EntityVelocityUpdateS2CPacket
+import net.minecraft.network.protocol.game.ClientboundSetEntityMotionPacket
 
 object Velocity: Module(
     name = "velocity",
@@ -28,9 +28,9 @@ object Velocity: Module(
         nonNullListener<PacketEvents.Receive> { e ->
 
             when (e.packet) {
-                is EntityVelocityUpdateS2CPacket -> {
+                is ClientboundSetEntityMotionPacket -> {
                     val velocity = e.packet
-                    if (velocity.entityId == player.id) {
+                    if (velocity.id == player.id) {
 
                         when (mode) {
                             Mode.NORMAL -> {

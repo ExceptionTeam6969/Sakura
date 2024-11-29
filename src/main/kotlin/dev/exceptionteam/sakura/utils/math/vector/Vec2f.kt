@@ -4,7 +4,7 @@ import dev.exceptionteam.sakura.utils.math.distance
 import dev.exceptionteam.sakura.utils.math.distanceSq
 import dev.exceptionteam.sakura.utils.math.sq
 import dev.exceptionteam.sakura.utils.math.toRadians
-import net.minecraft.entity.Entity
+import net.minecraft.world.entity.Entity
 import kotlin.math.sqrt
 
 @JvmInline
@@ -15,7 +15,7 @@ value class Vec2f private constructor(val bits: Long) {
     /**
      * Create a Vec2f from this entity's rotations
      */
-    constructor(entity: Entity) : this(entity.yaw, entity.pitch)
+    constructor(entity: Entity) : this(entity.yRot, entity.xRot)
 
     constructor(x: Double, y: Double) : this(x.toFloat(), y.toFloat())
 

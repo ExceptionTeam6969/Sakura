@@ -39,7 +39,7 @@ object AutoCrystal: Module(
     init {
 
         nonNullListener<Render3DEvent> {
-            renderer.add(player.blockPos, color)
+            renderer.add(player.blockPosition(), color)
             renderer.render(true)
         }
 

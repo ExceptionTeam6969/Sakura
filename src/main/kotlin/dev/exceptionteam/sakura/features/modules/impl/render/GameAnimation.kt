@@ -17,7 +17,7 @@ object GameAnimation: Module(
     init {
         onEnable {
             runSafe {
-                val currentPos = player.inventory.selectedSlot * 20.0f
+                val currentPos = player.inventory.selected * 20.0f
                 hotbarAnimation.forceUpdate(currentPos, currentPos)
             }
         }
@@ -25,7 +25,7 @@ object GameAnimation: Module(
 
     fun updateHotbar(): Float {
         return runSafe {
-            val currentPos = player.inventory.selectedSlot * 20f
+            val currentPos = player.inventory.selected * 20f
             return hotbarAnimation.getAndUpdate(currentPos)
         } ?: 0f
     }

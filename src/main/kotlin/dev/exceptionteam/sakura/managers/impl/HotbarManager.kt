@@ -3,7 +3,7 @@ package dev.exceptionteam.sakura.managers.impl
 import dev.exceptionteam.sakura.events.NonNullContext
 import dev.exceptionteam.sakura.utils.player.InventorySlot
 import dev.exceptionteam.sakura.utils.interfaces.DirectTranslationEnum
-import net.minecraft.network.packet.c2s.play.UpdateSelectedSlotC2SPacket
+import net.minecraft.network.protocol.game.ServerboundSetCarriedItemPacket
 
 object HotbarManager {
 
@@ -12,15 +12,15 @@ object HotbarManager {
             SwitchMode.PICK -> pickSilent(slot, func)
             SwitchMode.SWAP -> swapSilent(slot, func)
             SwitchMode.SWITCH -> switchTo(slot, func)
-            SwitchMode.OFF -> if (slot.hotbarSlot == player.inventory.selectedSlot) func()
+            SwitchMode.OFF -> if (slot.hotbarSlot == player.inventory.selected) func()
         }
     }
 
     fun NonNullContext.pickSilent(slot: InventorySlot, func: () -> Unit) {
-        val lastSlot = player.inventory.selectedSlot
-        connection.sendPacket(UpdateSelectedSlotC2SPacket(slot.hotbarSlot))
+        val lastSlot = player.inventory.selected
+        connection.send(ServerboundSetCarriedItemPacket(slot.hotbarSlot))
         func()
-        connection.sendPacket(UpdateSelectedSlotC2SPacket(lastSlot))
+        connection.send(ServerboundSetCarriedItemPacket(lastSlot))
     }
 
     fun NonNullContext.swapSilent(slot: InventorySlot, func: () -> Unit) {
@@ -30,7 +30,7 @@ object HotbarManager {
     }
 
     fun NonNullContext.switchTo(slot: InventorySlot, func: () -> Unit) {
-        player.inventory.selectedSlot = slot.hotbarSlot
+        player.inventory.selected = slot.hotbarSlot
         func()
     }
 

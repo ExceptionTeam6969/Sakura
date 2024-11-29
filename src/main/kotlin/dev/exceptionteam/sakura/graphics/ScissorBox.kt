@@ -1,6 +1,6 @@
 package dev.exceptionteam.sakura.graphics
 
-import net.minecraft.client.MinecraftClient
+import net.minecraft.client.Minecraft
 import org.lwjgl.opengl.GL45.*
 
 class ScissorBox(
@@ -28,8 +28,8 @@ class ScissorBox(
      */
     fun draw(func: () -> Unit) {
         GlHelper.scissor = true
-        val factor = mc.window.scaleFactor
-        glScissor((x * factor).toInt(), (mc.window.framebufferHeight - (y + height) * factor).toInt(),
+        val factor = mc.window.guiScale
+        glScissor((x * factor).toInt(), (mc.window.height - (y + height) * factor).toInt(),
             (width * factor).toInt(), (height * factor).toInt())
         func()
         GlHelper.scissor = false
@@ -52,7 +52,7 @@ class ScissorBox(
     }
 
     companion object {
-        private val mc get() = MinecraftClient.getInstance()
+        private val mc get() = Minecraft.getInstance()
     }
 
 }

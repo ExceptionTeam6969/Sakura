@@ -15,14 +15,14 @@ object HUDEditor: Module(
 
         onEnable {
             runSafe {
-                if (mc.currentScreen == ClickGUIScreen) ClickGUI.disable()
+                if (mc.screen == ClickGUIScreen) ClickGUI.disable()
                 mc.setScreen(HUDEditorScreen)
             }
         }
 
         onDisable {
             runSafe {
-                if (mc.currentScreen is HUDEditorScreen) mc.setScreen(null)
+                if (mc.screen is HUDEditorScreen) mc.setScreen(null)
             }
         }
 

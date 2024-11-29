@@ -1,24 +1,24 @@
 package dev.exceptionteam.sakura.utils.builders
 
-import net.minecraft.util.hit.BlockHitResult
-import net.minecraft.util.math.BlockPos
-import net.minecraft.util.math.Direction
-import net.minecraft.util.math.Vec3d
+import net.minecraft.core.BlockPos
+import net.minecraft.core.Direction
+import net.minecraft.world.phys.BlockHitResult
+import net.minecraft.world.phys.Vec3
 
 class BlockHitResultBuilder {
 
-    var mPos = Vec3d(0.0, 0.0, 0.0); private set
+    var mPos = Vec3(0.0, 0.0, 0.0); private set
     var mSide = Direction.UP; private set
     var mBlockPos = BlockPos(0, 0, 0); private set
     var mInsideBlock = false; private set
 
-    fun pos(p: Vec3d): BlockHitResultBuilder {
+    fun pos(p: Vec3): BlockHitResultBuilder {
         mPos = p
         return this
     }
 
     fun pos(x: Double, y: Double, z: Double): BlockHitResultBuilder {
-        mPos = Vec3d(x, y, z)
+        mPos = Vec3(x, y, z)
         return this
     }
 

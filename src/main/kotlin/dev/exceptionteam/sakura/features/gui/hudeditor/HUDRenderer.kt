@@ -5,14 +5,14 @@ import dev.exceptionteam.sakura.features.modules.HUDModule
 import dev.exceptionteam.sakura.graphics.RenderUtils2D
 import dev.exceptionteam.sakura.graphics.color.ColorRGB
 import dev.exceptionteam.sakura.utils.control.MouseButtonType
-import net.minecraft.client.MinecraftClient
+import net.minecraft.client.Minecraft
 
 class HUDRenderer(
     x: Float, y: Float, width: Float, height: Float, val module: HUDModule
 ): AbstractComponent(x, y, width, height) {
 
     companion object {
-        val mc = MinecraftClient.getInstance()
+        val mc = Minecraft.getInstance()
     }
 
     private var isDragging = false
@@ -22,8 +22,8 @@ class HUDRenderer(
 
     override fun render() {
         if (isDragging) {
-            val x = (mouseX - dragOffsetX).coerceIn(0f, mc.window.scaledWidth - width)
-            val y = (mouseY - dragOffsetY).coerceIn(0f, mc.window.scaledHeight - height)
+            val x = (mouseX - dragOffsetX).coerceIn(0f, mc.window.guiScaledHeight - width)
+            val y = (mouseY - dragOffsetY).coerceIn(0f, mc.window.guiScaledHeight - height)
             module.x = x
             module.y = y
             updatePosition(x, y)

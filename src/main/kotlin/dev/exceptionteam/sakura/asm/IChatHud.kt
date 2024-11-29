@@ -1,7 +1,7 @@
 package dev.exceptionteam.sakura.asm
 
-import net.minecraft.text.Text
+import net.minecraft.network.chat.Component
 
 interface IChatHud {
-    fun sakuraAddMessage(message: Text, id: Int)
+    fun sakuraAddMessage(message: Component, id: Int)
 }

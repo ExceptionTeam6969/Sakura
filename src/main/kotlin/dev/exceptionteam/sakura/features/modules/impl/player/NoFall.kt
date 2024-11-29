@@ -4,7 +4,8 @@ import dev.exceptionteam.sakura.events.impl.PacketEvents
 import dev.exceptionteam.sakura.events.nonNullListener
 import dev.exceptionteam.sakura.features.modules.Category
 import dev.exceptionteam.sakura.features.modules.Module
-import net.minecraft.network.packet.c2s.play.PlayerMoveC2SPacket
+import dev.exceptionteam.sakura.mixins.packet.ServerboundMovePlayerPacketAccessor
+import net.minecraft.network.protocol.game.ServerboundMovePlayerPacket
 
 object NoFall: Module(
     name = "no-fall",
@@ -17,10 +18,10 @@ object NoFall: Module(
 
         nonNullListener<PacketEvents.Send> { e ->
 
-            if (e.packet !is PlayerMoveC2SPacket) return@nonNullListener
+            if (e.packet !is ServerboundMovePlayerPacket) return@nonNullListener
 
             if (player.fallDistance >= fallDistance) {
-                e.packet.onGround = true
+                (e.packet as ServerboundMovePlayerPacketAccessor).setOnGround(true)
             }
 
         }

@@ -4,8 +4,8 @@ import com.mojang.authlib.GameProfile
 import dev.exceptionteam.sakura.features.modules.Category
 import dev.exceptionteam.sakura.features.modules.Module
 import dev.exceptionteam.sakura.utils.threads.runSafe
-import net.minecraft.client.network.OtherClientPlayerEntity
-import net.minecraft.entity.Entity
+import net.minecraft.client.player.RemotePlayer
+import net.minecraft.world.entity.Entity
 import java.util.UUID
 
 object FakePlayer: Module(
@@ -14,24 +14,24 @@ object FakePlayer: Module(
 ) {
 
     private val health by setting("health", 20f, 0f..36f)
-    private var fakePlayer: OtherClientPlayerEntity? = null
+    private var fakePlayer: RemotePlayer? = null
 
     init {
 
         onEnable {
             runSafe {
-                fakePlayer = OtherClientPlayerEntity(
+                fakePlayer = RemotePlayer(
                     world,
                     GameProfile(UUID.fromString("60569353-f22b-42da-b84b-d706a65c5ddf"), "FakePlayer")
                 )
                 fakePlayer?.let { fakePlayer ->
-                    fakePlayer.copyPositionAndRotation(player)
-                    for (potionEffect in player.activeStatusEffects) {
-                        fakePlayer.addStatusEffect(potionEffect.value)
+                    fakePlayer.copyPosition(player)
+                    for (potionEffect in player.activeEffectsMap) {
+                        fakePlayer.addEffect(potionEffect.value)
                     }
                     fakePlayer.health = health
-                    fakePlayer.inventory.clone(player.inventory)
-                    fakePlayer.yaw = player.yaw
+                    fakePlayer.inventory.replaceWith(player.inventory)
+                    fakePlayer.yRot = player.yRot
                     world.addEntity(fakePlayer)
                 }
             }

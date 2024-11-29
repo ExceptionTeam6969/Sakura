@@ -2,9 +2,9 @@ package dev.exceptionteam.sakura.mixins.entity;
 
 import dev.exceptionteam.sakura.events.impl.PlayerVelocityStrafeEvent;
 import dev.exceptionteam.sakura.features.modules.impl.movement.Velocity;
-import net.minecraft.client.MinecraftClient;
-import net.minecraft.entity.Entity;
-import net.minecraft.util.math.Vec3d;
+import net.minecraft.client.Minecraft;
+import net.minecraft.world.entity.Entity;
+import net.minecraft.world.phys.Vec3;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.injection.At;
@@ -14,16 +14,16 @@ import org.spongepowered.asm.mixin.injection.Redirect;
 public abstract class EntityMixin {
 
     @Shadow
-    public abstract Vec3d getPos();
+    public abstract Vec3 position();
 
     @Shadow
-    public abstract boolean isOnGround();
+    public abstract boolean onGround();
 
     @Shadow
-    public abstract float getPitch();
+    public abstract float getXRot();
 
     @Shadow
-    public abstract float getYaw();
+    public abstract float getYRot();
 
     @Shadow
     public abstract double getX();
@@ -35,24 +35,26 @@ public abstract class EntityMixin {
     public abstract double getZ();
 
     @Shadow
-    protected static Vec3d movementInputToVelocity(Vec3d movementInput, float speed, float yaw) {
+    protected static Vec3 getInputVector(Vec3 relative, float motionScaler, float facing) {
         return null;
     }
 
-    @Redirect(method = "updateMovementInFluid", at = @At(value = "INVOKE", target = "Lnet/minecraft/entity/Entity;isPushedByFluids()Z"))
+    @Shadow public abstract float getYRot(float f);
+
+    @Redirect(method = "updateFluidHeightAndDoFluidPushing", at = @At(value = "INVOKE", target = "Lnet/minecraft/world/entity/Entity;isPushedByFluid()Z"))
     public boolean updateMovementInFluid(Entity entity) {
-        return entity.isPushedByFluids() && !(Velocity.INSTANCE.isEnabled() && Velocity.INSTANCE.getNoPush());
+        return entity.isPushedByFluid() && !(Velocity.INSTANCE.isEnabled() && Velocity.INSTANCE.getNoPush());
     }
 
-    @Redirect(method = "updateVelocity", at = @At(value = "INVOKE", target = "Lnet/minecraft/entity/Entity;movementInputToVelocity(Lnet/minecraft/util/math/Vec3d;FF)Lnet/minecraft/util/math/Vec3d;"))
-    public Vec3d hookVelocity(Vec3d movementInput, float speed, float yaw) {
-        if ((Object) this == MinecraftClient.getInstance().player) {
+    @Redirect(method = "moveRelative", at = @At(value = "INVOKE", target = "Lnet/minecraft/world/entity/Entity;getInputVector(Lnet/minecraft/world/phys/Vec3;FF)Lnet/minecraft/world/phys/Vec3;"))
+    public Vec3 hookVelocity(Vec3 movementInput, float speed, float yaw) {
+        if ((Object) this == Minecraft.getInstance().player) {
             PlayerVelocityStrafeEvent event = new PlayerVelocityStrafeEvent(yaw);
             event.post();
-            return movementInputToVelocity(movementInput, speed, event.getYaw());
+            return getInputVector(movementInput, speed, event.getYaw());
         }
 
-        return movementInputToVelocity(movementInput, speed, yaw);
+        return getInputVector(movementInput, speed, yaw);
     }
 
 }

@@ -1,6 +1,7 @@
 package dev.exceptionteam.sakura.graphics
 
 import com.mojang.blaze3d.systems.RenderSystem
+import com.mojang.math.Axis
 import dev.exceptionteam.sakura.events.impl.Render2DEvent
 import dev.exceptionteam.sakura.events.impl.Render3DEvent
 import dev.exceptionteam.sakura.events.impl.WindowResizeEvent
@@ -9,16 +10,14 @@ import dev.exceptionteam.sakura.features.modules.impl.client.RenderSystemMod
 import dev.exceptionteam.sakura.graphics.buffer.FrameBuffer
 import dev.exceptionteam.sakura.graphics.buffer.VertexBufferObjects
 import dev.exceptionteam.sakura.graphics.matrix.MatrixStack
-import net.minecraft.client.MinecraftClient
-import net.minecraft.client.gui.DrawContext
-import net.minecraft.util.math.RotationAxis
+import net.minecraft.client.Minecraft
 import org.joml.Matrix4f
 import org.lwjgl.opengl.GL45.*
 
 object RenderSystem {
 
     private val mc
-        get() = MinecraftClient.getInstance()
+        get() = Minecraft.getInstance()
 
     // OpenGL version
     private val glVersion = glGetString(GL_VERSION) ?: ""
@@ -81,13 +80,13 @@ object RenderSystem {
         GlHelper.cull = false
 
         MatrixStack.scope {
-            val camera = mc.gameRenderer.camera
+            val camera = mc.gameRenderer.mainCamera
 
             val projection = Matrix4f(RenderSystem.getProjectionMatrix())
             val modelView = Matrix4f(RenderSystem.getModelViewMatrix())
 
-            multiply(RotationAxis.POSITIVE_X.rotationDegrees(camera.pitch))
-            multiply(RotationAxis.POSITIVE_Y.rotationDegrees(camera.yaw + 180.0f))
+            multiply(Axis.XP.rotationDegrees(camera.xRot))
+            multiply(Axis.YP.rotationDegrees(camera.yRot + 180.0f))
 
             updateMvpMatrix(projection.mul(modelView))
             Render3DEvent().post()
@@ -116,11 +115,11 @@ object RenderSystem {
     private fun preFrameBuffer() {
         if (!RenderSystemMod.frameBuffer) return
 
-        val wWidth = mc.window.framebufferWidth
-        val wHeight = mc.window.framebufferHeight
+        val wWidth = mc.window.width
+        val wHeight = mc.window.height
 
         glBindFramebuffer(GL_FRAMEBUFFER, frameBuffer.id)
-        glBlitNamedFramebuffer(mc.framebuffer.fbo, frameBuffer.id,
+        glBlitNamedFramebuffer(mc.mainRenderTarget.frameBufferId, frameBuffer.id,
             0, 0, wWidth, wHeight, 0, 0, wWidth, wHeight,
             GL_COLOR_BUFFER_BIT, GL_NEAREST)
     }
@@ -128,11 +127,11 @@ object RenderSystem {
     private fun postFrameBuffer() {
         if (!RenderSystemMod.frameBuffer) return
 
-        val wWidth = mc.window.framebufferWidth
-        val wHeight = mc.window.framebufferHeight
+        val wWidth = mc.window.width
+        val wHeight = mc.window.height
 
-        glBindFramebuffer(GL_FRAMEBUFFER, mc.framebuffer.fbo)
-        glBlitNamedFramebuffer(frameBuffer.id, mc.framebuffer.fbo,
+        glBindFramebuffer(GL_FRAMEBUFFER, mc.mainRenderTarget.frameBufferId)
+        glBlitNamedFramebuffer(frameBuffer.id, mc.mainRenderTarget.frameBufferId,
             0, 0, wWidth, wHeight, 0, 0, wWidth, wHeight,
             GL_COLOR_BUFFER_BIT, GL_NEAREST)
     }

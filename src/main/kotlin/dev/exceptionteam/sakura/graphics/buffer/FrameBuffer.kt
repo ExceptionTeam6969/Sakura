@@ -1,7 +1,7 @@
 package dev.exceptionteam.sakura.graphics.buffer
 
 import dev.exceptionteam.sakura.graphics.GlObject
-import net.minecraft.client.MinecraftClient
+import net.minecraft.client.Minecraft
 import org.lwjgl.opengl.GL45.*
 
 class FrameBuffer : GlObject {
@@ -11,8 +11,8 @@ class FrameBuffer : GlObject {
     var depthStencilAtt = glCreateRenderbuffers() ;private set
 
     init {
-        val mc = MinecraftClient.getInstance()
-        allocateFrameBuffer(mc.window.framebufferWidth, mc.window.framebufferHeight)
+        val mc = Minecraft.getInstance()
+        allocateFrameBuffer(mc.window.width, mc.window.height)
     }
 
     private fun allocateFrameBuffer(width: Int, height: Int) {
@@ -42,8 +42,8 @@ class FrameBuffer : GlObject {
         glDeleteTextures(colorAtt)
         glDeleteRenderbuffers(depthStencilAtt)
 
-        val mc = MinecraftClient.getInstance()
-        allocateFrameBuffer(mc.window.framebufferWidth, mc.window.framebufferHeight)
+        val mc = Minecraft.getInstance()
+        allocateFrameBuffer(mc.window.width, mc.window.height)
     }
 
     override fun bind() {

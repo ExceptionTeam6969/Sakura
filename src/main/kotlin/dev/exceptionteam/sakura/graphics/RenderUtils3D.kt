@@ -9,8 +9,8 @@ import dev.exceptionteam.sakura.graphics.buffer.draw
 import dev.exceptionteam.sakura.graphics.color.ColorRGB
 import dev.exceptionteam.sakura.graphics.matrix.MatrixStack
 import dev.exceptionteam.sakura.utils.math.vector.Vec3f
-import net.minecraft.client.MinecraftClient
-import net.minecraft.util.math.Box
+import net.minecraft.client.Minecraft
+import net.minecraft.world.phys.AABB
 import org.joml.Matrix4f
 import org.joml.Vector3f
 import org.joml.Vector4f
@@ -42,14 +42,14 @@ object RenderUtils3D {
      * Convert a vector in world space to screen space.
      */
     fun NonNullContext.worldSpaceToScreenSpace(pos: Vec3f): Vec3f {
-        val camera = mc.entityRenderDispatcher.camera
+        val camera = mc.gameRenderer.mainCamera
         val displayHeight = mc.window.height
 
         val target = Vector3f()
 
-        val deltaX = pos.x - camera.pos.x
-        val deltaY = pos.y - camera.pos.y
-        val deltaZ = pos.z - camera.pos.z
+        val deltaX = pos.x - camera.position.x
+        val deltaY = pos.y - camera.position.y
+        val deltaZ = pos.z - camera.position.z
 
         val transformedCoordinates =
             Vector4f(deltaX.toFloat(), deltaY.toFloat(), deltaZ.toFloat(), 1f).mul(lastPosMatrix)
@@ -63,21 +63,21 @@ object RenderUtils3D {
         )
 
         return Vec3f(
-            target.x / mc.window.scaleFactor.toFloat(),
-            (displayHeight - target.y) / mc.window.scaleFactor.toFloat(), target.z
+            target.x / mc.window.guiScale.toFloat(),
+            (displayHeight - target.y) / mc.window.guiScale.toFloat(), target.z
         )
     }
 
-    fun drawBoxOutline(box: Box, color: ColorRGB, lineWidth: Float = 1f) {
-        val mc = MinecraftClient.getInstance()
-        val camera = mc.gameRenderer.camera
+    fun drawBoxOutline(box: AABB, color: ColorRGB, lineWidth: Float = 1f) {
+        val mc = Minecraft.getInstance()
+        val camera = mc.gameRenderer.mainCamera
 
-        val minX = (box.minX - camera.pos.getX()).toFloat()
-        val minY = (box.minY - camera.pos.getY()).toFloat()
-        val minZ = (box.minZ - camera.pos.getZ()).toFloat()
-        val maxX = (box.maxX - camera.pos.getX()).toFloat()
-        val maxY = (box.maxY - camera.pos.getY()).toFloat()
-        val maxZ = (box.maxZ - camera.pos.getZ()).toFloat()
+        val minX = (box.minX - camera.position.x).toFloat()
+        val minY = (box.minY - camera.position.y).toFloat()
+        val minZ = (box.minZ - camera.position.z).toFloat()
+        val maxX = (box.maxX - camera.position.x).toFloat()
+        val maxY = (box.maxY - camera.position.y).toFloat()
+        val maxZ = (box.maxZ - camera.position.z).toFloat()
 
         // fixme: line width not working
         GlHelper.lineWidth = lineWidth
@@ -112,16 +112,16 @@ object RenderUtils3D {
         }
     }
 
-    fun drawFilledBox(box: Box, color: ColorRGB) {
-        val mc = MinecraftClient.getInstance()
-        val camera = mc.gameRenderer.camera
+    fun drawFilledBox(box: AABB, color: ColorRGB) {
+        val mc = Minecraft.getInstance()
+        val camera = mc.gameRenderer.mainCamera
 
-        val minX = (box.minX - camera.pos.getX()).toFloat()
-        val minY = (box.minY - camera.pos.getY()).toFloat()
-        val minZ = (box.minZ - camera.pos.getZ()).toFloat()
-        val maxX = (box.maxX - camera.pos.getX()).toFloat()
-        val maxY = (box.maxY - camera.pos.getY()).toFloat()
-        val maxZ = (box.maxZ - camera.pos.getZ()).toFloat()
+        val minX = (box.minX - camera.position.x).toFloat()
+        val minY = (box.minY - camera.position.y).toFloat()
+        val minZ = (box.minZ - camera.position.z).toFloat()
+        val maxX = (box.maxX - camera.position.x).toFloat()
+        val maxY = (box.maxY - camera.position.y).toFloat()
+        val maxZ = (box.maxZ - camera.position.z).toFloat()
 
         VertexBufferObjects.PosColor3D.draw(GL_TRIANGLES) {
             vertex(minX, minY, minZ, color)

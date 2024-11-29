@@ -1,9 +1,9 @@
 package dev.exceptionteam.sakura.utils.player
 
 import dev.exceptionteam.sakura.events.NonNullContext
-import net.minecraft.block.Block
-import net.minecraft.item.BlockItem
-import net.minecraft.item.Item
+import net.minecraft.world.item.BlockItem
+import net.minecraft.world.item.Item
+import net.minecraft.world.level.block.Block
 
 object InventoryUtils {
 
@@ -14,7 +14,7 @@ object InventoryUtils {
      */
     fun NonNullContext.findBlockInHotbar(block: Block): InventorySlot? {
         player.hotbarSlots.forEach { slot ->
-            player.inventory.getStack(slot.hotbarSlot).let {
+            player.inventory.getItem(slot.hotbarSlot).let {
                 it.item.let { item ->
                     if (item is BlockItem && item.block == block) return slot
                 }
@@ -30,7 +30,7 @@ object InventoryUtils {
      */
     fun NonNullContext.findItemInHotbar(item: Item): InventorySlot? {
         player.hotbarSlots.forEach { slot ->
-            player.inventory.getStack(slot.hotbarSlot).let {
+            player.inventory.getItem(slot.hotbarSlot).let {
                 if (it.item == item) return slot
             }
         }
