@@ -1,7 +1,7 @@
 package dev.exceptionteam.sakura.utils.ingame
 
 import dev.exceptionteam.sakura.Sakura
-import dev.exceptionteam.sakura.asm.IChatHud
+import dev.exceptionteam.sakura.asm.IChatComponent
 import net.minecraft.client.Minecraft
 import net.minecraft.network.chat.Component
 
@@ -66,11 +66,11 @@ object ChatUtils {
 
     fun sendNoSpamMessage(message: String) {
         val text = Component.literal("${bracketBuilder(AQUA + Sakura.NAME)} ${message.replace("§", SECTION)}")
-        (Minecraft.getInstance().gui.chat as IChatHud).sakuraAddMessage(text, text.hashCode())
+        (Minecraft.getInstance().gui.chat as IChatComponent).sakuraAddMessage(text, text.hashCode())
     }
 
     fun sendMessageWithID(message: String, id: Int) {
         val text = Component.literal("${bracketBuilder(AQUA + Sakura.NAME)} ${message.replace("§", SECTION)}")
-        (Minecraft.getInstance().gui.chat as IChatHud).sakuraAddMessage(text, id)
+        (Minecraft.getInstance().gui.chat as IChatComponent).sakuraAddMessage(text, id)
     }
 }

@@ -1,6 +1,6 @@
 package dev.exceptionteam.sakura.asm
 
-interface IChatHudLine {
+interface IGuiMessageLine {
     fun getId(): Int
     fun setId(id: Int)
 }
