@@ -22,7 +22,7 @@ class HUDRenderer(
 
     override fun render() {
         if (isDragging) {
-            val x = (mouseX - dragOffsetX).coerceIn(0f, mc.window.guiScaledHeight - width)
+            val x = (mouseX - dragOffsetX).coerceIn(0f, mc.window.guiScaledWidth - width)
             val y = (mouseY - dragOffsetY).coerceIn(0f, mc.window.guiScaledHeight - height)
             module.x = x
             module.y = y
