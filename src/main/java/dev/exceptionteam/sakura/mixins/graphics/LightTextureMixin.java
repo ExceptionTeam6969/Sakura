@@ -18,7 +18,7 @@ public class LightTextureMixin {
     @Final
     private TextureTarget target;
 
-    @Inject(method = "updateLightTexture", at = @At(value = "INVOKE", target = "Lcom/mojang/blaze3d/pipeline/TextureTarget;unbindWrite()V", shift = At.Shift.BEFORE))
+    @Inject(method = "updateLightTexture", at = @At(value = "INVOKE", target = "Lcom/mojang/blaze3d/pipeline/TextureTarget;unbindWrite()V", shift = At.Shift.AFTER))
     private void onUpdate(CallbackInfo info) {
         if (FullBright.INSTANCE.isEnabled()) {
             this.target.clear();

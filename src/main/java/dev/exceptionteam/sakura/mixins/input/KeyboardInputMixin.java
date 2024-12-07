@@ -12,7 +12,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 public class KeyboardInputMixin extends ClientInput {
 
     @Inject(method = "tick", at = @At("RETURN"))
-    public void onTick(boolean slowDown, float slowDownFactor, CallbackInfo ci) {
+    public void onTick(CallbackInfo ci) {
         MovementInputEvent event = new MovementInputEvent(forwardImpulse, leftImpulse);
         event.post();
 

@@ -142,14 +142,12 @@ object RenderSystem {
     private var eboLast = -1
     private var lastShader = -1
     private var lastTexture = -1
-    private var lastSampler = -1
 
     private fun preAttrib() {
         vaoLast = glGetInteger(GL_VERTEX_ARRAY_BINDING)
         vboLast = glGetInteger(GL_ARRAY_BUFFER_BINDING)
         eboLast = glGetInteger(GL_ELEMENT_ARRAY_BUFFER_BINDING)
         lastShader = glGetInteger(GL_CURRENT_PROGRAM)
-        lastSampler = glGetInteger(GL_SAMPLER_BINDING)
         lastTexture = glGetInteger(GL_TEXTURE_BINDING_2D)
     }
 
@@ -158,7 +156,6 @@ object RenderSystem {
         glBindBuffer(GL_ARRAY_BUFFER, vboLast)
         glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, eboLast)
         glUseProgram(lastShader)
-        glBindSampler(0, lastSampler)
         glActiveTexture(GL_TEXTURE0)
         glBindTexture(GL_TEXTURE_2D, lastTexture)
     }
