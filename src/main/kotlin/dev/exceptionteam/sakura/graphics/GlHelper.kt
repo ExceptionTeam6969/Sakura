@@ -1,5 +1,6 @@
 package dev.exceptionteam.sakura.graphics
 
+import com.mojang.blaze3d.platform.GlStateManager
 import org.lwjgl.opengl.GL45.*
 import kotlin.properties.ReadWriteProperty
 import kotlin.reflect.KProperty
@@ -24,8 +25,12 @@ object GlHelper {
 
     var lineWidth: Float = 1.0f
 
-    private val texture0 = GlState(0) { glBindTextureUnit(0, it) }
-    var texture by texture0
+    private val textures = TextureState()
+    fun bindTexture(unit: Int, texture: Int) {
+        if (textures.textures[unit] == texture) return
+        textures.textures[unit] = texture
+        glBindTextureUnit(unit, texture)
+    }
 
     private val vertexArray0 = GlState(0) { glBindVertexArray(it) }
     var vertexArray by vertexArray0
@@ -39,10 +44,23 @@ object GlHelper {
         cull0.forceSetValue(false)
         lineSmooth0.forceSetValue(false)
         lineWidth = 1.0f
-        texture0.forceSetValue(0)
         vertexArray0.forceSetValue(0)
         program0.forceSetValue(0)
         scissor0.forceSetValue(false)
+    }
+
+    fun syncWithMinecraft() {
+        GlStateManager.TEXTURES.forEachIndexed { i, tex ->
+            if (textures.textures[i] != tex.binding) {
+                glActiveTexture(GL_TEXTURE0 + i)
+                glBindTexture(GL_TEXTURE_2D, tex.binding)
+                textures.textures[i] = tex.binding
+            }
+        }
+        glActiveTexture(GL_TEXTURE0 + GlStateManager.activeTexture)
+
+        if (GlStateManager.BLEND.mode.enabled != blend) GlStateManager.BLEND.mode.setEnabled(blend)
+        if (GlStateManager.DEPTH.mode.enabled != depth) GlStateManager.DEPTH.mode.setEnabled(depth)
     }
 
 }
@@ -65,4 +83,23 @@ class GlState<T>(valueIn: T, private val action: (T) -> Unit) : ReadWritePropert
         action.invoke(value)
     }
 
+}
+
+data class TextureState(
+    val textures: Array<Int> = mutableListOf<Int>().apply {
+        repeat(GlStateManager.TEXTURE_COUNT) { add(0) }
+    }.toTypedArray()
+) {
+    override fun equals(other: Any?): Boolean {
+        if (this === other) return true
+        if (javaClass != other?.javaClass) return false
+
+        other as TextureState
+
+        return textures.contentEquals(other.textures)
+    }
+
+    override fun hashCode(): Int {
+        return textures.contentHashCode()
+    }
 }

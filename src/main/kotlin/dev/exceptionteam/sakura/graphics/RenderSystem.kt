@@ -98,6 +98,7 @@ object RenderSystem {
 
     private fun preRender() {
         preAttrib()
+        GlHelper.syncWithMinecraft()
         GlHelper.reset()
         VertexBufferObjects.sync()
         GlHelper.blend = true
@@ -111,6 +112,7 @@ object RenderSystem {
         GlHelper.cull = true
         postFrameBuffer()
         postAttrib()
+        GlHelper.syncWithMinecraft()
     }
 
     private fun preFrameBuffer() {
@@ -155,11 +157,6 @@ object RenderSystem {
         glBindBuffer(GL_ARRAY_BUFFER, vboLast)
         glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, eboLast)
         glUseProgram(lastShader)
-
-        glActiveTexture(GL_TEXTURE0)
-        glBindTexture(GL_TEXTURE_2D, GlStateManager.TEXTURES[0].binding)
-        glActiveTexture(GL_TEXTURE0 + GlStateManager.activeTexture)
-        glBindTexture(GL_TEXTURE_2D, GlStateManager.TEXTURES[GlStateManager.activeTexture].binding)
     }
 
 }

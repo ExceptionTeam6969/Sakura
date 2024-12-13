@@ -18,11 +18,11 @@ class Texture(type: Int = GL_TEXTURE_2D): GlObject {
     var height: Int = 0
 
     override fun bind() {
-        GlHelper.texture = id
+        GlHelper.bindTexture(0, id)
     }
 
     override fun unbind() {
-        GlHelper.texture = 0
+        GlHelper.bindTexture(0, 0)
     }
 
     override fun delete() {
