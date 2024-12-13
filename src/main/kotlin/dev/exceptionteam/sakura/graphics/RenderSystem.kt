@@ -1,5 +1,6 @@
 package dev.exceptionteam.sakura.graphics
 
+import com.mojang.blaze3d.platform.GlStateManager
 import com.mojang.blaze3d.systems.RenderSystem
 import com.mojang.math.Axis
 import dev.exceptionteam.sakura.events.impl.Render2DEvent
@@ -105,7 +106,7 @@ object RenderSystem {
     }
 
     private fun postRender() {
-        GlHelper.blend = false
+        GlHelper.blend = true
         GlHelper.depth = true
         GlHelper.cull = true
         postFrameBuffer()
@@ -141,14 +142,12 @@ object RenderSystem {
     private var vboLast = -1
     private var eboLast = -1
     private var lastShader = -1
-    private var lastTexture = -1
 
     private fun preAttrib() {
         vaoLast = glGetInteger(GL_VERTEX_ARRAY_BINDING)
         vboLast = glGetInteger(GL_ARRAY_BUFFER_BINDING)
         eboLast = glGetInteger(GL_ELEMENT_ARRAY_BUFFER_BINDING)
         lastShader = glGetInteger(GL_CURRENT_PROGRAM)
-        lastTexture = glGetInteger(GL_TEXTURE_BINDING_2D)
     }
 
     private fun postAttrib() {
@@ -156,8 +155,11 @@ object RenderSystem {
         glBindBuffer(GL_ARRAY_BUFFER, vboLast)
         glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, eboLast)
         glUseProgram(lastShader)
+
         glActiveTexture(GL_TEXTURE0)
-        glBindTexture(GL_TEXTURE_2D, lastTexture)
+        glBindTexture(GL_TEXTURE_2D, GlStateManager.TEXTURES[0].binding)
+        glActiveTexture(GL_TEXTURE0 + GlStateManager.activeTexture)
+        glBindTexture(GL_TEXTURE_2D, GlStateManager.TEXTURES[GlStateManager.activeTexture].binding)
     }
 
 }
