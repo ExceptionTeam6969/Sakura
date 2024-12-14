@@ -26,7 +26,7 @@ public abstract class ClientPlayerEntityMixin extends EntityMixin {
 
     @Inject(method = "sendPosition", at = @At("HEAD"), cancellable = true)
     private void onTickMovementHead(CallbackInfo callbackInfo) {
-        motionEvent = new PlayerMotionEvent(this.getX(), this.getY(), this.getZ(), this.getXRot(), this.getYRot(), this.onGround());
+        motionEvent = new PlayerMotionEvent(this.getX(), this.getY(), this.getZ(), this.getYRot(), this.getXRot(), this.onGround());
         motionEvent.post();
         if (motionEvent.isCancelled()) {
             callbackInfo.cancel();
@@ -54,12 +54,12 @@ public abstract class ClientPlayerEntityMixin extends EntityMixin {
     }
 
     @Redirect(method = "sendPosition", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/player/LocalPlayer;getXRot()F"))
-    private float yawHook(LocalPlayer instance) {
+    private float pitchHook(LocalPlayer instance) {
         return motionEvent.getPitch();
     }
 
     @Redirect(method = "sendPosition", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/player/LocalPlayer;getYRot()F"))
-    private float pitchHook(LocalPlayer instance) {
+    private float yawHook(LocalPlayer instance) {
         return motionEvent.getYaw();
     }
 
