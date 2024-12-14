@@ -62,6 +62,7 @@ object ModuleManager {
             // HUD
             WaterMark,
             GuiImage,
+            IrcHud,
         ).sortedBy { it.name.key }.toTypedArray()
     }
 

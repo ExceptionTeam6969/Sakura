@@ -14,6 +14,8 @@ hotbar.switch-mode.switch=Switch
 hotbar.switch-mode.pick=Pick Silent
 hotbar.switch-mode.swap=Swap Silent
 
+irc.hud-title=Sakura IRC
+
 modules.click-gui=Click GUI
 
 modules.hud-editor=HUD Editor
@@ -113,3 +115,8 @@ modules.feet-trap.swing=Swing
 
 modules.cancel-using=Cancel Using
 modules.cancel-using.shield=Shield
+
+modules.irc-hud=IRC HUD
+modules.irc-hud.background-color=Background Color
+modules.irc-hud.width=Width
+modules.irc-hud.height=Height
