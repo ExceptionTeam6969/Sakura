@@ -8,7 +8,7 @@
 		"chat.GuiMessageLineMixin",
 		"input.KeyboardHandlerMixin",
 		"input.KeyboardInputMixin",
-		"gui.InGameHudMixin",
+      	"graphics.InGameHudMixin",
 		"graphics.GameRendererMixin",
 		"graphics.PlayerRendererMixin",
 		"graphics.WindowMixin",

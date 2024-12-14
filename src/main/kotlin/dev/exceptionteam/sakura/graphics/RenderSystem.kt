@@ -1,12 +1,13 @@
 package dev.exceptionteam.sakura.graphics
 
-import com.mojang.blaze3d.platform.GlStateManager
 import com.mojang.blaze3d.systems.RenderSystem
 import com.mojang.math.Axis
 import dev.exceptionteam.sakura.events.impl.Render2DEvent
 import dev.exceptionteam.sakura.events.impl.Render3DEvent
 import dev.exceptionteam.sakura.events.impl.WindowResizeEvent
 import dev.exceptionteam.sakura.events.listener
+import dev.exceptionteam.sakura.features.gui.clickgui.ClickGUIScreen
+import dev.exceptionteam.sakura.features.gui.hudeditor.HUDEditorScreen
 import dev.exceptionteam.sakura.features.modules.impl.client.RenderSystemMod
 import dev.exceptionteam.sakura.graphics.buffer.FrameBuffer
 import dev.exceptionteam.sakura.graphics.buffer.VertexBufferObjects
@@ -62,6 +63,8 @@ object RenderSystem {
     }
 
     fun onRender2d() {
+        if (mc.screen != null && mc.screen != ClickGUIScreen && mc.screen != HUDEditorScreen) return
+
         preRender()
 
         MatrixStack.scope {
@@ -102,7 +105,6 @@ object RenderSystem {
         GlHelper.reset()
         VertexBufferObjects.sync()
         GlHelper.blend = true
-        glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA)
         preFrameBuffer()
     }
 
@@ -121,10 +123,10 @@ object RenderSystem {
         val wWidth = mc.window.width
         val wHeight = mc.window.height
 
-        glBindFramebuffer(GL_FRAMEBUFFER, frameBuffer.id)
         glBlitNamedFramebuffer(mc.mainRenderTarget.frameBufferId, frameBuffer.id,
             0, 0, wWidth, wHeight, 0, 0, wWidth, wHeight,
             GL_COLOR_BUFFER_BIT, GL_NEAREST)
+        glBindFramebuffer(GL_FRAMEBUFFER, frameBuffer.id)
     }
 
     private fun postFrameBuffer() {
@@ -133,10 +135,10 @@ object RenderSystem {
         val wWidth = mc.window.width
         val wHeight = mc.window.height
 
-        glBindFramebuffer(GL_FRAMEBUFFER, mc.mainRenderTarget.frameBufferId)
         glBlitNamedFramebuffer(frameBuffer.id, mc.mainRenderTarget.frameBufferId,
             0, 0, wWidth, wHeight, 0, 0, wWidth, wHeight,
             GL_COLOR_BUFFER_BIT, GL_NEAREST)
+        glBindFramebuffer(GL_FRAMEBUFFER, mc.mainRenderTarget.frameBufferId)
     }
 
     /* Attrib */

@@ -8,7 +8,13 @@ import kotlin.reflect.KProperty
 object GlHelper {
 
     // Disabled in core mode
-    private val blend0 = GlState(false) { if (it) glEnable(GL_BLEND) else glDisable(GL_BLEND) }
+    private val blend0 = GlState(false) {
+        if (it) {
+            glEnable(GL_BLEND)
+            glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA)
+        } else
+            glDisable(GL_BLEND)
+    }
     var blend by blend0
 
     private val depth0 = GlState(false) { if (it) glEnable(GL_DEPTH_TEST) else glDisable(GL_DEPTH_TEST) }

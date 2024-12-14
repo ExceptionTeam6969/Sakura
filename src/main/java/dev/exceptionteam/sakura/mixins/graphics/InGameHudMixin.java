@@ -1,4 +1,4 @@
-package dev.exceptionteam.sakura.mixins.gui;
+package dev.exceptionteam.sakura.mixins.graphics;
 
 import dev.exceptionteam.sakura.features.modules.impl.render.GameAnimation;
 import net.minecraft.client.Minecraft;
