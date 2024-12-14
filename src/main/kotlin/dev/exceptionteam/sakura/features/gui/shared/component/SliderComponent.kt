@@ -37,7 +37,7 @@ class SliderComponent(
         FontRenderers.drawString("${setting.key.translation}: $value", x + 5f, y + 4f, UiSetting.textColor)
 
         val sliderLength =
-            width * (setting.value.toFloat() / setting.maxValue.toFloat())
+            width * ((setting.value.toFloat() - setting.minValue.toFloat()) / (setting.maxValue.toFloat() - setting.minValue.toFloat()))
 
         RenderUtils2D.drawRectFilled(x, y + height - 2.5f, sliderLength, 2.5f , UiSetting.sliderColor)
     }
