@@ -93,7 +93,7 @@ class GlState<T>(valueIn: T, private val action: (T) -> Unit) : ReadWritePropert
 
 data class TextureState(
     val textures: Array<Int> = mutableListOf<Int>().apply {
-        repeat(GlStateManager.TEXTURE_COUNT) { add(0) }
+        repeat(GlStateManager.TEXTURES.size + 1) { add(0) }
     }.toTypedArray()
 ) {
     override fun equals(other: Any?): Boolean {
