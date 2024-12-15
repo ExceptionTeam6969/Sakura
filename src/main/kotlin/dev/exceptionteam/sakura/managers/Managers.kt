@@ -16,6 +16,7 @@ object Managers {
         CommandManager
         RotationManager
         HotbarManager
+        TargetManager
     }
 
 }

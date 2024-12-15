@@ -6,6 +6,8 @@ import dev.exceptionteam.sakura.events.nonNullListener
 import dev.exceptionteam.sakura.features.modules.Category
 import dev.exceptionteam.sakura.features.modules.Module
 import dev.exceptionteam.sakura.managers.impl.RotationManager.addRotation
+import dev.exceptionteam.sakura.managers.impl.TargetManager.getTarget
+import dev.exceptionteam.sakura.managers.impl.TargetManager.getTargetPlayer
 import dev.exceptionteam.sakura.utils.math.RotationUtils.getRotationTo
 import dev.exceptionteam.sakura.utils.math.distanceSqTo
 import dev.exceptionteam.sakura.utils.math.sq
@@ -24,6 +26,7 @@ object KillAura: Module(
 ) {
     private val range by setting("range", 3.0f, 2.5f..6.0f)
     private val delay by setting("delay", 500, 50..3000)
+    private val onlyPlayers by setting("only-players", true)
     private val rotation by setting("rotation", true)
     private val swing by setting("swing", true)
 
@@ -33,12 +36,10 @@ object KillAura: Module(
         nonNullListener<TickEvent.Update> {
             if (!timer.passedAndReset(delay)) return@nonNullListener
 
-            for (ent in world.entitiesForRendering()) {
-                if (ent.id == player.id) continue
-                if (ent.distanceSqTo(player) >= range.sq) continue
-
-                attack(ent)
-                break
+            if (onlyPlayers) getTargetPlayer(range)?.let {
+                attack(it)
+            } else getTarget(range)?.let {
+                attack(it)
             }
         }
     }
@@ -46,7 +47,7 @@ object KillAura: Module(
     private fun NonNullContext.attack(target: Entity) {
         val rotAngle = getRotationTo(target.position())
         addRotation(rotAngle, 0, rotation) {
-            connection.send(ServerboundInteractPacket.createAttackPacket(target, true))
+            connection.send(ServerboundInteractPacket.createAttackPacket(target, player.isShiftKeyDown))
             if (swing) player.swing(InteractionHand.MAIN_HAND)
         }
     }
