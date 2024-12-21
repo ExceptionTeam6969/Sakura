@@ -12,6 +12,9 @@ This code is licensed under the GNU General Public License v3. You may use code 
 ## Bugs & Suggestions
 If you find any bugs or have suggestions for the client, please open an issue on this repository.
 
+## Addon
+[Sakura Addon Template](https://github.com/ExceptionTeam6969/SakuraAddon)
+
 ## Discord
 Discord server link: [https://discord.gg/CFxnhyaFMM](https://discord.gg/CFxnhyaFMM)
 
