@@ -6,8 +6,8 @@ import dev.exceptionteam.sakura.translation.TranslationString
 
 abstract class HUDModule(
     name: String,
-    var width: Float = 0f,
-    var height: Float = 0f,
+    open var width: Float = 0f,
+    open var height: Float = 0f,
     defaultEnable: Boolean = false,
     alwaysEnable: Boolean = false,
     defaultBind: Int = -1
@@ -25,7 +25,7 @@ abstract class HUDModule(
         nonNullListener<Render2DEvent>(priority = -75) {
             render()
         }
-        
+
     }
 
     var x: Float = 0.0f
