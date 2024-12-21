@@ -17,7 +17,7 @@ public class MinecraftMixin {
 
     @Inject(method = "<init>", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/telemetry/events/GameLoadTimesEvent;beginStep(Lnet/minecraft/client/telemetry/TelemetryProperty;)V"))
     public void onInit(GameConfig gameConfig, CallbackInfo ci) {
-        Sakura.init();
+        Sakura.INSTANCE.init();
     }
 
     @Inject(method = "setLevel", at = @At("RETURN"))

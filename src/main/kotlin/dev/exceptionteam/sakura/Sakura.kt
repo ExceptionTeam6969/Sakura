@@ -13,7 +13,6 @@ object Sakura {
     const val DIRECTORY = "sakura"
     const val ASSETS_DIRECTORY = "/assets/sakura"
 
-    @JvmStatic
     fun init() {
         Managers
     }

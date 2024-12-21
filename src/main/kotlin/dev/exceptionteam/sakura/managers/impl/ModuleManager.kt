@@ -1,6 +1,7 @@
 package dev.exceptionteam.sakura.managers.impl
 
 import dev.exceptionteam.sakura.events.impl.KeyEvent
+import dev.exceptionteam.sakura.events.impl.RegisterModuleEvent
 import dev.exceptionteam.sakura.events.nonNullListener
 import dev.exceptionteam.sakura.features.modules.AbstractModule
 import dev.exceptionteam.sakura.features.modules.impl.client.*
@@ -64,7 +65,11 @@ object ModuleManager {
             // HUD
             WaterMark,
             GuiImage,
-        ).sortedBy { it.name.key }.toTypedArray()
+        )
+
+        val event = RegisterModuleEvent(modules.toMutableList())
+        event.post()
+        modules = event.modules.sortedBy { it.name.key }.toTypedArray()
     }
 
 
