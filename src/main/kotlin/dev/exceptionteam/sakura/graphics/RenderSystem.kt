@@ -66,6 +66,7 @@ object RenderSystem {
         if (mc.screen != null && mc.screen != ClickGUIScreen && mc.screen != HUDEditorScreen) return
 
         preRender()
+        GlHelper.depth = true
 
         MatrixStack.scope {
             val projection = Matrix4f(RenderSystem.getProjectionMatrix())
@@ -126,6 +127,9 @@ object RenderSystem {
         glBlitNamedFramebuffer(mc.mainRenderTarget.frameBufferId, frameBuffer.id,
             0, 0, wWidth, wHeight, 0, 0, wWidth, wHeight,
             GL_COLOR_BUFFER_BIT, GL_NEAREST)
+        glBlitNamedFramebuffer(mc.mainRenderTarget.frameBufferId, frameBuffer.id,
+            0, 0, wWidth, wHeight, 0, 0, wWidth, wHeight,
+            GL_DEPTH_BUFFER_BIT, GL_NEAREST)
         glBindFramebuffer(GL_FRAMEBUFFER, frameBuffer.id)
     }
 
@@ -138,6 +142,9 @@ object RenderSystem {
         glBlitNamedFramebuffer(frameBuffer.id, mc.mainRenderTarget.frameBufferId,
             0, 0, wWidth, wHeight, 0, 0, wWidth, wHeight,
             GL_COLOR_BUFFER_BIT, GL_NEAREST)
+        glBlitNamedFramebuffer(frameBuffer.id, mc.mainRenderTarget.frameBufferId,
+            0, 0, wWidth, wHeight, 0, 0, wWidth, wHeight,
+            GL_DEPTH_BUFFER_BIT, GL_NEAREST)
         glBindFramebuffer(GL_FRAMEBUFFER, mc.mainRenderTarget.frameBufferId)
     }
 
