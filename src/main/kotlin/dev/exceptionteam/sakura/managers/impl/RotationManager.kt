@@ -1,7 +1,6 @@
 package dev.exceptionteam.sakura.managers.impl
 
 import dev.exceptionteam.sakura.events.NonNullContext
-import dev.exceptionteam.sakura.events.impl.AfterPlayerMotionEvent
 import dev.exceptionteam.sakura.events.impl.PlayerMotionEvent
 import dev.exceptionteam.sakura.events.nonNullListener
 import dev.exceptionteam.sakura.utils.math.vector.Vec2f
@@ -9,9 +8,8 @@ import dev.exceptionteam.sakura.utils.math.vector.Vec2f
 object RotationManager {
 
     init {
-        nonNullListener<AfterPlayerMotionEvent>(alwaysListening = true) {
+        nonNullListener<PlayerMotionEvent.Pre>(alwaysListening = true, priority = Int.MIN_VALUE) {
             rotationInfo?.func()
-            rotationInfo = null
         }
 
         nonNullListener<PlayerMotionEvent>(alwaysListening = true, priority = Int.MAX_VALUE) { e ->
@@ -19,6 +17,10 @@ object RotationManager {
                 e.yaw = it.yaw
                 e.pitch = it.pitch
             }
+        }
+
+        nonNullListener<PlayerMotionEvent.Post>(alwaysListening = true, priority = Int.MIN_VALUE) {
+            rotationInfo = null
         }
     }
 

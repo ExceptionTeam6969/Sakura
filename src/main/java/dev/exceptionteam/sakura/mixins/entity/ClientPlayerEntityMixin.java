@@ -1,6 +1,5 @@
 package dev.exceptionteam.sakura.mixins.entity;
 
-import dev.exceptionteam.sakura.events.impl.AfterPlayerMotionEvent;
 import dev.exceptionteam.sakura.events.impl.PlayerMotionEvent;
 import dev.exceptionteam.sakura.features.modules.impl.movement.Velocity;
 import net.minecraft.client.player.LocalPlayer;
@@ -26,6 +25,7 @@ public abstract class ClientPlayerEntityMixin extends EntityMixin {
 
     @Inject(method = "sendPosition", at = @At("HEAD"), cancellable = true)
     private void onTickMovementHead(CallbackInfo callbackInfo) {
+        new PlayerMotionEvent.Pre().post();
         motionEvent = new PlayerMotionEvent(this.getX(), this.getY(), this.getZ(), this.getYRot(), this.getXRot(), this.onGround());
         motionEvent.post();
         if (motionEvent.isCancelled()) {
@@ -35,7 +35,7 @@ public abstract class ClientPlayerEntityMixin extends EntityMixin {
 
     @Inject(method = "sendPosition", at = @At("RETURN"))
     private void onTickMovementRet(CallbackInfo callbackInfo) {
-        new AfterPlayerMotionEvent().post();
+        new PlayerMotionEvent.Post().post();
     }
 
     @Redirect(method = "sendPosition", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/player/LocalPlayer;getX()D"))
