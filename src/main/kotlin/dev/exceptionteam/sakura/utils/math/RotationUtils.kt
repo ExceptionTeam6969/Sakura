@@ -10,7 +10,7 @@ import kotlin.math.hypot
 object RotationUtils {
 
     /**
-     * Normalize an angle to the range [-180, 180)
+     * Normalize an angle to the range [-180, 180]
      *
      * @param angleIn Input angle in degrees
      * @return Normalized angle in degrees
@@ -34,7 +34,7 @@ object RotationUtils {
      * @param posTo Calculate rotation to this position vector
      * @return A vector containing the rotation in degrees (yaw, pitch)
      */
-    fun getRotationTo(posFrom: Vec3, posTo: Vec3): Vec2f {
+    fun NonNullContext.getRotationTo(posFrom: Vec3, posTo: Vec3): Vec2f {
         return getRotationFromVec(posTo.subtract(posFrom))
     }
 
@@ -47,10 +47,12 @@ object RotationUtils {
     fun NonNullContext.getRotationTo(posTo: BlockPos): Vec2f =
         getRotationTo(player.position(), posTo.bottomCenter)
 
-    fun getRotationFromVec(vec: Vec3): Vec2f {
+    fun NonNullContext.getRotationFromVec(vec: Vec3): Vec2f {
         val xz = hypot(vec.x, vec.z)
-        val yaw = normalizeAngle(atan2(vec.z, vec.x).toDegree() - 90.0)
+        val yaw0 = normalizeAngle(atan2(vec.z, vec.x).toDegree() - 90.0)
         val pitch = normalizeAngle(-atan2(vec.y, xz).toDegree())
+
+        val yaw = (player.yRot.toInt() / 360 * 360) + yaw0
         return Vec2f(yaw, pitch)
     }
 

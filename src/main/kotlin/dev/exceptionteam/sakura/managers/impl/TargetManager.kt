@@ -6,6 +6,8 @@ import dev.exceptionteam.sakura.events.nonNullListener
 import dev.exceptionteam.sakura.utils.math.distanceSqTo
 import dev.exceptionteam.sakura.utils.math.sq
 import net.minecraft.world.entity.Entity
+import net.minecraft.world.entity.Mob
+import net.minecraft.world.entity.animal.Animal
 import net.minecraft.world.entity.player.Player
 
 object TargetManager {
@@ -20,6 +22,8 @@ object TargetManager {
             world.entitiesForRendering().forEach { ent ->
                 if (ent.id == player.id) return@forEach
                 if (ent.isSpectator) return@forEach
+                if (!ent.isAlive) return@forEach
+                if (ent !is Player && ent !is Mob) return@forEach
 
                 tTargets.add(ent)
             }
