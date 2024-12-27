@@ -8,6 +8,7 @@ import dev.exceptionteam.sakura.graphics.RenderUtils2D
 import dev.exceptionteam.sakura.graphics.RenderUtils3D.worldSpaceToScreenSpace
 import dev.exceptionteam.sakura.graphics.color.ColorRGB
 import dev.exceptionteam.sakura.graphics.font.FontRenderers
+import dev.exceptionteam.sakura.managers.impl.FriendManager.isFriend
 import dev.exceptionteam.sakura.utils.math.distanceSqTo
 import dev.exceptionteam.sakura.utils.math.sq
 import dev.exceptionteam.sakura.utils.math.vector.Vec3f
@@ -51,10 +52,13 @@ object NameTags: Module(
 
                 val stringWidth = FontRenderers.getStringWidth(str)
 
+                val friend = isFriend(ent.displayName?.string ?: "")
+
                 RenderUtils2D.drawRectFilled(x - 1 - stringWidth / 2f, y - 1, stringWidth + 2, FontRenderers.getHeight(),
                     ColorRGB.BLACK.alpha(0.9f))
 
-                FontRenderers.drawString(ent.displayName!!.string, x - stringWidth / 2f, y, ColorRGB.WHITE)
+                FontRenderers.drawString(str, x - stringWidth / 2f, y,
+                    if (friend) ColorRGB.GREEN else ColorRGB.WHITE)
 
             }
 

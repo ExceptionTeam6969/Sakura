@@ -3,6 +3,7 @@ package dev.exceptionteam.sakura.managers.impl
 import dev.exceptionteam.sakura.events.NonNullContext
 import dev.exceptionteam.sakura.events.impl.TickEvent
 import dev.exceptionteam.sakura.events.nonNullListener
+import dev.exceptionteam.sakura.managers.impl.FriendManager.isFriend
 import dev.exceptionteam.sakura.utils.math.distanceSqTo
 import dev.exceptionteam.sakura.utils.math.sq
 import net.minecraft.world.entity.Entity
@@ -24,6 +25,7 @@ object TargetManager {
                 if (ent.isSpectator) return@forEach
                 if (!ent.isAlive) return@forEach
                 if (ent !is Player && ent !is Mob) return@forEach
+                if (isFriend(ent.displayName?.string ?: "")) return@forEach
 
                 tTargets.add(ent)
             }
