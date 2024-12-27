@@ -52,6 +52,7 @@ object ModuleManager {
             NameTags,
             FullBright,
             GameAnimation,
+            NoRender,
 
             // Movement
             Sprint,

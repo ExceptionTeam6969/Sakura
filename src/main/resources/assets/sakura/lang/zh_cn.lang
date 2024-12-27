@@ -1,5 +1,5 @@
 # 在模块名中
-#   No    无
+#   No    无 取消
 #   Anti  防止
 #   Auto  自动
 # 在选项中
@@ -127,3 +127,10 @@ modules.kill-aura.delay=延迟
 modules.kill-aura.only-players=仅对玩家生效
 modules.kill-aura.rotation=转头
 modules.kill-aura.swing=摇手
+
+modules.no-render=取消渲染
+modules.no-render.explosions=爆炸粒子
+modules.no-render.fire=火焰
+modules.no-render.totem=图腾
+modules.no-render.under-water=水下
+modules.no-render.in-wall=墙内

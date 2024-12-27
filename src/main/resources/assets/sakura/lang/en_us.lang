@@ -120,3 +120,10 @@ modules.kill-aura.delay=Delay
 modules.kill-aura.only-players=Only Players
 modules.kill-aura.rotation=Rotation
 modules.kill-aura.swing=Swing
+
+modules.no-render=No Render
+modules.no-render.explosions=Explosions
+modules.no-render.fire=Fire
+modules.no-render.totem=Totem
+modules.no-render.under-water=Under Water
+modules.no-render.in-wall=In Wall
