@@ -13,14 +13,19 @@ import net.minecraft.client.Minecraft
 
 object GuiImage: HUDModule(
     name = "gui-image",
-    width = 40f,
-    height = 20f,
 ) {
     private val image by setting("image", Image.QIANSHU)
     private val scale by setting("scale", 1f, 0.1f..10f)
 
+    private var img: Texture? = null
+
     var qianshuTex: Texture? = null
     var mahiroTex: Texture? = null
+
+    override var width: Float = 50f
+        get() = (img?.width?.times(scale)?.times(0.2f)) ?: 50f
+    override var height: Float = 50f
+        get() = (img?.height?.times(scale)?.times(0.2f)) ?: 50f
 
     private val mc get() = Minecraft.getInstance()
 
@@ -38,10 +43,13 @@ object GuiImage: HUDModule(
         if (isDisabled) return
         if (mc.screen != ClickGUIScreen && mc.screen != HUDEditorScreen) return
 
-        when (image) {
-            Image.QIANSHU -> qianshuTex?.draw()
-            Image.ZHENXUN -> mahiroTex?.draw()
+        img = when (image) {
+            Image.QIANSHU -> qianshuTex
+            Image.ZHENXUN -> mahiroTex
+    //            else -> img = null
         }
+
+        img?.draw()
     }
 
     private fun Texture.draw() {

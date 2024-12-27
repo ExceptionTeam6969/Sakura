@@ -40,7 +40,7 @@ object HUDEditorScreen : GuiScreen("hud-editor") {
         panel = Panel(Category.HUD, modules, 10f, 10f, WIDTH, HEIGHT)
         modules.forEach {
             if (it !is HUDModule) return@forEach
-            hudRenderers.add(HUDRenderer(it.x, it.y, it.width, it.height,it))
+            hudRenderers.add(HUDRenderer(it.x, it.y, it))
         }
 
         nonNullListener<Render2DEvent>(alwaysListening = true, priority = -50) { e ->

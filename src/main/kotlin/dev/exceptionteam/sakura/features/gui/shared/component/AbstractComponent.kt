@@ -6,8 +6,8 @@ import dev.exceptionteam.sakura.utils.control.MouseButtonType
 abstract class AbstractComponent(
     x: Float,
     y: Float,
-    open var width: Float,
-    open var height: Float
+    open var width: Float = 0f,
+    open var height: Float = 0f
 ) {
     var x: Float = x; private set
     var y: Float = y; private set

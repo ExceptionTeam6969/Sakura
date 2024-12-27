@@ -8,11 +8,16 @@ import dev.exceptionteam.sakura.utils.control.MouseButtonType
 import net.minecraft.client.Minecraft
 
 class HUDRenderer(
-    x: Float, y: Float, width: Float, height: Float, val module: HUDModule
-): AbstractComponent(x, y, width, height) {
+    x: Float, y: Float, val module: HUDModule
+): AbstractComponent(x, y) {
+
+    override var width: Float = 0f
+        get() = module.width
+    override var height: Float = 0f
+        get() = module.height
 
     companion object {
-        val mc = Minecraft.getInstance()
+        val mc: Minecraft = Minecraft.getInstance()
     }
 
     private var isDragging = false
