@@ -46,7 +46,7 @@ object FeetTrap: Module(
                 .filter { it != Direction.DOWN && it != Direction.UP }
                 .forEach { dir ->
                     val pos = player.blockPosition().relative(dir)   // Position to place block
-                    val blockState = pos.blockState
+                    val blockState = pos.blockState ?: return@forEach
                     val block = blockState.block
 
                     @Suppress("DEPRECATION")

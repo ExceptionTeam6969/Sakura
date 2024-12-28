@@ -20,7 +20,7 @@ object PlayerUtils {
             || isIntersectingBlock(player.position().add(0.3, 0.0, -0.3).toBlockPos())
 
     fun NonNullContext.isIntersectingBlock(pos: BlockPos): Boolean =
-        pos.blockState.block != Blocks.AIR && player.boundingBox.intersects(AABB(pos))
+        pos.blockState?.block != Blocks.AIR && player.boundingBox.intersects(AABB(pos))
 
 
 }

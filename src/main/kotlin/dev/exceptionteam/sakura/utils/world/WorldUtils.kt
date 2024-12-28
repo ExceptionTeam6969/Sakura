@@ -6,7 +6,7 @@ import net.minecraft.world.level.block.state.BlockState
 
 object WorldUtils {
 
-    val BlockPos.blockState: BlockState get() =
-        Minecraft.getInstance().level!!.getBlockState(this)
+    val BlockPos.blockState: BlockState? get() =
+        Minecraft.getInstance().level?.getBlockState(this)
 
 }
