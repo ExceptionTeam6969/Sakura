@@ -124,13 +124,13 @@ object RenderSystem {
         val wWidth = mc.window.width
         val wHeight = mc.window.height
 
+        // The performance of this method is very poor
         glBlitNamedFramebuffer(mc.mainRenderTarget.frameBufferId, frameBuffer.id,
             0, 0, wWidth, wHeight, 0, 0, wWidth, wHeight,
             GL_COLOR_BUFFER_BIT, GL_NEAREST)
-        glBlitNamedFramebuffer(mc.mainRenderTarget.frameBufferId, frameBuffer.id,
-            0, 0, wWidth, wHeight, 0, 0, wWidth, wHeight,
-            GL_DEPTH_BUFFER_BIT, GL_NEAREST)
         glBindFramebuffer(GL_FRAMEBUFFER, frameBuffer.id)
+
+        glClear(GL_DEPTH_BUFFER_BIT or GL_STENCIL_BUFFER_BIT)
     }
 
     private fun postFrameBuffer() {
@@ -142,9 +142,6 @@ object RenderSystem {
         glBlitNamedFramebuffer(frameBuffer.id, mc.mainRenderTarget.frameBufferId,
             0, 0, wWidth, wHeight, 0, 0, wWidth, wHeight,
             GL_COLOR_BUFFER_BIT, GL_NEAREST)
-        glBlitNamedFramebuffer(frameBuffer.id, mc.mainRenderTarget.frameBufferId,
-            0, 0, wWidth, wHeight, 0, 0, wWidth, wHeight,
-            GL_DEPTH_BUFFER_BIT, GL_NEAREST)
         glBindFramebuffer(GL_FRAMEBUFFER, mc.mainRenderTarget.frameBufferId)
     }
 

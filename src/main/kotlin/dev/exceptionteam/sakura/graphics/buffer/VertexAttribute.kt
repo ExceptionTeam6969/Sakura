@@ -4,9 +4,9 @@ import dev.exceptionteam.sakura.graphics.GlDataType
 import org.lwjgl.opengl.GL45.*
 
 class VertexAttribute private constructor(val stride: Int, private val entries: List<Entry>) {
-    fun apply() {
+    fun apply(vao: Int) {
         entries.forEach {
-            it.apply(stride)
+            it.apply(vao, stride)
         }
     }
 
@@ -36,7 +36,7 @@ class VertexAttribute private constructor(val stride: Int, private val entries: 
         val pointer: Int
         val divisor: Int
 
-        fun apply(stride: Int)
+        fun apply(vao: Int, stride: Int)
     }
 
     private class FloatEntry(
@@ -47,13 +47,15 @@ class VertexAttribute private constructor(val stride: Int, private val entries: 
         val normalized: Boolean,
         override val divisor: Int
     ) : Entry {
-        override fun apply(stride: Int) {
-            glVertexAttribPointer(index, size, type, normalized, stride, pointer.toLong())
+        override fun apply(vao: Int, stride: Int) {
+            glVertexArrayAttribFormat(vao, index, size, type, normalized, pointer)
 
-            glEnableVertexAttribArray(index)
+            glEnableVertexArrayAttrib(vao, index)
             if (divisor != 0) {
-                glVertexAttribDivisor(index, divisor)
+                glVertexArrayBindingDivisor(vao, index, divisor)
             }
+
+            glVertexArrayAttribBinding(vao, index, 0)
         }
     }
 
@@ -65,13 +67,15 @@ class VertexAttribute private constructor(val stride: Int, private val entries: 
         override val divisor: Int
     ) : Entry {
 
-        override fun apply(stride: Int) {
-            glVertexAttribIPointer(index, size, type, stride, pointer.toLong())
+        override fun apply(vao: Int, stride: Int) {
+            glVertexArrayAttribIFormat(vao, index, size, type, pointer)
 
-            glEnableVertexAttribArray(index)
+            glEnableVertexArrayAttrib(vao, index)
             if (divisor != 0) {
-                glVertexAttribDivisor(index, divisor)
+                glVertexArrayBindingDivisor(vao, index, divisor)
             }
+
+            glVertexArrayAttribBinding(vao, index, 0)
         }
     }
 }

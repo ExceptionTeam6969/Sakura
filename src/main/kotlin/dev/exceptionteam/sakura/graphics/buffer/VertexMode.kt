@@ -24,11 +24,8 @@ open class VertexMode(val shader: Shader, protected val attribute: VertexAttribu
     /* Vertex Array Object */
     private fun createVao(vbo: PersistentMappedVBO, vertexAttribute: VertexAttribute): Int {
         val vaoID = glCreateVertexArrays()
-        GlHelper.vertexArray = vaoID
-        glBindBuffer(GL_ARRAY_BUFFER, vbo.id)
-        vertexAttribute.apply()
-        GlHelper.vertexArray = 0
-        glBindBuffer(GL_ARRAY_BUFFER, 0)
+        vertexAttribute.apply(vaoID)
+        glVertexArrayVertexBuffer(vaoID, 0, vbo.id, 0, vertexAttribute.stride)
         return vaoID
     }
 }

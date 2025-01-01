@@ -13,7 +13,7 @@ class PersistentMappedVBO(
 ): GlObject {
 
     companion object {
-        private const val BUFFER_SIZE = 8 * 1024 * 1024L    // 8MB
+        private const val BUFFER_SIZE: Long = 512L * 1024L    // 512KB
     }
 
     override var id: Int = GL45.glCreateBuffers().apply {

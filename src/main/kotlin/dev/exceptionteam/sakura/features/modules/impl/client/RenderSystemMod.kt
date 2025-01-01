@@ -10,6 +10,6 @@ object RenderSystemMod: Module(
     alwaysEnable = true,
 ) {
 
-    val frameBuffer by setting("frame-buffer", true)
+    val frameBuffer by setting("frame-buffer", false)
 
 }
