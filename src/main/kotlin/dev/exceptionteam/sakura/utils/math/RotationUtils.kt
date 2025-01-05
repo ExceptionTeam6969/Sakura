@@ -2,7 +2,9 @@ package dev.exceptionteam.sakura.utils.math
 
 import dev.exceptionteam.sakura.events.NonNullContext
 import dev.exceptionteam.sakura.utils.math.vector.Vec2f
+import dev.exceptionteam.sakura.utils.world.BlockUtils
 import net.minecraft.core.BlockPos
+import net.minecraft.core.Direction
 import net.minecraft.world.phys.Vec3
 import kotlin.math.atan2
 import kotlin.math.hypot
@@ -44,8 +46,11 @@ object RotationUtils {
     fun NonNullContext.getRotationTo(posTo: Vec3): Vec2f =
         getRotationTo(player.position(), posTo)
 
-    fun NonNullContext.getRotationTo(posTo: BlockPos): Vec2f =
-        getRotationTo(player.position(), posTo.bottomCenter)
+    fun NonNullContext.getRotationTo(posTo: BlockPos, dir: Direction? = null): Vec2f {
+        val pos = BlockUtils.getVecPos(posTo, dir)
+
+        return getRotationTo(player.position(), pos)
+    }
 
     fun NonNullContext.getRotationFromVec(vec: Vec3): Vec2f {
         val xz = hypot(vec.x, vec.z)

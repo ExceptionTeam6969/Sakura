@@ -1,21 +1,14 @@
 package dev.exceptionteam.sakura.features.modules.impl.combat
 
-import dev.exceptionteam.sakura.events.NonNullContext
 import dev.exceptionteam.sakura.events.impl.TickEvent
 import dev.exceptionteam.sakura.events.nonNullListener
 import dev.exceptionteam.sakura.features.modules.Category
 import dev.exceptionteam.sakura.features.modules.Module
 import dev.exceptionteam.sakura.managers.impl.HotbarManager
-import dev.exceptionteam.sakura.managers.impl.HotbarManager.switch
-import dev.exceptionteam.sakura.managers.impl.RotationManager.addRotation
-import dev.exceptionteam.sakura.utils.player.InventoryUtils.findBlockInHotbar
-import dev.exceptionteam.sakura.utils.math.RotationUtils.getRotationTo
 import dev.exceptionteam.sakura.utils.player.InteractionUtils.placeBlock
 import dev.exceptionteam.sakura.utils.timing.TimerUtils
 import dev.exceptionteam.sakura.utils.world.WorldUtils.blockState
-import net.minecraft.core.BlockPos
 import net.minecraft.core.Direction
-import net.minecraft.world.InteractionHand
 import net.minecraft.world.level.block.Blocks
 
 object FeetTrap: Module(
@@ -49,31 +42,17 @@ object FeetTrap: Module(
                     val blockState = pos.blockState ?: return@forEach
                     val block = blockState.block
 
-                    @Suppress("DEPRECATION")
-                    if (block != Blocks.AIR) return@forEach  // Skip if block is not air or solid
+                    if (block != Blocks.AIR) return@forEach  // Skip if block is not air
 
                     if (rotation && multiCount > 0) return@nonNullListener
                     if (multiCount > multiPlace) return@nonNullListener
 
-                    place(pos)
+                    placeBlock(pos, Blocks.OBSIDIAN, switchMode, swing, rotation, 0)
 
                     multiCount++
                 }
         }
 
-    }
-
-    private fun NonNullContext.place(pos: BlockPos) {
-        val rotateAngle = getRotationTo(pos)
-        addRotation(rotateAngle, -200, rotation) {
-            val slot = findBlockInHotbar(Blocks.OBSIDIAN) ?: return@addRotation
-
-            switch(switchMode, slot) {
-                placeBlock(pos)
-            }
-
-            if (swing) player.swing(InteractionHand.MAIN_HAND)
-        }
     }
 
 }

@@ -4,6 +4,7 @@ import dev.exceptionteam.sakura.events.NonNullContext
 import dev.exceptionteam.sakura.utils.world.WorldUtils.blockState
 import net.minecraft.core.BlockPos
 import net.minecraft.core.Direction
+import net.minecraft.world.phys.Vec3
 
 object BlockUtils {
 
@@ -14,5 +15,8 @@ object BlockUtils {
         }.forEach { return it }
         return null
     }
+
+    fun getVecPos(pos: BlockPos, dir: Direction? = null): Vec3 =
+        dir?.let { pos.bottomCenter.add(dir.stepX * 0.5, dir.stepY * 0.5, dir.stepZ * 0.5) } ?: pos.bottomCenter
 
 }
