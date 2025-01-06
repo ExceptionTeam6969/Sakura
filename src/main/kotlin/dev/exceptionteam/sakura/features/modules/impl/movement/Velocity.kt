@@ -40,6 +40,9 @@ object Velocity: Module(
                             Mode.WALL -> {
                                 if (isInBlock()) e.cancel()
                             }
+                            Mode.GRIM -> {
+
+                            }
                         }
                     }
                 }
@@ -51,7 +54,8 @@ object Velocity: Module(
 
     private enum class Mode(override val key: CharSequence): TranslationEnum {
         NORMAL("normal"),
-        WALL("wall")
+        WALL("wall"),
+        GRIM("grim")
     }
 
 }

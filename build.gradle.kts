@@ -58,6 +58,7 @@ tasks {
         }
     }
 
+
     jar {
         duplicatesStrategy = DuplicatesStrategy.EXCLUDE
 
