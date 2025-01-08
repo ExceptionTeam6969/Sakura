@@ -58,6 +58,11 @@ modules.water-mark=Water Mark
 modules.water-mark.version=Version
 modules.water-mark.text-color=Text Color
 
+modules.Disabler=Disabler
+modules.Disabler.C0fDisabler=C0fDisabler
+modules.Disabler.NoMoveC2S=NoMoveC2S
+modules.Disabler.NoMotionPacket=NoMotionPacket
+
 modules.fake-player=Fake Player
 modules.fake-player.health=Health
 
