@@ -72,6 +72,9 @@ modules.velocity.no-push=No Push
 modules.velocity.mode=Mode
 modules.velocity.mode.normal=Normal
 modules.velocity.mode.wall=Wall
+modules.velocity.mode.grim=OldGrim
+modules.velocity.mode.sakura=Grim
+modules.velocity.antiFire=AntiFire
 
 modules.game-animation=Game Animation
 modules.game-animation.hotbar=Hotbar

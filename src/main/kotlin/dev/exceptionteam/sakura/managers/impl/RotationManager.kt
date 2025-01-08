@@ -7,9 +7,13 @@ import dev.exceptionteam.sakura.utils.math.vector.Vec2f
 
 object RotationManager {
 
+
+    var rotationYaw = 0f
+    var rotationPitch = 0f
+
     init {
         nonNullListener<PlayerMotionEvent.Pre>(alwaysListening = true, priority = Int.MIN_VALUE) {
-            rotationInfo?.func()
+            rotationInfo?.func?.let { it1 -> it1() }
         }
 
         nonNullListener<PlayerMotionEvent>(alwaysListening = true, priority = Int.MAX_VALUE) { e ->

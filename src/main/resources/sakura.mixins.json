@@ -1,31 +1,35 @@
 {
-	"required": true,
-	"package": "dev.exceptionteam.sakura.mixins",
-	"compatibilityLevel": "JAVA_21",
-	"client": [
-		"MinecraftMixin",
-		"chat.ChatComponentMixin",
-		"chat.GuiMessageLineMixin",
-		"entity.ClientPlayerEntityMixin",
-		"entity.EntityMixin",
-		"entity.LivingEntityMixin",
-		"graphics.EntityRendererMixin",
-		"graphics.GameRendererMixin",
-		"graphics.InGameHudMixin",
-		"graphics.LevelRendererMixin",
-		"graphics.LightTextureMixin",
-		"graphics.ParticleEngineMixin",
-		"graphics.PlayerRendererMixin",
-		"graphics.ScreenEffectRendererMixin",
-		"graphics.WindowMixin",
-		"input.KeyboardHandlerMixin",
-		"input.KeyboardInputMixin",
-		"item.ShieldItemMixin",
-		"network.ClientPacketListenerMixin",
-		"network.ConnectionMixin",
-		"packet.ServerboundMovePlayerPacketAccessor"
-	],
-	"injectors": {
-		"defaultRequire": 1
-	}
+  "required": true,
+  "package": "dev.exceptionteam.sakura.mixins",
+  "compatibilityLevel": "JAVA_21",
+  "client": [
+    "MinecraftMixin",
+    "chat.ChatComponentMixin",
+    "chat.GuiMessageLineMixin",
+    "entity.ClientPlayerEntityMixin",
+    "entity.EntityMixin",
+    "entity.LivingEntityMixin",
+    "graphics.EntityRendererMixin",
+    "graphics.GameRendererMixin",
+    "graphics.InGameHudMixin",
+    "graphics.LevelRendererMixin",
+    "graphics.LightTextureMixin",
+    "graphics.ParticleEngineMixin",
+    "graphics.PlayerRendererMixin",
+    "graphics.ScreenEffectRendererMixin",
+    "graphics.WindowMixin",
+    "input.KeyboardHandlerMixin",
+    "input.KeyboardInputMixin",
+    "item.ShieldItemMixin",
+    "network.ClientPacketListenerMixin",
+    "network.ConnectionMixin",
+    "packet.ClientboundSetEntityMotionPacketAccessor",
+    "packet.ServerboundMovePlayerPacketAccessor"
+  ],
+  "injectors": {
+    "defaultRequire": 1
+  },
+  "mixins": [
+    "packet.IExplosionS2CPacket"
+  ]
 }
