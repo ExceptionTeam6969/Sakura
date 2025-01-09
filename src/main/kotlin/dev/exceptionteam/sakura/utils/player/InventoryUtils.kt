@@ -37,4 +37,24 @@ object InventoryUtils {
         return null
     }
 
+    fun NonNullContext.findItemInInventory(item: Item): Int? {
+        for (i in 0 until 45) {
+            if (player.inventory.getItem(i).item == item) {
+                return if (i < 9) i + 36 else i
+            }
+        }
+        return null
+    }
+
+    fun NonNullContext.findBlockInInventory(block: Block): Int? {
+        for (i in 0 until 45) {
+            if (player.inventory.getItem(i).item is BlockItem &&
+                (player.inventory.getItem(i).item as BlockItem).block == block
+            ) {
+                return if (i < 9) i + 36 else i
+            }
+        }
+        return null
+    }
+
 }
