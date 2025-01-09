@@ -24,12 +24,10 @@
     "network.ClientPacketListenerMixin",
     "network.ConnectionMixin",
     "packet.ClientboundSetEntityMotionPacketAccessor",
-    "packet.ServerboundMovePlayerPacketAccessor"
+    "packet.ServerboundMovePlayerPacketAccessor",
+    "packet.ClientboundExplodePacketAccessor"
   ],
   "injectors": {
     "defaultRequire": 1
-  },
-  "mixins": [
-    "packet.IExplosionS2CPacket"
-  ]
+  }
 }
