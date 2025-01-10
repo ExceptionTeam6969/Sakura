@@ -46,6 +46,7 @@ object ModuleManager {
             Language,
 
             // Misc
+            PacketEat,
             Disabler,
             FakePlayer,
 

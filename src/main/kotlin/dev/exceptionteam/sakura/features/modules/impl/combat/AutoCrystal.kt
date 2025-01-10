@@ -37,12 +37,26 @@ object AutoCrystal: Module(
     private val renderer = ESPRenderer().apply { aFilled = 60; aOutline = 200 }
 
     init {
-
         nonNullListener<Render3DEvent> {
             renderer.add(player.blockPosition(), color)
             renderer.render(true)
         }
-
+        //杂项计算
+        //timer计时器
+        //目标血量过滤
+        //目标获取距离
+        //预判玩家位置
+        //更新预判位置
+        //计算预判伤害位置pos
+        //计算本体玩家伤害pos
+        //计时对比选取其中之一 可以做成模式
+        //穿墙射线计算
+        //转头
+        //渲染
+        //获取放置地面 黑曜石 基岩
+        //敲击pos位置
+        //放置pos位置
+        //结束计算
     }
 
     private enum class Page(override val key: CharSequence): TranslationEnum {
@@ -52,5 +66,4 @@ object AutoCrystal: Module(
         BREAK("break"),
         RENDER("render")
     }
-
 }

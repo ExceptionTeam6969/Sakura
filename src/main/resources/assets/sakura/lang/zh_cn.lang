@@ -65,6 +65,13 @@ modules.water-mark=水印
 modules.water-mark.version=显示版本
 modules.water-mark.text-color=文字颜色
 
+modules.PacketEat=发包吃
+
+modules.Disabler=停止发包
+modules.Disabler.C0fDisabler=C0f停止
+modules.Disabler.NoMoveC2S=MoveC2S停止
+modules.Disabler.NoMotionPacket=Motion停止
+
 modules.fake-player=假玩家
 modules.fake-player.health=血量
 
