@@ -14,7 +14,6 @@ import net.minecraft.network.protocol.game.*
 import net.minecraft.world.phys.Vec3
 import java.util.*
 
-
 object Velocity: Module(
     name = "velocity",
     category = Category.MOVEMENT
@@ -22,7 +21,7 @@ object Velocity: Module(
 
     val noPush by setting("no-push", true)
     private val mode by setting("mode", Mode.NORMAL)
-    private val fire by setting("antiFire", true)
+    private val fire by setting("anti-fire", true)
     private var flag = false
     private var Cool  = 0
     var shouldCancelExplosion = false; private set
@@ -41,7 +40,6 @@ object Velocity: Module(
             //Grim站立全反 已失效 grim更新
             if (flag) {
                 val sprinting = player.isSprinting
-                //player.lastSprinting
                 if (Cool <= 0) {
                     connection.send(
                         ServerboundMovePlayerPacket.PosRot(
@@ -70,30 +68,16 @@ object Velocity: Module(
                         )
                     }
                 }
-                //player.setVelocity
 
                 flag = false
             }
             shouldCancelExplosion = if (mode == Mode.WALL) isInBlock() else true
-
-
         }
 
         nonNullListener<PacketEvents.Receive> { e ->
-            //if (e.packet is Client boundPlayerPositionPacket)
-            //{
-            //  Cool = 5
-            //}
-            //C0f
-            if (e.packet is ServerboundContainerClickPacket)
-            {
+            if (e.packet is ServerboundContainerClickPacket) {
                 e.cancel()
             }
-            //S32
-           // if (e.packet is S32PacketConfirmTransaction && player.hurtTime > 0)
-           // {
-           //     e.cancel()
-           // }
             when (mode) {
                 Mode.NORMAL -> {
                     when (e.packet) {
@@ -115,8 +99,7 @@ object Velocity: Module(
                         }
                     }
                 }
-                Mode.GRIM -> {
-
+                Mode.OLD_GRIM -> {
                     when (e.packet) {
                         is ClientboundSetEntityMotionPacket -> {
                             val velocity = e.packet
@@ -124,9 +107,7 @@ object Velocity: Module(
                                 if (isInBlock()) e.cancel()
                             }
                         }
-                    }
 
-                    when (e.packet) {
                         is ClientboundExplodePacket -> {
                             val velocity: Vec3 = player.deltaMovement
                             // 创建一个新的速度向量
@@ -136,18 +117,17 @@ object Velocity: Module(
                             e.cancel()
                             flag = true
                         }
-                    }
-            when (e.packet) {
-                is ClientboundSetEntityMotionPacket -> {
-                    val velocity = e.packet
-                    if (velocity.id == player.id) {
-                        e.cancel()
-                        flag = true
+
+                        is ClientboundSetEntityMotionPacket -> {
+                            val velocity = e.packet
+                            if (velocity.id == player.id) {
+                                e.cancel()
+                                flag = true
+                            }
+                        }
                     }
                 }
-            }
-        }
-                Mode.SAKURA -> {
+                Mode.GRIM -> {
                     when (e.packet) {
                         is ClientboundSetEntityMotionPacket -> {
                             val velocity = e.packet
@@ -174,16 +154,16 @@ object Velocity: Module(
                     }
                     player.deltaMovement = newVelocity
                 }
+            }
+        }
     }
-}
-}
 
 
 
     private enum class Mode(override val key: CharSequence): TranslationEnum {
         NORMAL("normal"),
         WALL("wall"),
-        GRIM("grim"),
-        SAKURA("sakura")
+        OLD_GRIM("old-grim"),
+        GRIM("grim")
     }
 }

@@ -4,6 +4,9 @@
 	"version": "${version}",
 	"name": "Sakura",
 	"description": "Minecraft hack client",
+	"contact": {
+		"sources": "https://github.com/ExceptionTeam6969/Sakura"
+	},
 	"authors": [
 		"slmpc",
 		"zenhao",

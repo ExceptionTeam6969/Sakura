@@ -72,6 +72,11 @@ modules.Disabler.C0fDisabler=C0f停止
 modules.Disabler.NoMoveC2S=MoveC2S停止
 modules.Disabler.NoMotionPacket=Motion停止
 
+modules.disabler=绕过器
+modules.disabler.no-container-click=取消ContainerClick Packet
+modules.disabler.no-move-player=取消MovePlayer Packet
+modules.disabler.no-entity-motion=取消EntityMotion Packet
+
 modules.fake-player=假玩家
 modules.fake-player.health=血量
 
@@ -81,11 +86,14 @@ modules.name-tags.range=显示范围
 modules.full-bright=客户端亮度
 modules.full-bright.brightness=亮度
 
-modules.velocity=无击退
-modules.velocity.no-push=不被推出
+modules.velocity=反击退
+modules.velocity.no-push=不推出
 modules.velocity.mode=模式
 modules.velocity.mode.normal=正常
 modules.velocity.mode.wall=墙内
+modules.velocity.mode.grim=旧Grim
+modules.velocity.mode.sakura=Grim
+modules.velocity.anti-fire=火焰
 
 modules.game-animation=游戏内动画
 modules.game-animation.hotbar=物品栏
@@ -141,3 +149,7 @@ modules.no-render.fire=火焰
 modules.no-render.totem=图腾
 modules.no-render.under-water=水下
 modules.no-render.in-wall=墙内
+
+modules.auto-totem=自动图腾
+modules.auto-totem.strict=严格
+modules.auto-totem.health=血量

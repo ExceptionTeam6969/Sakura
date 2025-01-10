@@ -65,6 +65,11 @@ modules.Disabler.C0fDisabler=C0fDisabler
 modules.Disabler.NoMoveC2S=NoMoveC2S
 modules.Disabler.NoMotionPacket=NoMotionPacket
 
+modules.disabler=Disabler
+modules.disabler.no-container-click=No ContainerClick Packet
+modules.disabler.no-move-player=No MovePlayer Packet
+modules.disabler.no-entity-motion=No EntityMotion Packet
+
 modules.fake-player=Fake Player
 modules.fake-player.health=Health
 
@@ -79,9 +84,9 @@ modules.velocity.no-push=No Push
 modules.velocity.mode=Mode
 modules.velocity.mode.normal=Normal
 modules.velocity.mode.wall=Wall
-modules.velocity.mode.grim=OldGrim
-modules.velocity.mode.sakura=Grim
-modules.velocity.antiFire=AntiFire
+modules.velocity.mode.old-grim=OldGrim
+modules.velocity.mode.grim=Grim
+modules.velocity.anti-fire=Anti Fire
 
 modules.game-animation=Game Animation
 modules.game-animation.hotbar=Hotbar
@@ -137,3 +142,7 @@ modules.no-render.fire=Fire
 modules.no-render.totem=Totem
 modules.no-render.under-water=Under Water
 modules.no-render.in-wall=In Wall
+
+modules.auto-totem=Auto Totem
+modules.auto-totem.strict=Strict
+modules.auto-totem.health=Health

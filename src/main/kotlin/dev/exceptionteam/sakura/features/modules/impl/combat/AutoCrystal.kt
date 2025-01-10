@@ -34,7 +34,7 @@ object AutoCrystal: Module(
     // Render
     private val color by setting("color", ColorRGB(255, 50, 50)) { page == Page.RENDER }
 
-    private val renderer = ESPRenderer().apply { aFilled = 60; aOutline = 200 }
+    private val renderer = ESPRenderer().apply { aFilled = 60 }
 
     init {
         nonNullListener<Render3DEvent> {
