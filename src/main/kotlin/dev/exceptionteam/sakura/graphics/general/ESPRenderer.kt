@@ -13,8 +13,6 @@ class ESPRenderer {
         get() = toRender0
 
     var aFilled = 0
-    var aOutline = 0
-    var lineWidth = 3f
     var through = true
 
     val size: Int
@@ -49,8 +47,7 @@ class ESPRenderer {
 
     fun render(clear: Boolean) {
         val filled = aFilled != 0
-        val outline = aOutline != 0
-        if (toRender0.isEmpty() || (!filled && !outline)) return
+        if (toRender0.isEmpty() || (!filled)) return
 
         if (through) GlHelper.depth = false
 
@@ -59,13 +56,6 @@ class ESPRenderer {
             for ((box, color) in toRender0) {
                 val a = (aFilled * (color.a / 255.0f)).toInt()
                 RenderUtils3D.drawFilledBox(box, color.alpha(a))
-            }
-        }
-
-        if (outline) {
-            for ((box, color, _) in toRender0) {
-                val a = (aOutline * (color.a / 255.0f)).toInt()
-                RenderUtils3D.drawBoxOutline(box, color.alpha(a), lineWidth)
             }
         }
 
