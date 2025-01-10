@@ -109,4 +109,13 @@ class Panel(
         isHovering = mouseX in x..(x + width) && mouseY in y..(y + height)
     }
 
+    fun mouseScrolled(scrollX: Float, scrollY: Float) {
+        x += scrollX.toFloat()
+        y += scrollY.toFloat()
+
+        moduleComponents.forEach {
+            it.updatePosition(it.x + scrollX.toFloat(), it.y + scrollY.toFloat())
+        }
+    }
+
 }

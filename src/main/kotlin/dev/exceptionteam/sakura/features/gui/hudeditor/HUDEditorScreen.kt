@@ -129,4 +129,10 @@ object HUDEditorScreen : GuiScreen("hud-editor") {
         return super.mouseReleased(mouseX, mouseY, button)
     }
 
+    override fun mouseScrolled(mouseX: Double, mouseY: Double, scrollX: Double, scrollY: Double): Boolean {
+        currentWindow?.onMouseScrolled(scrollX, scrollY)
+        panel.mouseScrolled(-scrollX.toFloat() * 5, -scrollY.toFloat() * 5)
+        return super.mouseScrolled(mouseX, mouseY, scrollX, scrollY)
+    }
+
 }

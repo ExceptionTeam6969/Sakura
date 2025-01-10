@@ -6,7 +6,6 @@ import dev.exceptionteam.sakura.features.gui.shared.component.AbstractComponent
 import dev.exceptionteam.sakura.features.gui.shared.component.ModuleComponent.Companion.newPos
 import dev.exceptionteam.sakura.features.gui.shared.component.ModuleComponent.Companion.positionAnimationFlag
 import dev.exceptionteam.sakura.features.gui.shared.component.ModuleComponent.Companion.previousWindow
-import dev.exceptionteam.sakura.features.modules.impl.client.ClickGUI
 import dev.exceptionteam.sakura.features.modules.impl.client.UiSetting
 import dev.exceptionteam.sakura.graphics.RenderUtils2D
 import dev.exceptionteam.sakura.graphics.ScissorBox
@@ -15,6 +14,7 @@ import dev.exceptionteam.sakura.graphics.font.FontRenderers
 import dev.exceptionteam.sakura.translation.TranslationString
 import dev.exceptionteam.sakura.utils.control.MouseButtonType
 import dev.exceptionteam.sakura.utils.math.MathUtils
+import dev.exceptionteam.sakura.utils.math.vector.Vec2f
 
 abstract class Window(
     var title: TranslationString, x: Float, y: Float, width: Float, val compHeight: Float
@@ -98,5 +98,13 @@ abstract class Window(
         }
 
         return processed
+    }
+
+    fun onMouseScrolled(scrollX0: Double, scrollY0: Double) {
+        val scrollX = (-scrollX0.toFloat() * 5)
+        val scrollY = (-scrollY0.toFloat() * 5)
+
+        previousWindow?.updatePosition(previousWindow?.x?.plus(scrollX) ?: 0f, previousWindow?.y?.plus(scrollY) ?: 0f)
+        newPos = Vec2f(newPos.x + scrollX, newPos.y + scrollY)
     }
 }
