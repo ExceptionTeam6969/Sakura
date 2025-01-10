@@ -5,10 +5,7 @@ import dev.exceptionteam.sakura.events.impl.RegisterModuleEvent
 import dev.exceptionteam.sakura.events.nonNullListener
 import dev.exceptionteam.sakura.features.modules.AbstractModule
 import dev.exceptionteam.sakura.features.modules.impl.client.*
-import dev.exceptionteam.sakura.features.modules.impl.combat.AutoCrystal
-import dev.exceptionteam.sakura.features.modules.impl.combat.AutoTotem
-import dev.exceptionteam.sakura.features.modules.impl.combat.FeetTrap
-import dev.exceptionteam.sakura.features.modules.impl.combat.KillAura
+import dev.exceptionteam.sakura.features.modules.impl.combat.*
 import dev.exceptionteam.sakura.features.modules.impl.hud.*
 import dev.exceptionteam.sakura.features.modules.impl.misc.*
 import dev.exceptionteam.sakura.features.modules.impl.movement.*
@@ -35,6 +32,7 @@ object ModuleManager {
             // Combat
             AutoCrystal,
             FeetTrap,
+            HolePush,
             KillAura,
             AutoTotem,
 
