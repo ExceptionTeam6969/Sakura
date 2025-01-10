@@ -106,7 +106,7 @@ object DamageCalculator {
                 while (y <= endY) {
                     var z = startZ
                     while (z <= endZ) {
-                        val position: Vec3 = Vec3(x, y, z)
+                        val position = Vec3(x, y, z)
 
                         if (raycast(ExposureRaycastContext(position, source), raycastFactory) == null) misses++
 
