@@ -99,6 +99,7 @@ modules.auto-crystal.page=Page
 modules.auto-crystal.page.general=General
 modules.auto-crystal.target-range=Target Range
 modules.auto-crystal.pause-while-eating=Pause While Eating
+modules.auto-crystal.OnlyPlayers=OnlyPlayers
 modules.auto-crystal.page.calculation=Calculation
 modules.auto-crystal.predict=Predict
 modules.auto-crystal.predict-ticks=Predict Ticks

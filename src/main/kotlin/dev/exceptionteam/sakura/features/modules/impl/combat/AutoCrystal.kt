@@ -1,12 +1,16 @@
 package dev.exceptionteam.sakura.features.modules.impl.combat
 
 import dev.exceptionteam.sakura.events.impl.Render3DEvent
+import dev.exceptionteam.sakura.events.impl.TickEvent
 import dev.exceptionteam.sakura.events.nonNullListener
 import dev.exceptionteam.sakura.features.modules.Category
 import dev.exceptionteam.sakura.features.modules.Module
 import dev.exceptionteam.sakura.graphics.color.ColorRGB
 import dev.exceptionteam.sakura.graphics.general.ESPRenderer
+import dev.exceptionteam.sakura.managers.impl.TargetManager.getTarget
+import dev.exceptionteam.sakura.managers.impl.TargetManager.getTargetPlayer
 import dev.exceptionteam.sakura.utils.interfaces.TranslationEnum
+import dev.exceptionteam.sakura.utils.timing.TimerUtils
 
 object AutoCrystal: Module(
     name = "auto-crystal",
@@ -18,6 +22,7 @@ object AutoCrystal: Module(
     // General
     private val targetRange by setting("target-range", 12f, 0f..24f, 0.5f) { page == Page.GENERAL }
     private val pauseWhileEating by setting("pause-while-eating", true) { page == Page.GENERAL }
+    private val onlyPlayers by setting("OnlyPlayers", true) { page == Page.GENERAL }
 
     // Calculation
     private val predict by setting("predict", true) { page == Page.CALCULATION }
@@ -35,16 +40,16 @@ object AutoCrystal: Module(
     private val color by setting("color", ColorRGB(255, 50, 50)) { page == Page.RENDER }
 
     private val renderer = ESPRenderer().apply { aFilled = 60 }
-
+    private val PlaceTimer = TimerUtils()
+    private val BreakTimer = TimerUtils()
     init {
         nonNullListener<Render3DEvent> {
             renderer.add(player.blockPosition(), color)
             renderer.render(true)
         }
-        //杂项计算
-        //timer计时器
-        //目标血量过滤
-        //目标获取距离
+        //获取目标
+        nonNullListener<TickEvent.Update> {
+        }
         //预判玩家位置
         //更新预判位置
         //计算预判伤害位置pos
@@ -53,7 +58,7 @@ object AutoCrystal: Module(
         //穿墙射线计算
         //转头
         //渲染
-        //获取放置地面 黑曜石 基岩
+        //获取放置地面 黑曜石 基岩 放前面过滤一下
         //敲击pos位置
         //放置pos位置
         //结束计算
