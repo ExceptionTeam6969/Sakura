@@ -40,8 +40,8 @@ object AutoCrystal: Module(
     private val color by setting("color", ColorRGB(255, 50, 50)) { page == Page.RENDER }
 
     private val renderer = ESPRenderer().apply { aFilled = 60 }
-    private val PlaceTimer = TimerUtils()
-    private val BreakTimer = TimerUtils()
+    private val placeTimer = TimerUtils()
+    private val breakTimer = TimerUtils()
     init {
         nonNullListener<Render3DEvent> {
             renderer.add(player.blockPosition(), color)
