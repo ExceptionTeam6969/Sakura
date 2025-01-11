@@ -22,7 +22,7 @@ object BlockUtils {
     }
 
     fun getVecPos(pos: BlockPos, dir: Direction? = null): Vec3 =
-        dir?.let { pos.bottomCenter.add(dir.stepX * 0.5, dir.stepY * 0.5, dir.stepZ * 0.5) } ?: pos.bottomCenter
+        dir?.let { pos.center.add(dir.stepX * 0.5, dir.stepY * 0.5, dir.stepZ * 0.5) } ?: pos.center
 
     fun NonNullContext.canPlaceCrystal(
         blockPos: BlockPos, oldPlace: Boolean = false

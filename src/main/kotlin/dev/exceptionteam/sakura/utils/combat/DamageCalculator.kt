@@ -177,58 +177,63 @@ object DamageCalculator {
         end: Vec3,
         context: ExposureRaycastContext,
     ): BlockHitResult? {
-        if (start == end) return null
-        
-        val d = lerp(-1.0E-7, end.x, start.x)
-        val e = lerp(-1.0E-7, end.y, start.y)
-        val f = lerp(-1.0E-7, end.z, start.z)
-        val g = lerp(-1.0E-7, start.x, end.x)
-        val h = lerp(-1.0E-7, start.y, end.y)
-        val i = lerp(-1.0E-7, start.z, end.z)
-        var j = floor(g).toInt()
-        var k = floor(h).toInt()
-        var l = floor(i).toInt()
-        var mutable = BlockPos(j, k, l)
-        val obj = raycastFactory(context, mutable)
-
-        obj?.let { return it }
-        
-        val m = d - g
-        val n = e - h
-        val o = f - i
-        val p = Mth.sign(m)
-        val q = Mth.sign(n)
-        val r = Mth.sign(o)
-        val s = if (p == 0) Double.MAX_VALUE else p.toDouble() / m
-        val t = if (q == 0) Double.MAX_VALUE else q.toDouble() / n
-        val u = if (r == 0) Double.MAX_VALUE else r.toDouble() / o
-        var v = s * (if (p > 0) 1.0 - Mth.frac(g) else Mth.frac(g))
-        var w = t * (if (q > 0) 1.0 - Mth.frac(h) else Mth.frac(h))
-        var x = u * (if (r > 0) 1.0 - Mth.frac(i) else Mth.frac(i))
-
-        while (v <= 1.0 || w <= 1.0 || x <= 1.0) {
-            if (v < w) {
-                if (v < x) {
-                    j += p
-                    v += s
-                } else {
-                    l += r
-                    x += u
-                }
-            } else if (w < x) {
-                k += q
-                w += t
+        if (start == end) {
+            return null
+        } else {
+            val d = lerp(-1.0E-7, end.x, start.x)
+            val e = lerp(-1.0E-7, end.y, start.y)
+            val f = lerp(-1.0E-7, end.z, start.z)
+            val g = lerp(-1.0E-7, start.x, end.x)
+            val h = lerp(-1.0E-7, start.y, end.y)
+            val i = lerp(-1.0E-7, start.z, end.z)
+            var j = floor(g).toInt()
+            var k = floor(h).toInt()
+            var l = floor(i).toInt()
+            var mutable = BlockPos(j, k, l)
+            val obj: BlockHitResult? = raycastFactory(context, mutable)
+            if (obj != null) {
+                return obj
             } else {
-                l += r
-                x += u
+                val m = d - g
+                val n = e - h
+                val o = f - i
+                val p: Int = Mth.sign(m)
+                val q: Int = Mth.sign(n)
+                val r: Int = Mth.sign(o)
+                val s = if (p == 0) Double.MAX_VALUE else p.toDouble() / m
+                val t = if (q == 0) Double.MAX_VALUE else q.toDouble() / n
+                val u = if (r == 0) Double.MAX_VALUE else r.toDouble() / o
+                var v: Double = s * (if (p > 0) 1.0 - Mth.frac(g) else Mth.frac(g))
+                var w: Double = t * (if (q > 0) 1.0 - Mth.frac(h) else Mth.frac(h))
+                var x: Double = u * (if (r > 0) 1.0 - Mth.frac(i) else Mth.frac(i))
+
+                while (v <= 1.0 || w <= 1.0 || x <= 1.0) {
+                    if (v < w) {
+                        if (v < x) {
+                            j += p
+                            v += s
+                        } else {
+                            l += r
+                            x += u
+                        }
+                    } else if (w < x) {
+                        k += q
+                        w += t
+                    } else {
+                        l += r
+                        x += u
+                    }
+
+                    mutable = BlockPos(j, k, l)
+                    val object2: BlockHitResult? = raycastFactory(context, mutable)
+                    if (object2 != null) {
+                        return object2
+                    }
+                }
+
+                return null
             }
-
-            mutable = BlockPos(j, k, l)
-            val object2 = raycastFactory(context, mutable)
-            object2?.let { return it }
         }
-
-        return null
     }
 
 }

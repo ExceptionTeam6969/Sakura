@@ -116,6 +116,7 @@ modules.auto-crystal.break-min-dmg=Break Min Dmg
 modules.auto-crystal.break-swing=Break Swing
 modules.auto-crystal.page.render=Render
 modules.auto-crystal.color=Color
+modules.auto-crystal.show-dmg=Show Dmg
 
 modules.strafe-fix=Strafe Fix
 

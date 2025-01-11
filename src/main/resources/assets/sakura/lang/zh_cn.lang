@@ -123,6 +123,7 @@ modules.auto-crystal.break-min-dmg=敲击水晶最小伤害
 modules.auto-crystal.break-swing=敲击摇手
 modules.auto-crystal.page.render=渲染
 modules.auto-crystal.color=颜色
+modules.auto-crystal.show-dmg=显示伤害
 
 modules.strafe-fix=移动修复
 

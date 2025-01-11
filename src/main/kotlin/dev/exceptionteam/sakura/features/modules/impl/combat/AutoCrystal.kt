@@ -1,12 +1,15 @@
 package dev.exceptionteam.sakura.features.modules.impl.combat
 
 import dev.exceptionteam.sakura.events.NonNullContext
+import dev.exceptionteam.sakura.events.impl.Render2DEvent
 import dev.exceptionteam.sakura.events.impl.Render3DEvent
 import dev.exceptionteam.sakura.events.impl.TickEvent
 import dev.exceptionteam.sakura.events.nonNullListener
 import dev.exceptionteam.sakura.features.modules.Category
 import dev.exceptionteam.sakura.features.modules.Module
+import dev.exceptionteam.sakura.graphics.RenderUtils3D.worldSpaceToScreenSpace
 import dev.exceptionteam.sakura.graphics.color.ColorRGB
+import dev.exceptionteam.sakura.graphics.font.FontRenderers
 import dev.exceptionteam.sakura.graphics.general.ESPRenderer
 import dev.exceptionteam.sakura.managers.impl.HotbarManager.SwitchMode
 import dev.exceptionteam.sakura.managers.impl.TargetManager.getTargetPlayer
@@ -15,6 +18,7 @@ import dev.exceptionteam.sakura.utils.combat.PredictUtils.predictMotion
 import dev.exceptionteam.sakura.utils.interfaces.TranslationEnum
 import dev.exceptionteam.sakura.utils.math.distanceSqTo
 import dev.exceptionteam.sakura.utils.math.sq
+import dev.exceptionteam.sakura.utils.math.vector.Vec3f
 import dev.exceptionteam.sakura.utils.player.InteractionUtils.attack
 import dev.exceptionteam.sakura.utils.player.InteractionUtils.useItem
 import dev.exceptionteam.sakura.utils.timing.TimerUtils
@@ -25,6 +29,7 @@ import net.minecraft.world.entity.boss.enderdragon.EndCrystal
 import net.minecraft.world.entity.player.Player
 import net.minecraft.world.item.Items
 import net.minecraft.world.phys.Vec3
+import org.joml.Vector4f
 
 object AutoCrystal: Module(
     name = "auto-crystal",
@@ -59,6 +64,7 @@ object AutoCrystal: Module(
 
     // Render
     private val color by setting("color", ColorRGB(255, 50, 50)) { page == Page.RENDER }
+    private val showDmg by setting("show-dmg", true) { page == Page.RENDER }
 
     private val renderer = ESPRenderer().apply { aFilled = 60 }
     private val placeTimer = TimerUtils()
@@ -68,9 +74,37 @@ object AutoCrystal: Module(
 
     init {
         nonNullListener<Render3DEvent> {
-            crystalInfo?.let {
-                renderer.add(it.pos.below(), color)
+            crystalInfo?.let { inf ->
+                renderer.add(inf.pos.below(), color)
                 renderer.render(true)
+            }
+        }
+
+        nonNullListener<Render2DEvent> {
+            if (showDmg) {
+                crystalInfo?.let { inf ->
+                    val pos0 = inf.pos.below().center
+
+                    val pos = worldSpaceToScreenSpace(Vec3f(pos0.x.toFloat(), pos0.y.toFloat(), pos0.z.toFloat()))
+
+                    var position0: Vector4f? = null
+                    if (pos.z in 0.0..1.0) {
+                        position0 = Vector4f(pos.x, pos.y, pos.z, 0.0f)
+                        position0.x = pos.x.coerceAtMost(position0.x)
+                        position0.y = pos.y.coerceAtMost(position0.y)
+                        position0.z = pos.x.coerceAtLeast(position0.z)
+                    }
+
+                    position0?.let {
+                        val x = position0.x
+                        val y = position0.y
+
+                        val str = String.format("%.1f/%.1f", inf.selfDmg, inf.targetDmg)
+                        val width = FontRenderers.getStringWidth(str) / 2f
+
+                        FontRenderers.drawString(str, x - width, y, ColorRGB(255, 255, 255))
+                    }
+                }
             }
         }
 
@@ -126,14 +160,14 @@ object AutoCrystal: Module(
 
         target.blockPosition()
             .aroundBlock(6)
-            .filter { it.bottomCenter.distanceSqTo(player) <= placeRange.sq }
+            .filter { it.center.distanceSqTo(player) <= placeRange.sq }
             .filter { canPlaceCrystal(it) }
             .forEach {
                 crystalInfo.add(
                     CrystalInfo(
                         it.above(),
-                        crystalDamage(player, player.position(), player.boundingBox, it.above().bottomCenter),    // Self damage
-                        crystalDamage(target, predictPos, predictAABB, it.above().bottomCenter),    // Target damage
+                        crystalDamage(player, player.position(), player.boundingBox, it.above().center),    // Self damage
+                        crystalDamage(target, predictPos, predictAABB, it.above().center),    // Target damage
                         null    // No entity for breaking
                     )
                 )
@@ -143,8 +177,6 @@ object AutoCrystal: Module(
             .filter { it.selfDmg <= it.targetDmg && it.selfDmg <= placeMaxSelfDmg && it.targetDmg >= placeMinDmg }
             .sortedBy { it }
             .let { return it.firstOrNull() }
-
-        return null
     }
 
     private fun NonNullContext.getBreakCrystal(target: Player): CrystalInfo? {
@@ -173,8 +205,6 @@ object AutoCrystal: Module(
             .filter { it.selfDmg < it.targetDmg && it.selfDmg <= breakMaxSelfDmg && it.targetDmg >= breakMinDmg }
             .sortedBy { it }
             .let { return it.firstOrNull() }
-
-        return null
     }
 
     private fun NonNullContext.breakCrystal(info: CrystalInfo) {
