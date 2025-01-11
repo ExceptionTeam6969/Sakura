@@ -7,7 +7,7 @@ package dev.exceptionteam.sakura.utils.combat
 
 import dev.exceptionteam.sakura.events.NonNullContext
 import dev.exceptionteam.sakura.utils.math.MathUtils.lerp
-import net.minecraft.client.Minecraft
+import dev.exceptionteam.sakura.utils.world.WorldUtils.blockState
 import net.minecraft.core.BlockPos
 import net.minecraft.util.Mth
 import net.minecraft.world.Difficulty
@@ -16,15 +16,12 @@ import net.minecraft.world.damagesource.DamageSource
 import net.minecraft.world.effect.MobEffects
 import net.minecraft.world.entity.LivingEntity
 import net.minecraft.world.entity.ai.attributes.Attributes
-import net.minecraft.world.level.block.state.BlockState
 import net.minecraft.world.phys.AABB
 import net.minecraft.world.phys.BlockHitResult
 import net.minecraft.world.phys.Vec3
 import kotlin.math.floor
 import kotlin.math.max
 import kotlin.math.min
-
-internal typealias RaycastFactory = (DamageCalculator.ExposureRaycastContext, BlockPos) -> BlockHitResult?
 
 object DamageCalculator {
 
@@ -33,22 +30,19 @@ object DamageCalculator {
         targetPos: Vec3,
         targetAABB: AABB,
         anchorPos: Vec3,
-    ): Float = explosionDamage(target, targetPos, targetAABB, anchorPos, 10.0f, raycastFactory)
+    ): Float = explosionDamage(target, targetPos, targetAABB, anchorPos, 10.0f)
 
     fun NonNullContext.crystalDamage(
         target: LivingEntity,
         targetPos: Vec3,
         targetAABB: AABB,
         crystalPos: Vec3,
-    ): Float = explosionDamage(target, targetPos, targetAABB, crystalPos, 12.0f, raycastFactory)
+    ): Float = explosionDamage(target, targetPos, targetAABB, crystalPos, 12.0f)
 
-    private val raycastFactory: RaycastFactory = raycastFactory@ { context, pos ->
-        val mc = Minecraft.getInstance()
-        val level = mc.level ?: return@raycastFactory null
-
-        val blockState: BlockState = level.getBlockState(pos)
-        if (blockState.block.explosionResistance < 600) return@raycastFactory null
-        return@raycastFactory blockState.getCollisionShape(level, pos).clip(context.start, context.end, pos)
+    private fun NonNullContext.raycastFactory(context: ExposureRaycastContext, pos: BlockPos): BlockHitResult? {
+        val blockState = pos.blockState ?: return null
+        if (blockState.block.explosionResistance < 600) return null
+        return blockState.getCollisionShape(world, pos).clip(context.start, context.end, pos)
     }
 
     private fun NonNullContext.explosionDamage(
@@ -57,22 +51,20 @@ object DamageCalculator {
         targetAABB: AABB,
         explosionPos: Vec3,
         power: Float,
-        raycastFactory: RaycastFactory,
     ): Float {
         val modDistance = targetPos.distanceTo(explosionPos)
         if (modDistance > power) return 0.0f
 
-        val exposure = getExposure(explosionPos, targetAABB, raycastFactory)
+        val exposure = getExposure(explosionPos, targetAABB)
         val impact = (1 - (modDistance / power)) * exposure
         val damage = ((impact * impact + impact) / 2 * 7 * 12 + 1).toFloat()
 
         return calculateReductions(damage, target, world.damageSources().explosion(null))
     }
 
-    private fun getExposure(
+    private fun NonNullContext.getExposure(
         source: Vec3,
         box: AABB,
-        raycastFactory: RaycastFactory
     ): Float {
         val xDiff: Double = box.maxX - box.minX
         val yDiff: Double = box.maxY - box.minY
@@ -108,7 +100,7 @@ object DamageCalculator {
                     while (z <= endZ) {
                         val position = Vec3(x, y, z)
 
-                        if (raycast(ExposureRaycastContext(position, source), raycastFactory) == null) misses++
+                        if (raycast(ExposureRaycastContext(position, source)) == null) misses++
 
                         hits++
                         z += zStep
@@ -169,11 +161,10 @@ object DamageCalculator {
         return CombatRules.getDamageAfterMagicAbsorb(damage, 0f)
     }
 
-    private fun raycast(
+    private fun NonNullContext.raycast(
         context: ExposureRaycastContext,
-        raycastFactory: RaycastFactory,
     ): BlockHitResult? {
-        return raycast(context.start, context.end, context, raycastFactory)
+        return raycast(context.start, context.end, context)
     }
 
     data class ExposureRaycastContext(
@@ -181,11 +172,10 @@ object DamageCalculator {
         val end: Vec3,
     )
 
-    private fun raycast(
+    private fun NonNullContext.raycast(
         start: Vec3,
         end: Vec3,
         context: ExposureRaycastContext,
-        blockHitFactory: RaycastFactory,
     ): BlockHitResult? {
         if (start == end) return null
         
@@ -199,7 +189,7 @@ object DamageCalculator {
         var k = floor(h).toInt()
         var l = floor(i).toInt()
         var mutable = BlockPos(j, k, l)
-        val obj = blockHitFactory(context, mutable)
+        val obj = raycastFactory(context, mutable)
 
         obj?.let { return it }
         
@@ -234,7 +224,7 @@ object DamageCalculator {
             }
 
             mutable = BlockPos(j, k, l)
-            val object2 = blockHitFactory(context, mutable)
+            val object2 = raycastFactory(context, mutable)
             object2?.let { return it }
         }
 

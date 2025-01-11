@@ -7,30 +7,30 @@ import net.minecraft.network.protocol.game.ServerboundSetCarriedItemPacket
 
 object HotbarManager {
 
-    fun NonNullContext.switch(mode: SwitchMode, slot: InventorySlot, func: () -> Unit) {
+    fun NonNullContext.switch(mode: SwitchMode, slot: Int, func: () -> Unit) {
         when (mode) {
             SwitchMode.PICK -> pickSilent(slot, func)
             SwitchMode.SWAP -> swapSilent(slot, func)
             SwitchMode.SWITCH -> switchTo(slot, func)
-            SwitchMode.OFF -> if (slot.hotbarSlot == player.inventory.selected) func()
+            SwitchMode.OFF -> if (slot == player.inventory.selected) func()
         }
     }
 
-    fun NonNullContext.pickSilent(slot: InventorySlot, func: () -> Unit) {
+    fun NonNullContext.pickSilent(slot: Int, func: () -> Unit) {
         val lastSlot = player.inventory.selected
-        connection.send(ServerboundSetCarriedItemPacket(slot.hotbarSlot))
+        connection.send(ServerboundSetCarriedItemPacket(slot))
         func()
         connection.send(ServerboundSetCarriedItemPacket(lastSlot))
     }
 
-    fun NonNullContext.swapSilent(slot: InventorySlot, func: () -> Unit) {
+    fun NonNullContext.swapSilent(slot: Int, func: () -> Unit) {
         // TODO: swap silent
         func()
         // TODO: restore slot
     }
 
-    fun NonNullContext.switchTo(slot: InventorySlot, func: () -> Unit) {
-        player.inventory.selected = slot.hotbarSlot
+    fun NonNullContext.switchTo(slot: Int, func: () -> Unit) {
+        player.inventory.selected = slot
         func()
     }
 

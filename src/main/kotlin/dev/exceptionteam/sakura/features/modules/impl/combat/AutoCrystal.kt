@@ -16,7 +16,7 @@ import dev.exceptionteam.sakura.utils.interfaces.TranslationEnum
 import dev.exceptionteam.sakura.utils.math.distanceSqTo
 import dev.exceptionteam.sakura.utils.math.sq
 import dev.exceptionteam.sakura.utils.player.InteractionUtils.attack
-import dev.exceptionteam.sakura.utils.player.InteractionUtils.place
+import dev.exceptionteam.sakura.utils.player.InteractionUtils.useItem
 import dev.exceptionteam.sakura.utils.timing.TimerUtils
 import dev.exceptionteam.sakura.utils.world.BlockUtils.canPlaceCrystal
 import dev.exceptionteam.sakura.utils.world.aroundBlock
@@ -86,17 +86,28 @@ object AutoCrystal: Module(
 
             if (breakInfo != null && placeInfo != null) {
                 if (breakInfo.targetDmg > placeInfo.targetDmg) {
+                    crystalInfo = breakInfo
                     if (breakTimer.passedAndReset(breakDelay)) breakCrystal(breakInfo)
                 } else if (breakInfo.targetDmg == placeInfo.targetDmg) {
-                    if (breakInfo.selfDmg <= breakInfo.targetDmg) {
+                    if (breakInfo.selfDmg <= placeInfo.selfDmg) {
+                        crystalInfo = breakInfo
                         if (breakTimer.passedAndReset(breakDelay)) breakCrystal(breakInfo)
                     } else {
+                        crystalInfo = placeInfo
                         if (placeTimer.passedAndReset(placeDelay)) placeCrystal(placeInfo)
                     }
                 } else {
+                    crystalInfo = placeInfo
                     if (placeTimer.passedAndReset(placeDelay)) placeCrystal(placeInfo)
                 }
+            } else if (breakInfo != null) {
+                crystalInfo = breakInfo
+                if (breakTimer.passedAndReset(breakDelay)) breakCrystal(breakInfo)
+            } else if (placeInfo != null) {
+                crystalInfo = placeInfo
+                if (placeTimer.passedAndReset(placeDelay)) placeCrystal(placeInfo)
             }
+
         }
 
     }
@@ -129,25 +140,11 @@ object AutoCrystal: Module(
             }
 
         crystalInfo
-            .filter { it.selfDmg < it.targetDmg && it.selfDmg <= placeMaxSelfDmg && it.targetDmg >= placeMinDmg }
-            .sortedWith { o1, o2 ->
-                // fixme: MANY BUGS HERE
+            .filter { it.selfDmg <= it.targetDmg && it.selfDmg <= placeMaxSelfDmg && it.targetDmg >= placeMinDmg }
+            .sortedBy { it }
+            .let { return it.firstOrNull() }
 
-                if (o1.targetDmg == o2.targetDmg) {
-                    // Sort by self damage if target damage is the same
-                    // Lower self damage first
-                    o1.selfDmg.compareTo(o2.selfDmg)
-                } else {
-                    // Sort by target damage first
-                    // Bigger target damage first
-                    o2.targetDmg.compareTo(o1.targetDmg)
-                }
-            }
-            .let {
-                return it.firstOrNull()
-            }
-
-        return null      // No place position found
+        return null
     }
 
     private fun NonNullContext.getBreakCrystal(target: Player): CrystalInfo? {
@@ -162,13 +159,11 @@ object AutoCrystal: Module(
             .filterIsInstance<EndCrystal>()
             .filter { it.distanceSqTo(player) <= breakRange.sq }
             .forEach {
-                val crystalPos = it.blockPosition().above() ?: return@forEach
-
                 crystalInfo.add(
                     CrystalInfo(
-                        crystalPos,
-                        crystalDamage(player, player.position(), player.boundingBox, crystalPos.bottomCenter),    // Self damage
-                        crystalDamage(target, predictPos, predictAABB, crystalPos.bottomCenter),    // Target damage,
+                        it.blockPosition(),
+                        crystalDamage(player, player.position(), player.boundingBox, it.position()),    // Self damage
+                        crystalDamage(target, predictPos, predictAABB, it.position()),    // Target damage,
                         it
                     )
                 )
@@ -176,36 +171,20 @@ object AutoCrystal: Module(
 
         crystalInfo
             .filter { it.selfDmg < it.targetDmg && it.selfDmg <= breakMaxSelfDmg && it.targetDmg >= breakMinDmg }
-            .sortedWith { o1, o2 ->
-                // fixme: MANY BUGS HERE
+            .sortedBy { it }
+            .let { return it.firstOrNull() }
 
-                if (o1.targetDmg == o2.targetDmg) {
-                    // Sort by self damage if target damage is the same
-                    // Lower self damage first
-                    o1.selfDmg.compareTo(o2.selfDmg)
-                } else {
-                    // Sort by target damage first
-                    // Bigger target damage first
-                    o2.targetDmg.compareTo(o1.targetDmg)
-                }
-            }
-            .let {
-                return it.firstOrNull()
-            }
-
-        return null      // No place position found
+        return null
     }
 
     private fun NonNullContext.breakCrystal(info: CrystalInfo) {
         if (info.entity == null) return
 
-        crystalInfo = info
         attack(info.entity, rotation, breakSwing)
     }
 
     private fun NonNullContext.placeCrystal(info: CrystalInfo) {
-        crystalInfo = info
-        place(info.pos.below(), Items.END_CRYSTAL, switchMode, placeSwing, rotation)
+        useItem(info.pos.below(), Items.END_CRYSTAL, switchMode, placeSwing, rotation)
     }
 
     private data class CrystalInfo(
@@ -213,7 +192,16 @@ object AutoCrystal: Module(
         val selfDmg: Float,
         val targetDmg: Float,
         val entity: EndCrystal?       // Only used for breaking
-    )
+    ): Comparable<CrystalInfo> {
+        override fun compareTo(other: CrystalInfo): Int =
+            if (targetDmg == other.targetDmg) {
+                // Break crystals with lower self damage first
+                selfDmg.compareTo(other.selfDmg)
+            } else {
+                // Break crystals with higher target damage first
+                other.targetDmg.compareTo(targetDmg)
+            }
+    }
 
     private enum class Page(override val key: CharSequence): TranslationEnum {
         GENERAL("general"),

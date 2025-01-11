@@ -52,9 +52,9 @@ object InteractionUtils {
         }
     }
 
-    fun NonNullContext.place(
+    fun NonNullContext.useItem(
         pos: BlockPos,
-        block: Item,
+        item: Item,
         switchMode: SwitchMode,
         swing: Boolean = true,
         shouldRotate: Boolean = true,
@@ -62,15 +62,29 @@ object InteractionUtils {
         hand: InteractionHand = InteractionHand.MAIN_HAND
     ) {
         val dir = getNeighbourSide(pos)
-        val blockSlot = findItemInHotbar(block) ?: return
+        val blockSlot = findItemInHotbar(item) ?: return
         val rotationAngle = getRotationTo(pos, dir)
 
         addRotation(rotationAngle, priority, shouldRotate) {
             switch(switchMode, blockSlot) {
-                place(pos, dir, hand)
+                useItem(pos, dir, hand)
                 if (swing) player.swing(hand)
             }
         }
+    }
+
+    private fun NonNullContext.useItem(pos: BlockPos, dir: Direction? = null, hand: InteractionHand = InteractionHand.MAIN_HAND) {
+        val side = dir ?: Direction.UP
+
+        val blockHit = BlockHitResultBuilder()
+            .pos(BlockUtils.getVecPos(pos, dir))
+            .blockPos(pos)
+            .side(side.opposite)
+            .build()
+
+        connection.send(ServerboundUseItemOnPacket(
+            hand, blockHit, 0                       // fixme: incorrect sequence id
+        ))
     }
 
     private fun NonNullContext.place(pos: BlockPos, dir: Direction? = null, hand: InteractionHand = InteractionHand.MAIN_HAND) {
