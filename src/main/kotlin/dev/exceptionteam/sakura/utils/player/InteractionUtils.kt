@@ -7,12 +7,16 @@ import dev.exceptionteam.sakura.managers.impl.RotationManager.addRotation
 import dev.exceptionteam.sakura.utils.builders.BlockHitResultBuilder
 import dev.exceptionteam.sakura.utils.math.RotationUtils.getRotationTo
 import dev.exceptionteam.sakura.utils.player.InventoryUtils.findBlockInHotbar
+import dev.exceptionteam.sakura.utils.player.InventoryUtils.findItemInHotbar
 import dev.exceptionteam.sakura.utils.world.BlockUtils
 import dev.exceptionteam.sakura.utils.world.BlockUtils.getNeighbourSide
 import net.minecraft.core.BlockPos
 import net.minecraft.core.Direction
+import net.minecraft.network.protocol.game.ServerboundInteractPacket
 import net.minecraft.network.protocol.game.ServerboundUseItemOnPacket
 import net.minecraft.world.InteractionHand
+import net.minecraft.world.entity.Entity
+import net.minecraft.world.item.Item
 import net.minecraft.world.level.block.Block
 
 object InteractionUtils {
@@ -27,7 +31,7 @@ object InteractionUtils {
      * @param priority The priority of the rotation.
      * @param hand The hand that should be used to place the block.
      */
-    fun NonNullContext.placeBlock(
+    fun NonNullContext.place(
         pos: BlockPos,
         block: Block,
         switchMode: SwitchMode,
@@ -38,6 +42,27 @@ object InteractionUtils {
     ) {
         val dir = getNeighbourSide(pos)
         val blockSlot = findBlockInHotbar(block) ?: return
+        val rotationAngle = getRotationTo(pos, dir)
+
+        addRotation(rotationAngle, priority, shouldRotate) {
+            switch(switchMode, blockSlot) {
+                place(pos, dir, hand)
+                if (swing) player.swing(hand)
+            }
+        }
+    }
+
+    fun NonNullContext.place(
+        pos: BlockPos,
+        block: Item,
+        switchMode: SwitchMode,
+        swing: Boolean = true,
+        shouldRotate: Boolean = true,
+        priority: Int = 0,
+        hand: InteractionHand = InteractionHand.MAIN_HAND
+    ) {
+        val dir = getNeighbourSide(pos)
+        val blockSlot = findItemInHotbar(block) ?: return
         val rotationAngle = getRotationTo(pos, dir)
 
         addRotation(rotationAngle, priority, shouldRotate) {
@@ -60,6 +85,27 @@ object InteractionUtils {
         connection.send(ServerboundUseItemOnPacket(
             hand, blockHit, 0                       // fixme: incorrect sequence id
         ))
+    }
+
+    /**
+     * Attacks an entity and switches to the main hand.
+     * @param target The entity that should be attacked.
+     * @param shouldRotate Whether the player should be rotated to the entity's direction.
+     * @param swing Whether the player should swing his arm.
+     * @param priority The priority of the rotation.
+     */
+    fun NonNullContext.attack(
+        target: Entity,
+        shouldRotate: Boolean = true,
+        swing: Boolean = true,
+        priority: Int = 0,
+        hand: InteractionHand = InteractionHand.MAIN_HAND
+    ) {
+        val rotAngle = getRotationTo(target.position())
+        addRotation(rotAngle, priority, shouldRotate) {
+            connection.send(ServerboundInteractPacket.createAttackPacket(target, player.isShiftKeyDown))
+            if (swing) player.swing(hand)
+        }
     }
 
 }

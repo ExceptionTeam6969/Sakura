@@ -1,20 +1,13 @@
 package dev.exceptionteam.sakura.features.modules.impl.combat
 
-import dev.exceptionteam.sakura.events.NonNullContext
 import dev.exceptionteam.sakura.events.impl.TickEvent
 import dev.exceptionteam.sakura.events.nonNullListener
 import dev.exceptionteam.sakura.features.modules.Category
 import dev.exceptionteam.sakura.features.modules.Module
-import dev.exceptionteam.sakura.managers.impl.RotationManager.addRotation
 import dev.exceptionteam.sakura.managers.impl.TargetManager.getTarget
 import dev.exceptionteam.sakura.managers.impl.TargetManager.getTargetPlayer
-import dev.exceptionteam.sakura.utils.math.RotationUtils.getRotationTo
-import dev.exceptionteam.sakura.utils.math.distanceSqTo
-import dev.exceptionteam.sakura.utils.math.sq
+import dev.exceptionteam.sakura.utils.player.InteractionUtils.attack
 import dev.exceptionteam.sakura.utils.timing.TimerUtils
-import net.minecraft.network.protocol.game.ServerboundInteractPacket
-import net.minecraft.world.InteractionHand
-import net.minecraft.world.entity.Entity
 
 /**
  * @author LangYa
@@ -37,18 +30,11 @@ object KillAura: Module(
             if (!timer.passedAndReset(delay)) return@nonNullListener
 
             if (onlyPlayers) getTargetPlayer(range)?.let {
-                attack(it)
+                attack(it, rotation, swing)
             } else getTarget(range)?.let {
-                attack(it)
+                attack(it, rotation, swing)
             }
         }
     }
 
-    private fun NonNullContext.attack(target: Entity) {
-        val rotAngle = getRotationTo(target.position())
-        addRotation(rotAngle, 0, rotation) {
-            connection.send(ServerboundInteractPacket.createAttackPacket(target, player.isShiftKeyDown))
-            if (swing) player.swing(InteractionHand.MAIN_HAND)
-        }
-    }
 }

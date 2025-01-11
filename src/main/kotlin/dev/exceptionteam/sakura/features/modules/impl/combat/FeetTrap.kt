@@ -5,7 +5,7 @@ import dev.exceptionteam.sakura.events.nonNullListener
 import dev.exceptionteam.sakura.features.modules.Category
 import dev.exceptionteam.sakura.features.modules.Module
 import dev.exceptionteam.sakura.managers.impl.HotbarManager
-import dev.exceptionteam.sakura.utils.player.InteractionUtils.placeBlock
+import dev.exceptionteam.sakura.utils.player.InteractionUtils.place
 import dev.exceptionteam.sakura.utils.timing.TimerUtils
 import dev.exceptionteam.sakura.utils.world.WorldUtils.blockState
 import net.minecraft.core.Direction
@@ -47,7 +47,7 @@ object FeetTrap: Module(
                     if (rotation && multiCount > 0) return@nonNullListener
                     if (multiCount > multiPlace) return@nonNullListener
 
-                    placeBlock(pos, Blocks.OBSIDIAN, switchMode, swing, rotation, 0)
+                    place(pos, Blocks.OBSIDIAN, switchMode, swing, rotation, 0)
 
                     multiCount++
                 }
