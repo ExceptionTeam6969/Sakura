@@ -6,6 +6,7 @@
 package dev.exceptionteam.sakura.utils.combat
 
 import dev.exceptionteam.sakura.events.NonNullContext
+import dev.exceptionteam.sakura.events.nonNullListener
 import dev.exceptionteam.sakura.utils.math.MathUtils.lerp
 import dev.exceptionteam.sakura.utils.world.WorldUtils.blockState
 import net.minecraft.core.BlockPos
@@ -16,9 +17,13 @@ import net.minecraft.world.damagesource.DamageSource
 import net.minecraft.world.effect.MobEffects
 import net.minecraft.world.entity.LivingEntity
 import net.minecraft.world.entity.ai.attributes.Attributes
+import net.minecraft.world.entity.player.Player
+import net.minecraft.world.level.ClipContext
+import net.minecraft.world.level.Explosion
 import net.minecraft.world.phys.AABB
 import net.minecraft.world.phys.BlockHitResult
 import net.minecraft.world.phys.Vec3
+import javax.swing.Box
 import kotlin.math.floor
 import kotlin.math.max
 import kotlin.math.min
@@ -235,5 +240,4 @@ object DamageCalculator {
             }
         }
     }
-
 }

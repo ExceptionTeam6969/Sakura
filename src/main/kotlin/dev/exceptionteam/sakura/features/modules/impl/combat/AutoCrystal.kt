@@ -13,7 +13,7 @@ import dev.exceptionteam.sakura.graphics.font.FontRenderers
 import dev.exceptionteam.sakura.graphics.general.ESPRenderer
 import dev.exceptionteam.sakura.managers.impl.HotbarManager.SwitchMode
 import dev.exceptionteam.sakura.managers.impl.TargetManager.getTargetPlayer
-import dev.exceptionteam.sakura.utils.combat.DamageCalculator.crystalDamage
+import dev.exceptionteam.sakura.utils.combat.MeowCalculator.crystalDamage
 import dev.exceptionteam.sakura.utils.combat.PredictUtils.predictMotion
 import dev.exceptionteam.sakura.utils.interfaces.TranslationEnum
 import dev.exceptionteam.sakura.utils.math.distanceSqTo
