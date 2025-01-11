@@ -65,8 +65,6 @@ modules.water-mark=水印
 modules.water-mark.version=显示版本
 modules.water-mark.text-color=文字颜色
 
-modules.PacketEat=发包吃
-
 modules.Disabler=停止发包
 modules.Disabler.C0fDisabler=C0f停止
 modules.Disabler.NoMoveC2S=MoveC2S停止
@@ -154,3 +152,5 @@ modules.no-render.in-wall=墙内
 modules.auto-totem=自动图腾
 modules.auto-totem.strict=严格
 modules.auto-totem.health=血量
+
+modules.packet-eat=数据包进食
