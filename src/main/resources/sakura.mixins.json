@@ -23,9 +23,10 @@
     "item.ShieldItemMixin",
     "network.ClientPacketListenerMixin",
     "network.ConnectionMixin",
+    "network.MixinClientPlayerInteractionManager",
+    "packet.ClientboundExplodePacketAccessor",
     "packet.ClientboundSetEntityMotionPacketAccessor",
-    "packet.ServerboundMovePlayerPacketAccessor",
-    "packet.ClientboundExplodePacketAccessor"
+    "packet.ServerboundMovePlayerPacketAccessor"
   ],
   "injectors": {
     "defaultRequire": 1

@@ -1,15 +1,17 @@
 package dev.exceptionteam.sakura.utils.world
 
 import dev.exceptionteam.sakura.events.NonNullContext
+import dev.exceptionteam.sakura.utils.Wrapper.world
 import dev.exceptionteam.sakura.utils.world.WorldUtils.blockState
 import net.minecraft.core.BlockPos
 import net.minecraft.core.Direction
 import net.minecraft.world.entity.boss.enderdragon.EndCrystal
+import net.minecraft.world.level.block.Block
 import net.minecraft.world.level.block.Blocks
 import net.minecraft.world.level.block.FireBlock
+import net.minecraft.world.level.block.state.BlockState
 import net.minecraft.world.phys.AABB
 import net.minecraft.world.phys.Vec3
-import kotlin.text.toDouble
 
 object BlockUtils {
 
@@ -19,6 +21,14 @@ object BlockUtils {
             !state.isAir
         }.forEach { return it }
         return null
+    }
+
+
+
+    fun NonNullContext.canBreak(pos: BlockPos): Boolean {
+        val blockState: BlockState = world.getBlockState(pos)
+        val block = blockState.block
+        return block.defaultDestroyTime() !== (-1).toFloat()
     }
 
     fun getVecPos(pos: BlockPos, dir: Direction? = null): Vec3 =
