@@ -92,6 +92,10 @@ modules.game-animation.hotbar=Hotbar
 modules.no-fall=No Fall
 modules.no-fall.fall-distance=Fall Distance
 
+modules.PacketDigging=PacketDigging
+modules.PacketDigging.color=color
+modules.PacketDigging.switch-mode=switch-mode
+
 modules.auto-crystal=Auto Crystal
 modules.auto-crystal.page=Page
 modules.auto-crystal.page.general=General
@@ -132,6 +136,8 @@ modules.feet-trap.multi-place=Multi Place
 modules.feet-trap.delay=Delay
 modules.feet-trap.switch-mode=Switch Mode
 modules.feet-trap.swing=Swing
+
+modules.HolePush=HolePush
 
 modules.cancel-using=Cancel Using
 modules.cancel-using.shield=Shield

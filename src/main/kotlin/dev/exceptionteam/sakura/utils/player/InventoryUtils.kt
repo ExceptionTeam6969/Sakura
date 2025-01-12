@@ -1,12 +1,19 @@
 package dev.exceptionteam.sakura.utils.player
 
 import dev.exceptionteam.sakura.events.NonNullContext
+import net.minecraft.client.player.LocalPlayer
+import net.minecraft.network.protocol.game.ServerboundPickItemFromEntityPacket
+import net.minecraft.network.protocol.game.ServerboundSetCarriedItemPacket
 import net.minecraft.world.item.BlockItem
 import net.minecraft.world.item.Item
+import net.minecraft.world.item.ItemStack
 import net.minecraft.world.level.block.Block
 
 object InventoryUtils {
+   // var serverSideHotbar = 0; private set
 
+    //val LocalPlayer.serverSideItem: ItemStack
+      //  get() = inventory.main[serverSideHotbar]
     /**
      * Finds a block in the hotbar.
      * @param block The block to find.
@@ -36,6 +43,31 @@ object InventoryUtils {
         }
         return null
     }
+
+    fun NonNullContext.spoofHotbarNewBypass(slot: Int, func: () -> Unit) {
+        val old = player.inventory.selected
+        inventorySwap(slot)
+        func.invoke()
+        inventorySwap(slot)
+        inventorySwap(old)
+    }
+
+
+    fun NonNullContext.inventorySwap(slot: Int) {
+        if (slot < 9) {
+            spoofHotbar(slot)
+            return
+        }
+        connection.send(ServerboundSetCarriedItemPacket(slot))
+    }
+
+    fun NonNullContext.spoofHotbar(slot: Int) {
+        if (slot >= 0) {
+            connection.send(ServerboundSetCarriedItemPacket(slot))
+        }
+    }
+
+
 
     fun NonNullContext.findItemInInventory(item: Item): Int? {
         for (i in 0 until 45) {

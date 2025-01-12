@@ -99,6 +99,10 @@ modules.game-animation.hotbar=物品栏
 modules.no-fall=无摔落伤害
 modules.no-fall.fall-distance=摔落高度
 
+modules.PacketDigging=发包挖掘
+modules.PacketDigging.color=渲染颜色
+modules.PacketDigging.switch-mode=鬼手切换
+
 modules.auto-crystal=自动水晶
 modules.auto-crystal.page=页面
 modules.auto-crystal.page.general=常规
@@ -139,6 +143,8 @@ modules.feet-trap.multi-place=多次放置
 modules.feet-trap.delay=延迟
 modules.feet-trap.switch-mode=切换模式
 modules.feet-trap.swing=摇手
+
+modules.HolePush=活塞推人
 
 modules.cancel-using=取消使用
 modules.cancel-using.shield=盾牌
