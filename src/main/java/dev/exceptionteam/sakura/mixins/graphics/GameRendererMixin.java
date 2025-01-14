@@ -1,5 +1,6 @@
 package dev.exceptionteam.sakura.mixins.graphics;
 
+import com.mojang.blaze3d.vertex.PoseStack;
 import dev.exceptionteam.sakura.features.modules.impl.render.NoRender;
 import dev.exceptionteam.sakura.graphics.RenderSystem;
 import net.minecraft.client.DeltaTracker;
@@ -32,6 +33,13 @@ public class GameRendererMixin {
         Profiler.get().popPush("sakura-render2d");
 
         RenderSystem.INSTANCE.onRender2d();
+    }
+
+    @Inject(method = "Lnet/minecraft/client/renderer/GameRenderer;bobHurt(Lcom/mojang/blaze3d/vertex/PoseStack;F)V", at = @At("HEAD"), cancellable = true)
+    private void bobHurt(PoseStack matrices, float tickDelta, CallbackInfo ci) {
+        if (NoRender.INSTANCE.isEnabled() && NoRender.INSTANCE.getNoHurtCam()) {
+            ci.cancel();
+        }
     }
 
     @Inject(method = "displayItemActivation", at = @At("HEAD"), cancellable = true)
