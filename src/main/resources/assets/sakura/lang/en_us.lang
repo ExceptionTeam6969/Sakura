@@ -155,6 +155,7 @@ modules.no-render.fire=Fire
 modules.no-render.totem=Totem
 modules.no-render.under-water=Under Water
 modules.no-render.in-wall=In Wall
+modules.no-render.NoHurtCam=NoHurtCam
 
 modules.auto-totem=Auto Totem
 modules.auto-totem.strict=Strict

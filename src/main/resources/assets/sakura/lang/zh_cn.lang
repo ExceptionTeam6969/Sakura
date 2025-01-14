@@ -162,6 +162,7 @@ modules.no-render.fire=火焰
 modules.no-render.totem=图腾
 modules.no-render.under-water=水下
 modules.no-render.in-wall=墙内
+modules.no-render.NoHurtCam=抖动
 
 modules.auto-totem=自动图腾
 modules.auto-totem.strict=严格
