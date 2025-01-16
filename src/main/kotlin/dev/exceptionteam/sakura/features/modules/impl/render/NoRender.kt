@@ -15,7 +15,7 @@ object NoRender: Module(
     val totem by setting("totem", false)
     val underWater by setting("under-water", true)
     val inWall by setting("in-wall", true)
-    val noHurtCam by setting("NoHurtCam",true)
+    val noHurtCam by setting("no-hurt-cam",true)
 
 
     init {

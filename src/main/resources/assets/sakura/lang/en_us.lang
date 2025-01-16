@@ -87,7 +87,7 @@ modules.game-animation.hotbar=Hotbar
 modules.no-fall=No Fall
 modules.no-fall.fall-distance=Fall Distance
 
-modules.packet-digging=PacketDigging
+modules.packet-digging=Packet Digging
 modules.packet-digging.color=Color
 modules.packet-digging.switch-mode=Switch Mode
 
@@ -150,7 +150,7 @@ modules.no-render.fire=Fire
 modules.no-render.totem=Totem
 modules.no-render.under-water=Under Water
 modules.no-render.in-wall=In Wall
-modules.no-render.NoHurtCam=NoHurtCam
+modules.no-render.no-hurt-cam=No Hurt Cam
 
 modules.auto-totem=Auto Totem
 modules.auto-totem.strict=Strict
