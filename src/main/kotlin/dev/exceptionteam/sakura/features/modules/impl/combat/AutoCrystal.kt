@@ -113,33 +113,23 @@ object AutoCrystal: Module(
 
             if (pauseWhileEating && player.isUsingItem) return@nonNullListener
 
-            val breakInfo = getBreakCrystal(target)
-            val placeInfo = getPlacePos(target)
+            val breakInfo = if (breakTimer.passed(breakDelay)) getBreakCrystal(target) else null
+            val placeInfo = if (placeTimer.passed(placeDelay)) getPlacePos(target) else null
 
-            crystalInfo = null
+            if (placeTimer.passed(placeDelay) || breakTimer.passed(breakDelay)) crystalInfo = null
 
+            if (breakInfo == null && placeInfo == null) return@nonNullListener
+
+            if (breakInfo != null && placeInfo == null) breakCrystal(breakInfo)
+            if (breakInfo == null && placeInfo != null) placeCrystal(placeInfo)
+
+            // If both are available, choose the one with the highest damage
+            // If both have the same damage, choose the one with lower self damage
             if (breakInfo != null && placeInfo != null) {
-                if (breakInfo.targetDmg > placeInfo.targetDmg) {
-                    crystalInfo = breakInfo
-                    if (breakTimer.passedAndReset(breakDelay)) breakCrystal(breakInfo)
-                } else if (breakInfo.targetDmg == placeInfo.targetDmg) {
-                    if (breakInfo.selfDmg <= placeInfo.selfDmg) {
-                        crystalInfo = breakInfo
-                        if (breakTimer.passedAndReset(breakDelay)) breakCrystal(breakInfo)
-                    } else {
-                        crystalInfo = placeInfo
-                        if (placeTimer.passedAndReset(placeDelay)) placeCrystal(placeInfo)
-                    }
-                } else {
-                    crystalInfo = placeInfo
-                    if (placeTimer.passedAndReset(placeDelay)) placeCrystal(placeInfo)
-                }
-            } else if (breakInfo != null) {
-                crystalInfo = breakInfo
-                if (breakTimer.passedAndReset(breakDelay)) breakCrystal(breakInfo)
-            } else if (placeInfo != null) {
-                crystalInfo = placeInfo
-                if (placeTimer.passedAndReset(placeDelay)) placeCrystal(placeInfo)
+                if (breakInfo.targetDmg > placeInfo.targetDmg) breakCrystal(breakInfo)
+                else if (breakInfo.targetDmg < placeInfo.targetDmg) placeCrystal(placeInfo)
+                else if (breakInfo.selfDmg < placeInfo.selfDmg) breakCrystal(breakInfo)
+                else placeCrystal(placeInfo)
             }
 
         }
@@ -166,8 +156,8 @@ object AutoCrystal: Module(
                 crystalInfo.add(
                     CrystalInfo(
                         it.above(),
-                        crystalDamage(player, player.position(), player.boundingBox, it.above().center),    // Self damage
-                        crystalDamage(target, predictPos, predictAABB, it.above().center),    // Target damage
+                        crystalDamage(player, player.position(), player.boundingBox, it.above().bottomCenter),    // Self damage
+                        crystalDamage(target, predictPos, predictAABB, it.above().bottomCenter),    // Target damage
                         null    // No entity for breaking
                     )
                 )
@@ -210,10 +200,14 @@ object AutoCrystal: Module(
     private fun NonNullContext.breakCrystal(info: CrystalInfo) {
         if (info.entity == null) return
 
+        breakTimer.reset()
+        crystalInfo = info
         attack(info.entity, rotation, breakSwing)
     }
 
     private fun NonNullContext.placeCrystal(info: CrystalInfo) {
+        placeTimer.reset()
+        crystalInfo = info
         useItem(info.pos.below(), Items.END_CRYSTAL, switchMode, placeSwing, rotation)
     }
 
