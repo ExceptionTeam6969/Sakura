@@ -41,6 +41,10 @@ kotlin {
     jvmToolchain(21)
 }
 
+java {
+    withSourcesJar()
+}
+
 tasks {
     compileJava {
         options.encoding = "UTF-8"
@@ -74,5 +78,4 @@ tasks {
 
         exclude("META-INF/*.RSA", "META-INF/*.DSA", "META-INF/*.SF")
     }
-
 }
