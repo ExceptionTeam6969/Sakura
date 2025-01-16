@@ -88,8 +88,8 @@ modules.no-fall=No Fall
 modules.no-fall.fall-distance=Fall Distance
 
 modules.packet-digging=PacketDigging
-modules.packet-digging.color=color
-modules.packet-digging.switch-mode=switch-mode
+modules.packet-digging.color=Color
+modules.packet-digging.switch-mode=Switch Mode
 
 modules.auto-crystal=Auto Crystal
 modules.auto-crystal.page=Page
