@@ -13,7 +13,7 @@ import dev.exceptionteam.sakura.graphics.font.FontRenderers
 import dev.exceptionteam.sakura.graphics.general.ESPRenderer
 import dev.exceptionteam.sakura.managers.impl.HotbarManager.SwitchMode
 import dev.exceptionteam.sakura.managers.impl.TargetManager.getTargetPlayer
-import dev.exceptionteam.sakura.utils.combat.MeowCalculator.crystalDamage
+import dev.exceptionteam.sakura.utils.combat.DamageCalculation
 import dev.exceptionteam.sakura.utils.combat.PredictUtils.predictMotion
 import dev.exceptionteam.sakura.utils.interfaces.TranslationEnum
 import dev.exceptionteam.sakura.utils.math.distanceSqTo
@@ -170,16 +170,23 @@ object AutoCrystal: Module(
         val predictPos = target.position().add(predictOffset)
         val predictAABB = target.boundingBox.move(predictOffset)
 
+        val selfCalc = DamageCalculation(this, player, player.position())
+        val targetCalc = DamageCalculation(this, target, predictPos)
+
         target.blockPosition()
             .aroundBlock(6)
             .filter { it.center.distanceSqTo(player) <= placeRange.sq }
             .filter { canPlaceCrystal(it) }
             .forEach {
+                val blockPos = it.above()
+
                 crystalInfo.add(
                     CrystalInfo(
                         it.above(),
-                        crystalDamage(player, player.position(), player.boundingBox, it.above().bottomCenter),    // Self damage
-                        crystalDamage(target, predictPos, predictAABB, it.above().bottomCenter),    // Target damage
+                        selfCalc.calcDamage(it.above().bottomCenter, false,
+                            BlockPos.MutableBlockPos(blockPos.x, blockPos.y, blockPos.z)),    // Self damage
+                        targetCalc.calcDamage(blockPos.bottomCenter, predict,
+                            BlockPos.MutableBlockPos(blockPos.x, blockPos.y, blockPos.z)),    // Target damage
                         null    // No entity for breaking
                     )
                 )
@@ -199,15 +206,20 @@ object AutoCrystal: Module(
         val predictPos = target.position().add(predictOffset)
         val predictAABB = target.boundingBox.move(predictOffset)
 
+        val selfCalc = DamageCalculation(this, player, player.position())
+        val targetCalc = DamageCalculation(this, target, predictPos)
+
         world.entitiesForRendering()
             .filterIsInstance<EndCrystal>()
             .filter { it.distanceSqTo(player) <= breakRange.sq }
             .forEach {
+                val pos = it.blockPosition()
+
                 crystalInfo.add(
                     CrystalInfo(
                         it.blockPosition(),
-                        crystalDamage(player, player.position(), player.boundingBox, it.position()),    // Self damage
-                        crystalDamage(target, predictPos, predictAABB, it.position()),    // Target damage,
+                        selfCalc.calcDamage(it.position(), false, BlockPos.MutableBlockPos(pos.x, pos.y, pos.z)),    // Self damage
+                        targetCalc.calcDamage(it.position(), predict, BlockPos.MutableBlockPos(pos.x, pos.y, pos.z)),    // Target damage,
                         it
                     )
                 )

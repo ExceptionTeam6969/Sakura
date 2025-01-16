@@ -1,3 +1,5 @@
+@file:Suppress("nothing_to_inline", "unused")
+
 package dev.exceptionteam.sakura.utils.math
 
 import kotlin.math.*
@@ -143,29 +145,31 @@ object MathUtils {
 
 const val PI_FLOAT = 3.14159265358979323846f
 
-fun Double.floorToInt(): Int {
-    return floor(this).toInt()
-}
+const val FLOOR_DOUBLE_D: Double = 1_073_741_824.0
+const val FLOOR_DOUBLE_I: Int = 1_073_741_824
 
-fun Double.ceilToInt(): Int {
-    return ceil(this).toInt()
-}
-
-fun Float.floorToInt(): Int {
-    val offset = -(this - 1.0f).toInt()
-    return (this + offset).toInt() - offset
-}
-
-fun Float.ceilToInt(): Int {
-    val offset = (this + 1.0f).toInt()
-    return offset - (offset - this).toInt()
-}
+const val FLOOR_FLOAT_F: Float = 4_194_304.0f
+const val FLOOR_FLOAT_I: Int = 4_194_304
 
 fun Float.toRadians() = this / 180.0f * PI_FLOAT
 fun Double.toRadians() = this / 180.0 * PI
 
 fun Float.toDegree() = this * 180.0f / PI_FLOAT
 fun Double.toDegree() = this * 180.0 / PI
+
+inline fun Double.floorToInt(): Int = floor(this).toInt()
+inline fun Float.floorToInt(): Int = floor(this).toInt()
+
+inline fun Double.ceilToInt(): Int = ceil(this).toInt()
+inline fun Float.ceilToInt(): Int = ceil(this).toInt()
+
+inline fun Double.fastFloor(): Int = (this + FLOOR_DOUBLE_D).toInt() - FLOOR_DOUBLE_I
+inline fun Double.fastFloorToDouble(): Double = this.fastFloor().toDouble()
+inline fun Float.fastFloor(): Int = (this + FLOOR_FLOAT_F).toInt() - FLOOR_FLOAT_I
+inline fun Float.fastFloorToFloat(): Float = this.fastFloor().toFloat()
+
+inline fun Double.fastCeil(): Int = FLOOR_DOUBLE_I - (FLOOR_DOUBLE_D - this).toInt()
+inline fun Float.fastCeil(): Int = FLOOR_FLOAT_I - (FLOOR_FLOAT_F - this).toInt()
 
 val Double.sq: Double get() = this * this
 val Float.sq: Float get() = this * this
