@@ -117,14 +117,6 @@ object Velocity: Module(
                             e.cancel()
                             flag = true
                         }
-
-                        is ClientboundSetEntityMotionPacket -> {
-                            val velocity = e.packet
-                            if (velocity.id == player.id) {
-                                e.cancel()
-                                flag = true
-                            }
-                        }
                     }
                 }
                 Mode.GRIM -> {

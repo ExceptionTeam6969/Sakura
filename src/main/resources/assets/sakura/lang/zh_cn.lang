@@ -65,11 +65,6 @@ modules.water-mark=水印
 modules.water-mark.version=显示版本
 modules.water-mark.text-color=文字颜色
 
-modules.Disabler=停止发包
-modules.Disabler.C0fDisabler=C0f停止
-modules.Disabler.NoMoveC2S=MoveC2S停止
-modules.Disabler.NoMotionPacket=Motion停止
-
 modules.disabler=绕过器
 modules.disabler.no-container-click=取消ContainerClick Packet
 modules.disabler.no-move-player=取消MovePlayer Packet
@@ -99,9 +94,9 @@ modules.game-animation.hotbar=物品栏
 modules.no-fall=无摔落伤害
 modules.no-fall.fall-distance=摔落高度
 
-modules.PacketDigging=发包挖掘
-modules.PacketDigging.color=渲染颜色
-modules.PacketDigging.switch-mode=鬼手切换
+modules.packet-digging=发包挖掘
+modules.packet-digging.color=渲染颜色
+modules.packet-digging.switch-mode=鬼手切换
 
 modules.auto-crystal=自动水晶
 modules.auto-crystal.page=页面

@@ -25,7 +25,7 @@ import java.util.*
 
 
 object PacketDigging: Module(
-    name = "PacketDigging",
+    name = "packet-digging",
     category = Category.PLAYER
 ) {
     private val switchMode by setting("switch-mode", HotbarManager.SwitchMode.PICK)
@@ -80,7 +80,7 @@ object PacketDigging: Module(
                 )
             }
         }?.let { it2 ->
-            Objects.requireNonNull(connection).send(
+            connection.send(
                 it2
             )
         }
@@ -93,7 +93,7 @@ object PacketDigging: Module(
                 )
             }
         }?.let { it2 ->
-            Objects.requireNonNull(connection).send(
+            connection.send(
                 it2
             )
         }
@@ -106,7 +106,7 @@ object PacketDigging: Module(
                 )
             }
         }?.let { it2 ->
-            Objects.requireNonNull(connection).send(
+            connection.send(
                 it2
             )
         }
@@ -129,7 +129,7 @@ object PacketDigging: Module(
                             )
                         }
                     }?.let { it2 ->
-                        Objects.requireNonNull(connection).send(
+                        connection.send(
                             it2
                         )
                     }
@@ -146,7 +146,7 @@ object PacketDigging: Module(
                             )
                         }
                     }?.let { it2 ->
-                        Objects.requireNonNull(connection).send(
+                        connection.send(
                             it2
                         )
                     }
@@ -155,7 +155,7 @@ object PacketDigging: Module(
         }
     }
 
-    private fun NonNullContext.packerMine(){
+    private fun NonNullContext.packerMine() {
         //双挖
         breakPos?.let { it1 ->
             facing?.let { it2 ->
@@ -166,9 +166,7 @@ object PacketDigging: Module(
                 )
             }
         }?.let { it2 ->
-            Objects.requireNonNull(connection).send(
-                it2
-            )
+            connection.send(it2)
         }
         breakPos?.let { it1 ->
             facing?.let { it2 ->
@@ -179,9 +177,7 @@ object PacketDigging: Module(
                 )
             }
         }?.let { it2 ->
-            Objects.requireNonNull(connection).send(
-                it2
-            )
+            connection.send(it2)
         }
         breakPos?.let { it1 ->
             facing?.let { it2 ->
@@ -192,9 +188,7 @@ object PacketDigging: Module(
                 )
             }
         }?.let { it2 ->
-            Objects.requireNonNull(connection).send(
-                it2
-            )
+            connection.send(it2)
         }
         breakPos?.let { it1 ->
             facing?.let { it2 ->
@@ -204,11 +198,7 @@ object PacketDigging: Module(
                     it2
                 )
             }
-        }?.let { it2 ->
-            Objects.requireNonNull(connection).send(
-                it2
-            )
-        }
+        }?.let { it2 -> connection.send(it2) }
         breakPos?.let { it1 ->
             facing?.let { it2 ->
                 ServerboundPlayerActionPacket(
@@ -217,11 +207,7 @@ object PacketDigging: Module(
                     it2
                 )
             }
-        }?.let { it2 ->
-            Objects.requireNonNull(connection).send(
-                it2
-            )
-        }
+        }?.let { it2 -> connection.send(it2) }
 
     }
 }

@@ -58,11 +58,6 @@ modules.water-mark=Water Mark
 modules.water-mark.version=Version
 modules.water-mark.text-color=Text Color
 
-modules.Disabler=Disabler
-modules.Disabler.C0fDisabler=C0fDisabler
-modules.Disabler.NoMoveC2S=NoMoveC2S
-modules.Disabler.NoMotionPacket=NoMotionPacket
-
 modules.disabler=Disabler
 modules.disabler.no-container-click=No ContainerClick Packet
 modules.disabler.no-move-player=No MovePlayer Packet
@@ -92,9 +87,9 @@ modules.game-animation.hotbar=Hotbar
 modules.no-fall=No Fall
 modules.no-fall.fall-distance=Fall Distance
 
-modules.PacketDigging=PacketDigging
-modules.PacketDigging.color=color
-modules.PacketDigging.switch-mode=switch-mode
+modules.packet-digging=PacketDigging
+modules.packet-digging.color=color
+modules.packet-digging.switch-mode=switch-mode
 
 modules.auto-crystal=Auto Crystal
 modules.auto-crystal.page=Page
