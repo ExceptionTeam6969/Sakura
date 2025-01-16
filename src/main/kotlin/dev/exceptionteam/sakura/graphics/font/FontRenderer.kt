@@ -4,8 +4,6 @@ import dev.exceptionteam.sakura.features.modules.impl.client.CustomFont
 import dev.exceptionteam.sakura.graphics.GlHelper
 import dev.exceptionteam.sakura.graphics.RenderUtils2D
 import dev.exceptionteam.sakura.graphics.color.ColorRGB
-import dev.exceptionteam.sakura.graphics.font.glyphs.FontChunks
-import dev.exceptionteam.sakura.graphics.font.glyphs.GlyphChunk
 import dev.exceptionteam.sakura.graphics.matrix.MatrixStack
 
 class FontRenderer(

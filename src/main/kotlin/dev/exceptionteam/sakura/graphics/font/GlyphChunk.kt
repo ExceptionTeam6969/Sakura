@@ -1,4 +1,4 @@
-package dev.exceptionteam.sakura.graphics.font.glyphs
+package dev.exceptionteam.sakura.graphics.font
 
 import dev.exceptionteam.sakura.graphics.texture.ImageUtils
 import dev.exceptionteam.sakura.graphics.texture.Texture

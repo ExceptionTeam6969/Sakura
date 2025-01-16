@@ -1,6 +1,5 @@
-package dev.exceptionteam.sakura.graphics.font.glyphs
+package dev.exceptionteam.sakura.graphics.font
 
-import dev.exceptionteam.sakura.graphics.font.FontRenderers
 import java.awt.Font
 
 class FontChunks(

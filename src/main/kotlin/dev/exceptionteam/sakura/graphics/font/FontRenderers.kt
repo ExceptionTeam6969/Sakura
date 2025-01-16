@@ -2,7 +2,6 @@ package dev.exceptionteam.sakura.graphics.font
 
 import dev.exceptionteam.sakura.Sakura
 import dev.exceptionteam.sakura.graphics.color.ColorRGB
-import dev.exceptionteam.sakura.graphics.font.glyphs.FontChunks
 import dev.exceptionteam.sakura.translation.TranslationString
 import java.awt.Font
 
