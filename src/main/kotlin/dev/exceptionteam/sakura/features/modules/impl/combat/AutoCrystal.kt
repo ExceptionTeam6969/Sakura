@@ -73,6 +73,14 @@ object AutoCrystal: Module(
     private var crystalInfo: CrystalInfo? = null
 
     init {
+        onEnable {
+            cleanup()
+        }
+
+        onDisable {
+            cleanup()
+        }
+
         nonNullListener<Render3DEvent> {
             crystalInfo?.let { inf ->
                 renderer.add(inf.pos.below(), color)
@@ -109,9 +117,15 @@ object AutoCrystal: Module(
         }
 
         nonNullListener<TickEvent.Update> {
-            val target = getTargetPlayer(targetRange) ?: return@nonNullListener
+            val target = getTargetPlayer(targetRange) ?: run {
+                cleanup()
+                return@nonNullListener
+            }
 
-            if (pauseWhileEating && player.isUsingItem) return@nonNullListener
+            if (pauseWhileEating && player.isUsingItem) {
+                cleanup()
+                return@nonNullListener
+            }
 
             val breakInfo = if (breakTimer.passed(breakDelay)) getBreakCrystal(target) else null
             val placeInfo = if (placeTimer.passed(placeDelay)) getPlacePos(target) else null
@@ -134,6 +148,14 @@ object AutoCrystal: Module(
 
         }
 
+    }
+
+    private fun cleanup() {
+        crystalInfo = null
+        renderer.clear()
+
+        placeTimer.reset()
+        breakTimer.reset()
     }
 
     /**
