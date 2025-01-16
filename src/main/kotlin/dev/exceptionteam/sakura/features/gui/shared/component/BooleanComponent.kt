@@ -20,7 +20,7 @@ class BooleanComponent(
         val widthPercent = widthAnimationFlag.getAndUpdate(if (setting.value) 1f else 0f)
 
         if (widthPercent > 0.01f) RenderUtils2D.drawRectFilled(
-            x, y, width * widthPercent, height,
+            x + 2f, y + 1f, width * widthPercent - 4f, height - 2f,
             UiSetting.secondaryColor.alpha(widthPercent.coerceIn(0f, UiSetting.secondaryColor.aFloat)))
         FontRenderers.drawString(setting.key, x + 5f, y + 4f, UiSetting.textColor)
     }

@@ -61,7 +61,7 @@ object ClickGUIScreen : GuiScreen("click-gui") {
 
                 panels.add(Panel(cate, modules, xOffset, 10f, WIDTH, HEIGHT))
 
-                xOffset += WIDTH + 10f
+                xOffset += WIDTH + 5f
             }
     }
 

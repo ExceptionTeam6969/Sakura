@@ -12,7 +12,7 @@ open class GuiScreen(
     override fun isPauseScreen(): Boolean = false
 
     companion object {
-        const val WIDTH = 140f
+        const val WIDTH = 130f
         const val HEIGHT = 18f
     }
 
