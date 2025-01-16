@@ -164,3 +164,10 @@ modules.auto-totem.strict=严格
 modules.auto-totem.health=血量
 
 modules.packet-eat=数据包进食
+
+modules.hole-push=活塞推人
+modules.hole-push.only-players=仅对玩家生效
+modules.hole-push.rotation=转头
+modules.hole-push.target-range=目标范围
+modules.hole-push.switch-mode=切换模式
+modules.hole-push.swing=摇手
