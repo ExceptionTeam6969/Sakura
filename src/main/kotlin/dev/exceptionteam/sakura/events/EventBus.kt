@@ -34,7 +34,7 @@ object EventBus {
     @Suppress("UNCHECKED_CAST")
     @JvmStatic
     fun subscribe(listener: EventListener<*>) {
-        for (i in listeners.indices) {
+        for (i in 0 until listeners.size) {
             val other = listeners[i]
             if (listener == other) {
                 return
