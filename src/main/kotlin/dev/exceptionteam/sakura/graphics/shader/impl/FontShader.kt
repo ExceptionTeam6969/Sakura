@@ -8,20 +8,17 @@ import org.lwjgl.opengl.GL45
 
 // Only for sparse font mode
 object FontShader: Shader(
-    "${Sakura.ASSETS_DIRECTORY}/shader/general/PosTex2D.vert",
+    "${Sakura.ASSETS_DIRECTORY}/shader/general/FontRenderer.vert",
     "${Sakura.ASSETS_DIRECTORY}/shader/general/FontRenderer.frag",
 ) {
 
     private val matrixLocation = GL45.glGetUniformLocation(id, "MVPMatrix")
     private val samplerLocation = GL45.glGetUniformLocation(id, "u_Texture")
-    private val depthLocation = GL45.glGetUniformLocation(id, "u_Depth")
 
     override fun default() {
         set(matrixLocation, MatrixStack.peek().mvpMatrix)
         textureUnit?.let { glProgramUniformHandleui64ARB(id, samplerLocation, it) }
-        set(depthLocation, depth)
     }
 
     var textureUnit: Long? = 0L
-    var depth = 0
 }

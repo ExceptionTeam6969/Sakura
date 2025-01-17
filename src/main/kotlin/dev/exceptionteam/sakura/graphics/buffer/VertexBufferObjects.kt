@@ -122,20 +122,21 @@ object VertexBufferObjects {
     }
 
     data object RenderFont: VertexMode(
-        FontShader, buildAttribute(20) {
+        FontShader, buildAttribute(24) {
             float(0, 2, GlDataType.GL_FLOAT, false)         // 8 bytes
-            float(1, 2, GlDataType.GL_FLOAT, false)         // 8 bytes
+            float(1, 3, GlDataType.GL_FLOAT, false)         // 12 bytes
             float(2, 4, GlDataType.GL_UNSIGNED_BYTE, true)  // 4 bytes
         }
     ) {
-        fun texture(x: Float, y: Float, u: Float, v: Float, color: ColorRGB) {
+        fun texture(x: Float, y: Float, u: Float, v: Float, chunk: Float, color: ColorRGB) {
             val position = MatrixStack.getPosition(x, y, 0f)
             val pointer = arr.ptr
             pointer[0] = position.x
             pointer[4] = position.y
             pointer[8] = u
             pointer[12] = v
-            pointer[16] = color.rgba
+            pointer[16] = chunk
+            pointer[20] = color.rgba
             arr += attribute.stride.toLong()
             vertexSize++
         }
