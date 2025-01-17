@@ -107,16 +107,7 @@ object ImageUtils {
 
         // Upload image
         if (RenderSystem.gpuType != RenderSystem.GPUType.INTEL) {
-            glTextureSubImage3D(
-                tex.id,
-                0, 0, 0, depth,
-                width,
-                height,
-                1,
-                GL_BGRA,
-                GL_UNSIGNED_BYTE,
-                putIntArray(array)
-            )
+            glTextureSubImage3D(tex.id, 0, 0, 0, depth, width, height, 1, GL_BGRA, GL_UNSIGNED_BYTE, putIntArray(array))
         } else {
             // BGRA TO RGBA
             for (index in 0 until (width * height)) {
@@ -125,16 +116,7 @@ object ImageUtils {
                         (array[index] and 0x0000FF00) or
                         (array[index] and 0x000000FF shl 16)
             }
-            glTextureSubImage3D(
-                tex.id,
-                0, 0, 0, depth,
-                width,
-                height,
-                1,
-                GL_RGBA,
-                GL_UNSIGNED_BYTE,
-                putIntArray(array)
-            )
+            glTextureSubImage3D(tex.id, 0, 0, 0, depth, width, height, 1, GL_RGBA, GL_UNSIGNED_BYTE, putIntArray(array))
         }
     }
 

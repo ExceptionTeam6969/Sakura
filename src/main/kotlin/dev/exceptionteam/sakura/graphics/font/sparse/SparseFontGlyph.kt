@@ -33,6 +33,8 @@ class SparseFontGlyph(
         glTextureParameteri(tex.id, GL_TEXTURE_MAG_FILTER, GL_LINEAR)
 
         glTextureStorage3D(tex.id, 1, GL_RGBA8, IMAGE_SIZE, IMAGE_SIZE, MAX_CHUNKS)
+
+        tex.generateHandle()
     }
 
     fun getChunk(char: Char): Int = char.code / CHUNK_SIZE
