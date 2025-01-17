@@ -27,6 +27,10 @@ class SparseFontGlyph(
     var height: Float = 0f; private set
 
     init {
+        glPixelStorei(GL_UNPACK_ROW_LENGTH, 0)
+        glPixelStorei(GL_UNPACK_SKIP_ROWS, 0)
+        glPixelStorei(GL_UNPACK_SKIP_PIXELS, 0)
+
         glTextureParameteri(tex.id, GL_TEXTURE_SPARSE_ARB, GL_TRUE)
 
         glTextureParameteri(tex.id, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE)
@@ -102,7 +106,7 @@ class SparseFontGlyph(
             height = rowHeight.toFloat()
         }
 
-        ImageIO.write(image, "PNG", File("sakura/font-glyphs/chunk-$chunk.png"))
+//        ImageIO.write(image, "PNG", File("sakura/font-glyphs/chunk-$chunk.png"))
 
         ImageUtils.uploadImageToSparseTexture(image, tex, chunk)
     }
