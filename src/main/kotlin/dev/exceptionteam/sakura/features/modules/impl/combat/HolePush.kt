@@ -15,14 +15,17 @@ import dev.exceptionteam.sakura.utils.world.WorldUtils.blockState
 import net.minecraft.core.BlockPos
 import net.minecraft.core.Direction
 import net.minecraft.world.entity.Entity
+import net.minecraft.world.level.block.Block
 import net.minecraft.world.level.block.Blocks
+import net.minecraft.world.level.block.piston.PistonBaseBlock
+import net.minecraft.world.level.block.state.BlockState
 
- /*
-    !!! SHIT CODE WARNING !!!
+/*
+   !!! SHIT CODE WARNING !!!
 
-    Author: @dragon-jpg
-    This feature is still in beta. There will be more further update for it.
-    If u discover a bug, please create an issue on GitHub, thanks.
+   Author: @dragon-jpg
+   This feature is still in beta. There will be more further update for it.
+   If u discover a bug, please create an issue on GitHub, thanks.
 */
 object HolePush: Module(
     name = "hole-push",
@@ -106,10 +109,15 @@ object HolePush: Module(
                 val blockState = pos.blockState ?: return@forEach
                 val block = blockState.block
                 if (block != Blocks.AIR && block != Blocks.PISTON) return@forEach //not air = 放你妈
+                if (block == Blocks.PISTON && isActivated(blockState)) return@forEach
                 return PistonInfo(pos, direction.opposite) //返回的是活塞要看着的方向
             }
         return null
     }
+
+     private fun isActivated(state: BlockState):Boolean {
+         return state.block == Blocks.PISTON && state.getValue(PistonBaseBlock.EXTENDED)
+     }
 
     //TODO:其实我在考虑这个pos变数要不要搞成list 这样能一次把不想红石放的位置黑名单
     private fun getRedStone(pistonPos: BlockPos, pistonFacing: Direction, blacklist: BlockPos): BlockPos? {
