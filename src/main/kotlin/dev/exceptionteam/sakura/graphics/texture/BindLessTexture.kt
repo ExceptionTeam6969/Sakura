@@ -21,4 +21,5 @@ class BindLessTexture(type: Int = GL_TEXTURE_2D): Texture(type) {
         glMakeTextureHandleNonResidentARB(handle)
     }
 
+    fun checkHandle() = glIsTextureHandleResidentARB(handle)
 }

@@ -23,15 +23,15 @@ class FontAdapter(
     }
 
     fun getCharData(char: Char): CharData? {
-        when (CustomFont.fontMode) {
+        return when (CustomFont.fontMode) {
             CustomFont.FontMode.GENERAL -> {
-                if (general.canDisplay(char)) general.getChunk(char.code / GlyphChunk.CHUNK_SIZE).charData[char] else null
+                if (canDisplay(char)) general.getChunk(char.code / GlyphChunk.CHUNK_SIZE).charData[char] else null
             }
+
             CustomFont.FontMode.SPARSE -> {
-                return if (sparse.canDisplay(char)) sparse.getCharData(char) else null
+                if (canDisplay(char)) sparse.getCharData(char) else null
             }
         }
-        return null
     }
 
     fun canDisplay(char: Char): Boolean = when (CustomFont.fontMode) {

@@ -1,5 +1,6 @@
 package dev.exceptionteam.sakura.graphics.font
 
+import dev.exceptionteam.sakura.Sakura
 import dev.exceptionteam.sakura.features.modules.impl.client.CustomFont
 import dev.exceptionteam.sakura.graphics.GlHelper
 import dev.exceptionteam.sakura.graphics.RenderUtils2D
@@ -103,9 +104,9 @@ class FontRenderer(
             val ch = text[i]
 
             width += if (font.canDisplay(ch)) {
-                (font.getCharData(ch)?.width?.times(scale)) ?: 0f
+                font.getCharData(ch)?.let { it.width * scale } ?: 0f
             } else {
-                backFont?.font?.getCharData(ch)?.width?.times(scale) ?: 0f
+                backFont?.font?.getCharData(ch)?.let { it.width * scale } ?: 0f
             }
         }
         return width
