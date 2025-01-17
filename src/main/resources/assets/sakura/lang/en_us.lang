@@ -35,8 +35,10 @@ modules.chat-info=Chat Info
 modules.chat-info.description=Send information when modules toggling
 
 modules.custom-font=Custom Font
-modules.custom-font.description=
 modules.custom-font.font-size=Font Size
+modules.custom-font.font-mode=Font Mode
+modules.custom-font.font-mode.general=General
+modules.custom-font.font-mode.sparse=Sparse
 
 modules.render-system=Render System
 modules.render-system.description=Custom render system

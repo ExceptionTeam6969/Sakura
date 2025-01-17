@@ -1,5 +1,6 @@
-package dev.exceptionteam.sakura.graphics.font.glyphs
+package dev.exceptionteam.sakura.graphics.font.general
 
+import dev.exceptionteam.sakura.graphics.font.CharData
 import dev.exceptionteam.sakura.graphics.texture.ImageUtils
 import dev.exceptionteam.sakura.graphics.texture.Texture
 import org.lwjgl.opengl.GL45

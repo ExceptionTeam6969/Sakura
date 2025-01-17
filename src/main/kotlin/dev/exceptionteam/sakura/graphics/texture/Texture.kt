@@ -4,7 +4,7 @@ import dev.exceptionteam.sakura.graphics.GlHelper
 import dev.exceptionteam.sakura.graphics.GlObject
 import org.lwjgl.opengl.GL45.*
 
-class Texture(type: Int = GL_TEXTURE_2D): GlObject {
+open class Texture(type: Int = GL_TEXTURE_2D): GlObject {
 
     init {
         glPixelStorei(GL_UNPACK_ROW_LENGTH, 0)
@@ -29,7 +29,7 @@ class Texture(type: Int = GL_TEXTURE_2D): GlObject {
         glDeleteTextures(id)
     }
 
-    fun use(func: ()->Unit) {
+    open fun use(func: ()->Unit) {
         bind()
         func()
     }

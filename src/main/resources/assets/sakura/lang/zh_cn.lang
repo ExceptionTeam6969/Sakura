@@ -42,8 +42,10 @@ modules.chat-info=聊天栏信息
 modules.chat-info.description=在功能开关时在聊天栏显示信息
 
 modules.custom-font=自定义字体
-modules.custom-font.description=
 modules.custom-font.font-size=字体大小
+modules.custom-font.font-mode=字体模式
+modules.custom-font.font-mode.general=常规
+modules.custom-font.font-mode.sparse=稀疏纹理
 
 modules.render-system=渲染系统
 modules.render-system.description=渲染系统

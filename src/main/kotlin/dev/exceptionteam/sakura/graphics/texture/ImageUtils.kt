@@ -3,6 +3,7 @@ package dev.exceptionteam.sakura.graphics.texture
 import dev.exceptionteam.sakura.graphics.RenderSystem
 import dev.exceptionteam.sakura.utils.memory.createDirectByteBuffer
 import dev.exceptionteam.sakura.utils.timing.TimerUtils
+import org.lwjgl.opengl.ARBSparseTexture.*
 import org.lwjgl.opengl.GL45.*
 import java.awt.image.BufferedImage
 import java.nio.IntBuffer
@@ -87,6 +88,40 @@ object ImageUtils {
         }
 
         return tex
+    }
+
+    fun uploadImageToSparseTexture(
+        bufferedImage: BufferedImage, tex: Texture, depth: Int
+    ) {
+        glPixelStorei(GL_UNPACK_ROW_LENGTH, 0)
+        glPixelStorei(GL_UNPACK_SKIP_ROWS, 0)
+        glPixelStorei(GL_UNPACK_SKIP_PIXELS, 0)
+
+        val width = bufferedImage.width
+        val height = bufferedImage.height
+
+        val array = IntArray(width * height)
+        bufferedImage.getRGB(0, 0, width, height, array, 0, width)
+
+        glTexturePageCommitmentEXT(
+            tex.id, 0, 0, 0, depth,
+            width, height, 1,
+            true
+        )
+
+        // Upload image
+        if (RenderSystem.gpuType != RenderSystem.GPUType.INTEL) {
+            glTextureSubImage3D(tex.id, 0, 0, 0, depth, width, height, 1, GL_BGRA, GL_UNSIGNED_BYTE, putIntArray(array))
+        } else {
+            // BGRA TO RGBA
+            for (index in 0 until (width * height)) {
+                array[index] = array[index] and -0x1000000 or
+                        (array[index] and 0x00FF0000 shr 16) or
+                        (array[index] and 0x0000FF00) or
+                        (array[index] and 0x000000FF shl 16)
+            }
+            glTextureSubImage3D(tex.id, 0, 0, 0, depth, width, height, 1, GL_RGBA, GL_UNSIGNED_BYTE, putIntArray(array))
+        }
     }
 
 }

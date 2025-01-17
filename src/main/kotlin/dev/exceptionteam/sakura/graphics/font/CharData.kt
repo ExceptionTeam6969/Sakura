@@ -1,4 +1,4 @@
-package dev.exceptionteam.sakura.graphics.font.glyphs
+package dev.exceptionteam.sakura.graphics.font
 
 data class CharData(
     val width: Float,
