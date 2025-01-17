@@ -19,7 +19,8 @@ object VertexBufferObjects {
     private val values = listOf(
         PosColor2D,
         PosTex2D,
-        PosColor3D
+        PosColor3D,
+        RenderFont,
     )
 
     data object PosColor2D: VertexMode(
@@ -119,9 +120,27 @@ object VertexBufferObjects {
             vertexSize++
         }
     }
+
+    data object RenderFont: VertexMode(
+        FontShader, buildAttribute(20) {
+            float(0, 2, GlDataType.GL_FLOAT, false)         // 8 bytes
+            float(1, 2, GlDataType.GL_FLOAT, false)         // 8 bytes
+            float(2, 4, GlDataType.GL_UNSIGNED_BYTE, true)  // 4 bytes
+        }
+    ) {
+        fun texture(x: Float, y: Float, u: Float, v: Float, color: ColorRGB) {
+            val position = MatrixStack.getPosition(x, y, 0f)
+            val pointer = arr.ptr
+            pointer[0] = position.x
+            pointer[4] = position.y
+            pointer[8] = u
+            pointer[12] = v
+            pointer[16] = color.rgba
+            arr += attribute.stride.toLong()
+            vertexSize++
+        }
+    }
 }
-
-
 
 inline fun <reified T: VertexMode> T.draw(mode: Int, shader: Shader = this.shader, block: T.() -> Unit) {
     this.block()

@@ -1,5 +1,6 @@
-package dev.exceptionteam.sakura.graphics.font
+package dev.exceptionteam.sakura.graphics.font.general
 
+import dev.exceptionteam.sakura.graphics.font.FontRenderers
 import java.awt.Font
 
 class FontChunks(
@@ -10,10 +11,10 @@ class FontChunks(
 
     fun getChunk(id: Int): GlyphChunk =
         chunks.getOrPut(id) {
-            var chunk = getChunkFromCache(id)
-            if (chunk == null) {
-                chunk = GlyphChunk(id, font, (FontRenderers.FONT_SIZE * 2).toInt())
+            val chunk = getChunkFromCache(id) ?: run {
+                val chunk = GlyphChunk(id, font, (FontRenderers.FONT_SIZE * 2).toInt())
                 // TODO: Write to cache
+                return@run chunk
             }
             chunk
         }

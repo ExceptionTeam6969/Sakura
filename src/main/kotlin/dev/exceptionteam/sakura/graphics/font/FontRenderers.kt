@@ -10,7 +10,7 @@ object FontRenderers {
     const val FONT_SIZE = 16f
 
     // Comfortaa
-    private val enFont = FontChunks(Font.createFont(
+    private val enFont = FontAdapter(Font.createFont(
         Font.TRUETYPE_FONT,
         this.javaClass.getResourceAsStream("${Sakura.ASSETS_DIRECTORY}/font/font.ttf")
     ).deriveFont(Font.PLAIN, FONT_SIZE * 2f))

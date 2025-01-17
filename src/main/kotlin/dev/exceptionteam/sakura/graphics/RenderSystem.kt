@@ -2,6 +2,7 @@ package dev.exceptionteam.sakura.graphics
 
 import com.mojang.blaze3d.systems.RenderSystem
 import com.mojang.math.Axis
+import dev.exceptionteam.sakura.Sakura
 import dev.exceptionteam.sakura.events.impl.Render2DEvent
 import dev.exceptionteam.sakura.events.impl.Render3DEvent
 import dev.exceptionteam.sakura.events.impl.WindowResizeEvent
@@ -52,14 +53,16 @@ object RenderSystem {
         OTHER
     }
 
+    private val glExtensions = glGetString(GL_EXTENSIONS) ?: ""
+
     private val frameBuffer = FrameBuffer()
 
     init {
-
         listener<WindowResizeEvent>(alwaysListening = true) {
             frameBuffer.resize()
         }
 
+        Sakura.logger.info("Extensions: $glExtensions")
     }
 
     fun onRender2d() {

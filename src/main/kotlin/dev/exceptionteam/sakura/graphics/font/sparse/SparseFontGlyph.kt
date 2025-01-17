@@ -1,26 +1,52 @@
-package dev.exceptionteam.sakura.graphics.font
+package dev.exceptionteam.sakura.graphics.font.sparse
 
+import dev.exceptionteam.sakura.graphics.font.CharData
+import dev.exceptionteam.sakura.graphics.texture.BindLessTexture
 import dev.exceptionteam.sakura.graphics.texture.ImageUtils
-import dev.exceptionteam.sakura.graphics.texture.Texture
-import org.lwjgl.opengl.GL45
+import org.lwjgl.opengl.ARBSparseTexture.*
+import org.lwjgl.opengl.GL45.*
 import java.awt.Color
 import java.awt.Font
 import java.awt.RenderingHints
 import java.awt.image.BufferedImage
 
-class GlyphChunk(
-    val chunkId: Int,
+class SparseFontGlyph(
     val font: Font,
-    val size: Int,
+    size: Float
 ) {
 
-    val charData = mutableMapOf<Char, CharData>()
+    val tex = BindLessTexture(GL_TEXTURE_2D_ARRAY)
 
-    val texture: Texture
+    // Chunk -> (Char -> CharData)
+    val charData = mutableMapOf<Int, MutableMap<Char, CharData>>()
 
     private val scaledOffset = (4 * size / 25f).toInt()
 
+    var height: Float = 0f; private set
+
     init {
+        glTextureParameteri(tex.id, GL_TEXTURE_SPARSE_ARB, GL_TRUE)
+
+        glTextureParameteri(tex.id, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE)
+        glTextureParameteri(tex.id, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE)
+        glTextureParameteri(tex.id, GL_TEXTURE_MIN_FILTER, GL_LINEAR)
+        glTextureParameteri(tex.id, GL_TEXTURE_MAG_FILTER, GL_LINEAR)
+
+        glTextureStorage3D(tex.id, 1, GL_RGBA8, IMAGE_SIZE, IMAGE_SIZE, MAX_CHUNKS)
+    }
+
+    fun getChunk(char: Char): Int = char.code / CHUNK_SIZE
+
+    fun canDisplay(char: Char): Boolean = font.canDisplay(char)
+
+    fun getCharData(char: Char): CharData? {
+        if (charData[getChunk(char)] == null) {
+            createChunk(getChunk(char))
+        }
+        return charData[getChunk(char)]?.get(char)
+    }
+
+    fun createChunk(chunk: Int) {
         val image = BufferedImage(IMAGE_SIZE, IMAGE_SIZE, BufferedImage.TYPE_INT_ARGB)
 
         image.createGraphics().let {
@@ -42,7 +68,7 @@ class GlyphChunk(
             var rowHeight = 0
 
             for (i in 0 until CHUNK_SIZE) {
-                val ch = (chunkId * CHUNK_SIZE + i).toChar()
+                val ch = (chunk * CHUNK_SIZE + i).toChar()
                 val charWidth = metrics.charWidth(ch)
                 val charHeight = metrics.height
 
@@ -63,20 +89,23 @@ class GlyphChunk(
                 charData.vStart = posY / IMAGE_SIZE.toFloat()
                 charData.uEnd = (posX + scaledOffset + charData.width) / IMAGE_SIZE.toFloat()
                 charData.vEnd = (posY + charData.height) / IMAGE_SIZE.toFloat()
-                this.charData[ch] = charData
+                this.charData.getOrPut(chunk) { mutableMapOf<Char, CharData>() }[ch] = charData
 
                 it.drawString(ch.toString(), posX + scaledOffset, posY + ascent)
                 posX += imgWidth
             }
+
+            height = rowHeight.toFloat()
         }
 
-        texture = ImageUtils.uploadImageToTexture(image, GL45.GL_RGBA8)
+        ImageUtils.uploadImageToSparseTexture(image, tex, chunk)
     }
 
     companion object {
-        const val CHUNK_SIZE = 64
+        private const val MAX_CHUNKS = 1024
 
         private const val IMAGE_SIZE = 512
+        const val CHUNK_SIZE = 64
     }
 
 }
