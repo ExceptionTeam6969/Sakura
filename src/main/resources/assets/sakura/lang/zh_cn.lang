@@ -139,7 +139,14 @@ modules.feet-trap.delay=延迟
 modules.feet-trap.switch-mode=切换模式
 modules.feet-trap.swing=摇手
 
-modules.HolePush=活塞推人
+modules.hole-push=活塞推人
+modules.hole-push.multi-place=多次放置
+modules.hole-push.target-range=目标范围
+modules.hole-push.only-players=仅对玩家生效
+modules.hole-push.rotation=转头
+modules.hole-push.delay=阶段延迟
+modules.hole-push.switch-mode=切换模式
+modules.hole-push.swing=摇手
 
 modules.cancel-using=取消使用
 modules.cancel-using.shield=盾牌
@@ -168,6 +175,7 @@ modules.packet-eat=数据包进食
 modules.hole-push=活塞推人
 modules.hole-push.only-players=仅对玩家生效
 modules.hole-push.rotation=转头
+modules.hole-push.delay=阶段延迟
 modules.hole-push.target-range=目标范围
 modules.hole-push.switch-mode=切换模式
 modules.hole-push.swing=摇手

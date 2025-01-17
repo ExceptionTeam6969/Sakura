@@ -6,38 +6,125 @@ import dev.exceptionteam.sakura.events.nonNullListener
 import dev.exceptionteam.sakura.features.modules.Category
 import dev.exceptionteam.sakura.features.modules.Module
 import dev.exceptionteam.sakura.managers.impl.HotbarManager
+import dev.exceptionteam.sakura.managers.impl.RotationManager.addRotation
 import dev.exceptionteam.sakura.managers.impl.TargetManager.getTarget
 import dev.exceptionteam.sakura.managers.impl.TargetManager.getTargetPlayer
-import dev.exceptionteam.sakura.utils.math.toBlockPos
 import dev.exceptionteam.sakura.utils.player.InteractionUtils.place
+import dev.exceptionteam.sakura.utils.timing.TimerUtils
+import dev.exceptionteam.sakura.utils.world.WorldUtils.blockState
+import net.minecraft.core.BlockPos
+import net.minecraft.core.Direction
 import net.minecraft.world.entity.Entity
 import net.minecraft.world.level.block.Blocks
 
+ /*
+    !!! SHIT CODE WARNING !!!
+
+    Author: @dragon-jpg
+    This feature is still in beta. There will be more further update for it.
+    If u discover a bug, please create an issue on GitHub, thanks.
+*/
 object HolePush: Module(
     name = "hole-push",
     category = Category.COMBAT
 ) {
+    private val BPT by setting("multi-place", 2, 1..4)
+    private val targetRange by setting("target-range", 3.0f, 2.5f..6.0f)
     private val onlyPlayers by setting("only-players", true)
     private val rotation by setting("rotation", true)
-    private val targetRange by setting("target-range", 3.0f, 2.5f..6.0f)
+    private val delay by setting("delay", 100, 0..1000)
     private val switchMode by setting("switch-mode", HotbarManager.SwitchMode.PICK)
     private val swing by setting("swing", true)
+
+    private var multiCount = 0
+    private val timer = TimerUtils()
+    private var stage = 0
+
     init {
+        onEnable {
+            multiCount = 0
+            stage = 0
+            timer.reset()
+        }
+
         nonNullListener<TickEvent.Update> {
             if (onlyPlayers) getTargetPlayer(targetRange)?.let {
-                pl(it)
+                if (multiCount > BPT) return@nonNullListener
+                push(it)
             } else getTarget(targetRange)?.let {
-                pl(it)
+                if (multiCount > BPT) return@nonNullListener
+                push(it)
             }
         }
     }
-    private fun NonNullContext.pl(target: Entity) {
-        //加点判断 比如target.position().add(0.0,0.0,1.0).toBlockPos()这个位置是air在run这个target.position().add(0.0,0.0,1.0).toBlockPos()
-        place(target.position().add(0.0,0.0,1.0).toBlockPos(), Blocks.REDSTONE_BLOCK, switchMode, swing, rotation, 0)
-        //活塞前加一个0度yaw转头
-        place(target.position().add(0.0,1.0,1.0).toBlockPos(), Blocks.PISTON, switchMode, swing, rotation, 0)
-        //这个也是 如果第一个跑了这个就别跑了 如果这个跑了在跑第一个
-        place(target.position().add(0.0,2.0,1.0).toBlockPos(), Blocks.REDSTONE_BLOCK, switchMode, swing, rotation, 0)
-        //然后写4个方向 按这个逻辑加点判断杂七杂八的就行了 比如地面放置啊 不能跑放啊 然后就完事了gg
+
+    private fun NonNullContext.push(target: Entity) {
+        val pistonInfo: PistonInfo = getPiston(target.blockPosition()) ?: return
+        val pistonPos: BlockPos = pistonInfo.pos
+        val pistonFacing: Direction = pistonInfo.direction
+        val redstonePos: BlockPos = getRedStone(pistonPos, pistonFacing, target.blockPosition().above()) ?: return
+
+        when (stage) {
+            0 -> {
+                //rotate
+                val angle = when (pistonFacing.opposite) {
+                    Direction.EAST -> -90f
+                    Direction.NORTH -> 180f
+                    Direction.SOUTH -> 0f
+                    Direction.WEST -> 90f
+                    else -> 0f
+                }
+                addRotation(angle, 0.0f, 0)
+
+                //Place Piston
+                place(pistonPos, Blocks.PISTON, switchMode, swing, rotation, 0)
+                nextStage()
+            }
+            1 -> {
+                //Place RedStone
+                if (!timer.passedAndReset(delay)) return
+                place(redstonePos, Blocks.REDSTONE_BLOCK, switchMode, swing, rotation, 0)
+                nextStage()
+            }
+            2 -> {
+                timer.reset()
+                toggle()
+            }
+        }
     }
+
+    private fun nextStage() {
+        multiCount++
+        stage++
+    }
+
+    private fun getPiston(playerPos: BlockPos): PistonInfo? {
+        Direction.entries
+            .filter { it != Direction.DOWN && it != Direction.UP }
+            .forEach { direction ->
+                val pos = playerPos.above().relative(direction)
+                val blockState = pos.blockState ?: return@forEach
+                val block = blockState.block
+                if (block != Blocks.AIR && block != Blocks.PISTON) return@forEach //not air = 放你妈
+                return PistonInfo(pos, direction.opposite) //返回的是活塞要看着的方向
+            }
+        return null
+    }
+
+    //TODO:其实我在考虑这个pos变数要不要搞成list 这样能一次把不想红石放的位置黑名单
+    private fun getRedStone(pistonPos: BlockPos, pistonFacing: Direction, blacklist: BlockPos): BlockPos? {
+        Direction.entries
+            .filter { it != pistonFacing }
+            .forEach { direction ->
+                val pos = pistonPos.relative(direction)
+                val blockState = pos.blockState ?: return@forEach
+                val block = blockState.block
+                if (block != Blocks.AIR) return@forEach
+                if (pos == blacklist) return@forEach
+                return pos
+            }
+        return null
+    }
+
+    class PistonInfo(val pos: BlockPos, val direction: Direction)
 }

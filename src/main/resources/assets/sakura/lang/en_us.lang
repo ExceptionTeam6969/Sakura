@@ -132,7 +132,14 @@ modules.feet-trap.delay=Delay
 modules.feet-trap.switch-mode=Switch Mode
 modules.feet-trap.swing=Swing
 
-modules.HolePush=HolePush
+modules.hole-push=HolePush
+modules.hole-push.multi-place=Multi Place
+modules.hole-push.target-range=Target Range
+modules.hole-push.only-players=Only Players
+modules.hole-push.rotation=Rotation
+modules.hole-push.delay=Stage Delay
+modules.hole-push.switch-mode=Switch Mode
+modules.hole-push.swing=Swing
 
 modules.cancel-using=Cancel Using
 modules.cancel-using.shield=Shield
@@ -161,6 +168,7 @@ modules.packet-eat=Packet Eat
 modules.hole-push=Hole Push
 modules.hole-push.only-players=Only Players
 modules.hole-push.rotation=Rotation
+modules.hole-push.delay=Stage Delay
 modules.hole-push.target-range=Target Range
 modules.hole-push.switch-mode=Switch Mode
 modules.hole-push.swing=Swing
