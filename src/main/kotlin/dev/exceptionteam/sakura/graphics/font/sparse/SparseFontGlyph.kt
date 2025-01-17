@@ -9,6 +9,8 @@ import java.awt.Color
 import java.awt.Font
 import java.awt.RenderingHints
 import java.awt.image.BufferedImage
+import java.io.File
+import javax.imageio.ImageIO
 
 class SparseFontGlyph(
     val font: Font,
@@ -100,13 +102,15 @@ class SparseFontGlyph(
             height = rowHeight.toFloat()
         }
 
+        ImageIO.write(image, "PNG", File("sakura/font-glyphs/chunk-$chunk.png"))
+
         ImageUtils.uploadImageToSparseTexture(image, tex, chunk)
     }
 
     companion object {
         private const val MAX_CHUNKS = 1024
 
-        private const val IMAGE_SIZE = 512
+        private const val IMAGE_SIZE = 384
         const val CHUNK_SIZE = 64
     }
 
