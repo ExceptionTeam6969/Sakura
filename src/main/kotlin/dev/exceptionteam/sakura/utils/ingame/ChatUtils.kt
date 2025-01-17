@@ -30,24 +30,26 @@ object ChatUtils {
     const val UNDER_LINE = SECTION + "n"
     const val ITALIC = SECTION + "o"
     const val RESET = SECTION + "r"
-    const val colorMSG = SECTION + "r"
-    const val colorKANJI = SECTION + "d"
-    const val colorWarn = SECTION + "6" + SECTION + "l"
-    const val colorError = SECTION + "4" + SECTION + "l"
-    const val colorBracket = SECTION + "7"
+    const val COLOR_MSG = SECTION + "r"
+    const val COLOR_KANJI = SECTION + "d"
+    const val COLOR_WARN = SECTION + "6" + SECTION + "l"
+    const val COLOR_ERROR = SECTION + "4" + SECTION + "l"
+    const val COLOR_BRACKET = SECTION + "7"
     var msgCount = 0
     private var tempMsg: String? = null
 
+    const val MAIN_COLOR = LIGHT_PURPLE
+
     private fun bracketBuilder(kanji: String): String {
-        return "$RESET$colorBracket[$RESET$kanji$colorBracket] $RESET"
+        return "$RESET$COLOR_BRACKET[$RESET$kanji$COLOR_BRACKET] $RESET"
     }
 
     fun sendWarnMessage(message: String) {
-        sendMessage(bracketBuilder(colorWarn + "WARN") + RESET + colorMSG + message)
+        sendMessage(bracketBuilder(COLOR_WARN + "WARN") + RESET + COLOR_MSG + message)
     }
 
     fun sendErrorMessage(message: String) {
-        sendMessage(bracketBuilder(colorError + "ERROR") + RESET + colorMSG + message)
+        sendMessage(bracketBuilder(COLOR_ERROR + "ERROR") + RESET + COLOR_MSG + message)
     }
 
     fun sendMessage(messageArray: Array<String?>) {
@@ -59,18 +61,18 @@ object ChatUtils {
 
     fun sendMessage(message: String) {
         Minecraft.getInstance().gui?.let { gameHUD ->
-            val text = Component.literal("${bracketBuilder(AQUA + Sakura.NAME)} ${message.replace("§", SECTION)}")
+            val text = Component.literal("${bracketBuilder(MAIN_COLOR + Sakura.NAME)} ${message.replace("§", SECTION)}")
             gameHUD.chat?.addMessage(text)
         }
     }
 
     fun sendNoSpamMessage(message: String) {
-        val text = Component.literal("${bracketBuilder(AQUA + Sakura.NAME)} ${message.replace("§", SECTION)}")
+        val text = Component.literal("${bracketBuilder(MAIN_COLOR + Sakura.NAME)} ${message.replace("§", SECTION)}")
         (Minecraft.getInstance().gui.chat as IChatComponent).sakuraAddMessage(text, text.hashCode())
     }
 
     fun sendMessageWithID(message: String, id: Int) {
-        val text = Component.literal("${bracketBuilder(AQUA + Sakura.NAME)} ${message.replace("§", SECTION)}")
+        val text = Component.literal("${bracketBuilder(MAIN_COLOR + Sakura.NAME)} ${message.replace("§", SECTION)}")
         (Minecraft.getInstance().gui.chat as IChatComponent).sakuraAddMessage(text, id)
     }
 }

@@ -19,11 +19,11 @@ object UiSetting: Module(
 
     // Color
     val primaryColor by setting("primary-color", ColorRGB(0, 0, 0, 200)) { page == Page.COLOR }
-    val secondaryColor by setting("secondary-color", ColorRGB(240, 120, 60)) { page == Page.COLOR }
+    val secondaryColor by setting("secondary-color", ColorRGB(128, 128, 128)) { page == Page.COLOR }
     val textColor by setting("text-color", ColorRGB(255, 255, 255)) { page == Page.COLOR }
     val outlineColor by setting("outline-color", ColorRGB(0, 0, 0)) { page == Page.COLOR }
-    val sliderColor by setting("slider-color", ColorRGB(255, 255, 255)) { page == Page.COLOR }
-    val backgroundColor by setting("background-color", ColorRGB(240, 120, 60)) { page == Page.COLOR }
+    val sliderColor by setting("slider-color", ColorRGB(128, 128, 128)) { page == Page.COLOR }
+    val backgroundColor by setting("background-color", ColorRGB(128, 128, 128)) { page == Page.COLOR }
 
     private enum class Page(override val key: CharSequence): TranslationEnum {
         GENERAL("general"),

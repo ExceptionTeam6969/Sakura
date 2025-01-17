@@ -49,14 +49,16 @@ abstract class AbstractModule(
         enableCustomers.add {
             EventBus.subscribe(this)
             runSafe {
-                if (ChatInfo.isEnabled) ChatUtils.sendMessageWithID("${name.translation} ${ChatFormatting.GREEN}Enabled", 1337)
+                if (ChatInfo.isEnabled)
+                    ChatUtils.sendMessageWithID("${name.translation} is ${ChatFormatting.GREEN}Enabled", name.hashCode())
             }
         }
 
         disableCustomers.add {
             EventBus.unsubscribe(this)
             runSafe {
-                if (ChatInfo.isEnabled) ChatUtils.sendMessageWithID("${name.translation} ${ChatFormatting.RED}Disabled", 1337)
+                if (ChatInfo.isEnabled)
+                    ChatUtils.sendMessageWithID("${name.translation} is ${ChatFormatting.RED}Disabled", name.hashCode())
             }
         }
 
