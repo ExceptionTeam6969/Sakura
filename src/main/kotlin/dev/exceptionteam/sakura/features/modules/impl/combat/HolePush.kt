@@ -78,19 +78,17 @@ object HolePush: Module(
                     else -> 0f
                 }
                 addRotation(angle, 0.0f, 0)
-
+                nextStage()
+            }
+            1 -> {
                 //Place Piston
                 place(pistonPos, Blocks.PISTON, switchMode, swing, rotation, 0)
                 nextStage()
             }
-            1 -> {
+            2 -> {
                 //Place RedStone
                 if (!timer.passedAndReset(delay)) return
                 place(redstonePos, Blocks.REDSTONE_BLOCK, switchMode, swing, rotation, 0)
-                nextStage()
-            }
-            2 -> {
-                timer.reset()
                 toggle()
             }
         }
