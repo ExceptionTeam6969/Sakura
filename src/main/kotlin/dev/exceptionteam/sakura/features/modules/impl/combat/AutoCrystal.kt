@@ -168,7 +168,6 @@ object AutoCrystal: Module(
         val predictOffset = if (predict) predictMotion(target, predictTick) else Vec3.ZERO
 
         val predictPos = target.position().add(predictOffset)
-        val predictAABB = target.boundingBox.move(predictOffset)
 
         val selfCalc = DamageCalculation(this, player, player.position())
         val targetCalc = DamageCalculation(this, target, predictPos)
@@ -179,14 +178,15 @@ object AutoCrystal: Module(
             .filter { canPlaceCrystal(it) }
             .forEach {
                 val blockPos = it.above()
+                val pos = blockPos.bottomCenter
 
                 crystalInfo.add(
                     CrystalInfo(
                         it.above(),
-                        selfCalc.calcDamage(it.above().bottomCenter, false,
-                            BlockPos.MutableBlockPos(blockPos.x, blockPos.y, blockPos.z)),    // Self damage
-                        targetCalc.calcDamage(blockPos.bottomCenter, predict,
-                            BlockPos.MutableBlockPos(blockPos.x, blockPos.y, blockPos.z)),    // Target damage
+                        selfCalc.calcDamage(pos.x, pos.y, pos.z, false,
+                            BlockPos.MutableBlockPos()),    // Self damage
+                        targetCalc.calcDamage(pos.x, pos.y, pos.z, predict,
+                            BlockPos.MutableBlockPos()),    // Target damage
                         null    // No entity for breaking
                     )
                 )
@@ -204,7 +204,6 @@ object AutoCrystal: Module(
         val predictOffset = if (predict) predictMotion(target, predictTick) else Vec3.ZERO
 
         val predictPos = target.position().add(predictOffset)
-        val predictAABB = target.boundingBox.move(predictOffset)
 
         val selfCalc = DamageCalculation(this, player, player.position())
         val targetCalc = DamageCalculation(this, target, predictPos)
@@ -213,13 +212,11 @@ object AutoCrystal: Module(
             .filterIsInstance<EndCrystal>()
             .filter { it.distanceSqTo(player) <= breakRange.sq }
             .forEach {
-                val pos = it.blockPosition()
-
                 crystalInfo.add(
                     CrystalInfo(
                         it.blockPosition(),
-                        selfCalc.calcDamage(it.position(), false, BlockPos.MutableBlockPos(pos.x, pos.y, pos.z)),    // Self damage
-                        targetCalc.calcDamage(it.position(), predict, BlockPos.MutableBlockPos(pos.x, pos.y, pos.z)),    // Target damage,
+                        selfCalc.calcDamage(it.x, it.y, it.z, false, BlockPos.MutableBlockPos()),    // Self damage
+                        targetCalc.calcDamage(it.x, it.y, it.z, predict, BlockPos.MutableBlockPos()),    // Target damage,
                         it
                     )
                 )

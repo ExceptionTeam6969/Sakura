@@ -22,7 +22,7 @@ class DamageCalculation(
     val entity: LivingEntity,
     val predictPos: Vec3
 ) {
-    val currentPos = entity.position()
+    val currentPos: Vec3 = entity.position()
     val currentAABB = getBoundingAABB(entity, currentPos)
     val predictAABB = getBoundingAABB(entity, predictPos)
     val clipped = context.world.checkBlockCollision(currentAABB)
@@ -35,9 +35,8 @@ class DamageCalculation(
     private val samplePoints = exposureSample.offset(currentAABB.minX, currentAABB.minY, currentAABB.minZ)
     private val samplePointsPredict = exposureSample.offset(predictAABB.minX, predictAABB.minY, predictAABB.minZ)
 
-    @Suppress("DEPRECATION")
     fun isResistant(blockState: BlockState) =
-        !blockState.isSolid && blockState.block.explosionResistance >= 19.7
+        blockState.block != Blocks.AIR && blockState.block != Blocks.WATER && blockState.block != Blocks.LAVA
 
     fun calcDamage(
         crystalX: Double,
