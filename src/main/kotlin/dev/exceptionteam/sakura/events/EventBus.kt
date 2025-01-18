@@ -29,12 +29,12 @@ object EventBus {
      * Subscribe a listener to the event bus.
      *
      * Listeners with a higher priority will be executed first. If two listeners have the
-     * same priority,the order in which they were added will be used.
+     * same priority, the order in which they were added will be used.
      */
     @Suppress("UNCHECKED_CAST")
     @JvmStatic
     fun subscribe(listener: EventListener<*>) {
-        for (i in 0 until listeners.size) {
+        for (i in listeners.indices) {
             val other = listeners[i]
             if (listener == other) {
                 return
@@ -60,7 +60,7 @@ object EventBus {
     }
 
     @JvmStatic
-    fun post(event: Any) {
+    fun post(event: Event) {
         listeners.forEach {
             if (it.eventClass == event.javaClass) it.function.invoke(event)
         }

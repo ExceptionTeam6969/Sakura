@@ -85,11 +85,7 @@ open class EventListener<E : Any>(
         val eventID: Int,
         val priority: Int,
         val function: (E) -> Unit
-) : Comparable<EventListener<*>> {
-    override fun compareTo(other: EventListener<*>): Int {
-        return other.priority.compareTo(priority)
-    }
-
+) {
     override fun equals(other: Any?): Boolean {
         return this === other
                 || (other is EventListener<*>
@@ -100,7 +96,7 @@ open class EventListener<E : Any>(
     override fun hashCode(): Int {
         var result = eventClass.hashCode()
         result = 31 * result + priority
-        result = 31 * result + function.hashCode()
+        result = 31 * result + eventID
         return result
     }
 }
