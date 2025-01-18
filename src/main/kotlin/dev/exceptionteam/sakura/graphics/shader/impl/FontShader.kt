@@ -12,7 +12,7 @@ object FontShader: Shader(
     "${Sakura.ASSETS_DIRECTORY}/shader/general/FontRenderer.frag",
 ) {
 
-    private val matrixLocation = GL45.glGetUniformLocation(id, "MVPMatrix")
+    private val matrixLocation = GL45.glGetUniformLocation(id, "u_MVPMatrix")
     private val samplerLocation = GL45.glGetUniformLocation(id, "u_Texture")
 
     override fun default() {
