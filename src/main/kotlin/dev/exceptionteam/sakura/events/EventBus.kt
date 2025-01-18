@@ -34,17 +34,9 @@ object EventBus {
     @Suppress("UNCHECKED_CAST")
     @JvmStatic
     fun subscribe(listener: EventListener<*>) {
-        for (i in listeners.indices) {
-            val other = listeners[i]
-            if (listener == other) {
-                return
-            } else if (listener.priority > other.priority) {
-                listeners.add(i, listener as EventListener<Any>)
-                return
-            }
-        }
-
+        // The performance of this method is bad
         listeners.add(listener as EventListener<Any>)
+        listeners.sortByDescending { it.priority }
     }
 
     @JvmStatic
