@@ -52,7 +52,7 @@ class ColorComponent(
             alpha = setting.value.aFloat
             first = false
         }
-        FontRenderers.drawString(setting.key, x + 5f, y + 4f, UiSetting.textColor)
+        FontRenderers.drawString(setting.key, x + 5f, y + 4f, UiSetting.textColor, UiSetting.shadow)
         RenderUtils2D.drawRectFilled(x + width - 25f, y + 3f, 20f, closedHeight - 6f, setting.value)
 
         if (!isOpen) return

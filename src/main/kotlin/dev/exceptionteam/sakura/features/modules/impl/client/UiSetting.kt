@@ -16,6 +16,7 @@ object UiSetting: Module(
     // General
     val background by setting("background", true) { page == Page.GENERAL }
     val rounded by setting("rounded", false) { page == Page.GENERAL }
+    val shadow by setting("shadow", false) { page == Page.GENERAL }
 
     // Color
     val primaryColor by setting("primary-color", ColorRGB(0, 0, 0, 200)) { page == Page.COLOR }

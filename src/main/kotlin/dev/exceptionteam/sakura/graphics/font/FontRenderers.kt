@@ -17,17 +17,33 @@ object FontRenderers {
 
     private val default = FontRenderer(enFont)
 
-    fun drawString(text: String, x: Float, y: Float, color: ColorRGB, scale: Float = 1.0f): Float =
-        default.drawString(text, x, y, color, scale)
+    fun drawString(
+        text: String, x: Float, y: Float,
+        color: ColorRGB, shadow: Boolean = false,
+        scale: Float = 1.0f
+    ): Float =
+        default.drawString(text, x, y, color, shadow, scale)
 
-    fun drawString(text: TranslationString, x: Float, y: Float, color: ColorRGB, scale: Float = 1.0f): Float =
-        drawString(text.translation, x, y, color, scale)
+    fun drawString(
+        text: TranslationString, x: Float, y: Float,
+        color: ColorRGB, shadow: Boolean = false,
+        scale: Float = 1.0f
+    ): Float =
+        drawString(text.translation, x, y, color, shadow, scale)
 
-    fun drawStringRev(text: String, x: Float, y: Float, color: ColorRGB, scale: Float = 1.0f): Float =
-        default.drawStringRev(text, x, y, color, scale)
+    fun drawStringRev(
+        text: String, x: Float, y: Float,
+        color: ColorRGB, shadow: Boolean = false,
+        scale: Float = 1.0f
+    ): Float =
+        default.drawStringRev(text, x, y, color, shadow, scale)
 
-    fun drawStringRev(text: TranslationString, x: Float, y: Float, color: ColorRGB, scale: Float = 1.0f): Float =
-        drawStringRev(text.translation, x, y, color, scale)
+    fun drawStringRev(
+        text: TranslationString, x: Float, y: Float,
+        color: ColorRGB, shadow: Boolean = false,
+        scale: Float = 1.0f
+    ): Float =
+        drawStringRev(text.translation, x, y, color, shadow, scale)
 
     fun getStringWidth(text: String, scale: Float = 1.0f): Float =
         default.getStringWidth(text, scale)

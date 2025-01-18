@@ -22,7 +22,7 @@ class BooleanComponent(
         if (widthPercent > 0.01f) RenderUtils2D.drawRectFilled(
             x + 2f, y + 1f, width * widthPercent - 4f, height - 2f,
             UiSetting.secondaryColor.alpha(widthPercent.coerceIn(0f, UiSetting.secondaryColor.aFloat)))
-        FontRenderers.drawString(setting.key, x + 5f, y + 4f, UiSetting.textColor)
+        FontRenderers.drawString(setting.key, x + 5f, y + 4f, UiSetting.textColor, UiSetting.shadow)
     }
 
     override fun mouseClicked(type: MouseButtonType): Boolean {

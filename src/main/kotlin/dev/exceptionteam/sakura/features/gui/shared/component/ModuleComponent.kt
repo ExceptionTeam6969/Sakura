@@ -32,7 +32,8 @@ class ModuleComponent(
         )
 
         FontRenderers.drawString(
-            module.name.translation, x + 5f, y + 4f, UiSetting.textColor
+            module.name.translation, x + 5f, y + 4f,
+            UiSetting.textColor, UiSetting.shadow
         )
     }
 

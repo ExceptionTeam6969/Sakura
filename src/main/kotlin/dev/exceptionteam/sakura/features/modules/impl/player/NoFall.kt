@@ -4,7 +4,7 @@ import dev.exceptionteam.sakura.events.impl.PacketEvents
 import dev.exceptionteam.sakura.events.nonNullListener
 import dev.exceptionteam.sakura.features.modules.Category
 import dev.exceptionteam.sakura.features.modules.Module
-import dev.exceptionteam.sakura.mixins.packet.ServerboundMovePlayerPacketAccessor
+import dev.exceptionteam.sakura.mixins.core.packet.ServerboundMovePlayerPacketAccessor
 import net.minecraft.network.protocol.game.ServerboundMovePlayerPacket
 
 object NoFall: Module(

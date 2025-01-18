@@ -71,7 +71,7 @@ abstract class Window(
                 UiSetting.textColor.b,
                 (UiSetting.textColor.a * progress).toInt()
             )
-            FontRenderers.drawString(title, finalX + 5f, finalY + 4f, newColor)
+            FontRenderers.drawString(title, finalX + 5f, finalY + 4f, newColor, UiSetting.shadow)
 
             components.forEach {
                 if (!it.visible) return@forEach

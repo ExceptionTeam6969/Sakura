@@ -17,7 +17,8 @@
 	"license": "GPL-3.0",
 	"environment": "client",
 	"mixins": [
-		"sakura.mixins.json"
+      	"sakura.core.mixins.json",
+		"sakura.font.mixins.json"
 	],
 	"accessWidener": "sakura.accesswidener",
 	"depends": {

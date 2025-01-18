@@ -15,7 +15,10 @@ class FontRenderer(
 ) {
     fun drawString(
         text: String, x: Float, y: Float,
-        color0: ColorRGB, scale0: Float = 1f, backFont: FontRenderer? = null
+        color0: ColorRGB,
+        shadow: Boolean = false,
+        scale0: Float = 1f,
+        backFont: FontRenderer? = null
     ): Float {
         val length = text.length
         var shouldContinue = false
@@ -41,8 +44,8 @@ class FontRenderer(
                     }
 
                     val prevWidth =
-                        if (canDisplay(text[i])) drawChar(text[i], x + width, y, color, scale)
-                        else backFont?.drawChar(text[i], x + width, y, color, scale) ?: 0f
+                        if (canDisplay(text[i])) drawChar(text[i], x + width, y, color, shadow, scale)
+                        else backFont?.drawChar(text[i], x + width, y, color, shadow, scale) ?: 0f
 
                     width += prevWidth
                 }
@@ -65,7 +68,7 @@ class FontRenderer(
                         }
 
                         val prevWidth =
-                            if (canDisplay(text[i])) drawCharSparse(text[i], x + width, y, color, scale)
+                            if (canDisplay(text[i])) drawCharSparse(text[i], x + width, y, color, shadow, scale)
                             else 0f     // fixme: backFont?.drawCharSparse(text[i], x + width, y, color, scale) ?: 0f
 
                         width += prevWidth
@@ -87,10 +90,13 @@ class FontRenderer(
      */
     fun drawStringRev(
         text: String, x: Float, y: Float,
-        color0: ColorRGB, scale0: Float = 1f, backFont: FontRenderer? = null
+        color0: ColorRGB,
+        shadow: Boolean = false,
+        scale0: Float = 1f,
+        backFont: FontRenderer? = null
     ): Float {
         val width = getStringWidth(text, scale0, backFont)
-        drawString(text, x - width, y, color0, scale0, backFont)
+        drawString(text, x - width, y, color0, shadow, scale0, backFont)
         return width
     }
 
@@ -130,13 +136,18 @@ class FontRenderer(
 
     fun canDisplay(ch: Char): Boolean = font.canDisplay(ch)
 
-    fun drawChar(ch: Char, x: Float, y: Float, color: ColorRGB, scale: Float): Float {
+    fun drawChar(ch: Char, x: Float, y: Float, color: ColorRGB, shadow: Boolean, scale: Float): Float {
         val chunk = font.general.getChunk(ch.code / GlyphChunk.CHUNK_SIZE)
 
         val charData = chunk.charData[ch] ?: return 0f
 
         val width = charData.width * scale
         val height = charData.height * scale
+
+        if (shadow)
+            RenderUtils2D.drawTextureRect(x + 1, y + 1, width, height,
+                charData.uStart, charData.vStart, charData.uEnd, charData.vEnd,
+                chunk.texture, ColorRGB(0, 0, 0))
 
         RenderUtils2D.drawTextureRect(x, y, width, height,
             charData.uStart, charData.vStart, charData.uEnd, charData.vEnd,
@@ -145,7 +156,10 @@ class FontRenderer(
         return width
     }
 
-    fun VertexBufferObjects.RenderFont.drawCharSparse(ch: Char, x: Float, y: Float, color: ColorRGB, scale: Float): Float {
+    fun VertexBufferObjects.RenderFont.drawCharSparse(
+        ch: Char, x: Float, y: Float,
+        color: ColorRGB, shadow: Boolean, scale: Float
+    ): Float {
         val charData = font.getCharData(ch) ?: return 0f
 
         val width = charData.width * scale
@@ -162,6 +176,20 @@ class FontRenderer(
         val endV = charData.vEnd
 
         val chunk = font.sparse.getChunk(ch).toFloat()
+
+        if (shadow) {
+            val startX = x + 1
+            val startY = y + 1
+            val endX = x + width + 1
+            val endY = y + height + 1
+
+            texture(startX, startY, startU, startV, chunk, ColorRGB(0, 0, 0))
+            texture(endX, startY, endU, startV, chunk, ColorRGB(0, 0, 0))
+            texture(endX, endY, endU, endV, chunk, ColorRGB(0, 0, 0))
+            texture(startX, startY, startU, startV, chunk, ColorRGB(0, 0, 0))
+            texture(startX, endY, startU, endV, chunk, ColorRGB(0, 0, 0))
+            texture(endX, endY, endU, endV, chunk, ColorRGB(0, 0, 0))
+        }
 
         // Triangles mode
         texture(startX, startY, startU, startV, chunk, color)

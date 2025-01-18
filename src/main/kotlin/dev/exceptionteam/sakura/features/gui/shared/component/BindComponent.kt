@@ -39,7 +39,7 @@ class BindComponent(
         )
         FontRenderers.drawString(
             "${setting.key.translation}: " + if (listening) "..." else setting.value.keyName,
-            x + 5f, y + 4f, newColor)
+            x + 5f, y + 4f, newColor, UiSetting.shadow)
     }
 
     override fun mouseClicked(type: MouseButtonType): Boolean {

@@ -28,7 +28,7 @@ class EnumComponent(
 
         FontRenderers.drawString(
             "${setting.key.translation}: " + value,
-            x + 5f, y + 4f, UiSetting.textColor)
+            x + 5f, y + 4f, UiSetting.textColor, UiSetting.shadow)
     }
 
     override fun mouseClicked(type: MouseButtonType): Boolean {

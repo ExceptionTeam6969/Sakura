@@ -67,7 +67,10 @@ class Panel(
         }
 
         val length = FontRenderers.getStringWidth(category.translation)
-        FontRenderers.drawString(category.translation, (x + width / 2 - length / 2f), y + 4f, UiSetting.textColor)
+        FontRenderers.drawString(
+            category.translation, (x + width / 2 - length / 2f), y + 4f,
+            UiSetting.textColor, UiSetting.shadow
+        )
 
         if (!isOpening) return
 

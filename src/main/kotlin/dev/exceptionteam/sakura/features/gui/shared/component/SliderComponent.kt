@@ -34,7 +34,7 @@ class SliderComponent(
         }
 
         val value = String.format("%.2f", setting.value.toFloat())
-        FontRenderers.drawString("${setting.key.translation}: $value", x + 5f, y + 4f, UiSetting.textColor)
+        FontRenderers.drawString("${setting.key.translation}: $value", x + 5f, y + 4f, UiSetting.textColor, UiSetting.shadow)
 
         val sliderLength =
             width * ((setting.value.toFloat() - setting.minValue.toFloat()) / (setting.maxValue.toFloat() - setting.minValue.toFloat()))

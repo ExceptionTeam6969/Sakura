@@ -23,6 +23,7 @@ modules.ui-setting.page=Page
 modules.ui-setting.page.general=General
 modules.ui-setting.background=Background
 modules.ui-setting.rounded=Rounded
+modules.ui-setting.shadow=Shadow
 modules.ui-setting.page.color=Color
 modules.ui-setting.primary-color=Primary Color
 modules.ui-setting.secondary-color=Secondary Color
@@ -59,6 +60,8 @@ modules.sprint.mode.rage=Rage
 modules.water-mark=Water Mark
 modules.water-mark.version=Version
 modules.water-mark.text-color=Text Color
+modules.water-mark.shadow=Shadow
+modules.water-mark.scale=Scale
 
 modules.disabler=Disabler
 modules.disabler.no-container-click=No ContainerClick Packet

@@ -103,7 +103,7 @@ object RenderSystem {
         postRender()
     }
 
-    private fun preRender() {
+    fun preRender() {
         preAttrib()
         GlHelper.syncWithMinecraft()
         GlHelper.reset()
@@ -112,7 +112,7 @@ object RenderSystem {
         preFrameBuffer()
     }
 
-    private fun postRender() {
+    fun postRender() {
         GlHelper.blend = true
         GlHelper.depth = true
         GlHelper.cull = true
