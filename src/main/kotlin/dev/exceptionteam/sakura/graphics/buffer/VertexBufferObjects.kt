@@ -126,7 +126,7 @@ object VertexBufferObjects {
             float(0, 2, GlDataType.GL_FLOAT, false)         // 8 bytes
             float(1, 3, GlDataType.GL_FLOAT, false)         // 12 bytes
             float(2, 4, GlDataType.GL_UNSIGNED_BYTE, true)  // 4 bytes
-        }
+        }, 16L // 4MB Persistent Mapped VBO
     ) {
         fun texture(x: Float, y: Float, u: Float, v: Float, chunk: Float, color: ColorRGB) {
             val position = MatrixStack.getPosition(x, y, 0f)

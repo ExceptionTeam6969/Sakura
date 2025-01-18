@@ -6,18 +6,20 @@ import dev.luna5ama.kmogus.Arr
 import dev.luna5ama.kmogus.asMutable
 import org.lwjgl.opengl.GL45
 import java.nio.ByteBuffer
+import kotlin.math.abs
 
 // Persistent map buffer
 class PersistentMappedVBO(
-    private val stride: Int
+    private val stride: Int,
+    private val sizeFactor: Long = 4L,
 ): GlObject {
 
     companion object {
-        private const val BUFFER_SIZE: Long = 512L * 1024L    // 512KB
+        private const val BUFFER_SIZE: Long = 256 * 1024L    // 1MB
     }
 
     override var id: Int = GL45.glCreateBuffers().apply {
-        glNamedBufferStorage(this, BUFFER_SIZE, 0L,
+        glNamedBufferStorage(this, abs(sizeFactor * BUFFER_SIZE), 0L,
             GL45.GL_MAP_PERSISTENT_BIT or GL45.GL_MAP_COHERENT_BIT or GL45.GL_MAP_WRITE_BIT)
     }
 
@@ -54,7 +56,7 @@ class PersistentMappedVBO(
     fun onSync() {
         // Check if the draw call is complete and reset the Buffer
         if (sync == 0L) {
-            if (arr.pos >= arr.len / 2) {
+            if (arr.pos >= arr.len / 4 * 3) {   // 3/4 of the buffer is full
                 sync = GL45.glFenceSync(GL45.GL_SYNC_GPU_COMMANDS_COMPLETE, 0)
             }
         } else if (

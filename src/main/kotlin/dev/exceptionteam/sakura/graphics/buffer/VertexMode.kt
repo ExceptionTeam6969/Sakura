@@ -4,8 +4,12 @@ import dev.exceptionteam.sakura.graphics.GlHelper
 import dev.exceptionteam.sakura.graphics.shader.Shader
 import org.lwjgl.opengl.GL45.*
 
-open class VertexMode(val shader: Shader, protected val attribute: VertexAttribute) {
-    val vbo = PersistentMappedVBO(attribute.stride)
+open class VertexMode(
+    val shader: Shader,
+    protected val attribute: VertexAttribute,
+    sizeFactor: Long = 4L,
+) {
+    val vbo = PersistentMappedVBO(attribute.stride, sizeFactor)
     private val vao = createVao(vbo, attribute)
 
     protected val arr get() = vbo.arr

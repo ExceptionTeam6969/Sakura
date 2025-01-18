@@ -7,7 +7,6 @@ import dev.exceptionteam.sakura.graphics.buffer.VertexBufferObjects
 import dev.exceptionteam.sakura.graphics.buffer.draw
 import dev.exceptionteam.sakura.graphics.color.ColorRGB
 import dev.exceptionteam.sakura.graphics.font.general.GlyphChunk
-import dev.exceptionteam.sakura.graphics.matrix.MatrixStack
 import dev.exceptionteam.sakura.graphics.shader.impl.FontShader
 import org.lwjgl.opengl.GL45.*
 
@@ -28,9 +27,32 @@ class FontRenderer(
 
         var width = 0f
 
-        MatrixStack.scope {
-            when (CustomFont.fontMode) {
-                CustomFont.FontMode.GENERAL -> {
+        when (CustomFont.fontMode) {
+            CustomFont.FontMode.GENERAL -> {
+                for (i in 0 until length) {
+                    if (shouldContinue) {
+                        shouldContinue = false
+                        continue
+                    }
+                    if (text[i] == '§' && i < length - 1) {
+                        shouldContinue = true
+                        color = getColor(text[i + 1])
+                        continue
+                    }
+
+                    val prevWidth =
+                        if (canDisplay(text[i])) drawChar(text[i], x + width, y, color, scale)
+                        else backFont?.drawChar(text[i], x + width, y, color, scale) ?: 0f
+
+                    width += prevWidth
+                }
+            }
+
+            CustomFont.FontMode.SPARSE -> {
+                font.sparse.tex.bind()
+                FontShader.textureUnit = font.sparse.tex.handle
+
+                VertexBufferObjects.RenderFont.draw(GL_TRIANGLES) {
                     for (i in 0 until length) {
                         if (shouldContinue) {
                             shouldContinue = false
@@ -43,44 +65,15 @@ class FontRenderer(
                         }
 
                         val prevWidth =
-                            if (canDisplay(text[i])) drawChar(text[i], x, y, color, scale)
-                            else backFont?.drawChar(text[i], x, y, color, scale) ?: 0f
+                            if (canDisplay(text[i])) drawCharSparse(text[i], x + width, y, color, scale)
+                            else 0f     // fixme: backFont?.drawCharSparse(text[i], x + width, y, color, scale) ?: 0f
 
                         width += prevWidth
-
-                        translate(prevWidth, 0f, 0f)
                     }
                 }
 
-                CustomFont.FontMode.SPARSE -> {
-                    font.sparse.tex.bind()
-                    FontShader.textureUnit = font.sparse.tex.handle
-
-                    VertexBufferObjects.RenderFont.draw(GL_TRIANGLES) {
-                        for (i in 0 until length) {
-                            if (shouldContinue) {
-                                shouldContinue = false
-                                continue
-                            }
-                            if (text[i] == '§' && i < length - 1) {
-                                shouldContinue = true
-                                color = getColor(text[i + 1])
-                                continue
-                            }
-
-                            val prevWidth =
-                                if (canDisplay(text[i])) drawCharSparse(text[i], x, y, color, scale)
-                                else 0f     // fixme: backFont?.drawCharSparse(text[i], x, y, color, scale) ?: 0f
-
-                            width += prevWidth
-
-                            translate(prevWidth, 0f, 0f)
-                        }
-                    }
-
-                    font.sparse.tex.unbind()
-                    FontShader.textureUnit = null
-                }
+                font.sparse.tex.unbind()
+                FontShader.textureUnit = null
             }
         }
 
