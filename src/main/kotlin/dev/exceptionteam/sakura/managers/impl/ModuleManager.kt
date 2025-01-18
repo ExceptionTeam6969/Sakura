@@ -19,6 +19,10 @@ object ModuleManager {
     init {
         nonNullListener<KeyEvent>(Int.MIN_VALUE, true) { event ->
             if (event.isCancelled) return@nonNullListener
+
+            // Only in the game
+            if (mc.screen != null) return@nonNullListener
+
             modules.forEach {
                 if (it.keyBind == event.keyBind && event.action == 1) it.toggle()
             }
@@ -35,6 +39,7 @@ object ModuleManager {
             HolePush,
             KillAura,
             AutoTotem,
+            PearlClip,
 
             // Client
             UiSetting,
