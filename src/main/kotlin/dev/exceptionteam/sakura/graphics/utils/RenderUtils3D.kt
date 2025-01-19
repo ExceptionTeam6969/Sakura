@@ -1,11 +1,12 @@
-package dev.exceptionteam.sakura.graphics
+package dev.exceptionteam.sakura.graphics.utils
 
 import dev.exceptionteam.sakura.events.NonNullContext
 import dev.exceptionteam.sakura.events.impl.Render3DEvent
 import dev.exceptionteam.sakura.events.impl.WindowResizeEvent
 import dev.exceptionteam.sakura.events.listener
+import dev.exceptionteam.sakura.graphics.GlHelper
 import dev.exceptionteam.sakura.graphics.buffer.VertexBufferObjects
-import dev.exceptionteam.sakura.graphics.buffer.draw
+import dev.exceptionteam.sakura.graphics.buffer.drawArrays
 import dev.exceptionteam.sakura.graphics.color.ColorRGB
 import dev.exceptionteam.sakura.graphics.matrix.MatrixStack
 import dev.exceptionteam.sakura.utils.math.vector.Vec3f
@@ -82,7 +83,7 @@ object RenderUtils3D {
         // fixme: line width not working
         GlHelper.lineWidth = lineWidth
 
-        VertexBufferObjects.PosColor3D.draw(GL_LINES) {
+        VertexBufferObjects.PosColor3D.drawArrays(GL_LINES) {
             vertex(minX, maxY, minZ, color)
             vertex(maxX, maxY, minZ, color)
             vertex(maxX, maxY, minZ, color)
@@ -123,7 +124,7 @@ object RenderUtils3D {
         val maxY = (box.maxY - camera.position.y).toFloat()
         val maxZ = (box.maxZ - camera.position.z).toFloat()
 
-        VertexBufferObjects.PosColor3D.draw(GL_TRIANGLES) {
+        VertexBufferObjects.PosColor3D.drawArrays(GL_TRIANGLES) {
             vertex(minX, minY, minZ, color)
             vertex(maxX, minY, minZ, color)
             vertex(maxX, maxY, minZ, color)

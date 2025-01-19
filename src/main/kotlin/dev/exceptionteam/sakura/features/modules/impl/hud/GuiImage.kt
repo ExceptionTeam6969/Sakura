@@ -3,7 +3,7 @@ package dev.exceptionteam.sakura.features.modules.impl.hud
 import dev.exceptionteam.sakura.features.gui.clickgui.ClickGUIScreen
 import dev.exceptionteam.sakura.features.gui.hudeditor.HUDEditorScreen
 import dev.exceptionteam.sakura.features.modules.HUDModule
-import dev.exceptionteam.sakura.graphics.RenderUtils2D
+import dev.exceptionteam.sakura.graphics.utils.RenderUtils2D
 import dev.exceptionteam.sakura.graphics.texture.ImageFileUtils
 import dev.exceptionteam.sakura.graphics.texture.Texture
 import dev.exceptionteam.sakura.utils.interfaces.TranslationEnum

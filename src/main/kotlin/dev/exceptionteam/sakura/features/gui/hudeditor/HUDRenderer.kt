@@ -2,7 +2,7 @@ package dev.exceptionteam.sakura.features.gui.hudeditor
 
 import dev.exceptionteam.sakura.features.gui.shared.component.AbstractComponent
 import dev.exceptionteam.sakura.features.modules.HUDModule
-import dev.exceptionteam.sakura.graphics.RenderUtils2D
+import dev.exceptionteam.sakura.graphics.utils.RenderUtils2D
 import dev.exceptionteam.sakura.graphics.color.ColorRGB
 import dev.exceptionteam.sakura.utils.control.MouseButtonType
 import net.minecraft.client.Minecraft

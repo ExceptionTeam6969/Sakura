@@ -1,13 +1,13 @@
-package dev.exceptionteam.sakura.graphics
+package dev.exceptionteam.sakura.graphics.utils
 
+import dev.exceptionteam.sakura.graphics.GlHelper
 import dev.exceptionteam.sakura.graphics.buffer.VertexBufferObjects
-import dev.exceptionteam.sakura.graphics.buffer.draw
+import dev.exceptionteam.sakura.graphics.buffer.drawArrays
 import dev.exceptionteam.sakura.graphics.color.ColorRGB
 import dev.exceptionteam.sakura.graphics.texture.Texture
 import org.lwjgl.opengl.GL45
 
 object RenderUtils2D {
-
     fun drawDynamicIsland(
         x: Float,
         y: Float,
@@ -18,7 +18,7 @@ object RenderUtils2D {
         color: ColorRGB,
         filled: Boolean = false
     ) {
-        VertexBufferObjects.PosColor2D.draw(if (filled) GL45.GL_TRIANGLE_FAN else GL45.GL_LINE_LOOP) {
+        VertexBufferObjects.PosColor2D.drawArrays(if (filled) GL45.GL_TRIANGLE_FAN else GL45.GL_LINE_LOOP) {
             arc(x + radius, y + radius, radius, Pair(270f, 360f), segments, color)
             arc(x + width - radius, y + radius, radius, Pair(0f, 90f), segments, color)
             arc(x + width - radius, y + height - radius, radius, Pair(90f, 180f), segments, color)
@@ -27,7 +27,7 @@ object RenderUtils2D {
     }
 
     fun drawCircleFilled(centerX: Float, centerY: Float, radius: Float, segments: Int, color: ColorRGB) {
-        VertexBufferObjects.PosColor2D.draw(GL45.GL_TRIANGLE_FAN) {
+        VertexBufferObjects.PosColor2D.drawArrays(GL45.GL_TRIANGLE_FAN) {
             arc(centerX, centerY, radius, Pair(0f, 360f), segments, color)
         }
     }
@@ -38,7 +38,7 @@ object RenderUtils2D {
         val endX = x + width
         val endY = y + height
 
-        VertexBufferObjects.PosColor2D.draw(GL45.GL_TRIANGLE_STRIP) {
+        VertexBufferObjects.PosColor2D.drawArrays(GL45.GL_TRIANGLE_STRIP) {
             vertex(endX, startY, color)
             vertex(startX, startY, color)
             vertex(endX, endY, color)
@@ -52,7 +52,7 @@ object RenderUtils2D {
         val endX = x + width
         val endY = y + height
 
-        VertexBufferObjects.PosColor2D.draw(GL45.GL_TRIANGLE_STRIP) {
+        VertexBufferObjects.PosColor2D.drawArrays(GL45.GL_TRIANGLE_STRIP) {
             vertex(endX, startY, endColor)
             vertex(startX, startY, startColor)
             vertex(endX, endY, endColor)
@@ -66,7 +66,7 @@ object RenderUtils2D {
         val endX = x + width
         val endY = y + height
 
-        VertexBufferObjects.PosColor2D.draw(GL45.GL_TRIANGLE_STRIP) {
+        VertexBufferObjects.PosColor2D.drawArrays(GL45.GL_TRIANGLE_STRIP) {
             vertex(endX, startY, startColor)
             vertex(startX, startY, startColor)
             vertex(endX, endY, endColor)
@@ -81,7 +81,7 @@ object RenderUtils2D {
         val endY = y + height
 
         GlHelper.lineSmooth = true
-        VertexBufferObjects.PosColor2D.draw(GL45.GL_LINE_LOOP) {
+        VertexBufferObjects.PosColor2D.drawArrays(GL45.GL_LINE_LOOP) {
             vertex(startX, startY, color)
             vertex(endX, startY, color)
             vertex(endX, endY, color)
@@ -97,7 +97,7 @@ object RenderUtils2D {
     fun drawLineNoSmooth(x1: Float, y1: Float, x2: Float, y2: Float, color: ColorRGB) {
         GlHelper.lineSmooth = false
         GL45.glLineWidth(1f)
-        VertexBufferObjects.PosColor2D.draw(GL45.GL_LINES) {
+        VertexBufferObjects.PosColor2D.drawArrays(GL45.GL_LINES) {
             vertex(x1, y1, color)
             vertex(x2, y2, color)
         }
@@ -106,7 +106,7 @@ object RenderUtils2D {
     fun drawLine(x1: Float, y1: Float, x2: Float, y2: Float, color: ColorRGB) {
         GlHelper.lineSmooth = true
         GL45.glLineWidth(1f)
-        VertexBufferObjects.PosColor2D.draw(GL45.GL_LINES) {
+        VertexBufferObjects.PosColor2D.drawArrays(GL45.GL_LINES) {
             vertex(x1, y1, color)
             vertex(x2, y2, color)
         }
@@ -122,7 +122,7 @@ object RenderUtils2D {
         val endY = y + height
 
         texture.use {
-            VertexBufferObjects.PosTex2D.draw(GL45.GL_TRIANGLE_STRIP) {
+            VertexBufferObjects.PosTex2D.drawArrays(GL45.GL_TRIANGLE_STRIP) {
                 texture(endX, startY, 1f, 0f, color)
                 texture(startX, startY, 0f, 0f, color)
                 texture(endX, endY, 1f, 1f, color)
@@ -149,7 +149,7 @@ object RenderUtils2D {
         val endY = y + height
 
         texture.use {
-            VertexBufferObjects.PosTex2D.draw(GL45.GL_TRIANGLE_STRIP) {
+            VertexBufferObjects.PosTex2D.drawArrays(GL45.GL_TRIANGLE_STRIP) {
                 texture(endX, startY, endU, startV, color)
                 texture(startX, startY, startU, startV, color)
                 texture(endX, endY, endU, endV, color)

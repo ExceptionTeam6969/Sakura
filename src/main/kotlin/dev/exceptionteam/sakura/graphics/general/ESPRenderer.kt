@@ -1,7 +1,7 @@
 package dev.exceptionteam.sakura.graphics.general
 
 import dev.exceptionteam.sakura.graphics.GlHelper
-import dev.exceptionteam.sakura.graphics.RenderUtils3D
+import dev.exceptionteam.sakura.graphics.utils.RenderUtils3D
 import dev.exceptionteam.sakura.graphics.color.ColorRGB
 import net.minecraft.core.BlockPos
 import net.minecraft.world.phys.AABB

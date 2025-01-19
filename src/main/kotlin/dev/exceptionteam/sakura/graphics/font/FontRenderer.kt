@@ -2,12 +2,12 @@ package dev.exceptionteam.sakura.graphics.font
 
 import dev.exceptionteam.sakura.features.modules.impl.client.CustomFont
 import dev.exceptionteam.sakura.graphics.GlHelper
-import dev.exceptionteam.sakura.graphics.RenderUtils2D
 import dev.exceptionteam.sakura.graphics.buffer.VertexBufferObjects
-import dev.exceptionteam.sakura.graphics.buffer.draw
+import dev.exceptionteam.sakura.graphics.buffer.drawArrays
 import dev.exceptionteam.sakura.graphics.color.ColorRGB
 import dev.exceptionteam.sakura.graphics.font.general.GlyphChunk
 import dev.exceptionteam.sakura.graphics.shader.impl.FontShader
+import dev.exceptionteam.sakura.graphics.utils.RenderUtils2D
 import org.lwjgl.opengl.GL45.*
 
 class FontRenderer(
@@ -55,7 +55,7 @@ class FontRenderer(
                 font.sparse.tex.bind()
                 FontShader.textureUnit = font.sparse.tex.handle
 
-                VertexBufferObjects.RenderFont.draw(GL_TRIANGLES) {
+                VertexBufferObjects.RenderFont.drawArrays(GL_TRIANGLES) {
                     for (i in 0 until length) {
                         if (shouldContinue) {
                             shouldContinue = false

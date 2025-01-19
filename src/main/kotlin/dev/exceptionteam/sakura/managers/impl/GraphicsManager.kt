@@ -1,9 +1,9 @@
 package dev.exceptionteam.sakura.managers.impl
 
 import dev.exceptionteam.sakura.graphics.RenderSystem
-import dev.exceptionteam.sakura.graphics.RenderUtils2D
 import dev.exceptionteam.sakura.graphics.buffer.VertexBufferObjects
 import dev.exceptionteam.sakura.graphics.font.FontRenderers
+import dev.exceptionteam.sakura.graphics.utils.RenderUtils
 import dev.exceptionteam.sakura.utils.threads.GameThreadUtils
 
 object GraphicsManager {
@@ -16,7 +16,7 @@ object GraphicsManager {
             // Fonts
             FontRenderers
             // Utils
-            RenderUtils2D
+            RenderUtils
         }
     }
 

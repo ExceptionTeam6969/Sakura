@@ -4,8 +4,8 @@ import dev.exceptionteam.sakura.events.impl.Render2DEvent
 import dev.exceptionteam.sakura.events.nonNullListener
 import dev.exceptionteam.sakura.features.modules.Category
 import dev.exceptionteam.sakura.features.modules.Module
-import dev.exceptionteam.sakura.graphics.RenderUtils2D
-import dev.exceptionteam.sakura.graphics.RenderUtils3D.worldSpaceToScreenSpace
+import dev.exceptionteam.sakura.graphics.utils.RenderUtils2D
+import dev.exceptionteam.sakura.graphics.utils.RenderUtils3D.worldSpaceToScreenSpace
 import dev.exceptionteam.sakura.graphics.color.ColorRGB
 import dev.exceptionteam.sakura.graphics.font.FontRenderers
 import dev.exceptionteam.sakura.managers.impl.FriendManager.isFriend

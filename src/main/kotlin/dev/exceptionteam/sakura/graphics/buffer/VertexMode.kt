@@ -11,16 +11,44 @@ open class VertexMode(
 ) {
     val vbo = PersistentMappedVBO(attribute.stride, sizeFactor)
     private val vao = createVao(vbo, attribute)
+    private var ebo = 0
 
     protected val arr get() = vbo.arr
     protected var vertexSize = 0
 
-    fun draw(shader: Shader, mode: Int) {
+    private fun bindElementBuffer(ebo: Int) {
+        if (this.ebo == ebo) return
+        this.ebo = ebo
+        glVertexArrayElementBuffer(vao, ebo)
+    }
+
+    fun drawArrays(shader: Shader, mode: Int) {
         if (vertexSize == 0) return
+
         shader.bind()
         shader.default()
+
+        glVertexArrayVertexBuffer(vao, 0, vbo.id, this.vbo.offset * attribute.stride, attribute.stride)
         GlHelper.vertexArray = this.vao
-        glDrawArrays(mode, this.vbo.offset.toInt(), vertexSize)
+
+        glDrawArrays(mode, 0, vertexSize)
+
+        vbo.end()
+        vertexSize = 0
+    }
+
+    fun drawElements(shader: Shader, ebo: ElementBufferObject, mode: Int) {
+        if (vertexSize == 0) return
+
+        shader.bind()
+        shader.default()
+
+        glVertexArrayVertexBuffer(vao, 0, vbo.id, vbo.offset * attribute.stride, attribute.stride)
+        GlHelper.vertexArray = vao
+
+        bindElementBuffer(ebo.eboId)
+        glDrawElements(mode, ebo.indicesCount, GL_UNSIGNED_INT, 0)
+
         vbo.end()
         vertexSize = 0
     }

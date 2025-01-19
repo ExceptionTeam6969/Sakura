@@ -10,7 +10,7 @@ import dev.exceptionteam.sakura.features.modules.HUDModule
 import dev.exceptionteam.sakura.features.modules.impl.client.HUDEditor
 import dev.exceptionteam.sakura.features.modules.impl.client.UiSetting
 import dev.exceptionteam.sakura.features.modules.impl.hud.GuiImage
-import dev.exceptionteam.sakura.graphics.RenderUtils2D
+import dev.exceptionteam.sakura.graphics.utils.RenderUtils2D
 import dev.exceptionteam.sakura.managers.impl.ModuleManager
 import dev.exceptionteam.sakura.utils.control.MouseButtonType
 import net.minecraft.client.gui.GuiGraphics

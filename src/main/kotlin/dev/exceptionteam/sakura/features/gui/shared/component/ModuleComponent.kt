@@ -7,7 +7,7 @@ import dev.exceptionteam.sakura.features.gui.shared.windows.ModuleSettingWindow
 import dev.exceptionteam.sakura.features.modules.AbstractModule
 import dev.exceptionteam.sakura.features.modules.HUDModule
 import dev.exceptionteam.sakura.features.modules.impl.client.UiSetting
-import dev.exceptionteam.sakura.graphics.RenderUtils2D
+import dev.exceptionteam.sakura.graphics.utils.RenderUtils2D
 import dev.exceptionteam.sakura.graphics.easing.AnimationFlag
 import dev.exceptionteam.sakura.graphics.easing.Easing
 import dev.exceptionteam.sakura.graphics.font.FontRenderers

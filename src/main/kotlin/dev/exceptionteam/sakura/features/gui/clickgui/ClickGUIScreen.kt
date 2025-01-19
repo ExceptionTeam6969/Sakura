@@ -9,7 +9,7 @@ import dev.exceptionteam.sakura.features.modules.Category
 import dev.exceptionteam.sakura.features.modules.impl.client.ClickGUI
 import dev.exceptionteam.sakura.features.modules.impl.client.UiSetting
 import dev.exceptionteam.sakura.features.modules.impl.hud.GuiImage
-import dev.exceptionteam.sakura.graphics.RenderUtils2D
+import dev.exceptionteam.sakura.graphics.utils.RenderUtils2D
 import dev.exceptionteam.sakura.managers.impl.ModuleManager
 import dev.exceptionteam.sakura.utils.control.MouseButtonType
 import net.minecraft.client.gui.GuiGraphics

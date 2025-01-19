@@ -143,7 +143,12 @@ object VertexBufferObjects {
     }
 }
 
-inline fun <reified T: VertexMode> T.draw(mode: Int, shader: Shader = this.shader, block: T.() -> Unit) {
+inline fun <reified T: VertexMode> T.drawArrays(mode: Int, shader: Shader = this.shader, block: T.() -> Unit) {
     this.block()
-    this.draw(shader, mode)
+    this.drawArrays(shader, mode)
+}
+
+inline fun <reified T: VertexMode> T.drawElements(mode: Int, ebo: ElementBufferObject, shader: Shader = this.shader, block: T.() -> Unit) {
+    this.block()
+    this.drawElements(shader, ebo, mode)
 }

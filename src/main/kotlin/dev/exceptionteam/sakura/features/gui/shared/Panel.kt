@@ -4,7 +4,7 @@ import dev.exceptionteam.sakura.features.gui.shared.component.ModuleComponent
 import dev.exceptionteam.sakura.features.modules.AbstractModule
 import dev.exceptionteam.sakura.features.modules.Category
 import dev.exceptionteam.sakura.features.modules.impl.client.UiSetting
-import dev.exceptionteam.sakura.graphics.RenderUtils2D
+import dev.exceptionteam.sakura.graphics.utils.RenderUtils2D
 import dev.exceptionteam.sakura.graphics.color.ColorRGB
 import dev.exceptionteam.sakura.graphics.color.RainbowColor
 import dev.exceptionteam.sakura.graphics.font.FontRenderers
