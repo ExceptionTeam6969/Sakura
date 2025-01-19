@@ -74,6 +74,7 @@ object ModuleManager {
             // HUD
             WaterMark,
             GuiImage,
+            Welcomer,
         )
 
         val event = RegisterModuleEvent(modules.toMutableList())

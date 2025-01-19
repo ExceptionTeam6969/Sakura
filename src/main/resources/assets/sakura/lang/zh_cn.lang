@@ -190,3 +190,8 @@ modules.hole-push.PistonColor=活塞显示颜色
 modules.pearl-clip=珍珠卡墙
 modules.pearl-clip.pitch=俯仰角
 modules.pearl-clip.switch-mode=切换模式
+
+modules.welcomer=欢迎字条
+modules.welcomer.text-color=文字颜色
+modules.welcomer.shadow=阴影
+modules.welcomer.scale=缩放

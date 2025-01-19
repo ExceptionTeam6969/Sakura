@@ -182,3 +182,8 @@ modules.hole-push.PistonColor=Piston Color
 modules.pearl-clip=Pearl Clip
 modules.pearl-clip.pitch=Pitch
 modules.pearl-clip.switch-mode=Switch Mode
+
+modules.welcomer=Welcomer
+modules.welcomer.text-color=Text Color
+modules.welcomer.shadow=Shadow
+modules.welcomer.scale=Scale
