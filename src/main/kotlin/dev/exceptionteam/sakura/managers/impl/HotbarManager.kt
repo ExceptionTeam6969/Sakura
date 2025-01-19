@@ -30,8 +30,9 @@ object HotbarManager {
     }
 
     fun NonNullContext.switchTo(slot: Int, func: () -> Unit) {
-        connection.send(ServerboundSetCarriedItemPacket(slot))
-        player.inventory.selected = slot
+        if (player.inventory.selected != slot) {
+            player.inventory.selected = slot
+        }
         func()
     }
 
