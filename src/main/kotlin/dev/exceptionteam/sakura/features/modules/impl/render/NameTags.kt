@@ -52,19 +52,22 @@ object NameTags: Module(
                 val health = ent.health.toInt()
 
                 val nameWidth = FontRenderers.getStringWidth(name)
-                val healthWidth = FontRenderers.getStringWidth("$health ")
+                val healthWidth = FontRenderers.getStringWidth(" $health")
+
+                val width = nameWidth + healthWidth
+                val startX = x - width / 2f
 
                 val friend = isFriend(ent.displayName?.string ?: "")
 
-                RenderUtils2D.drawRectFilled(x + 4 - (nameWidth + healthWidth) / 2f, y - 1, (nameWidth + healthWidth) + 8, FontRenderers.getHeight(),
+                RenderUtils2D.drawRectFilled(startX - 2, y - 1, width + 4, FontRenderers.getHeight() + 2,
                     ColorRGB.BLACK.alpha(0.9f))
 
                 //name
-                FontRenderers.drawString(name, x - nameWidth / 2f, y,
+                FontRenderers.drawString(name, startX, y,
                     if (friend) ColorRGB.GREEN else ColorRGB.WHITE)
 
                 //health
-                FontRenderers.drawString(" $health", x + nameWidth / 2f, y,
+                FontRenderers.drawString(" $health", startX + nameWidth, y,
                     if (health >= 20) ColorRGB(0, 255, 0)
                     else if (health >= 10) ColorRGB(255, 255, 0)
                     else ColorRGB(255, 0, 0)
