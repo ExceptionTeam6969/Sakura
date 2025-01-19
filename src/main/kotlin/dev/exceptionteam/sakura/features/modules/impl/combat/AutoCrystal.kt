@@ -54,6 +54,7 @@ object AutoCrystal: Module(
     private val placeMaxSelfDmg by setting("place-max-self-dmg", 12.0, 0.0..20.0) { page == Page.PLACE }
     private val placeMinDmg by setting("place-min-dmg", 2.0, 0.0..20.0) { page == Page.PLACE }
     private val placeSwing by setting("place-swing", true) { page == Page.PLACE }
+    private val priorityPlaceDiff by setting("priority-place-diff", 1.0f, 0.0f..10.0f) { page == Page.PLACE }
 
     // Break
     private val breakDelay by setting("break-delay", 50, 0..1000, 5) { page == Page.BREAK }
@@ -132,18 +133,21 @@ object AutoCrystal: Module(
 
             if (placeTimer.passed(placeDelay) || breakTimer.passed(breakDelay)) crystalInfo = null
 
-            if (breakInfo == null && placeInfo == null) return@nonNullListener
+            breakInfo?.let attack@ { breakInfo ->
+                placeInfo?.let place@ { placeInfo ->
+                    if (placeInfo.targetDmg < breakInfo.targetDmg) return@place
+                    if (placeInfo.targetDmg - breakInfo.targetDmg > priorityPlaceDiff) {
+                        placeCrystal(placeInfo)
+                        return@attack
+                    }
+                }
 
-            if (breakInfo != null && placeInfo == null) breakCrystal(breakInfo)
-            if (breakInfo == null && placeInfo != null) placeCrystal(placeInfo)
+                breakCrystal(breakInfo)
+                return@nonNullListener
+            }
 
-            // If both are available, choose the one with the highest damage
-            // If both have the same damage, choose the one with lower self damage
-            if (breakInfo != null && placeInfo != null) {
-                if (breakInfo.targetDmg > placeInfo.targetDmg) breakCrystal(breakInfo)
-                else if (breakInfo.targetDmg < placeInfo.targetDmg) placeCrystal(placeInfo)
-                else if (breakInfo.selfDmg < placeInfo.selfDmg) breakCrystal(breakInfo)
-                else placeCrystal(placeInfo)
+            placeInfo?.let {
+                placeCrystal(it)
             }
 
         }

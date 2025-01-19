@@ -119,6 +119,7 @@ modules.auto-crystal.place-range=放置范围
 modules.auto-crystal.place-max-self-dmg=放置自身最大伤害
 modules.auto-crystal.place-min-dmg=放置水晶最小伤害
 modules.auto-crystal.place-swing=放置摇手
+modules.auto-crystal.priority-place-diff=优先放置差值
 modules.auto-crystal.page.break=敲击
 modules.auto-crystal.break-delay=敲击延迟
 modules.auto-crystal.break-range=敲击范围

@@ -112,6 +112,7 @@ modules.auto-crystal.place-range=Place Range
 modules.auto-crystal.place-max-self-dmg=Place Max Self Dmg
 modules.auto-crystal.place-min-dmg=Place Min Dmg
 modules.auto-crystal.place-swing=Place Swing
+modules.auto-crystal.priority-place-diff=Priority Place Diff
 modules.auto-crystal.page.break=Break
 modules.auto-crystal.break-delay=Break Delay
 modules.auto-crystal.break-range=Break Range
