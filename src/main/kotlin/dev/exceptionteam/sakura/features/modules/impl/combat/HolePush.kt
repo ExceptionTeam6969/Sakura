@@ -1,21 +1,25 @@
 package dev.exceptionteam.sakura.features.modules.impl.combat
 
 import dev.exceptionteam.sakura.events.NonNullContext
+import dev.exceptionteam.sakura.events.impl.Render3DEvent
 import dev.exceptionteam.sakura.events.impl.TickEvent
 import dev.exceptionteam.sakura.events.nonNullListener
 import dev.exceptionteam.sakura.features.modules.Category
 import dev.exceptionteam.sakura.features.modules.Module
+import dev.exceptionteam.sakura.graphics.color.ColorRGB
+import dev.exceptionteam.sakura.graphics.general.ESPRenderer
 import dev.exceptionteam.sakura.managers.impl.HotbarManager
 import dev.exceptionteam.sakura.managers.impl.RotationManager.addRotation
 import dev.exceptionteam.sakura.managers.impl.TargetManager.getTarget
 import dev.exceptionteam.sakura.managers.impl.TargetManager.getTargetPlayer
 import dev.exceptionteam.sakura.utils.player.InteractionUtils.place
+import dev.exceptionteam.sakura.utils.player.PlayerUtils.isMoving
 import dev.exceptionteam.sakura.utils.timing.TimerUtils
+import dev.exceptionteam.sakura.utils.world.BlockUtils.getNeighbourSide
 import dev.exceptionteam.sakura.utils.world.WorldUtils.blockState
 import net.minecraft.core.BlockPos
 import net.minecraft.core.Direction
 import net.minecraft.world.entity.Entity
-import net.minecraft.world.level.block.Block
 import net.minecraft.world.level.block.Blocks
 import net.minecraft.world.level.block.piston.PistonBaseBlock
 import net.minecraft.world.level.block.state.BlockState
@@ -38,7 +42,11 @@ object HolePush: Module(
     private val delay by setting("delay", 100, 0..1000)
     private val switchMode by setting("switch-mode", HotbarManager.SwitchMode.PICK)
     private val swing by setting("swing", true)
+    private val movePause by setting("PauseMove", false)
+    private val pistonColor by setting("PistonColor", ColorRGB(255, 153, 51))
 
+    private val renderer = ESPRenderer().apply { aFilled = 60 }
+    private var pistonInfo: PistonInfo? = null
     private var multiCount = 0
     private val timer = TimerUtils()
     private var stage = 0
@@ -50,7 +58,15 @@ object HolePush: Module(
             timer.reset()
         }
 
+        nonNullListener<Render3DEvent> {
+            pistonInfo?.let {
+                renderer.add(it.pos, pistonColor)
+                renderer.render(true)
+            }
+        }
+
         nonNullListener<TickEvent.Update> {
+            if (movePause && isMoving()) return@nonNullListener
             if (onlyPlayers) getTargetPlayer(targetRange)?.let {
                 if (multiCount > BPT) return@nonNullListener
                 push(it)
@@ -59,12 +75,13 @@ object HolePush: Module(
                 push(it)
             }
         }
+
     }
 
     private fun NonNullContext.push(target: Entity) {
-        val pistonInfo: PistonInfo = getPiston(target.blockPosition()) ?: return
-        val pistonPos: BlockPos = pistonInfo.pos
-        val pistonFacing: Direction = pistonInfo.direction
+        pistonInfo = getPiston(target.blockPosition()) ?: return
+        val pistonPos: BlockPos = pistonInfo!!.pos
+        val pistonFacing: Direction = pistonInfo!!.direction
         val redstonePos: BlockPos = getRedStone(pistonPos, pistonFacing, target.blockPosition().above()) ?: return
 
         when (stage) {
@@ -99,7 +116,7 @@ object HolePush: Module(
         stage++
     }
 
-    private fun getPiston(playerPos: BlockPos): PistonInfo? {
+    private fun NonNullContext.getPiston(playerPos: BlockPos): PistonInfo? {
         Direction.entries
             .filter { it != Direction.DOWN && it != Direction.UP }
             .forEach { direction ->
@@ -107,6 +124,7 @@ object HolePush: Module(
                 val blockState = pos.blockState ?: return@forEach
                 val block = blockState.block
                 if (block != Blocks.AIR && block != Blocks.PISTON) return@forEach //not air = 放你妈
+                if (getNeighbourSide(pos) == null) return@forEach
                 if (block == Blocks.PISTON && isActivated(blockState)) return@forEach
                 return PistonInfo(pos, direction.opposite) //返回的是活塞要看着的方向
             }
@@ -118,13 +136,17 @@ object HolePush: Module(
      }
 
     //TODO:其实我在考虑这个pos变数要不要搞成list 这样能一次把不想红石放的位置黑名单
-    private fun getRedStone(pistonPos: BlockPos, pistonFacing: Direction, blacklist: BlockPos): BlockPos? {
+    private fun getRedStone(pistonPos: BlockPos, pistonFacing: Direction, blacklist: BlockPos, lever: Boolean = false): BlockPos? {
         Direction.entries
             .filter { it != pistonFacing }
             .forEach { direction ->
                 val pos = pistonPos.relative(direction)
                 val blockState = pos.blockState ?: return@forEach
                 val block = blockState.block
+                if (lever) {
+                    if (block == Blocks.AIR) return@forEach
+                    
+                }
                 if (block != Blocks.AIR) return@forEach
                 if (pos == blacklist) return@forEach
                 return pos
