@@ -45,25 +45,32 @@ object NameTags: Module(
 
                 if (position0 == null) continue
 
-                val x = position0.x.toFloat()
-                val y = position0.y.toFloat()
+                val x = position0.x
+                val y = position0.y
 
-                val str = "${ent.displayName?.string}"
+                val name = "${ent.displayName?.string}"
+                val health = ent.health.toInt()
 
-                val stringWidth = FontRenderers.getStringWidth(str)
+                val nameWidth = FontRenderers.getStringWidth(name)
+                val healthWidth = FontRenderers.getStringWidth("$health ")
 
                 val friend = isFriend(ent.displayName?.string ?: "")
 
-                RenderUtils2D.drawRectFilled(x - 1 - stringWidth / 2f, y - 1, stringWidth + 2, FontRenderers.getHeight(),
+                RenderUtils2D.drawRectFilled(x + 4 - (nameWidth + healthWidth) / 2f, y - 1, (nameWidth + healthWidth) + 8, FontRenderers.getHeight(),
                     ColorRGB.BLACK.alpha(0.9f))
 
-                FontRenderers.drawString(str, x - stringWidth / 2f, y,
+                //name
+                FontRenderers.drawString(name, x - nameWidth / 2f, y,
                     if (friend) ColorRGB.GREEN else ColorRGB.WHITE)
 
+                //health
+                FontRenderers.drawString(" $health", x + nameWidth / 2f, y,
+                    if (health >= 20) ColorRGB(0, 255, 0)
+                    else if (health >= 10) ColorRGB(255, 255, 0)
+                    else ColorRGB(255, 0, 0)
+                )
             }
-
         }
-
     }
 
 }
