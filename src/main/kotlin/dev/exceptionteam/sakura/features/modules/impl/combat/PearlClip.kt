@@ -53,7 +53,11 @@ object PearlClip: Module(
                 secondTickFlag = false
                 disable()
             } else {
-                addRotation(player.yRot, pitch, 100)
+                addRotation(player.yRot, pitch, 100) {
+                    val slot = findItemInHotbar(Items.ENDER_PEARL) ?: return@addRotation
+
+                    if (switchMode == SwitchMode.SWITCH) player.inventory.selected = slot
+                }
                 secondTickFlag = true
             }
 
