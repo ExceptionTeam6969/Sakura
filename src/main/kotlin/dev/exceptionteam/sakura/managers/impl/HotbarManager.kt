@@ -18,9 +18,9 @@ object HotbarManager {
 
     fun NonNullContext.pickSilent(slot: Int, func: () -> Unit) {
         val lastSlot = player.inventory.selected
-        connection.send(ServerboundSetCarriedItemPacket(slot))
+        if (slot != lastSlot) connection.send(ServerboundSetCarriedItemPacket(slot))
         func()
-        connection.send(ServerboundSetCarriedItemPacket(lastSlot))
+        if (slot != lastSlot) connection.send(ServerboundSetCarriedItemPacket(lastSlot))
     }
 
     fun NonNullContext.swapSilent(slot: Int, func: () -> Unit) {
@@ -31,6 +31,7 @@ object HotbarManager {
 
     fun NonNullContext.switchTo(slot: Int, func: () -> Unit) {
         if (player.inventory.selected != slot) {
+            connection.send(ServerboundSetCarriedItemPacket(slot))
             player.inventory.selected = slot
         }
         func()

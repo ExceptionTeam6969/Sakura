@@ -42,8 +42,8 @@ object HolePush: Module(
     private val delay by setting("delay", 100, 0..1000)
     private val switchMode by setting("switch-mode", HotbarManager.SwitchMode.PICK)
     private val swing by setting("swing", true)
-    private val movePause by setting("PauseMove", false)
-    private val pistonColor by setting("PistonColor", ColorRGB(255, 153, 51))
+    private val movePause by setting("pause-on-moving", false)
+    private val pistonColor by setting("piston-color", ColorRGB(255, 153, 51))
 
     private val renderer = ESPRenderer().apply { aFilled = 60 }
     private var pistonInfo: PistonInfo? = null

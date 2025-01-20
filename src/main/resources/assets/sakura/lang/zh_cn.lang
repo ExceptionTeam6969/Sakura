@@ -153,6 +153,8 @@ modules.hole-push.rotation=转头
 modules.hole-push.delay=阶段延迟
 modules.hole-push.switch-mode=切换模式
 modules.hole-push.swing=摇手
+modules.hole-push.pause-on-moving=移动时暂停
+modules.hole-push.piston-color=活塞显示颜色
 
 modules.cancel-using=取消使用
 modules.cancel-using.shield=盾牌
@@ -177,16 +179,6 @@ modules.auto-totem.strict=严格
 modules.auto-totem.health=血量
 
 modules.packet-eat=数据包进食
-
-modules.hole-push=活塞推人
-modules.hole-push.only-players=仅对玩家生效
-modules.hole-push.rotation=转头
-modules.hole-push.delay=阶段延迟
-modules.hole-push.target-range=目标范围
-modules.hole-push.switch-mode=切换模式
-modules.hole-push.swing=摇手
-modules.hole-push.PauseMove=跑动时暂停
-modules.hole-push.PistonColor=活塞显示颜色
 
 modules.pearl-clip=珍珠卡墙
 modules.pearl-clip.pitch=俯仰角

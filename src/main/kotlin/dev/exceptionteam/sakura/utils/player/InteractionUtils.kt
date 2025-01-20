@@ -41,10 +41,11 @@ object InteractionUtils {
         hand: InteractionHand = InteractionHand.MAIN_HAND
     ) {
         val dir = getNeighbourSide(pos)
-        val blockSlot = findBlockInHotbar(block) ?: return
         val rotationAngle = getRotationTo(pos, dir)
 
         addRotation(rotationAngle, priority, shouldRotate) {
+            val blockSlot = findBlockInHotbar(block) ?: return@addRotation
+
             switch(switchMode, blockSlot) {
                 place(pos, dir, hand)
                 if (swing) player.swing(hand)
@@ -62,10 +63,11 @@ object InteractionUtils {
         hand: InteractionHand = InteractionHand.MAIN_HAND
     ) {
         val dir = getNeighbourSide(pos)
-        val blockSlot = findItemInHotbar(item) ?: return
         val rotationAngle = getRotationTo(pos, dir)
 
         addRotation(rotationAngle, priority, shouldRotate) {
+            val blockSlot = findItemInHotbar(item) ?: return@addRotation
+
             switch(switchMode, blockSlot) {
                 useItem(pos, dir, hand)
                 if (swing) player.swing(hand)
