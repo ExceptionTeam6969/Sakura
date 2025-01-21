@@ -10,9 +10,9 @@ data class ColorRGB(val rgba: Int) {
     constructor(r: Int, g: Int, b: Int, a: Int) :
             this(
                 (r and 255 shl 24) or
-                        (g and 255 shl 16) or
-                        (b and 255 shl 8) or
-                        (a and 255)
+                (g and 255 shl 16) or
+                (b and 255 shl 8) or
+                (a and 255)
             )
 
     constructor(r: Float, g: Float, b: Float) :

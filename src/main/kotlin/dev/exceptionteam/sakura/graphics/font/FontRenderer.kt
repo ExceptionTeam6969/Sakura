@@ -207,11 +207,35 @@ class FontRenderer(
     }
 
     private fun getColor(ch: Char): ColorRGB =
-        when (ch) {
-            'r' -> ColorRGB(255, 0, 0)
-            'g' -> ColorRGB(0, 255, 0)
-            'b' -> ColorRGB(0, 0, 255)
-            else -> ColorRGB.WHITE
+        ci[ch]?.let { return ColorRGB(it) } ?: ColorRGB.WHITE
+
+    companion object {
+        val ci: MutableMap<Char, Int> = mutableMapOf<Char, Int>().also {
+            it['0'] = 0x000000FF.toInt()
+            it['1'] = 0x0000AAFF.toInt()
+            it['2'] = 0x00AA00FF.toInt()
+            it['3'] = 0x00AAAAFF.toInt()
+            it['4'] = 0xAA0000FF.toInt()
+            it['5'] = 0xAA00AAFF.toInt()
+            it['6'] = 0xFFAA00FF.toInt()
+            it['7'] = 0xAAAAAAFF.toInt()
+            it['8'] = 0x555555FF.toInt()
+            it['9'] = 0x5555FFFF.toInt()
+
+            it['a'] = 0x55FF55FF.toInt()
+            it['b'] = 0x55FFFFFF.toInt()
+            it['c'] = 0xFF5555FF.toInt()
+            it['d'] = 0xFF55FFFF.toInt()
+            it['e'] = 0xFFFF55FF.toInt()
+            it['f'] = 0xFFFFFFFF.toInt()
+
+            it['A'] = 0x55FF55FF.toInt()
+            it['B'] = 0x55FFFFFF.toInt()
+            it['C'] = 0xFF5555FF.toInt()
+            it['D'] = 0xFF55FFFF.toInt()
+            it['E'] = 0xFFFF55FF.toInt()
+            it['F'] = 0xFFFFFFFF.toInt()
         }
+    }
 
 }
