@@ -5,7 +5,8 @@ import dev.exceptionteam.sakura.events.impl.TickEvent
 import dev.exceptionteam.sakura.events.nonNullListener
 import dev.exceptionteam.sakura.features.modules.Category
 import dev.exceptionteam.sakura.features.modules.Module
-import dev.exceptionteam.sakura.managers.impl.RotationManager
+import dev.exceptionteam.sakura.managers.impl.RotationManager.rotationPitch
+import dev.exceptionteam.sakura.managers.impl.RotationManager.rotationYaw
 import dev.exceptionteam.sakura.utils.interfaces.TranslationEnum
 import dev.exceptionteam.sakura.utils.player.PlayerUtils.isInBlock
 import net.minecraft.core.BlockPos
@@ -23,7 +24,7 @@ object Velocity: Module(
     private val mode by setting("mode", Mode.NORMAL)
     private val fire by setting("anti-fire", true)
     private var flag = false
-    private var Cool  = 0
+    private var cool  = 0
     var shouldCancelExplosion = false; private set
 
     init {
@@ -34,21 +35,21 @@ object Velocity: Module(
                 return@nonNullListener
             }
             //CPvp.cc bypass
-            if (Cool > 0) {
-                Cool--
+            if (cool > 0) {
+                cool--
             }
             //Grim站立全反 已失效 grim更新
             if (flag) {
                 val sprinting = player.isSprinting
-                if (Cool <= 0) {
+                if (cool <= 0) {
                     connection.send(
                         ServerboundMovePlayerPacket.PosRot(
                             player.x,
                             player.y,
                             player.z,
-                            RotationManager.rotationYaw,
+                            rotationYaw,
                             //Grim BaBzPacket QAQ + 90
-                            RotationManager.rotationPitch + 90,
+                            rotationPitch + 90,
                             false,
                             true,
                         )

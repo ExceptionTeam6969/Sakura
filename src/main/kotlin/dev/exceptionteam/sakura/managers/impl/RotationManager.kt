@@ -11,10 +11,6 @@ import net.minecraft.network.protocol.game.ServerboundMovePlayerPacket
 
 object RotationManager {
 
-
-    var rotationYaw = 0f
-    var rotationPitch = 0f
-
     init {
         nonNullListener<PlayerMotionEvent.Pre>(alwaysListening = true, priority = Int.MIN_VALUE) {
             rotationInfo?.func?.let { it1 -> it1() }
@@ -42,6 +38,9 @@ object RotationManager {
     }
 
     var rotationInfo: RotationInfo? = null; private set
+
+    val NonNullContext.rotationYaw: Float get() = rotationInfo?.yaw ?: player.yRot
+    val NonNullContext.rotationPitch: Float get() = rotationInfo?.pitch ?: player.xRot
 
     /**
      * Add a rotation to the rotation manager.
@@ -73,13 +72,14 @@ object RotationManager {
             return
         }
 
-        if (rotationInfo == null) {
-            rotationInfo = RotationInfo(yaw, pitch, priority, func)
-        } else {
-            if (priority > rotationInfo!!.priority) {
+        rotationInfo?.let {
+            if (priority > it.priority) {
                 rotationInfo = RotationInfo(yaw, pitch, priority, func)
             }
+            return
         }
+
+        rotationInfo = RotationInfo(yaw, pitch, priority, func)
     }
 
     data class RotationInfo(
