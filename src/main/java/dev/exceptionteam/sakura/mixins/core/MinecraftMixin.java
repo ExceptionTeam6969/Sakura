@@ -35,7 +35,7 @@ public class MinecraftMixin {
         TickEvent.Pre.INSTANCE.post();
     }
 
-    @Inject(method = "tick", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/multiplayer/MultiPlayerGameMode;tick()V"))
+    @Inject(method = "tick", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/tutorial/Tutorial;onLookAt(Lnet/minecraft/client/multiplayer/ClientLevel;Lnet/minecraft/world/phys/HitResult;)V"))
     public void onTickUpdate(CallbackInfo ci) {
         TickEvent.Update.INSTANCE.post();
     }

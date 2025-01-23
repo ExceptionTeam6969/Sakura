@@ -5,7 +5,8 @@ import dev.exceptionteam.sakura.features.modules.Module
 
 object CombatSettings: Module(
     name = "combat-settings",
-    category = Category.CLIENT
+    category = Category.CLIENT,
+    alwaysEnable = true,
 ) {
 
     val assumeResistance by setting("assume-resistance", true)

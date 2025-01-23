@@ -11,10 +11,6 @@ import dev.exceptionteam.sakura.utils.timing.TimerUtils
 import net.minecraft.world.item.Item
 import net.minecraft.world.item.Items
 
-/**
- * @author LangYa
- * @since 2024/12/14 18:09
- */
 object KillAura: Module(
     name = "kill-aura",
     category = Category.COMBAT

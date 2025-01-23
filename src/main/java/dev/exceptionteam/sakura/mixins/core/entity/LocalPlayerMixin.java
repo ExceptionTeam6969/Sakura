@@ -11,7 +11,7 @@ import org.spongepowered.asm.mixin.injection.Redirect;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 @Mixin(LocalPlayer.class)
-public abstract class ClientPlayerEntityMixin extends EntityMixin {
+public abstract class LocalPlayerMixin extends EntityMixin {
 
     @Unique
     public PlayerMotionEvent motionEvent;

@@ -162,6 +162,7 @@ modules.cancel-using.shield=盾牌
 modules.kill-aura=杀戮光环
 modules.kill-aura.range=范围
 modules.kill-aura.delay=延迟
+modules.kill-aura.only-sword=仅剑
 modules.kill-aura.only-players=仅对玩家生效
 modules.kill-aura.rotation=转头
 modules.kill-aura.swing=摇手
@@ -188,3 +189,9 @@ modules.welcomer=欢迎字条
 modules.welcomer.text-color=文字颜色
 modules.welcomer.shadow=阴影
 modules.welcomer.scale=缩放
+
+modules.combat-settings=战斗设置
+modules.combat-settings.assume-resistance=假设抗性
+modules.combat-settings.back-side-sampling=背面采样
+modules.combat-settings.horizontal-center-sampling=水平中心采样
+modules.combat-settings.vertical-center-sampling=垂直中心采样

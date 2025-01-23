@@ -6,7 +6,7 @@
         "MinecraftMixin",
         "chat.ChatComponentMixin",
         "chat.GuiMessageLineMixin",
-        "entity.ClientPlayerEntityMixin",
+        "entity.LocalPlayerMixin",
         "entity.EntityMixin",
         "entity.LivingEntityMixin",
         "graphics.EntityRendererMixin",

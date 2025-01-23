@@ -41,15 +41,6 @@ object ModuleManager {
             AutoTotem,
             PearlClip,
 
-            // Client
-            UiSetting,
-            ClickGUI,
-            HUDEditor,
-            ChatInfo,
-            CustomFont,
-            RenderSystemMod,
-            Language,
-
             // Misc
             PacketEat,
             Disabler,
@@ -70,6 +61,16 @@ object ModuleManager {
             NoFall,
             CancelUsing,
             PacketDigging,
+
+            // Client
+            UiSetting,
+            ClickGUI,
+            HUDEditor,
+            ChatInfo,
+            CombatSettings,
+            CustomFont,
+            RenderSystemMod,
+            Language,
 
             // HUD
             WaterMark,

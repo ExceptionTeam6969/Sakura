@@ -41,6 +41,8 @@ public abstract class EntityMixin {
 
     @Shadow public abstract float getYRot(float f);
 
+    @Shadow public abstract int getId();
+
     @Redirect(method = "updateFluidHeightAndDoFluidPushing", at = @At(value = "INVOKE", target = "Lnet/minecraft/world/entity/Entity;isPushedByFluid()Z"))
     public boolean updateMovementInFluid(Entity entity) {
         return entity.isPushedByFluid() && !(Velocity.INSTANCE.isEnabled() && Velocity.INSTANCE.getNoPush());
@@ -48,7 +50,7 @@ public abstract class EntityMixin {
 
     @Redirect(method = "moveRelative", at = @At(value = "INVOKE", target = "Lnet/minecraft/world/entity/Entity;getInputVector(Lnet/minecraft/world/phys/Vec3;FF)Lnet/minecraft/world/phys/Vec3;"))
     public Vec3 hookVelocity(Vec3 movementInput, float speed, float yaw) {
-        if ((Object) this == Minecraft.getInstance().player) {
+        if (this.getId() == Minecraft.getInstance().player.getId()) {
             PlayerVelocityStrafeEvent event = new PlayerVelocityStrafeEvent(yaw);
             event.post();
             return getInputVector(movementInput, speed, event.getYaw());

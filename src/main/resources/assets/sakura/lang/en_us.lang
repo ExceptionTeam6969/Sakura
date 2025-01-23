@@ -155,6 +155,7 @@ modules.cancel-using.shield=Shield
 modules.kill-aura=Kill Aura
 modules.kill-aura.range=Range
 modules.kill-aura.delay=Delay
+modules.kill-aura.only-sword=Only Sword
 modules.kill-aura.only-players=Only Players
 modules.kill-aura.rotation=Rotation
 modules.kill-aura.swing=Swing
@@ -180,3 +181,9 @@ modules.welcomer=Welcomer
 modules.welcomer.text-color=Text Color
 modules.welcomer.shadow=Shadow
 modules.welcomer.scale=Scale
+
+modules.combat-settings=Combat Settings
+modules.combat-settings.assume-resistance=Assume Resistance
+modules.combat-settings.back-side-sampling=Back Side Sampling
+modules.combat-settings.horizontal-center-sampling=Horizontal Center Sampling
+modules.combat-settings.vertical-center-sampling=Vertical Center Sampling
