@@ -50,6 +50,8 @@ public abstract class EntityMixin {
 
     @Redirect(method = "moveRelative", at = @At(value = "INVOKE", target = "Lnet/minecraft/world/entity/Entity;getInputVector(Lnet/minecraft/world/phys/Vec3;FF)Lnet/minecraft/world/phys/Vec3;"))
     public Vec3 hookVelocity(Vec3 movementInput, float speed, float yaw) {
+        if (Minecraft.getInstance().player == null) return getInputVector(movementInput, speed, yaw);
+
         if (this.getId() == Minecraft.getInstance().player.getId()) {
             PlayerVelocityStrafeEvent event = new PlayerVelocityStrafeEvent(yaw);
             event.post();
