@@ -15,7 +15,8 @@ object NoRender: Module(
     val totem by setting("totem", false)
     val underWater by setting("under-water", true)
     val inWall by setting("in-wall", true)
-    val noHurtCam by setting("no-hurt-cam",true)
+    val noHurtCam by setting("no-hurt-cam", true)
+    val potionicon by setting("potion-icon", true)
 
 
     init {
@@ -24,8 +25,9 @@ object NoRender: Module(
             when (e.particle) {
                 is HugeExplosionParticle -> if (explosions) e.cancel()
                 else -> {}
-            }
-        }
 
+            }
+
+        }
     }
 }
