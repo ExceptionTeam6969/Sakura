@@ -16,9 +16,8 @@ object NoRender: Module(
     val underWater by setting("under-water", true)
     val inWall by setting("in-wall", true)
     val noHurtCam by setting("no-hurt-cam", true)
-    val potionicon by setting("potion-icon", true)
-
-
+    val potionIcon by setting("potion-icon", true)
+    
     init {
 
         listener<AddParticleEvent> { e ->

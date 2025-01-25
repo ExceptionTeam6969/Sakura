@@ -31,7 +31,7 @@ public class InGameHudMixin {
 
     @Inject(method = "renderEffects", at = @At("HEAD"), cancellable = true)
     private void onRenderStatusEffectOverlay(CallbackInfo info) {
-        if (NoRender.INSTANCE.isEnabled() && NoRender.INSTANCE.getPotionicon()) info.cancel();
+        if (NoRender.INSTANCE.isEnabled() && NoRender.INSTANCE.getPotionIcon()) info.cancel();
     }
 
 }
