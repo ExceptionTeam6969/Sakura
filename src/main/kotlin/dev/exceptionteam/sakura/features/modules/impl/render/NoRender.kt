@@ -17,7 +17,7 @@ object NoRender: Module(
     val inWall by setting("in-wall", true)
     val noHurtCam by setting("no-hurt-cam", true)
     val potionIcon by setting("potion-icon", true)
-    
+
     init {
 
         listener<AddParticleEvent> { e ->

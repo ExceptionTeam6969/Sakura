@@ -143,10 +143,6 @@ object HolePush: Module(
                 val pos = pistonPos.relative(direction)
                 val blockState = pos.blockState ?: return@forEach
                 val block = blockState.block
-                if (lever) {
-                    if (block == Blocks.AIR) return@forEach
-                    
-                }
                 if (block != Blocks.AIR) return@forEach
                 if (pos == blacklist) return@forEach
                 return pos

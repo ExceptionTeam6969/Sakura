@@ -167,6 +167,7 @@ modules.no-render.totem=Totem
 modules.no-render.under-water=Under Water
 modules.no-render.in-wall=In Wall
 modules.no-render.no-hurt-cam=No Hurt Cam
+modules.no-render.potion-icon=No Potion Icon
 
 modules.auto-totem=Auto Totem
 modules.auto-totem.strict=Strict
