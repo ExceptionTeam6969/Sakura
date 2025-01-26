@@ -1,6 +1,8 @@
-<h1 style="text-align:center">Sakura Client</h1>
+<div align="center">
 
----
+# Sakura Client
+
+</div>
 
 ## Usage
 - Default ClickGui key bind - ```Right Shift```
