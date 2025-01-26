@@ -13,6 +13,7 @@ object CustomFont: Module(
 
     val fontSize by setting("font-size", 12, 1..40)
     val fontMode by setting("font-mode", FontMode.GENERAL)
+    val overrideMc by setting("override-mc", false)
 
     enum class FontMode(override val key: CharSequence): TranslationEnum {
         GENERAL("general"),

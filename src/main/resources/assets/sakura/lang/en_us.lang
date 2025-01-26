@@ -40,6 +40,7 @@ modules.custom-font.font-size=Font Size
 modules.custom-font.font-mode=Font Mode
 modules.custom-font.font-mode.general=General
 modules.custom-font.font-mode.sparse=Sparse
+modules.custom-font.override-mc=Override Minecraft Font
 
 modules.render-system=Render System
 modules.render-system.description=Custom render system

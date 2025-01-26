@@ -3,6 +3,7 @@
     "package": "dev.exceptionteam.sakura.mixins.font",
     "compatibilityLevel": "JAVA_21",
     "client": [
+        "FontMixin"
     ],
     "injectors": {
         "defaultRequire": 1

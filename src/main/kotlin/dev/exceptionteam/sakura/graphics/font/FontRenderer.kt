@@ -1,7 +1,6 @@
 package dev.exceptionteam.sakura.graphics.font
 
 import dev.exceptionteam.sakura.features.modules.impl.client.CustomFont
-import dev.exceptionteam.sakura.graphics.GlHelper
 import dev.exceptionteam.sakura.graphics.buffer.VertexBufferObjects
 import dev.exceptionteam.sakura.graphics.buffer.drawArrays
 import dev.exceptionteam.sakura.graphics.color.ColorRGB
@@ -23,8 +22,6 @@ class FontRenderer(
         val length = text.length
         var shouldContinue = false
         var color = color0
-
-        GlHelper.lineSmooth = true
 
         val scale = scale0 / 40f * CustomFont.fontSize
 
@@ -79,8 +76,6 @@ class FontRenderer(
                 FontShader.textureUnit = null
             }
         }
-
-        GlHelper.lineSmooth = false
 
         return width
     }
