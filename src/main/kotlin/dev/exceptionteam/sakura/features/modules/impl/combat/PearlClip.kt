@@ -34,11 +34,6 @@ object PearlClip: Module(
         }
 
         nonNullListener<TickEvent.Update> {
-            if (switchMode == SwitchMode.OFF && player.mainHandItem.item != Items.ENDER_PEARL) {
-                disable()
-                return@nonNullListener
-            }
-
             if (secondTickFlag) {
                 addRotation(player.yRot, pitch, 100) {
                     val slot = findItemInHotbar(Items.ENDER_PEARL) ?: run {

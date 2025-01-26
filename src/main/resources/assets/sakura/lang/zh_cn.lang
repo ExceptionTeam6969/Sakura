@@ -103,6 +103,13 @@ modules.packet-digging=发包挖掘
 modules.packet-digging.color=渲染颜色
 modules.packet-digging.switch-mode=鬼手切换
 
+modules.auto-Bottle=自动经验瓶
+modules.auto-Bottle.pitch=头部角度
+modules.auto-Bottle.strict=严格
+modules.auto-Bottle.delay=延迟
+modules.auto-Bottle.swing=摇手
+modules.auto-Bottle.switch-mode=切换模式
+
 modules.auto-crystal=自动水晶
 modules.auto-crystal.page=页面
 modules.auto-crystal.page.general=常规

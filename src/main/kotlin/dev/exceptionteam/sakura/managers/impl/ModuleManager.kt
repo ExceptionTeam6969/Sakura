@@ -34,6 +34,7 @@ object ModuleManager {
     private fun loadModules() {
         modules = arrayOf(
             // Combat
+            AutoBottle,
             AutoCrystal,
             FeetTrap,
             HolePush,
