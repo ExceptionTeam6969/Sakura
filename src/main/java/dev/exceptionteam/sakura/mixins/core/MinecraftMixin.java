@@ -32,17 +32,17 @@ public class MinecraftMixin {
 
     @Inject(method = "tick", at = @At("HEAD"))
     public void onTickPre(CallbackInfo ci) {
-        TickEvent.Pre.INSTANCE.post();
+        TickEvents.Pre.INSTANCE.post();
     }
 
     @Inject(method = "tick", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/tutorial/Tutorial;onLookAt(Lnet/minecraft/client/multiplayer/ClientLevel;Lnet/minecraft/world/phys/HitResult;)V"))
     public void onTickUpdate(CallbackInfo ci) {
-        TickEvent.Update.INSTANCE.post();
+        TickEvents.Update.INSTANCE.post();
     }
 
     @Inject(method = "tick", at = @At("TAIL"))
     public void onTickPost(CallbackInfo ci) {
-        TickEvent.Post.INSTANCE.post();
+        TickEvents.Post.INSTANCE.post();
     }
 
     @Inject(method = "run", at = @At(value = "INVOKE", target = "Lnet/minecraft/util/profiling/metrics/profiling/MetricsRecorder;endTick()V"))

@@ -1,6 +1,6 @@
 package dev.exceptionteam.sakura.features.modules.impl.combat
 
-import dev.exceptionteam.sakura.events.impl.TickEvent
+import dev.exceptionteam.sakura.events.impl.TickEvents
 import dev.exceptionteam.sakura.events.nonNullListener
 import dev.exceptionteam.sakura.features.modules.Category
 import dev.exceptionteam.sakura.features.modules.Module
@@ -33,7 +33,7 @@ object PearlClip: Module(
             secondTickFlag = false
         }
 
-        nonNullListener<TickEvent.Update> {
+        nonNullListener<TickEvents.Update> {
             if (secondTickFlag) {
                 addRotation(player.yRot, pitch, 100) {
                     val slot = findItemInHotbar(Items.ENDER_PEARL) ?: run {

@@ -1,7 +1,7 @@
 package dev.exceptionteam.sakura.features.modules.impl.movement
 
 import dev.exceptionteam.sakura.events.impl.PacketEvents
-import dev.exceptionteam.sakura.events.impl.TickEvent
+import dev.exceptionteam.sakura.events.impl.TickEvents
 import dev.exceptionteam.sakura.events.nonNullListener
 import dev.exceptionteam.sakura.features.modules.Category
 import dev.exceptionteam.sakura.features.modules.Module
@@ -29,7 +29,7 @@ object Velocity: Module(
 
     init {
 
-        nonNullListener<TickEvent.Post> {
+        nonNullListener<TickEvents.Post> {
             //anti fire lag
             if (player.isOnFire && fire && (player.hurtTime > 0)) {
                 return@nonNullListener

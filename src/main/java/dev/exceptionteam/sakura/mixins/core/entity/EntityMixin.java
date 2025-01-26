@@ -6,6 +6,7 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.phys.Vec3;
 import org.spongepowered.asm.mixin.Mixin;
+import org.spongepowered.asm.mixin.Overwrite;
 import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Redirect;
@@ -39,6 +40,14 @@ public abstract class EntityMixin {
         return null;
     }
 
+    @Shadow
+    public void setDeltaMovement(Vec3 vec3) {}
+
+    @Shadow
+    public Vec3 getDeltaMovement() {
+        return null;
+    }
+
     @Shadow public abstract float getYRot(float f);
 
     @Shadow public abstract int getId();
@@ -59,6 +68,25 @@ public abstract class EntityMixin {
         }
 
         return getInputVector(movementInput, speed, yaw);
+    }
+
+    /**
+     * @author slmpc
+     * @reason strafe fix
+     */
+    @Overwrite
+    public void moveRelative(float amount, Vec3 relative) {
+        Vec3 vec3;
+        if (Minecraft.getInstance().player != null && this.getId() == Minecraft.getInstance().player.getId()) {
+            PlayerVelocityStrafeEvent event = new PlayerVelocityStrafeEvent(this.getYRot());
+            event.post();
+            vec3 = getInputVector(relative, amount, event.getYaw());
+        } else {
+            vec3 = getInputVector(relative, amount, this.getYRot());
+        }
+        if (vec3 != null) {
+            this.setDeltaMovement(this.getDeltaMovement().add(vec3));
+        }
     }
 
 }

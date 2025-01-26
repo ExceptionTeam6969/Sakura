@@ -3,7 +3,7 @@ package dev.exceptionteam.sakura.managers.impl
 import dev.exceptionteam.sakura.events.NonNullContext
 import dev.exceptionteam.sakura.events.impl.PacketEvents
 import dev.exceptionteam.sakura.events.impl.PlayerMotionEvent
-import dev.exceptionteam.sakura.events.impl.TickEvent
+import dev.exceptionteam.sakura.events.impl.TickEvents
 import dev.exceptionteam.sakura.events.nonNullListener
 import dev.exceptionteam.sakura.mixins.core.packet.ServerboundMovePlayerPacketAccessor
 import dev.exceptionteam.sakura.utils.math.vector.Vec2f
@@ -23,7 +23,7 @@ object RotationManager {
             }
         }
 
-        nonNullListener<TickEvent.Pre>(alwaysListening = true, priority = Int.MAX_VALUE) {
+        nonNullListener<TickEvents.Pre>(alwaysListening = true, priority = Int.MAX_VALUE) {
             rotationInfo = null
         }
 

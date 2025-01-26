@@ -3,7 +3,7 @@ package dev.exceptionteam.sakura.features.modules.impl.player
 import dev.exceptionteam.sakura.events.NonNullContext
 import dev.exceptionteam.sakura.events.impl.PlayerDamageBlockEvent
 import dev.exceptionteam.sakura.events.impl.Render3DEvent
-import dev.exceptionteam.sakura.events.impl.TickEvent
+import dev.exceptionteam.sakura.events.impl.TickEvents
 import dev.exceptionteam.sakura.events.nonNullListener
 import dev.exceptionteam.sakura.features.modules.Category
 import dev.exceptionteam.sakura.features.modules.Module
@@ -21,7 +21,6 @@ import net.minecraft.world.InteractionHand
 import net.minecraft.world.item.Items
 import net.minecraft.world.level.block.Block
 import net.minecraft.world.level.block.Blocks
-import java.util.*
 
 
 object PacketDigging: Module(
@@ -39,7 +38,7 @@ object PacketDigging: Module(
     private val renderer = ESPRenderer().apply { aFilled = 60 }
 
     init {
-        nonNullListener<TickEvent.Update> {
+        nonNullListener<TickEvents.Update> {
             if (!godBlocks.contains(breakPos?.let { it1 -> world.getBlockState(it1).block })) {
                 //鬼手失效
                 val blockSlot = findItemInHotbar(Items.NETHERITE_PICKAXE) ?: return@nonNullListener

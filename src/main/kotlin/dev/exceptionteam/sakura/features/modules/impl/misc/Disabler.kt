@@ -1,7 +1,7 @@
 package dev.exceptionteam.sakura.features.modules.impl.misc
 
 import dev.exceptionteam.sakura.events.impl.PacketEvents
-import dev.exceptionteam.sakura.events.impl.TickEvent
+import dev.exceptionteam.sakura.events.impl.TickEvents
 import dev.exceptionteam.sakura.events.nonNullListener
 import dev.exceptionteam.sakura.features.modules.Category
 import dev.exceptionteam.sakura.features.modules.Module
@@ -33,7 +33,7 @@ object Disabler: Module(
             }
         }
 
-        nonNullListener<TickEvent.Update> {
+        nonNullListener<TickEvents.Update> {
             if(noMovePlayer) {
                 connection.send(
                     ServerboundMovePlayerPacket.PosRot(

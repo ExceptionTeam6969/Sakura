@@ -38,7 +38,7 @@ open class NonNullContext internal constructor(
         var instance: NonNullContext? = null; private set
 
         init {
-            listener<TickEvent.Pre>(alwaysListening = true) {
+            listener<TickEvents.Pre>(alwaysListening = true) {
                 update()
             }
 

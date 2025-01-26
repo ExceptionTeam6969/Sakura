@@ -1,7 +1,7 @@
 package dev.exceptionteam.sakura.features.modules.impl.combat
 
 import dev.exceptionteam.sakura.events.NonNullContext
-import dev.exceptionteam.sakura.events.impl.TickEvent
+import dev.exceptionteam.sakura.events.impl.TickEvents
 import dev.exceptionteam.sakura.events.nonNullListener
 import dev.exceptionteam.sakura.features.modules.Category
 import dev.exceptionteam.sakura.features.modules.Module
@@ -20,7 +20,7 @@ object AutoTotem: Module(
 
     init {
 
-        nonNullListener<TickEvent.Update> {
+        nonNullListener<TickEvents.Update> {
             if (player.health <= health && player.offhandItem.item != Items.TOTEM_OF_UNDYING) {
                 val slot = findItemInInventory(Items.TOTEM_OF_UNDYING) ?: return@nonNullListener
                 if (strict) player.deltaMovement = Vec3.ZERO        // Reset movement

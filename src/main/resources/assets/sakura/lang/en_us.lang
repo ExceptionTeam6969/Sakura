@@ -97,12 +97,12 @@ modules.packet-digging=Packet Digging
 modules.packet-digging.color=Color
 modules.packet-digging.switch-mode=Switch Mode
 
-modules.auto-Bottle=auto-Bottle
-modules.auto-Bottle.pitch=Pitch
-modules.auto-Bottle.strict=Strict
-modules.auto-Bottle.delay=Delay
-modules.auto-Bottle.swing=Swing
-modules.auto-Bottle.switch-mode=Switch Mode
+modules.auto-bottle=Auto Bottle
+modules.auto-bottle.pitch=Pitch
+modules.auto-bottle.strict=Strict
+modules.auto-bottle.delay=Delay
+modules.auto-bottle.swing=Swing
+modules.auto-bottle.switch-mode=Switch Mode
 
 modules.auto-crystal=Auto Crystal
 modules.auto-crystal.page=Page

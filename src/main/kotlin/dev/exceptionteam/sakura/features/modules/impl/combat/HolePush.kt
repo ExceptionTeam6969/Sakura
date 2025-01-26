@@ -2,7 +2,7 @@ package dev.exceptionteam.sakura.features.modules.impl.combat
 
 import dev.exceptionteam.sakura.events.NonNullContext
 import dev.exceptionteam.sakura.events.impl.Render3DEvent
-import dev.exceptionteam.sakura.events.impl.TickEvent
+import dev.exceptionteam.sakura.events.impl.TickEvents
 import dev.exceptionteam.sakura.events.nonNullListener
 import dev.exceptionteam.sakura.features.modules.Category
 import dev.exceptionteam.sakura.features.modules.Module
@@ -65,7 +65,7 @@ object HolePush: Module(
             }
         }
 
-        nonNullListener<TickEvent.Update> {
+        nonNullListener<TickEvents.Update> {
             if (movePause && isMoving()) return@nonNullListener
             if (onlyPlayers) getTargetPlayer(targetRange)?.let {
                 if (multiCount > BPT) return@nonNullListener

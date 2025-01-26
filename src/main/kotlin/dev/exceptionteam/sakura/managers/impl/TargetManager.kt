@@ -1,14 +1,13 @@
 package dev.exceptionteam.sakura.managers.impl
 
 import dev.exceptionteam.sakura.events.NonNullContext
-import dev.exceptionteam.sakura.events.impl.TickEvent
+import dev.exceptionteam.sakura.events.impl.TickEvents
 import dev.exceptionteam.sakura.events.nonNullListener
 import dev.exceptionteam.sakura.managers.impl.FriendManager.isFriend
 import dev.exceptionteam.sakura.utils.math.distanceSqTo
 import dev.exceptionteam.sakura.utils.math.sq
 import net.minecraft.world.entity.Entity
 import net.minecraft.world.entity.Mob
-import net.minecraft.world.entity.animal.Animal
 import net.minecraft.world.entity.player.Player
 
 object TargetManager {
@@ -17,7 +16,7 @@ object TargetManager {
 
     init {
 
-        nonNullListener<TickEvent.Update>(priority = Int.MAX_VALUE - 100, alwaysListening = true) {
+        nonNullListener<TickEvents.Update>(priority = Int.MAX_VALUE - 100, alwaysListening = true) {
             val tTargets = mutableListOf<Entity>()
 
             world.entitiesForRendering().forEach { ent ->

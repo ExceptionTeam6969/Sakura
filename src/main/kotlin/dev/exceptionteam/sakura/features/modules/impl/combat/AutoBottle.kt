@@ -1,6 +1,6 @@
 package dev.exceptionteam.sakura.features.modules.impl.combat
 
-import dev.exceptionteam.sakura.events.impl.TickEvent
+import dev.exceptionteam.sakura.events.impl.TickEvents
 import dev.exceptionteam.sakura.events.nonNullListener
 import dev.exceptionteam.sakura.features.modules.Category
 import dev.exceptionteam.sakura.features.modules.Module
@@ -16,7 +16,7 @@ import net.minecraft.world.item.Items
 import net.minecraft.world.phys.Vec3
 
 object AutoBottle: Module(
-    name = "auto-Bottle",
+    name = "auto-bottle",
     category = Category.COMBAT
 ) {
     private val pitch by setting("pitch", 80f, 0f..90f)
@@ -36,7 +36,7 @@ object AutoBottle: Module(
         onDisable {
             xp = false
         }
-        nonNullListener<TickEvent.Update> {
+        nonNullListener<TickEvents.Update> {
             if (switchMode == HotbarManager.SwitchMode.OFF && player.mainHandItem.item != Items.EXPERIENCE_BOTTLE ) {
                 disable()
                 return@nonNullListener

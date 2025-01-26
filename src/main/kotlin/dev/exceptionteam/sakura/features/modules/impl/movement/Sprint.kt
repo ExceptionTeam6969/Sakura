@@ -1,6 +1,6 @@
 package dev.exceptionteam.sakura.features.modules.impl.movement
 
-import dev.exceptionteam.sakura.events.impl.TickEvent
+import dev.exceptionteam.sakura.events.impl.TickEvents
 import dev.exceptionteam.sakura.events.nonNullListener
 import dev.exceptionteam.sakura.features.modules.Category
 import dev.exceptionteam.sakura.features.modules.Module
@@ -16,7 +16,7 @@ object Sprint: Module(
 
     init {
 
-        nonNullListener<TickEvent.Post> {
+        nonNullListener<TickEvents.Update> {
             when (mode) {
                 Mode.LEGIT -> {
                     mc.options.keySprint.isDown = true

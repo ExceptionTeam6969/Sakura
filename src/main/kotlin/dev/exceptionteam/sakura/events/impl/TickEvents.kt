@@ -2,7 +2,7 @@ package dev.exceptionteam.sakura.events.impl
 
 import dev.exceptionteam.sakura.events.Event
 
-sealed class TickEvent {
+sealed class TickEvents {
 
     object Pre: Event()
 
