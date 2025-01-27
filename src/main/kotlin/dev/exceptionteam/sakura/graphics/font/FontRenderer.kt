@@ -19,8 +19,7 @@ class FontRenderer(
         scale0: Float = 1f,
         backFont: FontRenderer? = null
     ): Float {
-        val length = text.length
-        var shouldContinue = false
+        var continueIndex = -1
         var color = color0
 
         val scale = scale0 / 40f * CustomFont.fontSize
@@ -29,20 +28,21 @@ class FontRenderer(
 
         when (CustomFont.fontMode) {
             CustomFont.FontMode.GENERAL -> {
-                for (i in 0 until length) {
-                    if (shouldContinue) {
-                        shouldContinue = false
-                        continue
+                text.forEachIndexed { index, ch ->
+                    if (index == continueIndex) {
+                        continueIndex = -1
+                        color = getColor(ch)
+                        return@forEachIndexed
                     }
-                    if (text[i] == '§' && i < length - 1) {
-                        shouldContinue = true
-                        color = getColor(text[i + 1])
-                        continue
+
+                    if (ch == '§') {
+                        continueIndex = index + 1
+                        return@forEachIndexed
                     }
 
                     val prevWidth =
-                        if (canDisplay(text[i])) drawChar(text[i], x + width, y, color, shadow, scale)
-                        else backFont?.drawChar(text[i], x + width, y, color, shadow, scale) ?: 0f
+                        if (canDisplay(ch)) drawChar(ch, x + width, y, color, shadow, scale)
+                        else backFont?.drawChar(ch, x + width, y, color, shadow, scale) ?: 0f
 
                     width += prevWidth
                 }
@@ -53,20 +53,21 @@ class FontRenderer(
                 FontShader.textureUnit = font.sparse.tex.handle
 
                 VertexBufferObjects.RenderFont.drawArrays(GL_TRIANGLES) {
-                    for (i in 0 until length) {
-                        if (shouldContinue) {
-                            shouldContinue = false
-                            continue
+                    text.forEachIndexed { index, ch ->
+                        if (index == continueIndex) {
+                            continueIndex = -1
+                            color = getColor(ch)
+                            return@forEachIndexed
                         }
-                        if (text[i] == '§' && i < length - 1) {
-                            shouldContinue = true
-                            color = getColor(text[i + 1])
-                            continue
+
+                        if (ch == '§') {
+                            continueIndex = index + 1
+                            return@forEachIndexed
                         }
 
                         val prevWidth =
-                            if (canDisplay(text[i])) drawCharSparse(text[i], x + width, y, color, shadow, scale)
-                            else 0f     // fixme: backFont?.drawCharSparse(text[i], x + width, y, color, scale) ?: 0f
+                            if (canDisplay(ch)) drawCharSparse(ch, x + width, y, color, shadow, scale)
+                            else 0f // fixme: backFont?.drawCharSparse(ch, x + width, y, color, shadow, scale) ?: 0f
 
                         width += prevWidth
                     }
