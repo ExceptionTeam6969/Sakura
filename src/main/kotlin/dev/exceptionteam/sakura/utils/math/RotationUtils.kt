@@ -6,6 +6,7 @@ import dev.exceptionteam.sakura.utils.world.BlockUtils
 import net.minecraft.core.BlockPos
 import net.minecraft.core.Direction
 import net.minecraft.world.phys.Vec3
+import kotlin.math.abs
 import kotlin.math.atan2
 import kotlin.math.hypot
 
@@ -57,7 +58,14 @@ object RotationUtils {
         val yaw0 = normalizeAngle(atan2(vec.z, vec.x).toDegree() - 90.0)
         val pitch = normalizeAngle(-atan2(vec.y, xz).toDegree())
 
-        val yaw = (player.yRot.toInt() / 360 * 360) + yaw0
+        val yawDiff1 = abs((player.yRot.toInt() / 360 * 360) + yaw0 - player.yRot)
+        val yawDiff2 = abs((player.yRot.toInt() / 360 * 360) + 360 + yaw0 - player.yRot)
+
+        // Get the closest yaw angle to the player's yaw angle
+        val yaw =
+            if (yawDiff1 < yawDiff2) (player.yRot.toInt() / 360 * 360) + yaw0
+            else (player.yRot.toInt() / 360 * 360) + 360 + yaw0
+
         return Vec2f(yaw, pitch)
     }
 
