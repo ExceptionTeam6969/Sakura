@@ -72,6 +72,7 @@ object ModuleManager {
             CustomFont,
             RenderSystemMod,
             Language,
+            Rotations,
 
             // HUD
             WaterMark,

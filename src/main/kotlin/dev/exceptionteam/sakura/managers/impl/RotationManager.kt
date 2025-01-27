@@ -5,6 +5,7 @@ import dev.exceptionteam.sakura.events.impl.PacketEvents
 import dev.exceptionteam.sakura.events.impl.PlayerMotionEvent
 import dev.exceptionteam.sakura.events.impl.TickEvents
 import dev.exceptionteam.sakura.events.nonNullListener
+import dev.exceptionteam.sakura.features.modules.impl.client.Rotations
 import dev.exceptionteam.sakura.mixins.core.packet.ServerboundMovePlayerPacketAccessor
 import dev.exceptionteam.sakura.utils.math.vector.Vec2f
 import net.minecraft.network.protocol.game.ServerboundMovePlayerPacket
@@ -13,10 +14,18 @@ object RotationManager {
 
     init {
         nonNullListener<PlayerMotionEvent.Pre>(alwaysListening = true, priority = Int.MIN_VALUE) {
-            rotationInfo?.func?.let { it1 -> it1() }
+            rotationInfo?.let { info ->
+                info.func()
+
+                if (Rotations.packetRotation) {
+                    connection.send(ServerboundMovePlayerPacket.Rot(info.yaw, info.pitch, player.onGround(), player.isShiftKeyDown))
+                }
+            }
         }
 
         nonNullListener<PlayerMotionEvent>(alwaysListening = true, priority = Int.MAX_VALUE) { e ->
+            if (Rotations.packetRotation) return@nonNullListener
+
             rotationInfo?.let {
                 e.yaw = it.yaw
                 e.pitch = it.pitch
@@ -28,6 +37,7 @@ object RotationManager {
         }
 
         nonNullListener<PacketEvents.Send>(alwaysListening = true, priority = Int.MAX_VALUE) { e ->
+            if (Rotations.packetRotation) return@nonNullListener
             if (e.packet !is ServerboundMovePlayerPacket) return@nonNullListener
 
             rotationInfo?.let {

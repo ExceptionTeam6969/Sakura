@@ -196,3 +196,6 @@ modules.combat-settings.assume-resistance=Assume Resistance
 modules.combat-settings.back-side-sampling=Back Side Sampling
 modules.combat-settings.horizontal-center-sampling=Horizontal Center Sampling
 modules.combat-settings.vertical-center-sampling=Vertical Center Sampling
+
+modules.rotations=Rotations
+modules.rotations.packet-rotation=Packet Rotation

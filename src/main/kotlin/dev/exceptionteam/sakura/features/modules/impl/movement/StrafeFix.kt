@@ -6,6 +6,7 @@ import dev.exceptionteam.sakura.events.impl.PlayerVelocityStrafeEvent
 import dev.exceptionteam.sakura.events.nonNullListener
 import dev.exceptionteam.sakura.features.modules.Category
 import dev.exceptionteam.sakura.features.modules.Module
+import dev.exceptionteam.sakura.features.modules.impl.client.Rotations
 import dev.exceptionteam.sakura.managers.impl.RotationManager.rotationInfo
 import net.minecraft.util.Mth
 import kotlin.math.abs
@@ -18,6 +19,8 @@ object StrafeFix: Module(
     init {
 
         nonNullListener<MovementInputEvent> { event ->
+            if (Rotations.packetRotation) return@nonNullListener
+
             rotationInfo?.let { inf ->
                 val yaw = inf.yaw
                 val forward: Float = event.forward
@@ -55,10 +58,14 @@ object StrafeFix: Module(
         }
 
         nonNullListener<PlayerVelocityStrafeEvent> { event ->
+            if (Rotations.packetRotation) return@nonNullListener
+
             rotationInfo?.let { event.yaw = it.yaw }
         }
 
         nonNullListener<PlayerJumpEvent> { event ->
+            if (Rotations.packetRotation) return@nonNullListener
+
             rotationInfo?.let { event.yaw = it.yaw }
         }
 

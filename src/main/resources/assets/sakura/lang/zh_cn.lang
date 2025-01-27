@@ -204,3 +204,6 @@ modules.combat-settings.assume-resistance=假设抗性
 modules.combat-settings.back-side-sampling=背面采样
 modules.combat-settings.horizontal-center-sampling=水平中心采样
 modules.combat-settings.vertical-center-sampling=垂直中心采样
+
+modules.rotations=转头
+modules.rotations.packet-rotation=发包转头
