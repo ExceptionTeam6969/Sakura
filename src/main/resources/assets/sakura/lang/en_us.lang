@@ -204,3 +204,8 @@ modules.fps=FPS
 modules.fps.text-color=Text Color
 modules.fps.shadow=Shadow
 modules.fps.scale=Scale
+
+modules.ping=Ping
+modules.ping.text-color=Text Color
+modules.ping.shadow=Shadow
+modules.ping.scale=Scale

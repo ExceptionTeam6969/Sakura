@@ -212,3 +212,8 @@ modules.fps=帧数
 modules.fps.text-color=文字颜色
 modules.fps.shadow=阴影
 modules.fps.scale=缩放
+
+modules.ping=网络延迟
+modules.ping.text-color=文字颜色
+modules.ping.shadow=阴影
+modules.ping.scale=缩放

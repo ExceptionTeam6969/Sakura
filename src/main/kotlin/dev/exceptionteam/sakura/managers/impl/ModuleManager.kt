@@ -79,6 +79,7 @@ object ModuleManager {
             GuiImage,
             Welcomer,
             FPS,
+            Ping,
         )
 
         val event = RegisterModuleEvent(modules.toMutableList())

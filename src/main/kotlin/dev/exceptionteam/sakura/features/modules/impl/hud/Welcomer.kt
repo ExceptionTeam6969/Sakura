@@ -20,7 +20,7 @@ object Welcomer: HUDModule(
         get() = (12f * scale)
 
     override var width: Float = 150f
-        get() = (text?.length?.times(4.9f)?.times(scale)) ?: 40f
+        get() = FontRenderers.getStringWidth(text ?: "", scale)
 
     override fun render() {
         text = "Welcome ${player?.name?.string}! | ${Sakura.NAME}"

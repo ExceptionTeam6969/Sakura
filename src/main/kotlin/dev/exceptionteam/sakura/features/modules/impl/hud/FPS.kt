@@ -18,7 +18,7 @@ object FPS: HUDModule(
         get() = (12f * scale)
 
     override var width: Float = 40f
-        get() = (text?.length?.times(4.6f)?.times(scale)) ?: 40f
+        get() = FontRenderers.getStringWidth(text ?: "FPS: 0", scale)
 
     override fun render() {
         text = "FPS: ${MinecraftAccessor.getFps()}"
