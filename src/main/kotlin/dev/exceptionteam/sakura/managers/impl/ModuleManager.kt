@@ -78,6 +78,7 @@ object ModuleManager {
             WaterMark,
             GuiImage,
             Welcomer,
+            FPS,
         )
 
         val event = RegisterModuleEvent(modules.toMutableList())

@@ -1,15 +1,13 @@
 package dev.exceptionteam.sakura.features.modules.impl.hud
 
-import dev.exceptionteam.sakura.Sakura
 import dev.exceptionteam.sakura.features.modules.HUDModule
 import dev.exceptionteam.sakura.graphics.color.ColorRGB
 import dev.exceptionteam.sakura.graphics.font.FontRenderers
+import dev.exceptionteam.sakura.mixins.core.Interface.MinecraftAccessor
 
-object WaterMark: HUDModule(
-    name = "water-mark",
+object FPS: HUDModule(
+    name = "fps",
 ) {
-
-    private val version by setting("version", true)
     private val textColor by setting("text-color", ColorRGB.WHITE)
     private val shadow by setting("shadow", true)
     private val scale by setting("scale", 1.0f, 0.5f..2.0f)
@@ -19,11 +17,11 @@ object WaterMark: HUDModule(
     override var height: Float = 12f
         get() = (12f * scale)
 
-    override var width: Float = 50f
+    override var width: Float = 40f
         get() = (text?.length?.times(4.6f)?.times(scale)) ?: 40f
 
     override fun render() {
-        text = Sakura.NAME + if (version) " ${Sakura.VERSION}" else ""
+        text = "FPS: ${MinecraftAccessor.getFps()}"
         FontRenderers.drawString(text!!, x, y, textColor, shadow, scale)
     }
 

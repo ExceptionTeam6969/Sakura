@@ -207,3 +207,8 @@ modules.combat-settings.vertical-center-sampling=垂直中心采样
 
 modules.rotations=转头
 modules.rotations.packet-rotation=发包转头
+
+modules.fps=帧数
+modules.fps.text-color=文字颜色
+modules.fps.shadow=阴影
+modules.fps.scale=缩放

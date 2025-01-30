@@ -199,3 +199,8 @@ modules.combat-settings.vertical-center-sampling=Vertical Center Sampling
 
 modules.rotations=Rotations
 modules.rotations.packet-rotation=Packet Rotation
+
+modules.fps=FPS
+modules.fps.text-color=Text Color
+modules.fps.shadow=Shadow
+modules.fps.scale=Scale
