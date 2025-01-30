@@ -45,7 +45,7 @@ object AutoBottle: Module(
             if (xp) {
                 addRotation(player.yRot, pitch, 100) {
                     val slot = findItemInHotbar(Items.EXPERIENCE_BOTTLE) ?: run {
-                        ChatUtils.sendWarnMessage("Can't find ender pearl in hot bar! disabling...")
+                        ChatUtils.sendWarnMessage("Can't find xp bottle in hot bar! disabling...")
                         return@addRotation
                     }
 

@@ -19,14 +19,11 @@ object NoRender: Module(
     val potionIcon by setting("potion-icon", true)
 
     init {
-
         listener<AddParticleEvent> { e ->
             when (e.particle) {
                 is HugeExplosionParticle -> if (explosions) e.cancel()
                 else -> {}
-
             }
-
         }
     }
 }
