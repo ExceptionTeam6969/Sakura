@@ -15,6 +15,7 @@ import net.minecraft.world.level.block.state.BlockState
 import net.minecraft.world.phys.AABB
 import net.minecraft.world.phys.Vec3
 import kotlin.collections.indices
+import kotlin.math.floor
 import kotlin.math.min
 
 class DamageCalculation(
@@ -35,7 +36,7 @@ class DamageCalculation(
     private val samplePoints = exposureSample.offset(currentAABB.minX, currentAABB.minY, currentAABB.minZ)
     private val samplePointsPredict = exposureSample.offset(predictAABB.minX, predictAABB.minY, predictAABB.minZ)
 
-    fun isResistant(blockState: BlockState) =
+    fun isResistant(blockState: BlockState): Boolean =
         blockState.block != Blocks.AIR && blockState.block != Blocks.WATER && blockState.block != Blocks.LAVA
 
     fun calcDamage(
@@ -157,7 +158,7 @@ class DamageCalculation(
 
         val factor =
             (1.0f - scaledDist) * getExposureAmount(crystalX, crystalY, crystalZ, predict, mutableBlockPos, function)
-        return kotlin.math.floor((factor * factor + factor) * doubleSize * 3.5f + 1.0f)
+        return floor((factor * factor + factor) * doubleSize * 3.5f + 1.0f)
     }
 
     private fun NonNullContext.getExposureAmount(
