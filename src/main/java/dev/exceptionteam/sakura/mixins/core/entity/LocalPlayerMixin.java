@@ -1,6 +1,7 @@
 package dev.exceptionteam.sakura.mixins.core.entity;
 
 import dev.exceptionteam.sakura.events.impl.PlayerMotionEvent;
+import dev.exceptionteam.sakura.events.impl.PlayerUpdateEvents;
 import dev.exceptionteam.sakura.features.modules.impl.movement.Velocity;
 import net.minecraft.client.player.LocalPlayer;
 import org.spongepowered.asm.mixin.Mixin;
@@ -66,6 +67,31 @@ public abstract class LocalPlayerMixin extends EntityMixin {
     @Redirect(method = "sendPosition", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/player/LocalPlayer;onGround()Z"))
     private boolean groundHook(LocalPlayer instance) {
         return motionEvent.isOnGround();
+    }
+
+    @Inject(method = "tick", at = @At("HEAD"))
+    private void onTickHead(CallbackInfo ci) {
+        PlayerUpdateEvents.Pre.INSTANCE.post();
+    }
+
+    @Inject(method = "tick", at = @At("RETURN"))
+    private void onTickReturn(CallbackInfo ci) {
+        PlayerUpdateEvents.Post.INSTANCE.post();
+    }
+
+    @Inject(method = "aiStep", at = @At("HEAD"))
+    private void onAiStepHead(CallbackInfo ci) {
+        PlayerUpdateEvents.AiStepPre.INSTANCE.post();
+    }
+
+    @Inject(method = "aiStep", at = @At("RETURN"))
+    private void onAiStepReturn(CallbackInfo ci) {
+        PlayerUpdateEvents.AiStepPost.INSTANCE.post();
+    }
+
+    @Inject(method = "aiStep", at = @At(value = "FIELD", target = "Lnet/minecraft/client/player/LocalPlayer;noPhysics:Z"))
+    private void onAiStepNoPhysics(CallbackInfo ci) {
+        PlayerUpdateEvents.AiStepUpdate.INSTANCE.post();
     }
 
 }

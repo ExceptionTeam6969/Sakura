@@ -5,4 +5,6 @@ import dev.exceptionteam.sakura.events.Event
 class MovementInputEvent(
     var forward: Float,
     var strafe: Float,
-): Event()
+): Event() {
+    object Pre: Event()
+}

@@ -16,7 +16,7 @@ object KillAura: Module(
     category = Category.COMBAT
 ) {
     private val range by setting("range", 3.0f, 2.5f..6.0f)
-    private val delay by setting("delay", 500, 50..3000)
+    private val delay by setting("delay", 500, 0..3000)
     private val onlyPlayers by setting("only-players", true)
     private val onlySword by setting("only-sword", true)
     private val rotation by setting("rotation", true)

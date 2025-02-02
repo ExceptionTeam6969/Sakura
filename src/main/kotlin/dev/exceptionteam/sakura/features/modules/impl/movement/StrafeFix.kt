@@ -1,16 +1,18 @@
 package dev.exceptionteam.sakura.features.modules.impl.movement
 
 import dev.exceptionteam.sakura.events.NonNullContext
-import dev.exceptionteam.sakura.events.impl.MovementInputEvent
 import dev.exceptionteam.sakura.events.impl.PlayerJumpEvents
+import dev.exceptionteam.sakura.events.impl.PlayerUpdateEvents
 import dev.exceptionteam.sakura.events.impl.PlayerVelocityStrafeEvents
 import dev.exceptionteam.sakura.events.nonNullListener
 import dev.exceptionteam.sakura.features.modules.Category
 import dev.exceptionteam.sakura.features.modules.Module
 import dev.exceptionteam.sakura.features.modules.impl.client.Rotations
 import dev.exceptionteam.sakura.managers.impl.RotationManager.rotationInfo
-import net.minecraft.util.Mth
-import kotlin.math.abs
+import dev.exceptionteam.sakura.utils.math.toRadians
+import kotlin.math.cos
+import kotlin.math.round
+import kotlin.math.sin
 
 object StrafeFix: Module(
     name = "strafe-fix",
@@ -24,43 +26,19 @@ object StrafeFix: Module(
 
     init {
 
-        nonNullListener<MovementInputEvent> { event ->
+        // fixme: It's working incorrectly in the latest grim server
+        nonNullListener<PlayerUpdateEvents.AiStepUpdate> {
             if (!direction) return@nonNullListener
             if (Rotations.packetRotation) return@nonNullListener
 
             rotationInfo?.let { inf ->
-                val yaw = inf.yaw
-                val forward: Float = event.forward
-                val strafe: Float = event.strafe
-
-                val angle = Mth.wrapDegrees(Math.toDegrees(direction(player.yRot, forward, strafe)))
-
-                if (forward == 0f && strafe == 0f) {
-                    return@nonNullListener
-                }
-
-                var closestForward = 0f
-                var closestStrafe = 0f
-                var closestDifference = Float.MAX_VALUE
-
-                for (predictedForward in -1..1) {
-                    for (predictedStrafe in -1..1) {
-                        if (predictedStrafe == 0 && predictedForward == 0) continue
-
-                        val predictedAngle = Mth.wrapDegrees(Math.toDegrees(
-                            direction(yaw, predictedForward.toFloat(), predictedStrafe.toFloat())))
-                        val difference = abs(angle - predictedAngle)
-
-                        if (difference < closestDifference) {
-                            closestDifference = difference.toFloat()
-                            closestForward = predictedForward.toFloat()
-                            closestStrafe = predictedStrafe.toFloat()
-                        }
-                    }
-                }
-
-                event.forward = closestForward
-                event.strafe = closestStrafe
+                val movementForward = player.input.forwardImpulse
+                val movementSideways = player.input.leftImpulse
+                val delta = (player.yRot - inf.yaw).toRadians()
+                val cos = cos(delta)
+                val sin = sin(delta)
+                player.input.leftImpulse = round(movementSideways * cos - movementForward * sin)
+                player.input.forwardImpulse = round(movementForward * cos + movementSideways * sin)
             }
         }
 
@@ -84,21 +62,6 @@ object StrafeFix: Module(
             restoreState()
         }
 
-    }
-
-    private fun direction(rotationYaw0: Float, moveForward: Float, moveStrafing: Float): Double {
-        var rotationYaw = rotationYaw0
-        if (moveForward < 0f) rotationYaw += 180f
-
-        var forward = 1f
-
-        if (moveForward < 0f) forward = -0.5f
-        else if (moveForward > 0f) forward = 0.5f
-
-        if (moveStrafing > 0f) rotationYaw -= 90f * forward
-        if (moveStrafing < 0f) rotationYaw += 90f * forward
-
-        return Math.toRadians(rotationYaw.toDouble())
     }
 
     private fun NonNullContext.saveState() {
