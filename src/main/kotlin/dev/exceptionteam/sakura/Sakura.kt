@@ -9,7 +9,7 @@ object Sakura {
     val logger: Logger = LogManager.getLogger("Sakura")
 
     const val NAME = "Sakura"
-    const val VERSION = "1.0.3"
+    const val VERSION = "1.0.4"
     const val DIRECTORY = "sakura"
     const val ASSETS_DIRECTORY = "/assets/sakura"
 
