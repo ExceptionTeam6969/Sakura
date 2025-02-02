@@ -52,6 +52,8 @@ open class NonNullContext internal constructor(
         }
 
         private fun update() {
+            instance = null
+
             val world = Wrapper.world ?: return
             val player = Wrapper.player ?: return
             val connection = Wrapper.mc.connection ?: return
