@@ -1,8 +1,9 @@
 package dev.exceptionteam.sakura.features.modules.impl.movement
 
+import dev.exceptionteam.sakura.events.NonNullContext
 import dev.exceptionteam.sakura.events.impl.MovementInputEvent
-import dev.exceptionteam.sakura.events.impl.PlayerJumpEvent
-import dev.exceptionteam.sakura.events.impl.PlayerVelocityStrafeEvent
+import dev.exceptionteam.sakura.events.impl.PlayerJumpEvents
+import dev.exceptionteam.sakura.events.impl.PlayerVelocityStrafeEvents
 import dev.exceptionteam.sakura.events.nonNullListener
 import dev.exceptionteam.sakura.features.modules.Category
 import dev.exceptionteam.sakura.features.modules.Module
@@ -16,9 +17,15 @@ object StrafeFix: Module(
     category = Category.MOVEMENT,
 ) {
 
+    private var prevYaw = 0f
+    private var prevPitch = 0f
+
+    private val direction by setting("direction", true)
+
     init {
 
         nonNullListener<MovementInputEvent> { event ->
+            if (!direction) return@nonNullListener
             if (Rotations.packetRotation) return@nonNullListener
 
             rotationInfo?.let { inf ->
@@ -57,16 +64,24 @@ object StrafeFix: Module(
             }
         }
 
-        nonNullListener<PlayerVelocityStrafeEvent> { event ->
+        nonNullListener<PlayerVelocityStrafeEvents.Pre> { event ->
             if (Rotations.packetRotation) return@nonNullListener
-
-            rotationInfo?.let { event.yaw = it.yaw }
+            saveState()
         }
 
-        nonNullListener<PlayerJumpEvent> { event ->
+        nonNullListener<PlayerVelocityStrafeEvents.Post> { event ->
             if (Rotations.packetRotation) return@nonNullListener
+            restoreState()
+        }
 
-            rotationInfo?.let { event.yaw = it.yaw }
+        nonNullListener<PlayerJumpEvents.Pre> { event ->
+            if (Rotations.packetRotation) return@nonNullListener
+            saveState()
+        }
+
+        nonNullListener<PlayerJumpEvents.Post> { event ->
+            if (Rotations.packetRotation) return@nonNullListener
+            restoreState()
         }
 
     }
@@ -84,6 +99,23 @@ object StrafeFix: Module(
         if (moveStrafing < 0f) rotationYaw += 90f * forward
 
         return Math.toRadians(rotationYaw.toDouble())
+    }
+
+    private fun NonNullContext.saveState() {
+        rotationInfo?.let {
+            prevYaw = player.yRot
+            player.yRot = it.yaw
+
+            prevPitch = player.xRot
+            player.xRot = it.pitch
+        }
+    }
+
+    private fun NonNullContext.restoreState() {
+        rotationInfo?.let {
+            player.yRot = prevYaw
+            player.xRot = prevPitch
+        }
     }
 
 }

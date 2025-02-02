@@ -6,6 +6,7 @@ import dev.exceptionteam.sakura.events.nonNullListener
 import dev.exceptionteam.sakura.managers.impl.FriendManager.isFriend
 import dev.exceptionteam.sakura.utils.math.distanceSqTo
 import dev.exceptionteam.sakura.utils.math.sq
+import net.minecraft.client.Minecraft
 import net.minecraft.world.entity.Entity
 import net.minecraft.world.entity.Mob
 import net.minecraft.world.entity.player.Player
@@ -20,6 +21,9 @@ object TargetManager {
             val tTargets = mutableListOf<Entity>()
 
             world.entitiesForRendering().forEach { ent ->
+                // If the player is changing the world, it will be null
+                if (Minecraft.getInstance().connection == null) return@nonNullListener
+
                 if (ent.id == player.id) return@forEach
                 if (ent.isSpectator) return@forEach
                 if (!ent.isAlive) return@forEach

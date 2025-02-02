@@ -132,6 +132,7 @@ modules.auto-crystal.color=Color
 modules.auto-crystal.show-dmg=Show Dmg
 
 modules.strafe-fix=Strafe Fix
+modules.strafe-fix.direction=Direction
 
 modules.gui-image=GUI Image
 modules.gui-image.image=Image

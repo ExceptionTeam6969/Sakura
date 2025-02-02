@@ -1,6 +1,6 @@
 package dev.exceptionteam.sakura.mixins.core.entity;
 
-import dev.exceptionteam.sakura.events.impl.PlayerVelocityStrafeEvent;
+import dev.exceptionteam.sakura.events.impl.PlayerVelocityStrafeEvents;
 import dev.exceptionteam.sakura.features.modules.impl.movement.Velocity;
 import net.minecraft.client.Minecraft;
 import net.minecraft.world.entity.Entity;
@@ -9,7 +9,9 @@ import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Overwrite;
 import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.injection.At;
+import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.Redirect;
+import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 @Mixin(Entity.class)
 public abstract class EntityMixin {
@@ -35,21 +37,6 @@ public abstract class EntityMixin {
     @Shadow
     public abstract double getZ();
 
-    @Shadow
-    protected static Vec3 getInputVector(Vec3 relative, float motionScaler, float facing) {
-        return null;
-    }
-
-    @Shadow
-    public void setDeltaMovement(Vec3 vec3) {}
-
-    @Shadow
-    public Vec3 getDeltaMovement() {
-        return null;
-    }
-
-    @Shadow public abstract float getYRot(float f);
-
     @Shadow public abstract int getId();
 
     @Redirect(method = "updateFluidHeightAndDoFluidPushing", at = @At(value = "INVOKE", target = "Lnet/minecraft/world/entity/Entity;isPushedByFluid()Z"))
@@ -57,36 +44,14 @@ public abstract class EntityMixin {
         return entity.isPushedByFluid() && !(Velocity.INSTANCE.isEnabled() && Velocity.INSTANCE.getNoPush());
     }
 
-    @Redirect(method = "moveRelative", at = @At(value = "INVOKE", target = "Lnet/minecraft/world/entity/Entity;getInputVector(Lnet/minecraft/world/phys/Vec3;FF)Lnet/minecraft/world/phys/Vec3;"))
-    public Vec3 hookVelocity(Vec3 movementInput, float speed, float yaw) {
-        if (Minecraft.getInstance().player == null) return getInputVector(movementInput, speed, yaw);
-
-        if (this.getId() == Minecraft.getInstance().player.getId()) {
-            PlayerVelocityStrafeEvent event = new PlayerVelocityStrafeEvent(yaw);
-            event.post();
-            return getInputVector(movementInput, speed, event.getYaw());
-        }
-
-        return getInputVector(movementInput, speed, yaw);
+    @Inject(method = "moveRelative", at = @At(value = "HEAD"))
+    private void onMovePre(float amount, Vec3 relative, CallbackInfo ci) {
+        PlayerVelocityStrafeEvents.Pre.INSTANCE.post();
     }
 
-    /**
-     * @author slmpc
-     * @reason strafe fix
-     */
-    @Overwrite
-    public void moveRelative(float amount, Vec3 relative) {
-        Vec3 vec3;
-        if (Minecraft.getInstance().player != null && this.getId() == Minecraft.getInstance().player.getId()) {
-            PlayerVelocityStrafeEvent event = new PlayerVelocityStrafeEvent(this.getYRot());
-            event.post();
-            vec3 = getInputVector(relative, amount, event.getYaw());
-        } else {
-            vec3 = getInputVector(relative, amount, this.getYRot());
-        }
-        if (vec3 != null) {
-            this.setDeltaMovement(this.getDeltaMovement().add(vec3));
-        }
+    @Inject(method = "moveRelative", at = @At(value = "RETURN"))
+    private void onMovePost(float amount, Vec3 relative, CallbackInfo ci) {
+        PlayerVelocityStrafeEvents.Post.INSTANCE.post();
     }
 
 }

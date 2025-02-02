@@ -139,6 +139,7 @@ modules.auto-crystal.color=颜色
 modules.auto-crystal.show-dmg=显示伤害
 
 modules.strafe-fix=移动修复
+modules.strafe-fix.direction=修改方向
 
 modules.gui-image=界面图片
 modules.gui-image.image=图片
