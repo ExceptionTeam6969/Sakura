@@ -75,7 +75,6 @@ object BlockUtils {
         )
 
         for (entity in world.entitiesForRendering()) {
-            if (entity is EndCrystal) continue
             if (entity.boundingBox.intersects(box)) return false
             if (entity.boundingBox.intersects(upBox) && oldPlace) return false
         }
