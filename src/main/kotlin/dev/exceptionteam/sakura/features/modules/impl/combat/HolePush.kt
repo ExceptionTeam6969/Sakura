@@ -35,7 +35,6 @@ object HolePush: Module(
     name = "hole-push",
     category = Category.COMBAT
 ) {
-    private val multiPlace by setting("multi-place", 2, 1..4)
     private val targetRange by setting("target-range", 3.0f, 2.5f..6.0f)
     private val onlyPlayers by setting("only-players", true)
     private val rotation by setting("rotation", true)
@@ -69,10 +68,8 @@ object HolePush: Module(
         nonNullListener<TickEvents.Update> {
             if (movePause && isMoving()) return@nonNullListener
             if (onlyPlayers) getTargetPlayer(targetRange)?.let {
-                if (multiCount > multiPlace) return@nonNullListener
                 push(it)
             } else getTarget(targetRange)?.let {
-                if (multiCount > multiPlace) return@nonNullListener
                 push(it)
             }
         }
@@ -81,33 +78,32 @@ object HolePush: Module(
 
     private fun NonNullContext.push(target: Entity) {
         pistonInfo = getPiston(target.blockPosition()) ?: return
-        val pistonPos: BlockPos = pistonInfo!!.pistonPos
-        val pistonFacing: Direction = pistonInfo!!.direction
-        val redstonePos: BlockPos = pistonInfo!!.redstonePos
+
+        val pistonPos: BlockPos = pistonInfo?.pistonPos ?: return
+        val pistonFacing: Direction = pistonInfo?.direction ?: return
+        val redstonePos: BlockPos = pistonInfo?.redstonePos ?: return
 
         when (stage) {
             0 -> {
-                //rotate
-                val angle = when (pistonFacing.opposite) {
-                    Direction.EAST -> -90f
-                    Direction.NORTH -> 180f
-                    Direction.SOUTH -> 0f
-                    Direction.WEST -> 90f
-                    else -> 0f
-                }
+                // Piston's direction
+                val angle = Direction.getYRot(pistonFacing.opposite)
                 addRotation(angle, 0.0f, 0)
                 nextStage()
             }
             1 -> {
-                //Place Piston
+                // Place piston
                 place(pistonPos, Blocks.PISTON, switchMode, swing, rotation, 0)
+
                 nextStage()
             }
             2 -> {
-                //Place RedStone
+                // Place red stone
                 if (!timer.passedAndReset(delay)) return
+
                 place(redstonePos, Blocks.REDSTONE_BLOCK, switchMode, swing, rotation, 0)
-                toggle()
+
+                disable()
+                return
             }
         }
     }
@@ -152,5 +148,9 @@ object HolePush: Module(
         return null
     }
 
-    class PistonInfo(val pistonPos: BlockPos, val direction: Direction, val redstonePos: BlockPos)
+    data class PistonInfo(
+        val pistonPos: BlockPos,
+        val direction: Direction,
+        val redstonePos: BlockPos,
+    )
 }

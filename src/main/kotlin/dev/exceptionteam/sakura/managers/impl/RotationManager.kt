@@ -15,11 +15,12 @@ object RotationManager {
     init {
         nonNullListener<PlayerMotionEvent.Pre>(alwaysListening = true, priority = Int.MIN_VALUE) {
             rotationInfo?.let { info ->
-                info.func()
+                if (Rotations.packetRotation)
+                    connection.send(ServerboundMovePlayerPacket.Rot(
+                        info.yaw, info.pitch, player.onGround(), player.isShiftKeyDown
+                    ))
 
-                if (Rotations.packetRotation) {
-                    connection.send(ServerboundMovePlayerPacket.Rot(info.yaw, info.pitch, player.onGround(), player.isShiftKeyDown))
-                }
+                info.func()
             }
         }
 
@@ -58,12 +59,12 @@ object RotationManager {
     fun NonNullContext.addRotation(
         yaw: Float, pitch: Float, priority: Int,
         shouldRotate: Boolean = true, func: () -> Unit = { }
-    ) = RotationManager.addRotation(yaw, pitch, priority, shouldRotate,func)
+    ) = RotationManager.addRotation(yaw, pitch, priority, shouldRotate, func)
 
     fun NonNullContext.addRotation(
         rotation: Vec2f, priority: Int,
         shouldRotate: Boolean = true, func: () -> Unit = { }
-    ) = RotationManager.addRotation(rotation.x, rotation.y, priority, shouldRotate,func)
+    ) = RotationManager.addRotation(rotation.x, rotation.y, priority, shouldRotate, func)
 
     /**
      * Add a rotation to the rotation manager.

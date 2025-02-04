@@ -155,7 +155,6 @@ modules.feet-trap.switch-mode=切换模式
 modules.feet-trap.swing=摇手
 
 modules.hole-push=活塞推人
-modules.hole-push.multi-place=多次放置
 modules.hole-push.target-range=目标范围
 modules.hole-push.only-players=仅对玩家生效
 modules.hole-push.rotation=转头
