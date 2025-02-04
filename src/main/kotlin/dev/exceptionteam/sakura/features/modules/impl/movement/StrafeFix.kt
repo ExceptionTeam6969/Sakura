@@ -26,7 +26,7 @@ object StrafeFix: Module(
 
     init {
 
-        // fixme: It's working incorrectly in the latest grim server
+        // fixme: It causes Simulation vl in the latest Grim server
         nonNullListener<PlayerUpdateEvents.AiStepUpdate> {
             if (!direction) return@nonNullListener
             if (Rotations.packetRotation) return@nonNullListener

@@ -147,7 +147,7 @@ modules.feet-trap.delay=Delay
 modules.feet-trap.switch-mode=Switch Mode
 modules.feet-trap.swing=Swing
 
-modules.hole-push=HolePush
+modules.hole-push=Hole Push
 modules.hole-push.multi-place=Multi Place
 modules.hole-push.target-range=Target Range
 modules.hole-push.only-players=Only Players

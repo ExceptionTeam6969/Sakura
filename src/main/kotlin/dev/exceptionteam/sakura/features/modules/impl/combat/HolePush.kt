@@ -35,7 +35,7 @@ object HolePush: Module(
     name = "hole-push",
     category = Category.COMBAT
 ) {
-    private val BPT by setting("multi-place", 2, 1..4)
+    private val multiPlace by setting("multi-place", 2, 1..4)
     private val targetRange by setting("target-range", 3.0f, 2.5f..6.0f)
     private val onlyPlayers by setting("only-players", true)
     private val rotation by setting("rotation", true)
@@ -69,10 +69,10 @@ object HolePush: Module(
         nonNullListener<TickEvents.Update> {
             if (movePause && isMoving()) return@nonNullListener
             if (onlyPlayers) getTargetPlayer(targetRange)?.let {
-                if (multiCount > BPT) return@nonNullListener
+                if (multiCount > multiPlace) return@nonNullListener
                 push(it)
             } else getTarget(targetRange)?.let {
-                if (multiCount > BPT) return@nonNullListener
+                if (multiCount > multiPlace) return@nonNullListener
                 push(it)
             }
         }
