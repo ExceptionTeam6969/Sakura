@@ -51,7 +51,6 @@ object Velocity: Module(
                             //Grim BaBzPacket QAQ + 90
                             rotationPitch + 90,
                             false,
-                            true,
                         )
                     )
                     if(!sprinting) {

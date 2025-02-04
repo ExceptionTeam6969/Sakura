@@ -69,4 +69,13 @@ object RotationUtils {
         return Vec2f(yaw, pitch)
     }
 
+    fun Direction.getYRot(): Float =
+        when (this) {
+            Direction.NORTH -> 180.0f
+            Direction.SOUTH -> 0.0f
+            Direction.WEST -> 90.0f
+            Direction.EAST -> -90.0f
+            else -> 0.0f
+        }
+
 }

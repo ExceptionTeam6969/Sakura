@@ -9,6 +9,12 @@ import java.util.Optional;
 
 @Mixin(ClientboundExplodePacket.class)
 public interface ClientboundExplodePacketAccessor {
-    @Accessor("playerKnockback")
-    Optional<Vec3> getPlayerKnockback();
+    @Accessor("knockbackX")
+    float getKnockbackX();
+
+    @Accessor("knockbackY")
+    float getKnockbackY();
+
+    @Accessor("knockbackZ")
+    float getKnockbackZ();
 }

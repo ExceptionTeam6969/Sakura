@@ -1,12 +1,9 @@
 package dev.exceptionteam.sakura.utils.player
 
 import dev.exceptionteam.sakura.events.NonNullContext
-import net.minecraft.client.player.LocalPlayer
-import net.minecraft.network.protocol.game.ServerboundPickItemFromEntityPacket
 import net.minecraft.network.protocol.game.ServerboundSetCarriedItemPacket
 import net.minecraft.world.item.BlockItem
 import net.minecraft.world.item.Item
-import net.minecraft.world.item.ItemStack
 import net.minecraft.world.level.block.Block
 
 object InventoryUtils {

@@ -40,7 +40,6 @@ object Disabler: Module(
                         player.x, player.y, player.z,
                         player.yRot, player.xRot,
                         player.onGround(),
-                        player.horizontalCollision
                     )
                 )
             }

@@ -11,7 +11,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 @Mixin(ClientPacketListener.class)
 public class ClientPacketListenerMixin {
 
-    @Inject(method = "handleExplosion", at = @At(value = "INVOKE", target = "Ljava/util/Optional;ifPresent(Ljava/util/function/Consumer;)V"), cancellable = true)
+    @Inject(method = "handleExplosion", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/player/LocalPlayer;setDeltaMovement(Lnet/minecraft/world/phys/Vec3;)V"), cancellable = true)
     private void onExplosionVelocity(ClientboundExplodePacket clientboundExplodePacket, CallbackInfo ci) {
         if (Velocity.INSTANCE.isEnabled()) {
             if (Velocity.INSTANCE.getShouldCancelExplosion()) ci.cancel();

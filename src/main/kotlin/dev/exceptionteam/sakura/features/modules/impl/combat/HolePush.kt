@@ -12,6 +12,7 @@ import dev.exceptionteam.sakura.managers.impl.HotbarManager
 import dev.exceptionteam.sakura.managers.impl.RotationManager.addRotation
 import dev.exceptionteam.sakura.managers.impl.TargetManager.getTarget
 import dev.exceptionteam.sakura.managers.impl.TargetManager.getTargetPlayer
+import dev.exceptionteam.sakura.utils.math.RotationUtils.getYRot
 import dev.exceptionteam.sakura.utils.player.InteractionUtils.place
 import dev.exceptionteam.sakura.utils.player.PlayerUtils.isMoving
 import dev.exceptionteam.sakura.utils.timing.TimerUtils
@@ -86,7 +87,7 @@ object HolePush: Module(
         when (stage) {
             0 -> {
                 // Piston's direction
-                val angle = Direction.getYRot(pistonFacing.opposite)
+                val angle = pistonFacing.opposite.getYRot()
                 addRotation(angle, 0.0f, 0)
                 nextStage()
             }

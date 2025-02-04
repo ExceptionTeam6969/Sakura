@@ -4,8 +4,8 @@ import com.mojang.blaze3d.vertex.PoseStack;
 import dev.exceptionteam.sakura.features.modules.impl.render.NoRender;
 import dev.exceptionteam.sakura.graphics.RenderSystem;
 import net.minecraft.client.DeltaTracker;
+import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.GameRenderer;
-import net.minecraft.util.profiling.Profiler;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 import org.spongepowered.asm.mixin.Mixin;
@@ -20,17 +20,21 @@ public class GameRendererMixin {
             at = @At(value = "INVOKE_STRING", target = "Lnet/minecraft/util/profiling/ProfilerFiller;popPush(Ljava/lang/String;)V", args = {"ldc=hand"}))
     public void onRenderWorld(DeltaTracker deltaTracker, CallbackInfo ci) {
 
-        Profiler.get().push("sakura_render3d");
+        Minecraft mc = Minecraft.getInstance();
+
+        mc.getProfiler().push("sakura_render3d");
 
         RenderSystem.INSTANCE.onRender3d();
 
-        Profiler.get().pop();
+        mc.getProfiler().pop();
 
     }
 
     @Inject(method = "render", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/gui/GuiGraphics;flush()V"))
     public void onRenderGui(DeltaTracker deltaTracker, boolean renderLevel, CallbackInfo ci) {
-        Profiler.get().popPush("sakura-render2d");
+        Minecraft mc = Minecraft.getInstance();
+
+        mc.getProfiler().popPush("sakura-render2d");
 
         RenderSystem.INSTANCE.onRender2d();
     }

@@ -18,8 +18,8 @@ public class InGameHudMixin {
     @Shadow @Final private Minecraft minecraft;
 
     @ModifyArg(method = "renderItemHotbar", at = @At(value = "INVOKE", target =
-            "Lnet/minecraft/client/gui/GuiGraphics;blitSprite(Ljava/util/function/Function;Lnet/minecraft/resources/ResourceLocation;IIII)V",
-            ordinal = 1), index = 2)
+            "Lnet/minecraft/client/gui/GuiGraphics;blitSprite(Lnet/minecraft/resources/ResourceLocation;IIII)V",
+            ordinal = 1), index = 1)
     private int onDrawSelection(int x) {
         int i = minecraft.getWindow().getGuiScaledWidth() / 2;
         if (GameAnimation.INSTANCE.isEnabled() && GameAnimation.INSTANCE.getHotbar()) {

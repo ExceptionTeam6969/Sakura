@@ -15,21 +15,21 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 public class ScreenEffectRendererMixin {
 
     @Inject(method = "renderFire", at = @At("HEAD"), cancellable = true)
-    private static void onRenderFireOverlay(PoseStack poseStack, MultiBufferSource bufferSource, CallbackInfo ci) {
+    private static void onRenderFireOverlay(Minecraft minecraft, PoseStack poseStack, CallbackInfo ci) {
         if (NoRender.INSTANCE.isEnabled() && NoRender.INSTANCE.getFire()) {
             ci.cancel();
         }
     }
 
     @Inject(method = "renderWater", at = @At("HEAD"), cancellable = true)
-    private static void onRenderUnderwaterOverlay(Minecraft mc, PoseStack poseStack, MultiBufferSource bufferSource, CallbackInfo ci) {
+    private static void onRenderUnderwaterOverlay(Minecraft minecraft, PoseStack poseStack, CallbackInfo ci) {
         if (NoRender.INSTANCE.isEnabled() && NoRender.INSTANCE.getUnderWater()) {
             ci.cancel();
         }
     }
 
     @Inject(method = "renderTex", at = @At("HEAD"), cancellable = true)
-    private static void onRenderInWallOverlay(TextureAtlasSprite texture, PoseStack poseStack, MultiBufferSource bufferSource, CallbackInfo ci) {
+    private static void onRenderInWallOverlay(TextureAtlasSprite texture, PoseStack poseStack, CallbackInfo ci) {
         if (NoRender.INSTANCE.isEnabled() && NoRender.INSTANCE.getInWall()) {
             ci.cancel();
         }

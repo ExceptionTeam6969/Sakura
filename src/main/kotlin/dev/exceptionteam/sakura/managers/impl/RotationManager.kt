@@ -17,7 +17,7 @@ object RotationManager {
             rotationInfo?.let { info ->
                 if (Rotations.packetRotation)
                     connection.send(ServerboundMovePlayerPacket.Rot(
-                        info.yaw, info.pitch, player.onGround(), player.isShiftKeyDown
+                        info.yaw, info.pitch, player.onGround()
                     ))
 
                 info.func()
