@@ -231,4 +231,4 @@ modules.array-list=功能列表
 modules.array-list.text-color=文字颜色
 modules.array-list.shadow=阴影
 modules.array-list.scale=缩放
-modules.array-list.speed=动画速度
+modules.array-list.animation-speed=动画速度
