@@ -1,16 +1,17 @@
 package dev.exceptionteam.sakura.features.modules.impl.combat
 
 import dev.exceptionteam.sakura.events.NonNullContext
+import dev.exceptionteam.sakura.events.impl.PacketEvents
 import dev.exceptionteam.sakura.events.impl.Render2DEvent
 import dev.exceptionteam.sakura.events.impl.Render3DEvent
 import dev.exceptionteam.sakura.events.impl.TickEvents
 import dev.exceptionteam.sakura.events.nonNullListener
 import dev.exceptionteam.sakura.features.modules.Category
 import dev.exceptionteam.sakura.features.modules.Module
-import dev.exceptionteam.sakura.graphics.utils.RenderUtils3D.worldSpaceToScreenSpace
 import dev.exceptionteam.sakura.graphics.color.ColorRGB
 import dev.exceptionteam.sakura.graphics.font.FontRenderers
 import dev.exceptionteam.sakura.graphics.general.ESPRenderer
+import dev.exceptionteam.sakura.graphics.utils.RenderUtils3D.worldSpaceToScreenSpace
 import dev.exceptionteam.sakura.managers.impl.HotbarManager.SwitchMode
 import dev.exceptionteam.sakura.managers.impl.TargetManager.getTargetPlayer
 import dev.exceptionteam.sakura.utils.combat.DamageCalculation
@@ -25,6 +26,8 @@ import dev.exceptionteam.sakura.utils.timing.TimerUtils
 import dev.exceptionteam.sakura.utils.world.BlockUtils.canPlaceCrystal
 import dev.exceptionteam.sakura.utils.world.aroundBlock
 import net.minecraft.core.BlockPos
+import net.minecraft.network.protocol.game.ClientboundExplodePacket
+import net.minecraft.world.entity.Entity
 import net.minecraft.world.entity.boss.enderdragon.EndCrystal
 import net.minecraft.world.entity.player.Player
 import net.minecraft.world.item.Items

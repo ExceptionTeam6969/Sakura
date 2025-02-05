@@ -14,6 +14,7 @@ category.client=客户端
 category.hud=界面
 
 settings.toggle=开关
+settings.drawn=在功能列表显示
 settings.key-bind=按键绑定
 
 hotbar.switch-mode.off=关闭
@@ -225,3 +226,9 @@ modules.notification-hud.keep-length=保持动画长度
 modules.notification-hud.background-color=背景颜色
 modules.notification-hud.line-color=线条颜色
 modules.notification-hud.shadow=阴影
+
+modules.array-list=功能列表
+modules.array-list.text-color=文字颜色
+modules.array-list.shadow=阴影
+modules.array-list.scale=缩放
+modules.array-list.speed=动画速度

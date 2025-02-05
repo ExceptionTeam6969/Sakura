@@ -7,6 +7,7 @@ category.client=Client
 category.hud=HUD
 
 settings.toggle=Toggle
+settings.drawn=Drawn
 settings.key-bind=Key Bind
 
 hotbar.switch-mode.off=Off
@@ -217,3 +218,9 @@ modules.notification-hud.keep-length=Keep Length
 modules.notification-hud.background-color=Background Color
 modules.notification-hud.line-color=Line Color
 modules.notification-hud.shadow=Shadow
+
+modules.array-list=Array List
+modules.array-list.text-color=Text Color
+modules.array-list.shadow=Shadow
+modules.array-list.scale=Scale
+modules.array-list.speed=Animation Speed

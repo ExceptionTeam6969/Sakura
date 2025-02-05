@@ -80,7 +80,6 @@ object ModuleManager {
             Welcomer,
             FPS,
             Ping,
-            NotificationHUD,
         )
 
         val event = RegisterModuleEvent(modules.toMutableList())

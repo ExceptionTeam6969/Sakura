@@ -10,14 +10,16 @@ abstract class HUDModule(
     open var height: Float = 0f,
     defaultEnable: Boolean = false,
     alwaysEnable: Boolean = false,
+    drawn: Boolean = false,
     defaultBind: Int = -1
 ): AbstractModule(
     TranslationString("modules", name),
     Category.HUD,
     TranslationString("modules", "description"),
     defaultEnable,
+    drawn,
     alwaysEnable,
-    defaultBind
+    defaultBind,
 ) {
 
     init {
