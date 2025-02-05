@@ -10,13 +10,16 @@ object NotificationManager {
 
     private const val MAX_NOTIFICATIONS = 8
 
-    private val notifications = mutableListOf<Notification>()
+    val notifications = mutableListOf<Notification>()
 
     fun addNotification(notification: Notification) {
-        notifications.add(notification)
-        if (notifications.size > MAX_NOTIFICATIONS) {
-            notifications.removeLastOrNull()
+        synchronized(notifications) {
+            notifications.add(notification)
+            if (notifications.size > MAX_NOTIFICATIONS) {
+                notifications.removeLastOrNull()
+            }
         }
+
         if (ChatNotification.isEnabled) ChatUtils.sendMessageWithID(notification.message, notification.id)
     }
 
@@ -40,12 +43,13 @@ object NotificationManager {
         val message: String,
         val icon: Texture? = null,
         val id: Int = "$title*$message".hashCode(),
-        val animations: NotificationAnimations? = null,
+        var animations: NotificationAnimations? = null,
+        val addTime: Long = System.currentTimeMillis()
     )
-
     data class NotificationAnimations(
         val mainEasing: AnimationFlag,
         val keepEasing: AnimationFlag,
+        val keeping: Boolean = false,
     )
 
 }
