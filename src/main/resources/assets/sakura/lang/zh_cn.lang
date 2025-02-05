@@ -39,8 +39,7 @@ modules.ui-setting.outline-color=轮廓颜色
 modules.ui-setting.slider-color=滑块颜色
 modules.ui-setting.background-color=背景颜色
 
-modules.chat-info=聊天栏信息
-modules.chat-info.description=在功能开关时在聊天栏显示信息
+modules.chat-notification=聊天栏通知
 
 modules.custom-font=自定义字体
 modules.custom-font.font-size=字体大小

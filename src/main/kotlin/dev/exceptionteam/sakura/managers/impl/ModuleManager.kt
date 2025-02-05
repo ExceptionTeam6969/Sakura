@@ -67,7 +67,7 @@ object ModuleManager {
             UiSetting,
             ClickGUI,
             HUDEditor,
-            ChatInfo,
+            ChatNotification,
             CombatSettings,
             CustomFont,
             RenderSystemMod,
