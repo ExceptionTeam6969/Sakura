@@ -16,10 +16,8 @@ abstract class AbstractModule(
     val category: Category,
     val description: TranslationString,
     defaultEnable: Boolean,
-    drawn: Boolean,
     val alwaysEnable: Boolean,
     defaultBind: Int,
-    var anim: Float = 0.0f
 ): SettingsDesigner<AbstractModule> {
 
     private val enableCustomers = CopyOnWriteArrayList<() -> Unit>()
@@ -32,7 +30,7 @@ abstract class AbstractModule(
     var isEnabled by toggleSetting0
     val isDisabled get() = !isEnabled
 
-    private val drawnSetting0 = BooleanSetting(TranslationString("settings", "drawn"), true) { true }
+    private val drawnSetting0 = BooleanSetting(TranslationString("settings", "drawn"), false) { true }
     var isDrawn by drawnSetting0
 
     private val keyBind0 = KeyBindSetting(

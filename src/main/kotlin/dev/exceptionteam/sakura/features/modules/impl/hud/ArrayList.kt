@@ -3,47 +3,65 @@ package dev.exceptionteam.sakura.features.modules.impl.hud
 import dev.exceptionteam.sakura.features.modules.AbstractModule
 import dev.exceptionteam.sakura.features.modules.HUDModule
 import dev.exceptionteam.sakura.graphics.color.ColorRGB
+import dev.exceptionteam.sakura.graphics.easing.AnimationFlag
+import dev.exceptionteam.sakura.graphics.easing.Easing
 import dev.exceptionteam.sakura.graphics.font.FontRenderers
+import dev.exceptionteam.sakura.graphics.utils.RenderUtils2D
 import dev.exceptionteam.sakura.managers.impl.ModuleManager
-import dev.exceptionteam.sakura.utils.math.MathUtils
+import net.minecraft.client.Minecraft
 
 object ArrayList: HUDModule(
     name = "array-list",
-    height = 12f,
-    width = 40f
 ) {
     private val textColor by setting("text-color", ColorRGB.WHITE)
     private val shadow by setting("shadow", true)
     private val scale by setting("scale", 1.0f, 0.5f..2.0f)
-    private val speed by setting("animation-speed", 1.0f, 0.5f..4.0f)
 
-    private var modules: MutableList<AbstractModule> = ArrayList()
+    private var modules: MutableList<AbstractModule> = mutableListOf()
 
-    override var height: Float = 12f
-        get() = (12f * scale * if (modules.size == 0) 1 else modules.size)
+    private val animation = hashMapOf<AbstractModule, AnimationFlag>()
+
+    override var height: Float = 40f
 
     override var width: Float = 40f
-        get() = FontRenderers.getStringWidth(modules.firstOrNull()?.name.toString(), scale)
 
     override fun render() {
-        var deltaY: Float = this.y
+        val dirUp = isDirUp()
+
+        var deltaY: Float = if (dirUp) this.y + this.height - singleHeight else this.y
+        modules.clear()
+
         ModuleManager.modules
-            .filter { !modules.contains(it) && it.isDrawn }
+            .filter { it.isDrawn }
             .sortedByDescending { FontRenderers.getStringWidth(it.name) }
             .forEach  { module ->
-                if (!module.isEnabled) {
-                    module.anim = 0.0f
-                    modules.remove(module)
+                val anim = animation
+                    .getOrPut(module) { AnimationFlag(Easing.LINEAR, 200f) }
+                        .getAndUpdate(if (module.isEnabled) 1.0f else 0.0f)
+
+                if (module.isDisabled && anim < 0.01f) {
                     return@forEach
                 }
-                module.anim = MathUtils.lerp(module.anim, if (module.isEnabled) 1.0f else 0.0f, speed * 0.01)
-                val moduleLength: Float = FontRenderers.getStringWidth(module.name) * scale
-                val x: Float = this.x - (module.anim * moduleLength)
-                if (!module.isEnabled && module.anim < 0.05f) {
-                    modules.remove(module)
-                }
-                FontRenderers.drawString(module.name, x, deltaY, textColor, shadow, scale)
-                deltaY += 12f * scale * module.anim;
+
+                val moduleLength = FontRenderers.getStringWidth(module.name) * scale
+
+                val x = (this.x + (this.width - moduleLength * anim))
+
+                RenderUtils2D.drawRectFilled(x - 4f, deltaY, moduleLength + 6f, singleHeight, ColorRGB(0, 0, 0, 100))
+                FontRenderers.drawString(module.name, x - 2f, deltaY, textColor, shadow, scale)
+
+                if (dirUp) deltaY -= singleHeight * anim else deltaY += singleHeight * anim
+                modules.add(module)
             }
+
     }
+    
+    private val singleHeight get() = FontRenderers.getHeight(scale)
+
+    /**
+     * Get the direction of the notification based on the y position of the notification.
+     * @return true up, false down
+     */
+    private fun isDirUp(): Boolean =
+        if (y > Minecraft.getInstance().window.guiScaledHeight / 2) true else false
 }
