@@ -1,8 +1,9 @@
 package dev.exceptionteam.sakura.features.modules
 
 import dev.exceptionteam.sakura.events.EventBus
-import dev.exceptionteam.sakura.features.modules.impl.client.ChatInfo
+import dev.exceptionteam.sakura.features.modules.impl.client.ChatNotification
 import dev.exceptionteam.sakura.features.settings.*
+import dev.exceptionteam.sakura.managers.impl.NotificationManager
 import dev.exceptionteam.sakura.translation.TranslationString
 import dev.exceptionteam.sakura.utils.control.KeyBind
 import dev.exceptionteam.sakura.utils.ingame.ChatUtils
@@ -49,16 +50,20 @@ abstract class AbstractModule(
         enableCustomers.add {
             EventBus.subscribe(this)
             runSafe {
-                if (ChatInfo.isEnabled)
-                    ChatUtils.sendMessageWithID("${name.translation} is ${ChatFormatting.GREEN}Enabled", name.hashCode())
+                NotificationManager.addNotification(
+                    category.translation, "${name.translation} is ${ChatFormatting.GREEN}Enabled",
+                    null, name.hashCode()
+                )
             }
         }
 
         disableCustomers.add {
             EventBus.unsubscribe(this)
             runSafe {
-                if (ChatInfo.isEnabled)
-                    ChatUtils.sendMessageWithID("${name.translation} is ${ChatFormatting.RED}Disabled", name.hashCode())
+                NotificationManager.addNotification(
+                    category.translation, "${name.translation} is ${ChatFormatting.RED}Disabled",
+                    null, name.hashCode()
+                )
             }
         }
 

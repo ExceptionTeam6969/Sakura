@@ -7,6 +7,7 @@ object CombatSettings: Module(
     name = "combat-settings",
     category = Category.CLIENT,
     alwaysEnable = true,
+    defaultEnable = true,
 ) {
 
     val assumeResistance by setting("assume-resistance", true)

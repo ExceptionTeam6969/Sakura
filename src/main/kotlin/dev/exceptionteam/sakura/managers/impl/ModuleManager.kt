@@ -67,7 +67,7 @@ object ModuleManager {
             UiSetting,
             ClickGUI,
             HUDEditor,
-            ChatInfo,
+            ChatNotification,
             CombatSettings,
             CustomFont,
             RenderSystemMod,
@@ -80,6 +80,7 @@ object ModuleManager {
             Welcomer,
             FPS,
             Ping,
+            NotificationHUD,
         )
 
         val event = RegisterModuleEvent(modules.toMutableList())

@@ -32,8 +32,7 @@ modules.ui-setting.outline-color=Outline Color
 modules.ui-setting.slider-color=Slider Color
 modules.ui-setting.background-color=Background Color
 
-modules.chat-info=Chat Info
-modules.chat-info.description=Send information when modules toggling
+modules.chat-notification=Chat Notification
 
 modules.custom-font=Custom Font
 modules.custom-font.font-size=Font Size
@@ -209,3 +208,12 @@ modules.ping=Ping
 modules.ping.text-color=Text Color
 modules.ping.shadow=Shadow
 modules.ping.scale=Scale
+
+modules.notification-hud=Notification
+modules.notification-hud.width=Width
+modules.notification-hud.height=Height
+modules.notification-hud.main-length=Main Length
+modules.notification-hud.keep-length=Keep Length
+modules.notification-hud.background-color=Background Color
+modules.notification-hud.line-color=Line Color
+modules.notification-hud.shadow=Shadow

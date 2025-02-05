@@ -19,6 +19,7 @@ object Managers {
         RotationManager
         HotbarManager
         TargetManager
+        NotificationManager
     }
 
 }

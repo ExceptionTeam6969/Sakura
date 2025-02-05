@@ -28,7 +28,7 @@ class ExecutorArgument(
         return null
     }
 
-    override fun convertToType(input: String): Unit {
+    override fun convertToType(input: String) {
     }
 
     fun invoke(input: String) {
