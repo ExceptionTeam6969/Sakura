@@ -10,6 +10,9 @@ class ScissorBox(
     var height: Int = 0
 ) {
 
+    constructor(x: Float, y: Float, width: Float, height: Float):
+        this(x.toInt(), y.toInt(), width.toInt(), height.toInt())
+
     /**
      * Updates the scissor box.
      */
