@@ -37,15 +37,6 @@ object RotationManager {
             rotationInfo = null
         }
 
-        nonNullListener<PacketEvents.Send>(alwaysListening = true, priority = Int.MAX_VALUE) { e ->
-            if (Rotations.packetRotation) return@nonNullListener
-            if (e.packet !is ServerboundMovePlayerPacket) return@nonNullListener
-
-            rotationInfo?.let {
-                (e.packet as ServerboundMovePlayerPacketAccessor).setXRot(it.pitch)
-                (e.packet as ServerboundMovePlayerPacketAccessor).setYRot(it.yaw)
-            }
-        }
     }
 
     var rotationInfo: RotationInfo? = null; private set
