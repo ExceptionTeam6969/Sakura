@@ -7,6 +7,7 @@ object Rotations: Module(
     name = "rotations",
     category = Category.CLIENT,
     alwaysEnable = true,
+    defaultEnable = true,
 ) {
 
     val packetRotation by setting("packet-rotation", false)
