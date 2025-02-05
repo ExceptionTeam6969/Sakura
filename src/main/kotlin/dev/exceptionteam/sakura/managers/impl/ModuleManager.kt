@@ -81,6 +81,7 @@ object ModuleManager {
             FPS,
             Ping,
             NotificationHUD,
+            ArrayList,
         )
 
         val event = RegisterModuleEvent(modules.toMutableList())
