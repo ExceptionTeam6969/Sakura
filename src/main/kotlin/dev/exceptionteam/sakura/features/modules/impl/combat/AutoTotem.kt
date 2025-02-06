@@ -6,6 +6,7 @@ import dev.exceptionteam.sakura.events.nonNullListener
 import dev.exceptionteam.sakura.features.modules.Category
 import dev.exceptionteam.sakura.features.modules.Module
 import dev.exceptionteam.sakura.utils.player.InventoryUtils.findItemInInventory
+import dev.exceptionteam.sakura.utils.player.InventoryUtils.getItemCountInInventory
 import net.minecraft.world.inventory.ClickType
 import net.minecraft.world.item.Items
 import net.minecraft.world.phys.Vec3
@@ -17,6 +18,10 @@ object AutoTotem: Module(
 
     private val strict by setting("strict", true)
     private val health by setting("health", 12.0f, 0.0f..36.0f)
+
+    private var totemCount = 0
+
+    override fun hudInfo(): String? = "$totemCount"
 
     init {
 
@@ -31,6 +36,8 @@ object AutoTotem: Module(
                 clickSlot(45)
                 if (offhandEmptyPreSwitch) clickSlot(slot)
             }
+
+            totemCount = getItemCountInInventory(Items.TOTEM_OF_UNDYING)
         }
 
     }

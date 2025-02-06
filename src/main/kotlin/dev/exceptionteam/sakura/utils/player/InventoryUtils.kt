@@ -1,12 +1,9 @@
 package dev.exceptionteam.sakura.utils.player
 
 import dev.exceptionteam.sakura.events.NonNullContext
-import net.minecraft.client.player.LocalPlayer
-import net.minecraft.network.protocol.game.ServerboundPickItemFromEntityPacket
 import net.minecraft.network.protocol.game.ServerboundSetCarriedItemPacket
 import net.minecraft.world.item.BlockItem
 import net.minecraft.world.item.Item
-import net.minecraft.world.item.ItemStack
 import net.minecraft.world.level.block.Block
 
 object InventoryUtils {
@@ -67,8 +64,6 @@ object InventoryUtils {
         }
     }
 
-
-
     fun NonNullContext.findItemInInventory(item: Item): Int? {
         for (i in 0 until 45) {
             if (player.inventory.getItem(i).item == item) {
@@ -87,6 +82,16 @@ object InventoryUtils {
             }
         }
         return null
+    }
+
+    fun NonNullContext.getItemCountInInventory(item: Item): Int {
+        var count = 0
+        for (i in 0 until 45) {
+            if (player.inventory.getItem(i).item == item) {
+                count++
+            }
+        }
+        return count
     }
 
 }

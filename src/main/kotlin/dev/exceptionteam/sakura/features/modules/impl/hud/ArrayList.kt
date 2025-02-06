@@ -8,6 +8,7 @@ import dev.exceptionteam.sakura.graphics.easing.Easing
 import dev.exceptionteam.sakura.graphics.font.FontRenderers
 import dev.exceptionteam.sakura.graphics.utils.RenderUtils2D
 import dev.exceptionteam.sakura.managers.impl.ModuleManager
+import net.minecraft.ChatFormatting
 import net.minecraft.client.Minecraft
 
 object ArrayList: HUDModule(
@@ -31,9 +32,16 @@ object ArrayList: HUDModule(
         var deltaY: Float = if (dirUp) this.y + this.height - singleHeight else this.y
         modules.clear()
 
+
         ModuleManager.modules
             .filter { it.isDrawn }
-            .sortedByDescending { FontRenderers.getStringWidth(it.name) }
+            .sortedByDescending { module ->
+                val hudInfo = module.hudInfo() ?: run {
+                    return@sortedByDescending FontRenderers.getStringWidth(module.name, scale)
+                }
+                return@sortedByDescending FontRenderers.getStringWidth(
+                    "${module.name.translation}${ChatFormatting.GRAY}[$hudInfo]", scale)
+            }
             .forEach  { module ->
                 val anim = animation
                     .getOrPut(module) { AnimationFlag(Easing.LINEAR, 200f) }
@@ -43,12 +51,16 @@ object ArrayList: HUDModule(
                     return@forEach
                 }
 
-                val moduleLength = FontRenderers.getStringWidth(module.name) * scale
+                val hudInfo = module.hudInfo()
+                val str = if (hudInfo == null) module.name.translation
+                          else "${module.name.translation}${ChatFormatting.GRAY}[$hudInfo]"
+
+                val moduleLength = FontRenderers.getStringWidth(str, scale)
 
                 val x = (this.x + (this.width - moduleLength * anim))
 
                 RenderUtils2D.drawRectFilled(x - 4f, deltaY, moduleLength + 6f, singleHeight, ColorRGB(0, 0, 0, 100))
-                FontRenderers.drawString(module.name, x - 2f, deltaY, textColor, shadow, scale)
+                FontRenderers.drawString(str, x - 2f, deltaY, textColor, shadow, scale)
 
                 if (dirUp) deltaY -= singleHeight * anim else deltaY += singleHeight * anim
                 modules.add(module)

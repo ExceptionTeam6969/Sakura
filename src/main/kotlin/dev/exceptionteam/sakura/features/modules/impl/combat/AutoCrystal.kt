@@ -73,6 +73,13 @@ object AutoCrystal: Module(
 
     private var crystalInfo: CrystalInfo? = null
 
+    override fun hudInfo(): String? {
+        crystalInfo?.let {
+            return String.format("%.1f/%.1f", it.selfDmg, it.targetDmg)
+        }
+        return null
+    }
+
     init {
         onEnable {
             cleanup()

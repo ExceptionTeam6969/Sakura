@@ -87,9 +87,7 @@ abstract class AbstractModule(
         isEnabled = false
     }
 
-    open fun hudInfo(): String {
-        return ""
-    }
+    open fun hudInfo(): String? = null
 
     override fun <S : AbstractSetting<*>> AbstractModule.setting(setting: S): S {
         return setting.apply {
