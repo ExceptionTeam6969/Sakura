@@ -17,6 +17,8 @@ object NotificationHUD: HUDModule(
     private val height0 by setting("height", 36f, 30f..100f)
     private val mainLength by setting("main-length", 300f, 100f..1000f)
     private val keepLength by setting("keep-length", 1500f, 100f..1500f)
+    private val icon by setting("icon", true)
+    private val iconScale by setting("icon-scale", 0.8f, 0.1f..1.0f) { icon }
     private val backgroundColor by setting("background-color", ColorRGB(0, 0, 0, 160))
     private val lineColor by setting("line-color", ColorRGB(255, 255, 255))
     private val shadow by setting("shadow", false)
@@ -87,11 +89,11 @@ object NotificationHUD: HUDModule(
 
         val x = width - widthPercent * width + this.x
 
-        val iconScale = notification.icon?.let {
+        val iconScale = (notification.icon?.let {
             (height - 6f) / it.height.toFloat()
-        } ?: 1f
-        val iconWidth = notification.icon?.width?.times(iconScale) ?: 0f
-        val iconHeight = notification.icon?.height?.times(iconScale) ?: 0f
+        } ?: 1f) * iconScale
+        val iconWidth = if (icon) notification.icon?.width?.times(iconScale) ?: 0f else 0f
+        val iconHeight = if (icon) notification.icon?.height?.times(iconScale) ?: 0f else 0f
 
         RenderUtils2D.drawRectFilled(
             x, y, width, height, backgroundColor
@@ -99,7 +101,7 @@ object NotificationHUD: HUDModule(
 
         notification.icon?.let {
             RenderUtils2D.drawTextureRect(
-                x + 3, y + 3, iconWidth, iconHeight, it
+                x + 3, y + 3 - (iconHeight - height + 6f) / 2f, iconWidth, iconHeight, it
             )
         }
 
