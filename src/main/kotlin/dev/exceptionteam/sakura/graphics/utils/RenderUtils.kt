@@ -1,6 +1,7 @@
 package dev.exceptionteam.sakura.graphics.utils
 
 import dev.exceptionteam.sakura.graphics.buffer.ElementBufferObject
+import dev.exceptionteam.sakura.graphics.texture.CategoryIcons
 import org.lwjgl.opengl.GL45.*
 
 object RenderUtils {
@@ -11,6 +12,7 @@ object RenderUtils {
         // Init RenderUtils2D and RenderUtils3D
         RenderUtils2D
         RenderUtils3D
+        CategoryIcons
 
         initRectEbo()
     }

@@ -13,11 +13,11 @@ import net.minecraft.client.Minecraft
 object NotificationHUD: HUDModule(
     name = "notification-hud",
 ) {
-    private val width0 by setting("width", 200f, 50f..400f)
-    private val height0 by setting("height", 55f, 30f..100f)
-    private val mainLength by setting("main-length", 400f, 100f..1000f)
-    private val keepLength by setting("keep-length", 1200f, 100f..1500f)
-    private val backgroundColor by setting("background-color", ColorRGB(30, 30, 30, 200))
+    private val width0 by setting("width", 170f, 50f..400f)
+    private val height0 by setting("height", 36f, 30f..100f)
+    private val mainLength by setting("main-length", 300f, 100f..1000f)
+    private val keepLength by setting("keep-length", 1500f, 100f..1500f)
+    private val backgroundColor by setting("background-color", ColorRGB(0, 0, 0, 160))
     private val lineColor by setting("line-color", ColorRGB(255, 255, 255))
     private val shadow by setting("shadow", false)
 
@@ -87,19 +87,21 @@ object NotificationHUD: HUDModule(
 
         val x = width - widthPercent * width + this.x
 
-        val iconScale = (notification.icon?.height?.div(height - 6)) ?: 0f
+        val iconScale = notification.icon?.let {
+            (height - 6f) / it.height.toFloat()
+        } ?: 1f
         val iconWidth = notification.icon?.width?.times(iconScale) ?: 0f
         val iconHeight = notification.icon?.height?.times(iconScale) ?: 0f
+
+        RenderUtils2D.drawRectFilled(
+            x, y, width, height, backgroundColor
+        )
 
         notification.icon?.let {
             RenderUtils2D.drawTextureRect(
                 x + 3, y + 3, iconWidth, iconHeight, it
             )
         }
-
-        RenderUtils2D.drawRectFilled(
-            x, y, width, height, backgroundColor
-        )
 
         FontRenderers.drawString(notification.title, x + 6 + iconWidth, y + 5, ColorRGB.WHITE, shadow, 1.2f)
 

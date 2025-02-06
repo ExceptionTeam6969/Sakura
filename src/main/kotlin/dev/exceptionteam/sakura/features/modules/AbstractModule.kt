@@ -1,12 +1,11 @@
 package dev.exceptionteam.sakura.features.modules
 
 import dev.exceptionteam.sakura.events.EventBus
-import dev.exceptionteam.sakura.features.modules.impl.client.ChatNotification
 import dev.exceptionteam.sakura.features.settings.*
+import dev.exceptionteam.sakura.graphics.texture.CategoryIcons
 import dev.exceptionteam.sakura.managers.impl.NotificationManager
 import dev.exceptionteam.sakura.translation.TranslationString
 import dev.exceptionteam.sakura.utils.control.KeyBind
-import dev.exceptionteam.sakura.utils.ingame.ChatUtils
 import dev.exceptionteam.sakura.utils.threads.runSafe
 import net.minecraft.ChatFormatting
 import java.util.concurrent.CopyOnWriteArrayList
@@ -56,7 +55,7 @@ abstract class AbstractModule(
             runSafe {
                 NotificationManager.addNotification(
                     category.translation, "${name.translation} is ${ChatFormatting.GREEN}Enabled",
-                    null, name.hashCode()
+                    CategoryIcons.getIcon(category), name.hashCode()
                 )
             }
         }
@@ -66,7 +65,7 @@ abstract class AbstractModule(
             runSafe {
                 NotificationManager.addNotification(
                     category.translation, "${name.translation} is ${ChatFormatting.RED}Disabled",
-                    null, name.hashCode()
+                    CategoryIcons.getIcon(category), name.hashCode()
                 )
             }
         }
