@@ -5,7 +5,6 @@ import dev.exceptionteam.sakura.events.impl.PacketEvents
 import dev.exceptionteam.sakura.events.nonNullListener
 import dev.exceptionteam.sakura.features.modules.Category
 import dev.exceptionteam.sakura.features.modules.Module
-import dev.exceptionteam.sakura.features.modules.impl.client.Language
 import dev.exceptionteam.sakura.managers.impl.TranslationManager
 import dev.exceptionteam.sakura.utils.ingame.ChatUtils
 import net.minecraft.client.multiplayer.PlayerInfo
