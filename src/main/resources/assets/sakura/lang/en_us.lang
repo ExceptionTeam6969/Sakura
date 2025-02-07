@@ -226,3 +226,7 @@ modules.array-list=Array List
 modules.array-list.text-color=Text Color
 modules.array-list.shadow=Shadow
 modules.array-list.scale=Scale
+
+modules.event-notifier=Event Notifier
+modules.event-notifier.player-join=Player Join
+modules.event-notifier.player-leave=Player Leave

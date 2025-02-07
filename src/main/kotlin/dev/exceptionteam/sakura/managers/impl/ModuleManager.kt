@@ -46,6 +46,7 @@ object ModuleManager {
             PacketEat,
             Disabler,
             FakePlayer,
+            EventNotifier,
 
             // Render
             NameTags,

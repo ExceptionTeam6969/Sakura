@@ -234,3 +234,7 @@ modules.array-list=功能列表
 modules.array-list.text-color=文字颜色
 modules.array-list.shadow=阴影
 modules.array-list.scale=缩放
+
+modules.event-notifier=事件提醒器
+modules.event-notifier.player-join=玩家加入伺服器
+modules.event-notifier.player-leave=玩家离开伺服器
