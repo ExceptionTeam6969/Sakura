@@ -53,6 +53,7 @@ object ModuleManager {
             FullBright,
             GameAnimation,
             NoRender,
+            HoleESP,
 
             // Movement
             Sprint,

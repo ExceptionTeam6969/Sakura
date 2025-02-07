@@ -16,6 +16,7 @@ import org.joml.Matrix4f
 import org.joml.Vector3f
 import org.joml.Vector4f
 import org.lwjgl.opengl.GL45.*
+import kotlin.math.abs
 
 object RenderUtils3D {
 
@@ -69,10 +70,10 @@ object RenderUtils3D {
         )
     }
 
-    fun drawBoxOutline(box: AABB, color: ColorRGB, lineWidth: Float = 1f) {
+    fun drawBoxOutline(bb: AABB, color: ColorRGB, lineWidth: Float = 1f, height: Double = 1.0) {
         val mc = Minecraft.getInstance()
         val camera = mc.gameRenderer.mainCamera
-
+        val box = bb.contract(0.0, 1 - height, 0.0)
         val minX = (box.minX - camera.position.x).toFloat()
         val minY = (box.minY - camera.position.y).toFloat()
         val minZ = (box.minZ - camera.position.z).toFloat()
@@ -113,10 +114,10 @@ object RenderUtils3D {
         }
     }
 
-    fun drawFilledBox(box: AABB, color: ColorRGB) {
+    fun drawFilledBox(bb: AABB, color: ColorRGB, height: Double = 1.0) {
         val mc = Minecraft.getInstance()
         val camera = mc.gameRenderer.mainCamera
-
+        val box = bb.contract(0.0, 1 - height, 0.0)
         val minX = (box.minX - camera.position.x).toFloat()
         val minY = (box.minY - camera.position.y).toFloat()
         val minZ = (box.minZ - camera.position.z).toFloat()

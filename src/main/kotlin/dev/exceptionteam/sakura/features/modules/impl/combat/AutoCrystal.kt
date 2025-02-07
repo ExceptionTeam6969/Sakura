@@ -64,6 +64,9 @@ object AutoCrystal: Module(
     private val breakSwing by setting("break-swing", true) { page == Page.BREAK }
 
     // Render
+    private val box by setting("box", true) { page == Page.RENDER }
+    private val outline by setting("outline", true) { page == Page.RENDER }
+    private val lineWidth by setting("line-width", 1.0f, 0.1f..5.0f){ page == Page.RENDER && outline }
     private val color by setting("color", ColorRGB(255, 50, 50)) { page == Page.RENDER }
     private val showDmg by setting("show-dmg", true) { page == Page.RENDER }
 
@@ -92,7 +95,7 @@ object AutoCrystal: Module(
         nonNullListener<Render3DEvent> {
             crystalInfo?.let { inf ->
                 renderer.add(inf.pos.below(), color)
-                renderer.render(true)
+                renderer.render(true, box, 1.0, outline, lineWidth, 1.0)
             }
         }
 
@@ -184,7 +187,7 @@ object AutoCrystal: Module(
         val targetCalc = DamageCalculation(this, target, predictPos)
 
         target.blockPosition()
-            .aroundBlock(6)
+            .aroundBlock(6, 6)
             .filter { it.center.distanceSqTo(player) <= placeRange.sq }
             .filter { canPlaceCrystal(it) }
             .forEach {

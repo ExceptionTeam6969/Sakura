@@ -45,7 +45,13 @@ class ESPRenderer {
         toRender0.clear()
     }
 
-    fun render(clear: Boolean) {
+    fun render(clear: Boolean,
+               renderBox: Boolean = true,
+               boxHeight: Double = 1.0,
+               outline: Boolean = false,
+               lineWidth: Float = 1.0f,
+               lineHeight: Double = 1.0
+    ) {
         val filled = aFilled != 0
         if (toRender0.isEmpty() || (!filled)) return
 
@@ -55,7 +61,8 @@ class ESPRenderer {
             GlHelper.cull = false
             for ((box, color) in toRender0) {
                 val a = (aFilled * (color.a / 255.0f)).toInt()
-                RenderUtils3D.drawFilledBox(box, color.alpha(a))
+                if (renderBox) RenderUtils3D.drawFilledBox(box, color.alpha(a), boxHeight)
+                if (outline) RenderUtils3D.drawBoxOutline(box, color, lineWidth, lineHeight)
             }
         }
 
