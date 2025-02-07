@@ -241,6 +241,8 @@ modules.array-list.scale=缩放
 modules.event-notifier=事件提醒器
 modules.event-notifier.player-join=玩家加入伺服器
 modules.event-notifier.player-leave=玩家离开伺服器
+modules.event-notifier.join-message=玩家 $NAME 加入了伺服器!
+modules.event-notifier.leave-message=玩家 $NAME 离开了伺服器!
 
 modules.hole-esp=坑显示
 modules.hole-esp.range=渲染距离

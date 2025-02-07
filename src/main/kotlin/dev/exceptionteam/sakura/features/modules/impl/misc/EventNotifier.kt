@@ -6,6 +6,7 @@ import dev.exceptionteam.sakura.events.nonNullListener
 import dev.exceptionteam.sakura.features.modules.Category
 import dev.exceptionteam.sakura.features.modules.Module
 import dev.exceptionteam.sakura.features.modules.impl.client.Language
+import dev.exceptionteam.sakura.managers.impl.TranslationManager
 import dev.exceptionteam.sakura.utils.ingame.ChatUtils
 import net.minecraft.client.multiplayer.PlayerInfo
 import net.minecraft.network.protocol.game.ClientboundPlayerInfoRemovePacket
@@ -17,6 +18,8 @@ object EventNotifier: Module(
 ) {
     private val playerJoin by setting("player-join", true)
     private val playerLeave by setting("player-leave", true)
+
+    private const val NAME = "\$NAME"
 
     init {
         nonNullListener<PacketEvents.Receive> { it ->
@@ -35,28 +38,24 @@ object EventNotifier: Module(
     private fun sendJoinMessage(packet: ClientboundPlayerInfoUpdatePacket) {
         for (entry in packet.entries()) {
             val player = entry.profile ?: continue
-            when (Language.language) {
-                Language.Languages.EN_US -> {
-                    ChatUtils.sendMessage("Player ${player.name} joined!")
-                }
-                Language.Languages.ZH_CN -> {
-                    ChatUtils.sendMessage("玩家 ${player.name} 加入了伺服器!")
-                }
-            }
+
+            val joinMessage =
+                TranslationManager.getTranslation("modules.event-notifier.join-message")
+                    .replace(NAME, player.name)
+
+            ChatUtils.sendMessage(joinMessage)
         }
     }
 
     private fun NonNullContext.sendLeaveMessage(packet: ClientboundPlayerInfoRemovePacket) {
         for (uuid in packet.profileIds) {
             val leave: PlayerInfo = connection.getPlayerInfo(uuid) ?: continue
-            when (Language.language) {
-                Language.Languages.EN_US -> {
-                    ChatUtils.sendMessage("Player ${leave.profile.name} leaved!")
-                }
-                Language.Languages.ZH_CN -> {
-                    ChatUtils.sendMessage("Player ${leave.profile.name} 离开了伺服器!")
-                }
-            }
+
+            val leaveMessage =
+                TranslationManager.getTranslation("modules.event-notifier.leave-message")
+                    .replace(NAME, leave.profile.name)
+
+            ChatUtils.sendMessage(leaveMessage)
         }
     }
 }

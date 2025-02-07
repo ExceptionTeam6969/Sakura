@@ -233,6 +233,8 @@ modules.array-list.scale=Scale
 modules.event-notifier=Event Notifier
 modules.event-notifier.player-join=Player Join
 modules.event-notifier.player-leave=Player Leave
+modules.event-notifier.join-message=Player $NAME joined!
+modules.event-notifier.leave-message=Player $NAME left!
 
 modules.hole-esp=Hole ESP
 modules.hole-esp.range=Range
