@@ -1,12 +1,9 @@
 package dev.exceptionteam.sakura.features.modules.impl.render
 
-import dev.exceptionteam.sakura.events.NonNullContext
 import dev.exceptionteam.sakura.events.impl.Render3DEvent
 import dev.exceptionteam.sakura.events.nonNullListener
 import dev.exceptionteam.sakura.features.modules.Category
 import dev.exceptionteam.sakura.features.modules.Module
-import dev.exceptionteam.sakura.features.modules.impl.combat.HolePush
-import dev.exceptionteam.sakura.features.modules.impl.combat.HolePush.setting
 import dev.exceptionteam.sakura.graphics.color.ColorRGB
 import dev.exceptionteam.sakura.graphics.general.ESPRenderer
 import dev.exceptionteam.sakura.utils.world.WorldUtils.blockState

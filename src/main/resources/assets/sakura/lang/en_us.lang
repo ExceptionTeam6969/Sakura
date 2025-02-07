@@ -131,6 +131,9 @@ modules.auto-crystal.break-swing=Break Swing
 modules.auto-crystal.page.render=Render
 modules.auto-crystal.color=Color
 modules.auto-crystal.show-dmg=Show Dmg
+modules.auto-crystal.box=Box
+modules.auto-crystal.outline=Outline
+modules.auto-crystal.line-width=Line Width
 
 modules.strafe-fix=Strafe Fix
 modules.strafe-fix.direction=Direction
@@ -230,3 +233,12 @@ modules.array-list.scale=Scale
 modules.event-notifier=Event Notifier
 modules.event-notifier.player-join=Player Join
 modules.event-notifier.player-leave=Player Leave
+
+modules.hole-esp=Hole ESP
+modules.hole-esp.range=Range
+modules.hole-esp.y-range=Y Range
+modules.hole-esp.box=Box
+modules.hole-esp.outline=Outline
+modules.hole-esp.height=Render Height
+modules.hole-esp.line-width=Line Width
+modules.hole-esp.color=Color
