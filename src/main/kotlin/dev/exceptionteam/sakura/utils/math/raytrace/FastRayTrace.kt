@@ -1,54 +1,13 @@
-/*
- * Copyright (c) 2021-2022, SagiriXiguajerry. All rights reserved.
- * This repository will be transformed to SuperMic_233.
- *
- *
- *
- *
- *
- *
- *
- *
- *
- *
- *
- */
-
-package dev.exceptionteam.sakura.utils.combat
+package dev.exceptionteam.sakura.utils.math.raytrace
 
 import dev.exceptionteam.sakura.utils.math.fastFloor
-import dev.exceptionteam.sakura.utils.combat.FastRayTraceAction.*
+import dev.exceptionteam.sakura.utils.math.raytrace.FastRayTraceAction.*
 import net.minecraft.core.BlockPos
 import net.minecraft.world.level.Level
 import net.minecraft.world.level.block.state.BlockState
 import net.minecraft.world.phys.Vec3
 import kotlin.ranges.rangeTo
 import kotlin.takeUnless
-
-fun interface FastRayTraceFunction {
-    operator fun Level.invoke(
-        pos: BlockPos,
-        state: BlockState,
-        current: Vec3
-    ): FastRayTraceAction
-
-    companion object {
-        @JvmField
-        val DEFAULT = FastRayTraceFunction { pos, state, _ ->
-            if (!state.getShape(this, pos).isEmpty) {
-                CALC
-            } else {
-                SKIP
-            }
-        }
-    }
-}
-
-fun interface RayTraceFunction {
-    operator fun invoke(
-        pos: Vec3
-    ): FastRayTraceAction
-}
 
 private operator fun FastRayTraceFunction.invoke(
     world: Level,
@@ -421,8 +380,4 @@ private fun BlockState.rayTraceBlock(
     }
 
     return false
-}
-
-enum class FastRayTraceAction {
-    SKIP, MISS, CALC, HIT
 }

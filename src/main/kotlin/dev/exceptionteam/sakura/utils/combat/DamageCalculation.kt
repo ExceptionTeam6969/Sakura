@@ -5,6 +5,9 @@ import dev.exceptionteam.sakura.features.modules.impl.client.CombatSettings
 import dev.exceptionteam.sakura.graphics.general.DirectionMask
 import dev.exceptionteam.sakura.utils.math.distanceSqTo
 import dev.exceptionteam.sakura.utils.math.fastFloor
+import dev.exceptionteam.sakura.utils.math.raytrace.FastRayTraceAction
+import dev.exceptionteam.sakura.utils.math.raytrace.FastRayTraceFunction
+import dev.exceptionteam.sakura.utils.math.raytrace.fastRayTrace
 import dev.exceptionteam.sakura.utils.world.WorldUtils.checkBlockCollision
 import net.minecraft.core.BlockPos
 import net.minecraft.world.Difficulty

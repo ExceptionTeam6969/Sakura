@@ -9,7 +9,7 @@ import dev.exceptionteam.sakura.utils.math.RotationUtils.getRotationTo
 import dev.exceptionteam.sakura.utils.player.InventoryUtils.findBlockInHotbar
 import dev.exceptionteam.sakura.utils.player.InventoryUtils.findItemInHotbar
 import dev.exceptionteam.sakura.utils.world.BlockUtils
-import dev.exceptionteam.sakura.utils.world.BlockUtils.getNeighbourSide
+import dev.exceptionteam.sakura.utils.world.BlockUtils.getBestSide
 import net.minecraft.core.BlockPos
 import net.minecraft.core.Direction
 import net.minecraft.network.protocol.game.ServerboundInteractPacket
@@ -40,7 +40,7 @@ object InteractionUtils {
         priority: Int = 0,
         hand: InteractionHand = InteractionHand.MAIN_HAND
     ) {
-        val dir = getNeighbourSide(pos)
+        val dir = getBestSide(pos)
         val rotationAngle = getRotationTo(pos, dir)
 
         addRotation(rotationAngle, priority, shouldRotate) {
@@ -62,7 +62,7 @@ object InteractionUtils {
         priority: Int = 0,
         hand: InteractionHand = InteractionHand.MAIN_HAND
     ) {
-        val dir = getNeighbourSide(pos)
+        val dir = getBestSide(pos)
         val rotationAngle = getRotationTo(pos, dir)
 
         addRotation(rotationAngle, priority, shouldRotate) {
@@ -81,7 +81,7 @@ object InteractionUtils {
         val blockHit = BlockHitResultBuilder()
             .pos(BlockUtils.getVecPos(pos, dir))
             .blockPos(pos)
-            .side(side.opposite)
+            .side(side)
             .build()
 
         connection.send(ServerboundUseItemOnPacket(
@@ -95,7 +95,7 @@ object InteractionUtils {
         val blockHit = BlockHitResultBuilder()
             .pos(BlockUtils.getVecPos(pos, dir))
             .blockPos(pos.below())
-            .side(side.opposite)
+            .side(side)
             .build()
 
         connection.send(ServerboundUseItemOnPacket(
