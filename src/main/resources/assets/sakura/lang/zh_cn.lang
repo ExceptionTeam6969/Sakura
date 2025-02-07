@@ -250,3 +250,6 @@ modules.hole-esp.outline=边框渲染
 modules.hole-esp.height=渲染高度
 modules.hole-esp.line-width=边框厚度
 modules.hole-esp.color=颜色
+
+modules.step=小蜜蜂飞二楼
+modules.step.height=高度

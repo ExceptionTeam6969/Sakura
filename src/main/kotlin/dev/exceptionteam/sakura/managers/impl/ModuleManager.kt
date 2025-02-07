@@ -59,6 +59,7 @@ object ModuleManager {
             Sprint,
             Velocity,
             StrafeFix,
+            Step,
 
             // Player
             NoFall,

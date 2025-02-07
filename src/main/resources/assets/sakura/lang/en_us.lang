@@ -242,3 +242,6 @@ modules.hole-esp.outline=Outline
 modules.hole-esp.height=Render Height
 modules.hole-esp.line-width=Line Width
 modules.hole-esp.color=Color
+
+modules.step=Step
+modules.step.height=Height
