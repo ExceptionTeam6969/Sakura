@@ -3,7 +3,6 @@ package dev.exceptionteam.sakura.features.modules.impl.hud
 import dev.exceptionteam.sakura.features.modules.HUDModule
 import dev.exceptionteam.sakura.graphics.color.ColorRGB
 import dev.exceptionteam.sakura.graphics.font.FontRenderers
-import dev.exceptionteam.sakura.utils.ingame.ChatUtils
 import net.minecraft.client.Minecraft
 import net.minecraft.client.multiplayer.PlayerInfo
 
