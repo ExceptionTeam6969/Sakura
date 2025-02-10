@@ -4,16 +4,11 @@ import dev.exceptionteam.sakura.events.impl.KeyEvent
 import dev.exceptionteam.sakura.events.impl.RegisterModuleEvent
 import dev.exceptionteam.sakura.events.nonNullListener
 import dev.exceptionteam.sakura.features.modules.AbstractModule
-import dev.exceptionteam.sakura.features.modules.impl.client.*
-import dev.exceptionteam.sakura.features.modules.impl.combat.*
-import dev.exceptionteam.sakura.features.modules.impl.hud.*
-import dev.exceptionteam.sakura.features.modules.impl.misc.*
-import dev.exceptionteam.sakura.features.modules.impl.movement.*
-import dev.exceptionteam.sakura.features.modules.impl.player.*
-import dev.exceptionteam.sakura.features.modules.impl.render.*
+import dev.exceptionteam.sakura.utils.clazz.ClassUtils.instance
+import dev.exceptionteam.sakura.utils.clazz.classes
+import java.lang.reflect.Modifier
 
 object ModuleManager {
-
     lateinit var modules: Array<AbstractModule>
 
     init {
@@ -32,65 +27,23 @@ object ModuleManager {
     }
 
     private fun loadModules() {
-        modules = arrayOf(
-            // Combat
-            AutoBottle,
-            AutoCrystal,
-            FeetTrap,
-            HolePush,
-            KillAura,
-            AutoTotem,
-            PearlClip,
+        try {
+            modules = emptyArray<AbstractModule>() // 防止 UninitializedPropertyAccessException
 
-            // Misc
-            PacketEat,
-            Disabler,
-            FakePlayer,
-            EventNotifier,
+            classes.asSequence()
+                .filter { Modifier.isFinal(it.modifiers) }
+                .filter { it.name.startsWith("dev.exceptionteam.sakura.features.modules.impl") }
+                .filter { AbstractModule::class.java.isAssignableFrom(it) }
+                .map { it.instance as AbstractModule }
+                .forEach {
+                    modules += it
+                }
 
-            // Render
-            NameTags,
-            FullBright,
-            GameAnimation,
-            NoRender,
-            HoleESP,
-
-            // Movement
-            Sprint,
-            Velocity,
-            StrafeFix,
-            Step,
-
-            // Player
-            NoFall,
-            CancelUsing,
-            PacketDigging,
-
-            // Client
-            UiSetting,
-            ClickGUI,
-            HUDEditor,
-            ChatNotification,
-            CombatSettings,
-            CustomFont,
-            RenderSystemMod,
-            Language,
-            Rotations,
-
-            // HUD
-            WaterMark,
-            GuiImage,
-            Welcomer,
-            FPS,
-            Ping,
-            NotificationHUD,
-            ArrayList,
-        )
-
-        val event = RegisterModuleEvent(modules.toMutableList())
-        event.post()
-        modules = event.modules.sortedBy { it.name.key }.toTypedArray()
+            val event = RegisterModuleEvent(modules.toMutableList())
+            event.post()
+            modules = event.modules.sortedBy { it.name.key }.toTypedArray()
+        } catch (e: Exception) {
+            e.printStackTrace()
+        }
     }
-
-
 }

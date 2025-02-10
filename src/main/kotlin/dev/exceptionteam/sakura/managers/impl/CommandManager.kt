@@ -3,9 +3,11 @@ package dev.exceptionteam.sakura.managers.impl
 import dev.exceptionteam.sakura.events.impl.PacketEvents
 import dev.exceptionteam.sakura.events.nonNullListener
 import dev.exceptionteam.sakura.features.command.Command
-import dev.exceptionteam.sakura.features.command.impl.*
+import dev.exceptionteam.sakura.utils.clazz.ClassUtils.instance
+import dev.exceptionteam.sakura.utils.clazz.classes
 import dev.exceptionteam.sakura.utils.ingame.ChatUtils
 import net.minecraft.network.protocol.game.ServerboundChatPacket
+import java.lang.reflect.Modifier
 
 object CommandManager {
     private val commands = mutableListOf<Command>()
@@ -25,13 +27,14 @@ object CommandManager {
             }
         }
 
-        addCommand(HelpCommand)
-        addCommand(BindCommand)
-        addCommand(FriendCommand)
-    }
-
-    fun addCommand(command: Command) {
-        commands.add(command)
+        classes.asSequence()
+            .filter { Modifier.isFinal(it.modifiers) }
+            .filter { it.name.startsWith("dev.exceptionteam.sakura.features.command.impl") }
+            .filter { Command::class.java.isAssignableFrom(it) }
+            .map { it.instance as Command }
+            .forEach {
+                commands.add(it)
+            }
     }
 
     // TODO: Complete is not finished yet
@@ -53,7 +56,7 @@ object CommandManager {
         val builder = StringBuilder()
         builder.appendLine("Commands:")
         builder.appendLine("----- Divider -----")
-        commands.forEach {
+        commands.forEach { it ->
             builder.appendLine(" Command: ${it.name}")
             if (it.alias.isNotEmpty()) {
                 builder.appendLine(" Alias: ${it.alias.joinToString(" ")}")
