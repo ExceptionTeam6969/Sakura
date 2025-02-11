@@ -55,6 +55,20 @@ object GlHelper {
         scissor0.forceSetValue(false)
     }
 
+    fun syncWithMinecraft() {
+        GlStateManager.TEXTURES.forEachIndexed { i, tex ->
+            if (textures.textures[i] != tex.binding) {
+                glActiveTexture(GL_TEXTURE0 + i)
+                glBindTexture(GL_TEXTURE_2D, tex.binding)
+                textures.textures[i] = tex.binding
+            }
+        }
+        glActiveTexture(GL_TEXTURE0 + GlStateManager.activeTexture)
+
+        if (GlStateManager.BLEND.mode.enabled != blend) GlStateManager.BLEND.mode.setEnabled(blend)
+        if (GlStateManager.DEPTH.mode.enabled != depth) GlStateManager.DEPTH.mode.setEnabled(depth)
+    }
+
 }
 
 class GlState<T>(valueIn: T, private val action: (T) -> Unit) : ReadWriteProperty<Any?, T> {
@@ -79,7 +93,7 @@ class GlState<T>(valueIn: T, private val action: (T) -> Unit) : ReadWritePropert
 
 data class TextureState(
     val textures: Array<Int> = mutableListOf<Int>().apply {
-        repeat(GlStateManager.TEXTURE_COUNT) { add(0) }
+        repeat(GlStateManager.TEXTURES.size + 1) { add(0) }
     }.toTypedArray()
 ) {
     override fun equals(other: Any?): Boolean {

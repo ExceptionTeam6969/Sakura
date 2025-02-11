@@ -7,6 +7,11 @@
 	"contact": {
 		"sources": "https://github.com/ExceptionTeam6969/Sakura"
 	},
+	"entrypoints": {
+		"client": [
+			"dev.exceptionteam.sakura.SakuraMod"
+		]
+	},
 	"authors": [
 		"slmpc",
 		"zenhao",

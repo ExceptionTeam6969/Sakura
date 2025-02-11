@@ -57,3 +57,4 @@ rootProject.name = "Sakura"
 
 include("common")
 include("fabric")
+include("neoforge")

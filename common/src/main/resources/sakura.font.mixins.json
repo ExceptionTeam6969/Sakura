@@ -1,7 +1,9 @@
 {
     "required": true,
+    "minVersion": "0.8",
     "package": "dev.exceptionteam.sakura.mixins.font",
     "compatibilityLevel": "JAVA_21",
+    "refmap": "${mod_id}.refmap.json",
     "client": [
         "FontMixin"
     ],
