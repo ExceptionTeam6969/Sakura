@@ -33,6 +33,7 @@ private val library by configurations.creating {
 dependencies {
     implementation("org.spongepowered:mixin:0.8.5")
     implementation("io.github.llamalad7:mixinextras-common:0.3.5")
+    implementation("org.ow2.asm:asm-tree:9.6")
     annotationProcessor("io.github.llamalad7:mixinextras-common:0.3.5")
     annotationProcessor("org.spongepowered:mixin:0.8.5:processor")
 

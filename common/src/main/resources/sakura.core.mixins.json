@@ -4,6 +4,7 @@
   "package": "dev.exceptionteam.sakura.mixins.core",
   "compatibilityLevel": "JAVA_21",
   "refmap": "${mod_id}.refmap.json",
+  "plugin": "dev.exceptionteam.sakura.MixinPlugin",
   "client": [
     "MinecraftMixin",
     "chat.ChatComponentMixin",
