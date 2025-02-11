@@ -9,7 +9,7 @@
 	},
 	"entrypoints": {
 		"client": [
-			"dev.exceptionteam.sakura.SakuraMod"
+			"dev.exceptionteam.sakura.fabric.SakuraMod"
 		]
 	},
 	"authors": [

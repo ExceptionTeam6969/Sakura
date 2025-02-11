@@ -3,7 +3,7 @@ import org.jetbrains.kotlin.gradle.dsl.KotlinVersion
 
 plugins {
     java
-    kotlin("jvm") version "2.1.0"
+    kotlin("jvm") version "2.0.21"
     id("multiloader-common")
     id("net.neoforged.moddev")
 }
@@ -37,7 +37,7 @@ dependencies {
     annotationProcessor("io.github.llamalad7:mixinextras-common:0.3.5")
 
     library("org.jetbrains.kotlin:kotlin-stdlib")
-    library("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.10.1")
+    library("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.9.0")
     library("dev.luna5ama:kmogus-core:${property("kmogus_version")}")
     library("dev.luna5ama:kmogus-struct-api:${property("kmogus_version")}")
 
@@ -85,8 +85,8 @@ sourceSets {
 tasks.compileKotlin {
     compilerOptions {
         jvmTarget = JvmTarget.JVM_21
-        apiVersion = KotlinVersion.KOTLIN_2_2
-        languageVersion = KotlinVersion.KOTLIN_2_2
+        apiVersion = KotlinVersion.KOTLIN_2_0
+        languageVersion = KotlinVersion.KOTLIN_2_0
         optIn = listOf("kotlin.RequiresOptIn", "kotlin.contracts.ExperimentalContracts")
         freeCompilerArgs = listOf(
             "-Xjvm-default=all-compatibility",

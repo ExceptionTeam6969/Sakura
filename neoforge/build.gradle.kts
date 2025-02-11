@@ -52,8 +52,8 @@ tasks.build {
 tasks.compileKotlin {
     compilerOptions {
         jvmTarget = JvmTarget.JVM_21
-        apiVersion = KotlinVersion.KOTLIN_2_2
-        languageVersion = KotlinVersion.KOTLIN_2_2
+        apiVersion = KotlinVersion.KOTLIN_2_0
+        languageVersion = KotlinVersion.KOTLIN_2_0
         optIn = listOf("kotlin.RequiresOptIn", "kotlin.contracts.ExperimentalContracts")
         freeCompilerArgs = listOf(
             "-Xjvm-default=all-compatibility",
@@ -95,4 +95,4 @@ tasks.shadowJar {
 }
 
 tasks.javadocJar { enabled = false }
-tasks.sourcesJar { enabled = false }
+tasks.sourcesJar { enabled = true }
