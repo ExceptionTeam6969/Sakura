@@ -1,5 +1,6 @@
 package dev.exceptionteam.sakura.graphics
 
+import com.mojang.blaze3d.platform.GlStateManager
 import com.mojang.blaze3d.systems.RenderSystem
 import com.mojang.math.Axis
 import dev.exceptionteam.sakura.Sakura
@@ -105,7 +106,6 @@ object RenderSystem {
 
     fun preRender() {
         preAttrib()
-        GlHelper.syncWithMinecraft()
         GlHelper.reset()
         VertexBufferObjects.sync()
         GlHelper.blend = true
@@ -118,7 +118,12 @@ object RenderSystem {
         GlHelper.cull = true
         postFrameBuffer()
         postAttrib()
-        GlHelper.syncWithMinecraft()
+
+        GlStateManager._enableBlend()
+        GlStateManager._disableCull()
+        GlStateManager._disableDepthTest()
+        RenderSystem.defaultBlendFunc()
+        RenderSystem.setShaderColor(1f, 1f, 1f, 1f)
     }
 
     private fun preFrameBuffer() {
