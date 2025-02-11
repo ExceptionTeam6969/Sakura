@@ -33,14 +33,13 @@ private val library by configurations.creating {
 dependencies {
     implementation("org.spongepowered:mixin:0.8.5")
     implementation("io.github.llamalad7:mixinextras-common:0.3.5")
-    implementation("org.ow2.asm:asm-tree:9.6")
     annotationProcessor("io.github.llamalad7:mixinextras-common:0.3.5")
+    annotationProcessor("org.spongepowered:mixin:0.8.5:processor")
 
     library("org.jetbrains.kotlin:kotlin-stdlib")
     library("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.9.0")
     library("dev.luna5ama:kmogus-core:${property("kmogus_version")}")
     library("dev.luna5ama:kmogus-struct-api:${property("kmogus_version")}")
-
 }
 
 kotlin {

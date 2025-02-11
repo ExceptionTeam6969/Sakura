@@ -1,7 +1,7 @@
 plugins {
     java
     kotlin("jvm") version "2.0.21"
-    id("fabric-loom") version "1.8-SNAPSHOT" apply false
+    id("fabric-loom") version "1.9-SNAPSHOT" apply false
     id("com.gradleup.shadow") version "8.3.6" apply false
     id("net.neoforged.moddev") version "2.0.78" apply false
 }

@@ -95,4 +95,4 @@ tasks.shadowJar {
 }
 
 tasks.javadocJar { enabled = false }
-tasks.sourcesJar { enabled = true }
+tasks.sourcesJar { enabled = false }
