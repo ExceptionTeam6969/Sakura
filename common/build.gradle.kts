@@ -3,39 +3,38 @@ import org.jetbrains.kotlin.gradle.dsl.KotlinVersion
 
 plugins {
     java
+    idea
     kotlin("jvm") version "2.0.21"
-    id("multiloader-common")
-    id("net.neoforged.moddev")
+    id("fabric-loom") version "1.9-SNAPSHOT"
+}
+
+group = "dev.exceptionteam"
+version = "${property("mod_version")}"
+
+base {
+    archivesName = "sakura-common"
 }
 
 repositories {
     mavenCentral()
     maven("https://maven.fabricmc.net/")
-}
-
-neoForge {
-    neoFormVersion = property("neo_form_version")!!.toString()
-    // Automatically enable AccessTransformers if the file exists
-    val at = file("src/main/resources/META-INF/accesstransformer.cfg")
-    if (at.exists()) {
-        accessTransformers.from(at.absolutePath)
-    }
-    parchment {
-        minecraftVersion = property("parchment_minecraft")!!.toString()
-        mappingsVersion = property("parchment_version")!!.toString()
-    }
+    maven("https://maven.parchmentmc.org/")
 }
 
 private val library by configurations.creating {
+    isCanBeResolved = true
+    isCanBeConsumed = true
     configurations.implementation.get().extendsFrom(this)
 }
 
 dependencies {
-    implementation("org.spongepowered:mixin:0.8.5")
-    implementation("io.github.llamalad7:mixinextras-common:0.3.5")
-    implementation("org.ow2.asm:asm-tree:9.6")
-    annotationProcessor("io.github.llamalad7:mixinextras-common:0.3.5")
-    annotationProcessor("org.spongepowered:mixin:0.8.5:processor")
+    minecraft("com.mojang:minecraft:${property("minecraft_version")}")
+    mappings(loom.layered {
+        officialMojangMappings()
+        parchment("org.parchmentmc.data:parchment-${property("parchment_minecraft")}:${property("parchment_version")}@zip")
+    })
+    modImplementation("net.fabricmc:fabric-loader:${property("fabric_loader_version")}")
+    modImplementation("net.fabricmc.fabric-api:fabric-api:${property("fabric_version")}")
 
     library("org.jetbrains.kotlin:kotlin-stdlib")
     library("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.9.0")
@@ -45,35 +44,6 @@ dependencies {
 
 kotlin {
     jvmToolchain(21)
-}
-
-configurations {
-    create("commonJava") {
-        isCanBeResolved = false
-        isCanBeConsumed = true
-    }
-    create("commonKotlin") {
-        isCanBeResolved = false
-        isCanBeConsumed = true
-    }
-    create("commonResources") {
-        isCanBeResolved = false
-        isCanBeConsumed = true
-    }
-}
-
-artifacts {
-    add("commonJava", sourceSets.main.get().java.sourceDirectories.singleFile) {
-        builtBy(tasks.compileJava)
-    }
-    for (file in sourceSets.main.get().kotlin.sourceDirectories.files) {
-        add("commonKotlin", file) {
-            builtBy(tasks.compileKotlin)
-        }
-    }
-    add("commonResources", sourceSets.main.get().resources.sourceDirectories.singleFile) {
-        builtBy(tasks.processResources)
-    }
 }
 
 sourceSets {
@@ -87,19 +57,27 @@ tasks.compileKotlin {
         jvmTarget = JvmTarget.JVM_21
         apiVersion = KotlinVersion.KOTLIN_2_0
         languageVersion = KotlinVersion.KOTLIN_2_0
-        optIn = listOf("kotlin.RequiresOptIn", "kotlin.contracts.ExperimentalContracts")
-        freeCompilerArgs = listOf(
-            "-Xjvm-default=all-compatibility",
-        )
     }
 }
 
-tasks {
-    jar {
-        enabled = false
+loom {
+    @Suppress("UnstableApiUsage")
+    mixin {
+        defaultRefmapName = "sakura.refmap.json"
+        useLegacyMixinAp = true
     }
 
-    javadocJar {
-        enabled = false
+    accessWidenerPath = file("src/main/resources/sakura.accesswidener")
+
+    mods {
+        val main by creating {
+            sourceSet("main")
+        }
+    }
+}
+
+artifacts {
+    add("library", tasks.jar.get().archiveFile) {
+        builtBy(tasks.jar)
     }
 }

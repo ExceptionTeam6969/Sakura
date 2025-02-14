@@ -1,7 +1,7 @@
-modLoader = "javafml" #mandatory
-loaderVersion = "${neoforge_loader_version_range}" #mandatory
-license = "${license}" # Review your options at https://choosealicense.com/.
-#issueTrackerURL="https://change.me.to.your.issue.tracker.example.invalid/" #optional
+modLoader = "javafml"
+loaderVersion = "${neoforge_loader_version_range}"
+license = "${license}"
+
 [[mods]] #mandatory
 modId = "${mod_id}" #mandatory
 version = "${version}" #mandatory
@@ -33,4 +33,4 @@ side = "BOTH"
 # that your mod requires GL version 3.2 or higher. Other features will be added. They are side aware so declaring this won't
 # stop your mod loading on the server for example.
 #[features.${mod_id}]
-openGLVersion="[4.5,)"
+openGLVersion="[4.6,)"

@@ -43,8 +43,22 @@ allprojects {
     tasks.jar {
         duplicatesStrategy = DuplicatesStrategy.EXCLUDE
     }
+}
+
+subprojects {
+
+    tasks.processResources {
+        filesMatching("META-INF/neoforge.mods.toml") {
+            expand(mapOf("version" to "${property("mod_version")}"))
+        }
+    }
 
     java {
         withSourcesJar()
     }
+
+}
+
+tasks.jar {
+    enabled = false
 }
