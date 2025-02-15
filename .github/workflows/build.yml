@@ -25,8 +25,14 @@ jobs:
     - name: Build with Gradle Wrapper
       run: ./gradlew build
 
-    - name: Upload Artifact
+    - name: Upload Fabric Mod
       uses: actions/upload-artifact@v4
       with:
-        name: Sakura
-        path: build/libs/
+        name: Sakura-Fabric
+        path: fabric/build/libs/
+
+    - name: Upload NeoForge Mod
+      uses: actions/upload-artifact@v4
+      with:
+        name: Sakura-NeoForge
+        path: neoforge/build/libs/

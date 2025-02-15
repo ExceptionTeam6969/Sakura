@@ -8,6 +8,9 @@ plugins {
     id("com.gradleup.shadow")
 }
 
+group = "dev.exceptionteam"
+version = "1.0.4"
+
 repositories {
     mavenCentral()
 }
@@ -42,11 +45,12 @@ kotlin {
 tasks.compileKotlin {
     compilerOptions {
         jvmTarget = JvmTarget.JVM_21
-        apiVersion = KotlinVersion.KOTLIN_2_0
-        languageVersion = KotlinVersion.KOTLIN_2_0
+        apiVersion = KotlinVersion.KOTLIN_2_2
+        languageVersion = KotlinVersion.KOTLIN_2_2
         optIn = listOf("kotlin.RequiresOptIn", "kotlin.contracts.ExperimentalContracts")
         freeCompilerArgs = listOf(
             "-Xjvm-default=all-compatibility",
+            "-Xcontext-receivers"
         )
     }
 }
@@ -86,5 +90,5 @@ tasks.remapJar {
 }
 
 tasks.javadocJar { enabled = false }
-tasks.sourcesJar { enabled = true }
+tasks.sourcesJar { enabled = false }
 tasks.remapSourcesJar { enabled = false }

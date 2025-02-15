@@ -8,6 +8,9 @@ plugins {
     id("com.gradleup.shadow")
 }
 
+group = "dev.exceptionteam"
+version = "1.0.4"
+
 repositories {
     mavenLocal()
     mavenCentral()
@@ -52,25 +55,26 @@ tasks.build {
 tasks.compileKotlin {
     compilerOptions {
         jvmTarget = JvmTarget.JVM_21
-        apiVersion = KotlinVersion.KOTLIN_2_0
-        languageVersion = KotlinVersion.KOTLIN_2_0
+        apiVersion = KotlinVersion.KOTLIN_2_2
+        languageVersion = KotlinVersion.KOTLIN_2_2
         optIn = listOf("kotlin.RequiresOptIn", "kotlin.contracts.ExperimentalContracts")
         freeCompilerArgs = listOf(
             "-Xjvm-default=all-compatibility",
+            "-Xcontext-receivers"
         )
     }
 }
 
 neoForge {
-    version = "${property("neoforge_version")}"
+    version = property("neoforge_version")!!.toString()
     // Automatically enable neoforge AccessTransformers if the file exists
     val at = project(":common").file("src/main/resources/META-INF/accesstransformer.cfg")
     if (at.exists()) {
         accessTransformers.from(at.absolutePath)
     }
     parchment {
-        minecraftVersion = "${property("parchment_minecraft")}"
-        mappingsVersion = "${property("parchment_version")}"
+        minecraftVersion = property("parchment_minecraft")!!.toString()
+        mappingsVersion = property("parchment_version")!!.toString()
     }
     runs {
         configureEach {
@@ -86,6 +90,9 @@ neoForge {
         create("${property("mod_id")}") {
             sourceSet(sourceSets["main"])
         }
+//        create("${property("mod_id")}-service") {
+//            sourceSet(sourceSets["service"])
+//        }
     }
 }
 
