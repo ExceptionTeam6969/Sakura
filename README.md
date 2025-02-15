@@ -25,3 +25,4 @@ Discord server link: [https://discord.gg/CFxnhyaFMM](https://discord.gg/CFxnhyaF
 - https://github.com/SpartanB312/AimTrainer
 - https://github.com/Luna5ama/TrollHack
 - https://github.com/slmpc/kappa-client
+- https://github.com/xiguajerry/NullHack

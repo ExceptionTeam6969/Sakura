@@ -3,50 +3,26 @@ import org.jetbrains.kotlin.gradle.dsl.KotlinVersion
 
 plugins {
     kotlin("jvm")
+    id("multiloader-loader")
     id("fabric-loom")
     id("com.gradleup.shadow")
 }
 
 group = "dev.exceptionteam"
-version = "${property("mod_version")}"
+version = "1.0.4"
 
 repositories {
     mavenCentral()
 }
 
-base {
-    archivesName = "sakura-fabric"
-}
-
-private val modLibrary by configurations.creating
-
-dependencies {
-    minecraft("com.mojang:minecraft:${property("minecraft_version")}")
-
-    @Suppress("UnstableApiUsage")
-    mappings(loom.layered {
-        officialMojangMappings()
-        parchment("org.parchmentmc.data:parchment-${property("parchment_minecraft")}:${property("parchment_version")}@zip")
-    })
-
-    modImplementation("net.fabricmc:fabric-loader:${property("fabric_loader_version")}")
-    modImplementation("net.fabricmc.fabric-api:fabric-api:${property("fabric_version")}")
-
-    modLibrary(project(path = ":common", configuration = "library")) {
-        exclude("org.apache.commons", "commons-lang3")
-        exclude("org.slf4j", "slf4j-api")
-    }
-}
-
 loom {
-    if (project(":common").file("src/main/resources/sakura.accesswidener").exists())
-        accessWidenerPath.set(project(":common").file("src/main/resources/sakura.accesswidener"))
-
-    @Suppress("UnstableApiUsage")
+    val aw = project(":common").file("src/main/resources/${property("mod_id")}.accesswidener")
+    if (aw.exists()) {
+        accessWidenerPath.set(aw)
+    }
     mixin {
         defaultRefmapName.set("${property("mod_id")}.refmap.json")
     }
-
     runs {
         named("client") {
             client()
@@ -54,15 +30,6 @@ loom {
             ideConfigGenerated(true)
             runDir("run")
         }
-    }
-}
-
-tasks.processResources {
-    from(project(":common").sourceSets.main.get().resources)
-    inputs.property("version", project.version)
-
-    filesMatching("fabric.mod.json") {
-        expand(mapOf("version" to project.version))
     }
 }
 
@@ -78,12 +45,29 @@ kotlin {
 tasks.compileKotlin {
     compilerOptions {
         jvmTarget = JvmTarget.JVM_21
-        apiVersion = KotlinVersion.KOTLIN_2_0
-        languageVersion = KotlinVersion.KOTLIN_2_0
+        apiVersion = KotlinVersion.KOTLIN_2_2
+        languageVersion = KotlinVersion.KOTLIN_2_2
         optIn = listOf("kotlin.RequiresOptIn", "kotlin.contracts.ExperimentalContracts")
         freeCompilerArgs = listOf(
             "-Xjvm-default=all-compatibility",
+            "-Xcontext-receivers"
         )
+    }
+}
+
+val modLibrary by configurations.creating
+
+dependencies {
+    minecraft("com.mojang:minecraft:${property("minecraft_version")}")
+    mappings(loom.layered {
+        officialMojangMappings()
+        parchment("org.parchmentmc.data:parchment-${property("parchment_minecraft")}:${property("parchment_version")}@zip")
+    })
+    modImplementation("net.fabricmc:fabric-loader:${property("fabric_loader_version")}")
+    modImplementation("net.fabricmc.fabric-api:fabric-api:${property("fabric_version")}")
+    modLibrary(project(path = ":common", configuration = "library")) {
+        exclude("org.apache.commons", "commons-lang3")
+        exclude("org.slf4j", "slf4j-api")
     }
 }
 
@@ -105,5 +89,6 @@ tasks.remapJar {
     inputFile = tasks.shadowJar.get().archiveFile
 }
 
-tasks.sourcesJar { enabled = true }
+tasks.javadocJar { enabled = false }
+tasks.sourcesJar { enabled = false }
 tasks.remapSourcesJar { enabled = false }

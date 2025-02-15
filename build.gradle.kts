@@ -1,14 +1,17 @@
 plugins {
     java
-    kotlin("jvm") version "2.0.21"
+    kotlin("jvm") version "2.1.0"
     id("fabric-loom") version "1.9-SNAPSHOT" apply false
     id("com.gradleup.shadow") version "8.3.6" apply false
     id("net.neoforged.moddev") version "2.0.78" apply false
 }
+group = "dev.exceptionteam"
+version = "1.0.4"
 
 val archives_base_name: String by rootProject
 val mod_version: String by rootProject
 val maven_group: String by rootProject
+
 
 allprojects {
     apply {
@@ -25,7 +28,6 @@ allprojects {
     repositories {
         mavenLocal()
         mavenCentral()
-
         maven("https://maven.fabricmc.net/")
         maven("https://jitpack.io")
         maven("https://maven.luna5ama.dev/")
@@ -43,22 +45,8 @@ allprojects {
     tasks.jar {
         duplicatesStrategy = DuplicatesStrategy.EXCLUDE
     }
-}
-
-subprojects {
-
-    tasks.processResources {
-        filesMatching("META-INF/neoforge.mods.toml") {
-            expand(mapOf("version" to "${property("mod_version")}"))
-        }
-    }
 
     java {
         withSourcesJar()
     }
-
-}
-
-tasks.jar {
-    enabled = false
 }
