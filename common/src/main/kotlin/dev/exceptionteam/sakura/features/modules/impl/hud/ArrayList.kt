@@ -53,7 +53,8 @@ object ArrayList: HUDModule(
 
                 val hudInfo = module.hudInfo()
                 val str = if (hudInfo == null) module.name.translation
-                          else "${module.name.translation}${ChatFormatting.GRAY}[$hudInfo]"
+                          else "${module.name.translation}${ChatFormatting.GRAY}" +
+                               "[${ChatFormatting.WHITE}$hudInfo${ChatFormatting.GRAY}]"
 
                 val moduleLength = FontRenderers.getStringWidth(str, scale)
 
