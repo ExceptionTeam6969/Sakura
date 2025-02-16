@@ -9,7 +9,7 @@ plugins {
 }
 
 group = "dev.exceptionteam"
-version = "1.0.4"
+version = "${project.property("mod_version")}"
 
 repositories {
     mavenLocal()

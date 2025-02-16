@@ -5,8 +5,9 @@ plugins {
     id("com.gradleup.shadow") version "8.3.6" apply false
     id("net.neoforged.moddev") version "2.0.78" apply false
 }
+
 group = "dev.exceptionteam"
-version = "1.0.4"
+version = "${project.property("mod_version")}"
 
 val archives_base_name: String by rootProject
 val mod_version: String by rootProject
