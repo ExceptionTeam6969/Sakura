@@ -8,9 +8,12 @@ import dev.exceptionteam.sakura.graphics.color.ColorRGB
 import dev.exceptionteam.sakura.graphics.general.ESPRenderer
 import dev.exceptionteam.sakura.utils.world.WorldUtils.blockState
 import dev.exceptionteam.sakura.utils.world.aroundBlock
+import dev.exceptionteam.sakura.utils.world.hole.HoleType
+import dev.exceptionteam.sakura.utils.world.hole.HoleUtils
 import net.minecraft.core.BlockPos
 import net.minecraft.core.Direction
 import net.minecraft.world.level.block.Blocks
+import net.minecraft.world.phys.AABB
 
 object HoleESP: Module(
     name = "hole-esp",
@@ -26,30 +29,21 @@ object HoleESP: Module(
     private val color by setting("color", ColorRGB(255, 153, 51))
 
     private val renderer = ESPRenderer().apply { aFilled = 60 }
+    private var renderedBox = mutableListOf<AABB>()
 
     init {
         nonNullListener<Render3DEvent> {
-            player.blockPosition().aroundBlock(range, yRange).forEach {
-                val pos: BlockPos = it
-                if (!isHole(pos)) return@forEach
-                renderer.add(pos, color)
+            var colorRGB = color
+            player.blockPosition().aroundBlock(range, yRange).forEach { pos ->
+                val info: HoleUtils.HoleInfo = HoleUtils.getHoleType(pos) ?: return@forEach
+                val aabb = info.box
+                val type = info.holeType
+                if (type == HoleType.DOUBLE) {
+                    colorRGB = ColorRGB(color.r, color.g, color.b, color.a / 2)
+                }
+                renderer.add(aabb, colorRGB)
                 renderer.render(true, box, height, outline, lineWidth, height)
             }
         }
     }
-
-    private fun isHole(pos: BlockPos): Boolean {
-        val blockS = pos.blockState ?: return false
-        if (blockS.block != Blocks.AIR) return false
-        Direction.entries
-            .filter { it != Direction.DOWN && it != Direction.UP }
-            .forEach {
-                val position = pos.relative(it)
-                val blockState = position.blockState ?: return@forEach
-                val block = blockState.block
-                if (block != Blocks.OBSIDIAN && block != Blocks.BEDROCK) return false
-            }
-        return true
-    }
-
 }
