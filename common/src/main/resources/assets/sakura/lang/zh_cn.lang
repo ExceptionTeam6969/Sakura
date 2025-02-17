@@ -256,3 +256,11 @@ modules.hole-esp.color=颜色
 
 modules.step=小蜜蜂飞二楼
 modules.step.height=高度
+
+modules.hole-filler=填坑
+modules.hole-filler.blocks-per-tick=每tick放置数
+modules.hole-filler.place range=放置距离
+modules.hole-filler.rotate=转头
+modules.hole-filler.switch-mode=切换模式
+modules.hole-filler.swing=摇手
+modules.hole-filler.web-fill=以蜘蛛网填坑

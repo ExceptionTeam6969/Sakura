@@ -248,3 +248,11 @@ modules.hole-esp.color=Color
 
 modules.step=Step
 modules.step.height=Height
+
+modules.hole-filler=Hole Filler
+modules.hole-filler.blocks-per-tick=Blocks Per Tick
+modules.hole-filler.place range=Place Range
+modules.hole-filler.rotate=Rotate
+modules.hole-filler.switch-mode=Switch Mode
+modules.hole-filler.swing=Swing
+modules.hole-filler.web-fill=Web Fill
