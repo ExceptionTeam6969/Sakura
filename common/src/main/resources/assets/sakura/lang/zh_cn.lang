@@ -167,6 +167,7 @@ modules.hole-push.switch-mode=切换模式
 modules.hole-push.swing=摇手
 modules.hole-push.pause-on-moving=移动时暂停
 modules.hole-push.piston-color=活塞显示颜色
+modules.hole-push.redstone-color=红石块显示颜色
 
 modules.cancel-using=取消使用
 modules.cancel-using.shield=盾牌

@@ -12,6 +12,7 @@ import dev.exceptionteam.sakura.managers.impl.HotbarManager
 import dev.exceptionteam.sakura.managers.impl.RotationManager.addRotation
 import dev.exceptionteam.sakura.managers.impl.TargetManager.getTarget
 import dev.exceptionteam.sakura.managers.impl.TargetManager.getTargetPlayer
+import dev.exceptionteam.sakura.utils.ingame.ChatUtils
 import dev.exceptionteam.sakura.utils.player.InteractionUtils.place
 import dev.exceptionteam.sakura.utils.player.PlayerUtils.isMoving
 import dev.exceptionteam.sakura.utils.timing.TimerUtils
@@ -43,9 +44,11 @@ object HolePush: Module(
     private val swing by setting("swing", true)
     private val movePause by setting("pause-on-moving", false)
     private val pistonColor by setting("piston-color", ColorRGB(255, 153, 51))
+    private val redstoneColor by setting("redstone-color", ColorRGB(255, 25, 25))
 
     private val renderer = ESPRenderer().apply { aFilled = 60 }
-    private var pistonInfo: PistonInfo? = null
+    private var pistonPos: BlockPos? = null
+    private var redstonePos: BlockPos? = null
     private var multiCount = 0
     private val timer = TimerUtils()
     private var stage = 0
@@ -55,102 +58,80 @@ object HolePush: Module(
             multiCount = 0
             stage = 0
             timer.reset()
-            pistonInfo = null
         }
 
         nonNullListener<Render3DEvent> {
-            pistonInfo?.let {
-                renderer.add(it.pistonPos, pistonColor)
-                renderer.render(true)
+            pistonPos?.let {
+                renderer.add(it, pistonColor)
             }
+            redstonePos?.let {
+                renderer.add(it, redstoneColor)
+            }
+            renderer.render(true)
         }
 
         nonNullListener<TickEvents.Update> {
             if (movePause && isMoving()) return@nonNullListener
-            if (onlyPlayers) getTargetPlayer(targetRange)?.let {
-                push(it)
-            } else getTarget(targetRange)?.let {
+            if (!timer.passedAndReset(delay) && stage > 0) return@nonNullListener
+            if (onlyPlayers) getTargetPlayer(targetRange) else getTarget(targetRange)?.let {
                 push(it)
             }
         }
 
     }
 
-    private fun NonNullContext.push(target: Entity) {
-        pistonInfo = getPiston(target.blockPosition()) ?: return
-
-        val pistonPos: BlockPos = pistonInfo?.pistonPos ?: return
-        val pistonFacing: Direction = pistonInfo?.direction ?: return
-        val redstonePos: BlockPos = pistonInfo?.redstonePos ?: return
-
+    fun NonNullContext.push(target: Entity) {
+        val facing = getPistonFacing(target) ?: return
+        val piston = target.blockPosition().above().relative(facing)
+        val redstone = getRedStone(piston, facing.opposite) ?: return
+        pistonPos = piston
+        redstonePos = redstone
         when (stage) {
             0 -> {
-                // Piston's direction
-                val angle = Direction.getYRot(pistonFacing.opposite)
+                val angle = Direction.getYRot(facing)
                 addRotation(angle, 0.0f, 0)
-                nextStage()
+                stage++
+                return
             }
             1 -> {
-                // Place piston
-                place(pistonPos, Blocks.PISTON, switchMode, swing, rotation, 0)
-
-                nextStage()
+                place(piston, Blocks.PISTON, switchMode, swing, rotation, 0)
+                stage++
             }
             2 -> {
-                // Place red stone
-                if (!timer.passedAndReset(delay)) return
-
-                place(redstonePos, Blocks.REDSTONE_BLOCK, switchMode, swing, rotation, 0)
-
-                disable()
-                return
+                place(redstone, Blocks.REDSTONE_BLOCK, switchMode, swing, rotation, 0)
+                stage++
+            }
+            3 -> {
+                toggle()
             }
         }
     }
 
-    private fun nextStage() {
-        multiCount++
-        stage++
-    }
-
-    private fun NonNullContext.getPiston(playerPos: BlockPos): PistonInfo? {
-        Direction.entries
-            .filter { it != Direction.DOWN && it != Direction.UP }
-            .forEach { direction ->
-                val pos = playerPos.above().relative(direction)
-                val blockState = pos.blockState ?: return@forEach
-                val block = blockState.block
-                if (block != Blocks.AIR && block != Blocks.PISTON) return@forEach //not air = 放你妈
+    fun NonNullContext.getPistonFacing(target: Entity): Direction? {
+        Direction.entries.filter { it != Direction.UP && it != Direction.DOWN }
+            .forEach { dir ->
+                val pos = target.blockPosition().above().relative(dir)
+                val state = pos.blockState ?: return@forEach
+                val block = state.block
+                if (block != Blocks.AIR && block != Blocks.PISTON) return@forEach
                 if (getNeighbourSide(pos) == null) return@forEach
-                if (block == Blocks.PISTON && isActivated(blockState)) return@forEach
-                val redstone = getRedStone(pos, direction.opposite, playerPos.above()) ?: return@forEach
-                return PistonInfo(pos, direction.opposite, redstone) //返回的是活塞要看着的方向
+                if (getRedStone(pos, dir.opposite) == null) return@forEach
+                return dir
             }
         return null
     }
 
-     private fun isActivated(state: BlockState):Boolean {
-         return state.block == Blocks.PISTON && state.getValue(PistonBaseBlock.EXTENDED)
-     }
-
-    //TODO:其实我在考虑这个pos变数要不要搞成list 这样能一次把不想红石放的位置黑名单
-    private fun getRedStone(pistonPos: BlockPos, pistonFacing: Direction, blacklist: BlockPos): BlockPos? {
-        Direction.entries
-            .filter { it != pistonFacing }
-            .forEach { direction ->
-                val pos = pistonPos.relative(direction)
-                val blockState = pos.blockState ?: return@forEach
-                val block = blockState.block
+    fun NonNullContext.getRedStone(pistonPos: BlockPos, facing: Direction): BlockPos? {
+        Direction.entries.filter { it != facing }
+            .forEach { dir ->
+                val pos = pistonPos.relative(dir)
+                if (getNeighbourSide(pos) == null) return@forEach
+                val state = pos.blockState ?: return@forEach
+                val block = state.block
                 if (block != Blocks.AIR) return@forEach
-                if (pos == blacklist) return@forEach
                 return pos
             }
         return null
     }
 
-    data class PistonInfo(
-        val pistonPos: BlockPos,
-        val direction: Direction,
-        val redstonePos: BlockPos,
-    )
 }

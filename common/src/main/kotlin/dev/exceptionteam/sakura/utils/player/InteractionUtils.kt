@@ -94,7 +94,7 @@ object InteractionUtils {
 
         val blockHit = BlockHitResultBuilder()
             .pos(BlockUtils.getVecPos(pos, dir))
-            .blockPos(pos.below())
+            .blockPos(pos) //.below()
             .side(side)
             .build()
 

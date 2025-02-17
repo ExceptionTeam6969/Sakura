@@ -160,6 +160,7 @@ modules.hole-push.switch-mode=Switch Mode
 modules.hole-push.swing=Swing
 modules.hole-push.pause-on-moving=Pause On Moving
 modules.hole-push.piston-color=Piston Color
+modules.hole-push.redstone-color=RedStone Color
 
 modules.cancel-using=Cancel Using
 modules.cancel-using.shield=Shield
