@@ -72,15 +72,17 @@ object HolePush: Module(
 
         nonNullListener<TickEvents.Update> {
             if (movePause && isMoving()) return@nonNullListener
-            if (!timer.passedAndReset(delay) && stage > 0) return@nonNullListener
-            if (onlyPlayers) getTargetPlayer(targetRange) else getTarget(targetRange)?.let {
+            if (!timer.passedAndReset(delay)) return@nonNullListener
+            if (onlyPlayers) getTargetPlayer(targetRange)?.let {
+                push(it)
+            } else getTarget(targetRange)?.let {
                 push(it)
             }
         }
 
     }
 
-    fun NonNullContext.push(target: Entity) {
+    private fun NonNullContext.push(target: Entity) {
         val facing = getPistonFacing(target) ?: return
         val piston = target.blockPosition().above().relative(facing)
         val redstone = getRedStone(piston, facing.opposite) ?: return
@@ -107,7 +109,7 @@ object HolePush: Module(
         }
     }
 
-    fun NonNullContext.getPistonFacing(target: Entity): Direction? {
+    private fun NonNullContext.getPistonFacing(target: Entity): Direction? {
         Direction.entries.filter { it != Direction.UP && it != Direction.DOWN }
             .forEach { dir ->
                 val pos = target.blockPosition().above().relative(dir)
@@ -121,7 +123,7 @@ object HolePush: Module(
         return null
     }
 
-    fun NonNullContext.getRedStone(pistonPos: BlockPos, facing: Direction): BlockPos? {
+    private fun NonNullContext.getRedStone(pistonPos: BlockPos, facing: Direction): BlockPos? {
         Direction.entries.filter { it != facing }
             .forEach { dir ->
                 val pos = pistonPos.relative(dir)
