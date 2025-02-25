@@ -9,3 +9,6 @@ accessible class com/mojang/blaze3d/platform/GlStateManager$BlendState
 accessible class com/mojang/blaze3d/platform/GlStateManager$DepthState
 accessible class com/mojang/blaze3d/platform/GlStateManager$BooleanState
 accessible field com/mojang/blaze3d/platform/GlStateManager$BooleanState enabled Z
+accessible class net/minecraft/network/protocol/game/ServerboundInteractPacket$ActionType
+accessible method net/minecraft/network/protocol/game/ServerboundInteractPacket$Action getType ()Lnet/minecraft/network/protocol/game/ServerboundInteractPacket$ActionType;
+accessible method net/minecraft/network/protocol/game/ServerboundInteractPacket write (Lnet/minecraft/network/FriendlyByteBuf;)V

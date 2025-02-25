@@ -23,6 +23,7 @@
     "graphics.WindowMixin",
     "input.KeyboardHandlerMixin",
     "input.KeyboardInputMixin",
+    "Interface.ILocalPlayer",
     "Interface.MinecraftAccessor",
     "item.ShieldItemMixin",
     "network.ClientPacketListenerMixin",
