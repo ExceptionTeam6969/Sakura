@@ -256,3 +256,6 @@ modules.hole-filler.rotate=Rotate
 modules.hole-filler.switch-mode=Switch Mode
 modules.hole-filler.swing=Swing
 modules.hole-filler.web-fill=Web Fill
+
+modules.criticals=Criticals
+modules.criticals.grim=Grim
