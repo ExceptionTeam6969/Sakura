@@ -148,25 +148,15 @@ object Velocity: Module(
                     player.deltaMovement = newVelocity
                 }
                 Mode.HYPIXEL -> {
-                    when (e.packet) {
+                    when (val packet = e.packet) {
                         is ClientboundSetEntityMotionPacket -> {
-                            val velocity = e.packet
-                            if (velocity.id == player.id) {
+                            if (packet.id == player.id) { // 确保这个速度包是针对玩家自己的
                                 e.cancel()
+                                val newVelocity = Vec3(0.0, packet.ya, 0.0)
+                                player.deltaMovement = newVelocity
                             }
                         }
                     }
-                    val velocity: Vec3 = player.deltaMovement
-                    // 创建一个新的速度向量
-                    val newVelocity = Vec3(0.0, velocity.y, 0.0)
-                    // 设置新的速度向量
-                    player.deltaMovement = newVelocity
-                    when (e.packet) {
-                        is ClientboundSetEntityMotionPacket -> {
-                            player.deltaMovement = newVelocity
-                        }
-                    }
-                    player.deltaMovement = newVelocity
                 }
             }
         }

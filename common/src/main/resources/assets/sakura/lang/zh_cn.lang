@@ -93,6 +93,7 @@ modules.velocity.mode.normal=正常
 modules.velocity.mode.wall=墙内
 modules.velocity.mode.old-grim=旧Grim
 modules.velocity.mode.grim=Grim
+modules.velocity.mode.hypixel=嗨皮咳嗽
 modules.velocity.anti-fire=火焰
 
 modules.game-animation=游戏内动画

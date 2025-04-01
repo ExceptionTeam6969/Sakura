@@ -86,6 +86,7 @@ modules.velocity.mode.normal=Normal
 modules.velocity.mode.wall=Wall
 modules.velocity.mode.old-grim=OldGrim
 modules.velocity.mode.grim=Grim
+modules.velocity.mode.hypixel=Hypixel
 modules.velocity.anti-fire=Anti Fire
 
 modules.game-animation=Game Animation
