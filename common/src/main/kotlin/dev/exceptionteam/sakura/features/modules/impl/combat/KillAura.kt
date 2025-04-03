@@ -15,7 +15,8 @@ object KillAura: Module(
     name = "kill-aura",
     category = Category.COMBAT
 ) {
-    private val range by setting("range", 3.0f, 2.5f..6.0f)
+    private val attackRange by setting("attack-range", 3.0f, 2.5f..6.0f)
+    private val targetRange by setting("target-range", 3.0f, 2.5f..6.0f)
     private val delay by setting("delay", 500, 0..3000)
     private val onlyPlayers by setting("only-players", true)
     private val onlySword by setting("only-sword", true)
@@ -30,10 +31,10 @@ object KillAura: Module(
 
             if (onlySword && !isSword(player.mainHandItem.item)) return@nonNullListener
 
-            if (onlyPlayers) getTargetPlayer(range)?.let {
-                attack(it, rotation, swing)
-            } else getTarget(range)?.let {
-                attack(it, rotation, swing)
+            if (onlyPlayers) getTargetPlayer(targetRange)?.let {
+                if (it.distanceTo(mc.player!!) <= attackRange) attack(it, rotation, swing)
+            } else getTarget(targetRange)?.let {
+                if (it.distanceTo(mc.player!!) <= attackRange) attack(it, rotation, swing)
             }
         }
     }

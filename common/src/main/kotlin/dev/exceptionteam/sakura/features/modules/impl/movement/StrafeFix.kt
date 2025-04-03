@@ -10,9 +10,7 @@ import dev.exceptionteam.sakura.features.modules.Module
 import dev.exceptionteam.sakura.features.modules.impl.client.Rotations
 import dev.exceptionteam.sakura.managers.impl.RotationManager.rotationInfo
 import dev.exceptionteam.sakura.utils.math.toRadians
-import kotlin.math.cos
-import kotlin.math.round
-import kotlin.math.sin
+import kotlin.math.*
 
 object StrafeFix: Module(
     name = "strafe-fix",
@@ -26,38 +24,61 @@ object StrafeFix: Module(
 
     init {
 
-        // fixme: It causes Simulation vl in the latest Grim server
         nonNullListener<PlayerUpdateEvents.AiStepUpdate> {
             if (!direction) return@nonNullListener
             if (Rotations.packetRotation) return@nonNullListener
 
-            rotationInfo?.let { inf ->
-                val movementForward = player.input.forwardImpulse
-                val movementSideways = player.input.leftImpulse
-                val delta = (player.yRot - inf.yaw).toRadians()
-                val cos = cos(delta)
-                val sin = sin(delta)
-                player.input.leftImpulse = round(movementSideways * cos - movementForward * sin)
-                player.input.forwardImpulse = round(movementForward * cos + movementSideways * sin)
+            fun wrapDegrees(angle: Double) = ((angle % 360.0) + 540.0) % 360.0 - 180.0
+
+            fun computeDirection(baseYaw: Double, forward: Float, strafe: Float) =
+                atan2(strafe.toDouble(), forward.toDouble()) + Math.toRadians(baseYaw)
+
+            rotationInfo?.let {
+                val (forwardInput, strafeInput) = player.input.run { forwardImpulse to leftImpulse }
+                if (forwardInput == 0f && strafeInput == 0f) return@let
+
+                val baseYaw = mc.player?.yRot ?: return@let
+                val currentAngle =
+                    wrapDegrees(Math.toDegrees(computeDirection(baseYaw.toDouble(), forwardInput, strafeInput)))
+
+                var bestForward = 0f
+                var bestStrafe = 0f
+                var bestDifference = Float.MAX_VALUE
+
+                for (f in -1..1) {
+                    for (s in -1..1) {
+                        if (f == 0 && s == 0) continue
+                        val predictedAngle = wrapDegrees(Math.toDegrees(computeDirection(baseYaw.toDouble(), f.toFloat(), s.toFloat())))
+                        val difference = abs(currentAngle - predictedAngle)
+                        if (difference < bestDifference) {
+                            bestDifference = difference.toFloat()
+                            bestForward = f.toFloat()
+                            bestStrafe = s.toFloat()
+                        }
+                    }
+                }
+
+                player.input.forwardImpulse = bestForward
+                player.input.leftImpulse = bestStrafe
             }
         }
 
-        nonNullListener<PlayerVelocityStrafeEvents.Pre> { event ->
+        nonNullListener<PlayerVelocityStrafeEvents.Pre> {
             if (Rotations.packetRotation) return@nonNullListener
             saveState()
         }
 
-        nonNullListener<PlayerVelocityStrafeEvents.Post> { event ->
+        nonNullListener<PlayerVelocityStrafeEvents.Post> {
             if (Rotations.packetRotation) return@nonNullListener
             restoreState()
         }
 
-        nonNullListener<PlayerJumpEvents.Pre> { event ->
+        nonNullListener<PlayerJumpEvents.Pre> {
             if (Rotations.packetRotation) return@nonNullListener
             saveState()
         }
 
-        nonNullListener<PlayerJumpEvents.Post> { event ->
+        nonNullListener<PlayerJumpEvents.Post> {
             if (Rotations.packetRotation) return@nonNullListener
             restoreState()
         }

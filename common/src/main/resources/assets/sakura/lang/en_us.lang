@@ -167,7 +167,8 @@ modules.cancel-using=Cancel Using
 modules.cancel-using.shield=Shield
 
 modules.kill-aura=Kill Aura
-modules.kill-aura.range=Range
+modules.kill-aura.target-range=Target Range
+modules.kill-aura.attack-range=Attack Range
 modules.kill-aura.delay=Delay
 modules.kill-aura.only-sword=Only Sword
 modules.kill-aura.only-players=Only Players

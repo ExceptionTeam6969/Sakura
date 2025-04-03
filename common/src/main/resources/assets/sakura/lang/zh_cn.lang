@@ -174,7 +174,8 @@ modules.cancel-using=取消使用
 modules.cancel-using.shield=盾牌
 
 modules.kill-aura=杀戮光环
-modules.kill-aura.range=范围
+modules.kill-aura.target-range=目标范围
+modules.kill-aura.attack-range=攻击范围
 modules.kill-aura.delay=延迟
 modules.kill-aura.only-sword=仅剑
 modules.kill-aura.only-players=仅对玩家生效
