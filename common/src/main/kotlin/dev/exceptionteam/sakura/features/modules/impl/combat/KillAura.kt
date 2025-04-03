@@ -6,6 +6,7 @@ import dev.exceptionteam.sakura.features.modules.Category
 import dev.exceptionteam.sakura.features.modules.Module
 import dev.exceptionteam.sakura.managers.impl.TargetManager.getTarget
 import dev.exceptionteam.sakura.managers.impl.TargetManager.getTargetPlayer
+import dev.exceptionteam.sakura.utils.math.distanceSqTo
 import dev.exceptionteam.sakura.utils.player.InteractionUtils.attack
 import dev.exceptionteam.sakura.utils.timing.TimerUtils
 import net.minecraft.world.item.Item
@@ -32,9 +33,9 @@ object KillAura: Module(
             if (onlySword && !isSword(player.mainHandItem.item)) return@nonNullListener
 
             if (onlyPlayers) getTargetPlayer(targetRange)?.let {
-                if (it.distanceTo(mc.player!!) <= attackRange) attack(it, rotation, swing)
+                if (it.distanceSqTo(mc.player!!) <= attackRange) attack(it, rotation, swing)
             } else getTarget(targetRange)?.let {
-                if (it.distanceTo(mc.player!!) <= attackRange) attack(it, rotation, swing)
+                if (it.distanceSqTo(mc.player!!) <= attackRange) attack(it, rotation, swing)
             }
         }
     }
