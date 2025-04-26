@@ -17,9 +17,6 @@ If you find any bugs or have suggestions for the client, please open an issue on
 ## Addon
 [Sakura Addon Template](https://github.com/ExceptionTeam6969/SakuraAddon)
 
-## Discord
-Discord server link: [https://discord.gg/CFxnhyaFMM](https://discord.gg/CFxnhyaFMM)
-
 ## Thanks
 - https://github.com/MeteorDevelopment/meteor-client
 - https://github.com/SpartanB312/AimTrainer
