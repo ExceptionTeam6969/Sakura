@@ -2,6 +2,7 @@ package team.exception.sakura.modules
 
 enum class Category(val translationKey: String) {
 
-    COMBAT("")
+    COMBAT("category.combat"),
+    RENDER("category.render"),
 
 }
