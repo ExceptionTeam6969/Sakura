@@ -4,7 +4,7 @@ import net.minecraft.client.Minecraft
 import net.minecraft.client.multiplayer.ClientLevel
 import net.minecraft.client.player.LocalPlayer
 
-object MinecraftGetter {
+object Wrapper {
 
     val mc: Minecraft = Minecraft.getInstance()
 

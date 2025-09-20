@@ -2,7 +2,7 @@ package team.exception.sakura.utils.resources
 
 import net.minecraft.resources.ResourceLocation
 import team.exception.sakura.Sakura
-import team.exception.sakura.utils.MinecraftGetter.mc
+import team.exception.sakura.utils.Wrapper.mc
 import kotlin.jvm.optionals.getOrNull
 
 class Resource(

@@ -6,11 +6,11 @@ import net.minecraft.client.multiplayer.MultiPlayerGameMode
 import net.minecraft.client.player.LocalPlayer
 import net.neoforged.neoforge.event.entity.player.PlayerEvent
 import net.neoforged.neoforge.event.tick.PlayerTickEvent
-import team.exception.sakura.utils.MinecraftGetter
+import team.exception.sakura.utils.Wrapper
 import thedarkcolour.kotlinforforge.neoforge.forge.FORGE_BUS
 
 abstract class AbstractClientContext {
-    val mc = MinecraftGetter.mc
+    val mc = Wrapper.mc
     abstract val level: ClientLevel?
     abstract val player: LocalPlayer?
     abstract val connection: ClientPacketListener?
@@ -60,10 +60,10 @@ open class NonNullContext internal constructor(
         private fun update() {
             instance = null
 
-            val level = MinecraftGetter.level ?: return
-            val player = MinecraftGetter.player ?: return
-            val connection = MinecraftGetter.mc.connection ?: return
-            val gameMode = MinecraftGetter.mc.gameMode ?: return
+            val level = Wrapper.level ?: return
+            val player = Wrapper.player ?: return
+            val connection = Wrapper.mc.connection ?: return
+            val gameMode = Wrapper.mc.gameMode ?: return
 
             instance = NonNullContext(level, player, connection, gameMode)
         }

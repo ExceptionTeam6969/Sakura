@@ -8,6 +8,7 @@ import net.neoforged.fml.common.Mod
 import net.neoforged.fml.event.lifecycle.FMLClientSetupEvent
 import org.slf4j.Logger
 import team.exception.sakura.events.ToggleModuleEvent
+import team.exception.sakura.managers.Managers
 import thedarkcolour.kotlinforforge.neoforge.forge.MOD_BUS
 
 @Mod(value = Sakura.MOD_ID, dist = [Dist.CLIENT])
@@ -21,7 +22,7 @@ object Sakura {
     init {
 
         MOD_BUS.addListener<FMLClientSetupEvent> {
-
+            Managers
             LOGGER.info("Sakura has been initialized.")
         }
 

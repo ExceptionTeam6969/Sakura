@@ -5,6 +5,7 @@ import team.exception.sakura.settings.AbstractSetting
 import team.exception.sakura.settings.BooleanSetting
 import team.exception.sakura.settings.KeyBindSetting
 import team.exception.sakura.settings.SettingsDesigner
+import team.exception.sakura.utils.event.checkEventListeners
 import team.exception.sakura.utils.input.KeyBind
 import thedarkcolour.kotlinforforge.neoforge.forge.FORGE_BUS
 
@@ -40,12 +41,12 @@ abstract class AbstractModule(
         }
 
         enableMethods.add {
-            FORGE_BUS.register(this)
+            if (checkEventListeners(this)) FORGE_BUS.register(this)
             FORGE_BUS.post(ToggleModuleEvent(this, true))
         }
 
         disableMethods.add {
-            FORGE_BUS.unregister(this)
+            if (checkEventListeners(this)) FORGE_BUS.unregister(this)
             FORGE_BUS.post(ToggleModuleEvent(this, false))
         }
 
@@ -57,6 +58,9 @@ abstract class AbstractModule(
 
     fun enable() = if (enabled) Unit else toggle()
     fun disable() = if (disabled) Unit else toggle()
+
+    fun onEnable(method: () -> Unit) = enableMethods.add(method)
+    fun onDisable(method: () -> Unit) = disableMethods.add(method)
 
     fun getI18NKeyBySetting(setting: AbstractSetting<*>): String = when (setting.name) {
         "toggle" -> "setting.toggle"
