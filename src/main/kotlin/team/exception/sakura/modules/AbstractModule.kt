@@ -5,7 +5,6 @@ import team.exception.sakura.settings.AbstractSetting
 import team.exception.sakura.settings.BooleanSetting
 import team.exception.sakura.settings.KeyBindSetting
 import team.exception.sakura.settings.SettingsDesigner
-import team.exception.sakura.utils.event.checkEventListeners
 import team.exception.sakura.utils.input.KeyBind
 import thedarkcolour.kotlinforforge.neoforge.forge.FORGE_BUS
 
@@ -41,12 +40,16 @@ abstract class AbstractModule(
         }
 
         enableMethods.add {
-            if (checkEventListeners(this)) FORGE_BUS.register(this)
+            try {
+                FORGE_BUS.register(this)
+            } catch (_: Exception) {}
             FORGE_BUS.post(ToggleModuleEvent(this, true))
         }
 
         disableMethods.add {
-            if (checkEventListeners(this)) FORGE_BUS.unregister(this)
+            try {
+                FORGE_BUS.unregister(this)
+            } catch (_: Exception) {}
             FORGE_BUS.post(ToggleModuleEvent(this, false))
         }
 
