@@ -10,7 +10,7 @@ license="${mod_license}"
 
 modLoader="kotlinforforge"
 # Change this if you require a certain version of KotlinForForge
-loaderVersion="[5.10,)"
+loaderVersion="[6.0,)"
 
 # A URL to refer people to when problems occur with this mod
 #issueTrackerURL="https://change.me.to.your.issue.tracker.example.invalid/" #optional

@@ -1,7 +1,7 @@
 plugins {
     id 'java-library'
     id 'maven-publish'
-    id 'net.neoforged.moddev' version '2.0.107'
+    id 'net.neoforged.moddev' version '2.0.115'
     id 'org.jetbrains.kotlin.jvm' version '2.2.20'
     id 'org.jetbrains.kotlin.plugin.serialization' version '2.2.20'
     id 'idea'
@@ -121,7 +121,7 @@ configurations {
 }
 
 dependencies {
-    implementation 'thedarkcolour:kotlinforforge-neoforge:5.10.0'
+    implementation 'thedarkcolour:kotlinforforge-neoforge:6.0.0'
 
     // Example optional mod dependency with JEI
     // The JEI API is declared for compile time use, while the full JEI artifact is used at runtime
