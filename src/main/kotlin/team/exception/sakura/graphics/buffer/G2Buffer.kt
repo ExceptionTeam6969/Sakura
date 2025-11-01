@@ -3,8 +3,8 @@ package team.exception.sakura.graphics.buffer
 import java.nio.ByteBuffer
 
 abstract class G2Buffer(
+    open val device: G2Device,
     val size: Long,
-    val access: Access,
 ) {
 
     /**
@@ -13,6 +13,23 @@ abstract class G2Buffer(
      * @throws IllegalStateException if the buffer hasn't been mapped.
      */
     abstract fun getMappedBuffer(): ByteBuffer
+
+    /**
+     * Refresh modified data in the buffer.
+     * @throws IllegalStateException if the buffer hasn't been mapped.
+     */
+    abstract fun refresh()
+
+    /**
+     * Remap the buffer.
+     * @throws IllegalStateException if the buffer hasn't been mapped.
+     */
+    abstract fun remap()
+
+    /**
+     * Destroy & unmap the buffer.
+     */
+    abstract fun destroy()
 
     enum class Access {
         WRITE,
