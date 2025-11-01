@@ -1,4 +1,4 @@
-package team.exception.sakura.graphics.buffer
+package team.exception.sakura.graphics.geek2
 
 abstract class G2RenderingInfo {
 
@@ -13,7 +13,7 @@ abstract class G2RenderingInfo {
     abstract val height: Int
 
     data class Attachment(
-        val image: G2Image,
+        val image: G2ImageView,
         val format: G2Format,
     )
 

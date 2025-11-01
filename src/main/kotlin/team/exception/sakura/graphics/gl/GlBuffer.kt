@@ -2,7 +2,7 @@ package team.exception.sakura.graphics.gl
 
 import com.mojang.blaze3d.opengl.GlStateManager
 import org.lwjgl.opengl.GL41.*
-import team.exception.sakura.graphics.buffer.G2Buffer
+import team.exception.sakura.graphics.geek2.G2Buffer
 import java.nio.ByteBuffer
 
 class GlBuffer(

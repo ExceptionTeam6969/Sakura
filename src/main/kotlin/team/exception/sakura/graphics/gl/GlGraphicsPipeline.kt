@@ -1,8 +1,8 @@
 package team.exception.sakura.graphics.gl
 
 import org.lwjgl.opengl.GL41.*
-import team.exception.sakura.graphics.buffer.G2GraphicsPipeline
-import team.exception.sakura.graphics.buffer.G2ShaderSet
+import team.exception.sakura.graphics.geek2.G2GraphicsPipeline
+import team.exception.sakura.graphics.geek2.G2ShaderSet
 
 class GlGraphicsPipeline(
     primitive: Primitive,

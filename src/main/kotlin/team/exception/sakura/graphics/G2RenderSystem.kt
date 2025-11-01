@@ -1,6 +1,6 @@
 package team.exception.sakura.graphics
 
-import team.exception.sakura.graphics.buffer.G2Device
+import team.exception.sakura.graphics.geek2.G2Device
 import team.exception.sakura.graphics.gl.GlDevice
 
 object G2RenderSystem {

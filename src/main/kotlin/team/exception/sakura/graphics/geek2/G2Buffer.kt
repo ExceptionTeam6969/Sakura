@@ -1,4 +1,4 @@
-package team.exception.sakura.graphics.buffer
+package team.exception.sakura.graphics.geek2
 
 import java.nio.ByteBuffer
 

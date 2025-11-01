@@ -1,8 +1,8 @@
 package team.exception.sakura.graphics.gl
 
-import team.exception.sakura.graphics.buffer.G2CommandList
-import team.exception.sakura.graphics.buffer.G2GraphicsPipeline
-import team.exception.sakura.graphics.buffer.G2RenderingInfo
+import team.exception.sakura.graphics.geek2.G2CommandList
+import team.exception.sakura.graphics.geek2.G2GraphicsPipeline
+import team.exception.sakura.graphics.geek2.G2RenderingInfo
 import org.lwjgl.opengl.GL41.*
 import team.exception.sakura.graphics.gl.GlGraphicsPipeline.Companion.toGlPrimitive
 import java.util.Stack
