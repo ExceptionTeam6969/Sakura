@@ -9,11 +9,12 @@ abstract class G2Shader(
     open val device: G2Device,
     val source: ByteBuffer,
     val sourceType: SourceType,
-    val shaderType: ShaderType,
     val entryPoint: String = "main",
 ) {
 
     abstract fun compile()
+
+    abstract fun destroy()
 
     enum class SourceType {
         SPIR_V,

@@ -4,7 +4,7 @@ import team.exception.sakura.graphics.geek2.G2CommandList
 import team.exception.sakura.graphics.geek2.G2GraphicsPipeline
 import team.exception.sakura.graphics.geek2.G2RenderingInfo
 import org.lwjgl.opengl.GL41.*
-import team.exception.sakura.graphics.gl.GlGraphicsPipeline.Companion.toGlPrimitive
+import team.exception.sakura.graphics.gl.GlGraphicsPipeline.Companion.toGL
 import java.util.Stack
 
 class GlCommandList: G2CommandList() {
@@ -19,6 +19,7 @@ class GlCommandList: G2CommandList() {
 
     override fun bindGraphicsPipeline(pipeline: G2GraphicsPipeline) {
         graphicsPipeline = pipeline as GlGraphicsPipeline
+        graphicsPipeline?.bind()
     }
 
     override fun draw(
@@ -29,7 +30,7 @@ class GlCommandList: G2CommandList() {
     ) {
         graphicsPipeline?.let { pipeline -> add {
             glDrawArrays(
-                pipeline.primitive.toGlPrimitive(),
+                pipeline.primitive.toGL(),
                 firstVertex, vertexCount
             )
         } }
@@ -44,7 +45,7 @@ class GlCommandList: G2CommandList() {
     ) {
         graphicsPipeline?.let { pipeline -> add {
             glDrawElements(
-                pipeline.primitive.toGlPrimitive(),
+                pipeline.primitive.toGL(),
                 indexCount, GL_UNSIGNED_INT, (firstIndex * 4).toLong()
             )
         } }

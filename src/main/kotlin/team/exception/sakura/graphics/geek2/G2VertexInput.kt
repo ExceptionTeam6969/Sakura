@@ -18,6 +18,6 @@ abstract class G2VertexInput {
 
     abstract fun mat4(index: Int)
 
-    abstract fun sampler2D(index: Int)
+    abstract fun destroy()
 
 }

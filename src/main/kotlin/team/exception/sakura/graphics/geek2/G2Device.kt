@@ -24,4 +24,6 @@ abstract class G2Device {
         entryPoint: String
     ): G2Shader
 
+    abstract fun createShaderSet(shaders: List<G2Shader>): G2ShaderSet
+
 }

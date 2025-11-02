@@ -18,7 +18,7 @@ class GlShader(
     sourceType: SourceType,
     shaderType: ShaderType,
     entryPoint: String = "main",
-): G2Shader(device, source, sourceType, shaderType, entryPoint) {
+): G2Shader(device, source, sourceType, entryPoint) {
 
     init {
         if (sourceType == SourceType.SPIR_V &&
@@ -27,7 +27,7 @@ class GlShader(
         }
     }
 
-    private val shaderId: Int = glCreateShader(shaderType.toGlShaderType())
+    val shaderId: Int = glCreateShader(shaderType.toGl())
 
     override fun compile() {
         val cmdList = device.createCommandList()
@@ -58,8 +58,12 @@ class GlShader(
         }
     }
 
+    override fun destroy() {
+        glDeleteShader(shaderId)
+    }
+
     companion object {
-        fun ShaderType.toGlShaderType() = when (this) {
+        fun ShaderType.toGl() = when (this) {
             ShaderType.VERTEX -> GL_VERTEX_SHADER
             ShaderType.FRAGMENT -> GL_FRAGMENT_SHADER
         }

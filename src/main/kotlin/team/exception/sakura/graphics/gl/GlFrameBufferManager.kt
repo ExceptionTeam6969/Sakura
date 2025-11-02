@@ -64,6 +64,8 @@ object GlFrameBufferManager {
         val fboId = glGenFramebuffers()
         val cmdList = device.createCommandList()
 
+        var successFlag = false
+
         cmdList.add {
             val prevFboId = glGetInteger(GL_FRAMEBUFFER_BINDING)
             GlStateManager._glBindFramebuffer(GL_FRAMEBUFFER, fboId)
@@ -79,11 +81,15 @@ object GlFrameBufferManager {
             }
             val status = glCheckFramebufferStatus(GL_FRAMEBUFFER)
             if (status != GL_FRAMEBUFFER_COMPLETE) {
-                throw IllegalStateException("FrameBuffer creation failed: $status")
+                successFlag = true
             }
             GlStateManager._glBindFramebuffer(GL_FRAMEBUFFER, prevFboId)
         }
         cmdList.summitAndDestroy()
+
+        if (successFlag) {
+            throw IllegalStateException("FrameBuffer creation failed")
+        }
 
         return fboId
 
