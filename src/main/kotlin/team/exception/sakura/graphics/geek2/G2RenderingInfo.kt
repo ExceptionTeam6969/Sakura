@@ -6,8 +6,6 @@ abstract class G2RenderingInfo {
 
     abstract val depthAttachment: Attachment?
 
-    abstract val stencilAttachment: Attachment?
-
     abstract val width: Int
 
     abstract val height: Int

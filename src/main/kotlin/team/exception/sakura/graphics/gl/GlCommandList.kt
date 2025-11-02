@@ -53,10 +53,12 @@ class GlCommandList: G2CommandList() {
 
     override fun beginRendering(renderingInfo: G2RenderingInfo) {
         renderingInfoStack.push(renderingInfo)
+        refreshRenderingInfo(renderingInfo)
     }
 
     override fun endRendering() {
         renderingInfoStack.pop()
+        refreshRenderingInfo(renderingInfoStack.peek())
     }
 
     override fun summit() {
@@ -81,6 +83,14 @@ class GlCommandList: G2CommandList() {
     override fun summitAndDestroy() {
         summit()
         destroy()
+    }
+
+    private fun refreshRenderingInfo(renderingInfo: G2RenderingInfo) {
+        val frameBuffer = GlFrameBufferManager.getFrameBufferByAttachments(
+            renderingInfo.colorAttachment,
+            renderingInfo.depthAttachment,
+        )
+        glBindFramebuffer(GL_FRAMEBUFFER, frameBuffer)
     }
 
     class GlCommand(val func: () -> Unit)
