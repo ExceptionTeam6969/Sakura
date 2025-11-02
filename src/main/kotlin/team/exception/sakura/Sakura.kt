@@ -33,7 +33,4 @@ object Sakura {
         LOGGER.info("Toggled module ${event.module.name}" + if (event.enabled) " ON" else " OFF")
     }
 
-    @SubscribeEvent
-    fun onRenderSystemStart(event: )
-
 }
