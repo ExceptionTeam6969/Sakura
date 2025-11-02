@@ -42,4 +42,14 @@ abstract class G2CommandList {
      */
     abstract fun summitAndClear()
 
+    /**
+     * Destroy the command list
+     */
+    abstract fun destroy()
+
+    /**
+     * Summit and destroy the command list
+     */
+    abstract fun summitAndDestroy()
+
 }

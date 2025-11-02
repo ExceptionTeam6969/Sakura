@@ -16,7 +16,7 @@ class GlBuffer(
 
     init {
 
-        val cmdList = device.getTempCommandList()
+        val cmdList = device.createCommandList()
 
         cmdList.add {
             GlStateManager._glBindBuffer(GL_ARRAY_BUFFER, id)
@@ -25,7 +25,7 @@ class GlBuffer(
             mappedBuf = glMapBufferRange(GL_ARRAY_BUFFER,
                 0, size, getGlByG2Access(access))
         }
-        cmdList.summitAndClear()
+        cmdList.summitAndDestroy()
 
     }
 
@@ -36,12 +36,19 @@ class GlBuffer(
         return mappedBuf!!
     }
 
-    override fun refresh() {
-        // TODO: Refresh modified data
+    override fun refresh(modifiedRange: LongRange) {
+        val cmdList = device.createCommandList()
+
+        cmdList.add {
+            GlStateManager._glBindBuffer(GL_ARRAY_BUFFER, id)
+            glFlushMappedBufferRange(GL_ARRAY_BUFFER, modifiedRange.first,
+                modifiedRange.last - modifiedRange.first)
+        }
+        cmdList.summitAndDestroy()
     }
 
     override fun remap() {
-        val cmdList = device.getTempCommandList()
+        val cmdList = device.createCommandList()
 
         cmdList.add {
             GlStateManager._glBindBuffer(GL_ARRAY_BUFFER, id)
@@ -52,11 +59,11 @@ class GlBuffer(
             mappedBuf = glMapBufferRange(GL_ARRAY_BUFFER, 0,
                 size, getGlByG2Access(access))
         }
-        cmdList.summitAndClear()
+        cmdList.summitAndDestroy()
     }
 
     override fun destroy() {
-        val cmdList = device.getTempCommandList()
+        val cmdList = device.createCommandList()
 
         cmdList.add {
             GlStateManager._glBindBuffer(GL_ARRAY_BUFFER, id)
@@ -64,7 +71,7 @@ class GlBuffer(
             mappedBuf = null
             glDeleteBuffers(id)
         }
-        cmdList.summitAndClear()
+        cmdList.summitAndDestroy()
     }
 
     companion object {

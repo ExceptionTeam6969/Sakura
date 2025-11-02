@@ -71,6 +71,17 @@ class GlCommandList: G2CommandList() {
         clear()
     }
 
+    override fun destroy() {
+        if (commands.isNotEmpty()) {
+            commands.clear()
+        }
+    }
+
+    override fun summitAndDestroy() {
+        summit()
+        destroy()
+    }
+
     class GlCommand(val func: () -> Unit)
 
 }

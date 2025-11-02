@@ -62,7 +62,7 @@ object GlFrameBufferManager {
         val device = G2RenderSystem.device as GlDevice
 
         val fboId = glGenFramebuffers()
-        val cmdList = device.getTempCommandList()
+        val cmdList = device.createCommandList()
 
         cmdList.add {
             val prevFboId = glGetInteger(GL_FRAMEBUFFER_BINDING)
@@ -83,7 +83,7 @@ object GlFrameBufferManager {
             }
             GlStateManager._glBindFramebuffer(GL_FRAMEBUFFER, prevFboId)
         }
-        cmdList.summitAndClear()
+        cmdList.summitAndDestroy()
 
         return fboId
 

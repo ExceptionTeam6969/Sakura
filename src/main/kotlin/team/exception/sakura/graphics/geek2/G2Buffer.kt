@@ -18,7 +18,7 @@ abstract class G2Buffer(
      * Refresh modified data in the buffer.
      * @throws IllegalStateException if the buffer hasn't been mapped.
      */
-    abstract fun refresh()
+    abstract fun refresh(modifiedRange: LongRange)
 
     /**
      * Remap the buffer.
