@@ -11,7 +11,7 @@ object ClickGUIScreen: Screen(Component.literal("Sakura-ClickGUI")) {
         super.render(guiGraphics, mouseX, mouseY, partialTick)
     }
 
-    override fun renderBackground(): Boolean = false
+    override fun renderBackground(guiGraphics: GuiGraphics, mouseX: Int, mouseY: Int, partialTick: Float) {}
     override fun isPauseScreen(): Boolean = false
     override fun shouldCloseOnEsc(): Boolean = true
     override fun onClose() {
